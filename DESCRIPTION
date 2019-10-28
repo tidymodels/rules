@@ -1,0 +1,28 @@
+Package: rules
+Title: Model Wrappers for Rule-Based Models
+Version: 0.0.1
+Authors@R: c(
+    person(given = "Max", family = "Kuhn", email = "max@rstudio.com", role = c("aut", "cre")),
+    person("RStudio", role = "cph")
+    )
+Description: Bindings for additional models for use with the 'parsnip' package. 
+    Models include prediction rule ensembles (Friedman and Popescu, 2008) 
+    <doi:10.1214/07-AOAS148>, model rules (Quinlan, 1992 ISBN: 1558602380), and 
+    Cubist (Kuhn and Johnson, 2013) <doi:10.1007/978-1-4614-6849-3>. 
+License: GPL-2
+Suggests: 
+    testthat,
+    C50,
+    pre,
+    Cubist,
+    xrf,
+    covr
+Encoding: UTF-8
+LazyData: true
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 6.1.1
+Imports: 
+    purrr,
+    rlang,
+    tibble,
+    dials
