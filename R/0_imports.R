@@ -15,6 +15,7 @@
 # been loaded.
 
 .onLoad <- function(libname, pkgname) {
-  # This defines cubist in the parsnip model database
+  # These define the model functions in the parsnip model database
   make_cubist()
+  make_c5()
 }

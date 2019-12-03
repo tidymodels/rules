@@ -1,6 +1,6 @@
 #' General Interface for Cubist Rule-Based Regression Models
 #'
-#' [cubist()] is a way to generate a _specification_ of a model
+#' [cubist_rules()] is a way to generate a _specification_ of a model
 #'  before fitting. The main arguments for the model are:
 #' \itemize{
 #'   \item \code{committees}: The number of sequential models included in the
@@ -34,12 +34,12 @@
 #'
 #' @seealso [parsnip::fit()], [parsnip::set_engine()]
 #' @examples
-#' cubist()
+#' cubist_rules()
 #' # Parameters can be represented by a placeholder:
-#' cubist(committees = 7)
+#' cubist_rules(committees = 7)
 #' @export
 #' @importFrom purrr map_lgl
-cubist <-
+cubist_rules <-
   function(mode = "regression",
            committees = NULL,
            neighbors = NULL) {
@@ -50,7 +50,7 @@ cubist <-
     )
 
     new_model_spec(
-      "cubist",
+      "cubist_rules",
       args = args,
       eng_args = NULL,
       mode = mode,
@@ -60,7 +60,7 @@ cubist <-
   }
 
 #' @export
-print.cubist <- function(x, ...) {
+print.cubist_rules <- function(x, ...) {
   cat("Cubist Model Specification (", x$mode, ")\n\n", sep = "")
   model_printer(x, ...)
 
@@ -77,14 +77,14 @@ print.cubist <- function(x, ...) {
 
 #' @param object A Cubist model specification.
 #' @examples
-#' model <- cubist(committees = 10, neighbors = 2)
+#' model <- cubist_rules(committees = 10, neighbors = 2)
 #' model
 #' update(model, committees = 1)
 #' update(model, committees = 1, fresh = TRUE)
-#' @method update cubist
-#' @rdname cubist
+#' @method update cubist_rules
+#' @rdname cubist_rules
 #' @export
-update.cubist <-
+update.cubist_rules <-
   function(object,
            parameters = NULL,
            committees = NULL, neighbors = NULL,
@@ -112,7 +112,7 @@ update.cubist <-
     }
 
     new_model_spec(
-      "cubist",
+      "cubist_rules",
       args = object$args,
       eng_args = object$eng_args,
       mode = object$mode,
@@ -125,7 +125,7 @@ update.cubist <-
 
 # make work in different places
 
-check_args.cubist <- function(object) {
+check_args.cubist_rules <- function(object) {
 
   args <- lapply(object$args, rlang::eval_tidy)
 
@@ -168,7 +168,9 @@ check_args.cubist <- function(object) {
 
 # ------------------------------------------------------------------------------
 
-cubist_fit <- function(x, y, committees, neighbors = 0, ...) {
+#' @export
+#' @keywords internal
+cubist_fit <- function(x, y, committees = 1, neighbors = 0, ...) {
 
   args <- list(
     x = expr(x),
@@ -230,7 +232,7 @@ cubist_pred <- function(object, new_data, neighbors = NULL, ...) {
 
 
 #' @export
-committees <- function (range = c(1L, 100L), trans = NULL)  {
+committees <- function(range = c(1L, 100L), trans = NULL)  {
   range[range < 1] <- 1L
   range[range > 100] <- 100L
 
@@ -245,6 +247,8 @@ committees <- function (range = c(1L, 100L), trans = NULL)  {
 }
 
 
+#' [multi_predict()] methods for rule-based models
+#' @rdname multi_predict
 #' @export
 #' @param neighbors An numeric vector of neighbors values between zero and nine.
 multi_predict._cubist <-
@@ -252,9 +256,21 @@ multi_predict._cubist <-
     if (any(names(enquos(...)) == "newdata")) {
       rlang::abort("Did you mean to use `new_data` instead of `newdata`?")
     }
+    if (is.null(neighbors)) {
+      n <- 1
+    } else {
+      n <- length(neighbors)
+    }
     res <- cubist_pred(object, new_data, neighbors = neighbors, ...)
-    res$.row <- rep(1:nrow(new_data), length(neighbors))
-    res <- tidyr::nest(res, .pred = c(neighbors, .pred))
-    res$.row <- NULL
+    if (n > 1) {
+      res$.rows <- rep(1:nrow(new_data), n)
+      res <-
+        res %>%
+        dplyr::group_by(.rows) %>%
+        tidyr::nest() %>%
+        dplyr::ungroup() %>%
+        dplyr::select(-.rows) %>%
+        setNames(".pred")
+    }
     res
   }
