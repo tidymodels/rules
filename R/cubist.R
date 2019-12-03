@@ -62,11 +62,11 @@ cubist_rules <-
 #' @export
 print.cubist_rules <- function(x, ...) {
   cat("Cubist Model Specification (", x$mode, ")\n\n", sep = "")
-  model_printer(x, ...)
+  parsnip::model_printer(x, ...)
 
   if (!is.null(x$method$fit$args)) {
     cat("Model fit template:\n")
-    print(show_call(x))
+    print(parsnip::show_call(x))
   }
 
   invisible(x)
@@ -223,11 +223,11 @@ cubist_pred <- function(object, new_data, neighbors = NULL, ...) {
     neighbors <- rlang::eval_tidy(neighbors)
   }
 
-  purrr:::map_dfr(neighbors,
-                  cubist_pred_wrap,
-                  object = object,
-                  new_data = new_data,
-                  ...)
+  purrr::map_dfr(neighbors,
+                 cubist_pred_wrap,
+                 object = object,
+                 new_data = new_data,
+                 ...)
 }
 
 
@@ -236,7 +236,7 @@ committees <- function(range = c(1L, 100L), trans = NULL)  {
   range[range < 1] <- 1L
   range[range > 100] <- 100L
 
-  dials:::new_quant_param(
+  dials::new_quant_param(
     type = "integer",
     range = range,
     inclusive = c(TRUE, TRUE),

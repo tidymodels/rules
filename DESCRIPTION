@@ -28,4 +28,5 @@ Imports:
     rlang,
     tibble,
     dials,
-    tidyr
+    tidyr,
+    dplyr

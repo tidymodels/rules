@@ -28,7 +28,7 @@ make_c5 <- function() {
     parsnip = "trees",
     original = "trials",
     func = list(pkg = "dials", fun = "trees"),
-    has_submodel = FALSE
+    has_submodel = TRUE
   )
   parsnip::set_model_arg(
     model = "C5_rules",
@@ -36,7 +36,7 @@ make_c5 <- function() {
     parsnip = "min_n",
     original = "minCases",
     func = list(pkg = "dials", fun = "min_n"),
-    has_submodel = TRUE
+    has_submodel = FALSE
   )
 
   parsnip::set_pred(

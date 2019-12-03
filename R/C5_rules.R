@@ -62,11 +62,11 @@ C5_rules <-
 #' @export
 print.C5_rules <- function(x, ...) {
   cat("C5.0 Model Specification (", x$mode, ")\n\n", sep = "")
-  model_printer(x, ...)
+  parsnip::model_printer(x, ...)
 
   if (!is.null(x$method$fit$args)) {
     cat("Model fit template:\n")
-    print(show_call(x))
+    print(parsnip::show_call(x))
   }
 
   invisible(x)
@@ -230,11 +230,11 @@ c5_pred_wrap <- function(trials = 1, object, new_data, type = "class", ...) {
 #' @keywords internal
 c5_pred <- function(object, new_data, trials = object$fit$trials["Actual"], ...) {
 
-  res <- purrr:::map_dfr(trials,
-                         c5_pred_wrap,
-                         object = object,
-                         new_data = new_data,
-                         ...)
+  res <- purrr::map_dfr(trials,
+                        c5_pred_wrap,
+                        object = object,
+                        new_data = new_data,
+                        ...)
   if (length(trials) == 1) {
     res <- res %>% dplyr::select(-trials)
   }

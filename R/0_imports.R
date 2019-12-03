@@ -2,11 +2,15 @@
 #' @importFrom rlang enquos expr
 #' @importFrom purrr map_dfr
 #' @importFrom tibble is_tibble as_tibble tibble
-#' @importFrom parsnip set_new_model
-#' @importFrom withr with_options
-#' @importFrom stats predict
+#' @importFrom parsnip set_new_model multi_predict
+#' @importFrom stats predict model.frame model.response setNames
 #' @importFrom dials new_quant_param
 #' @importFrom tidyr nest
+#' @importFrom utils head globalVariables
+#' @importFrom dplyr %>% bind_rows
+#'
+#' @export
+parsnip::multi_predict
 
 # ------------------------------------------------------------------------------
 
@@ -18,4 +22,13 @@
   # These define the model functions in the parsnip model database
   make_cubist()
   make_c5()
+  make_rule_fit()
 }
+
+# ------------------------------------------------------------------------------
+
+utils::globalVariables(
+  c(
+    ".pred_1", ".pred_2", ".pred_class", ".rows", "object", "new_data", "name"
+  )
+)
