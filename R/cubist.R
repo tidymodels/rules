@@ -38,7 +38,6 @@
 #' # Parameters can be represented by a placeholder:
 #' cubist_rules(committees = 7)
 #' @export
-#' @importFrom purrr map_lgl
 cubist_rules <-
   function(mode = "regression",
            committees = NULL,
@@ -231,6 +230,23 @@ cubist_pred <- function(object, new_data, neighbors = NULL, ...) {
 }
 
 
+#' Parameter function for the number of committees
+#'
+#' Committee-based models enact a boosting-like procedure to produce ensembles.
+#' This parameter is for the number of models in the ensembles.
+#'
+#' @param range A two-element vector holding the _defaults_ for the smallest and
+#' largest possible values, respectively.
+#'
+#' @param trans A `trans` object from the `scales` package, such as
+#' `scales::log10_trans()` or `scales::reciprocal_trans()`. If not provided,
+#' the default is used which matches the units used in `range`. If no
+#' transformation, `NULL`.
+#'
+#' @return A function with classes "quant_param" and "param"
+#' @examples
+#' committees()
+#' committees(4:5)
 #' @export
 committees <- function(range = c(1L, 100L), trans = NULL)  {
   range[range < 1] <- 1L
