@@ -64,7 +64,7 @@ make_rule_fit <- function() {
     eng = "xrf",
     parsnip = "sample_size",
     original = "subsample",
-    func = list(pkg = "dials", fun = "sample_size"),
+    func = list(pkg = "dials", fun = "sample_prop"),
     has_submodel = FALSE
   )
   parsnip::set_model_arg(

@@ -59,7 +59,7 @@
 #' @export
 #' @importFrom purrr map_lgl
 rule_fit <-
-  function(mode = "classification",
+  function(mode = "unknown",
            mtry = NULL, trees = NULL, min_n = NULL,
            tree_depth = NULL, learn_rate = NULL,
            loss_reduction = NULL,
@@ -409,3 +409,25 @@ organize_xrf_multi_prob <- function(x, object, penalty, fam) {
   }
   res
 }
+
+#' @export
+tunable.rule_fit <- function(x, ...) {
+  tibble::tibble(
+    name = c('mtry', 'trees', 'min_n', 'tree_depth', 'learn_rate',
+             'loss_reduction', 'sample_size', 'penalty'),
+    call_info = list(
+      list(pkg = "dials", fun = "mtry"),
+      list(pkg = "dials", fun = "trees", range = c(5, 500)),
+      list(pkg = "dials", fun = "min_n"),
+      list(pkg = "dials", fun = "tree_depth", range = c(1, 10)),
+      list(pkg = "dials", fun = "learn_rate"),
+      list(pkg = "dials", fun = "loss_reduction"),
+      list(pkg = "dials", fun = "sample_prop"),
+      list(pkg = "dials", fun = "penalty", range(0.05, 0.95))
+    ),
+    source = "model_spec",
+    component = class(x)[class(x) != "model_spec"][1],
+    component_id =  "main"
+  )
+}
+
