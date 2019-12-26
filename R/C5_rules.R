@@ -76,6 +76,13 @@ print.C5_rules <- function(x, ...) {
 # ------------------------------------------------------------------------------
 
 #' @param object A `C5_rules` model specification.
+#' @param parameters	A 1-row tibble or named list with _main_ parameters to update.
+#' If the individual arguments are used, these will supersede the values in
+#' parameters. Also, using engine arguments in this object will result in an
+#' error.
+#' @param fresh	A logical for whether the arguments should be modified in-place
+#' or replaced wholesale.
+#' @param ...	Not used for `update()`.
 #' @examples
 #' model <- C5_rules(trees = 10, min_n = 2)
 #' model
@@ -244,6 +251,10 @@ c5_pred <- function(object, new_data, trials = object$fit$trials["Actual"], ...)
 #' @rdname multi_predict
 #' @export
 #' @param trees An numeric vector of `trees` between one and 100.
+#' @param object An object of class `model_fit`
+#' @param new_data A rectangular data object, such as a data frame.
+#' @param type A single character value or `NULL`. Possible values
+#'  are class" and "prob".
 multi_predict._C5.0 <-
   function(object, new_data, type = NULL, trees = NULL, ...) {
     if (any(names(enquos(...)) == "newdata")) {

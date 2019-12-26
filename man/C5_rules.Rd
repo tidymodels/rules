@@ -27,6 +27,16 @@ of members of the ensemble.}
 of data points in a node that are required for the node to be split further.}
 
 \item{object}{A \code{C5_rules} model specification.}
+
+\item{parameters}{A 1-row tibble or named list with \emph{main} parameters to update.
+If the individual arguments are used, these will supersede the values in
+parameters. Also, using engine arguments in this object will result in an
+error.}
+
+\item{fresh}{A logical for whether the arguments should be modified in-place
+or replaced wholesale.}
+
+\item{...}{Not used for \code{update()}.}
 }
 \description{
 \code{\link[=C5_rules]{C5_rules()}} is a way to generate a \emph{specification} of a model

@@ -13,6 +13,13 @@
 \method{multi_predict}{`_xrf`}(object, new_data, type = NULL, penalty = NULL, ...)
 }
 \arguments{
+\item{object}{An object of class \code{model_fit}}
+
+\item{new_data}{A rectangular data object, such as a data frame.}
+
+\item{type}{A single character value or \code{NULL}. Possible values
+are class" and "prob".}
+
 \item{trees}{An numeric vector of \code{trees} between one and 100.}
 
 \item{neighbors}{An numeric vector of neighbors values between zero and nine.}

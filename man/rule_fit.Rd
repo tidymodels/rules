@@ -6,7 +6,7 @@
 \title{General Interface for RuleFit Models}
 \usage{
 rule_fit(
-  mode = "classification",
+  mode = "unknown",
   mtry = NULL,
   trees = NULL,
   min_n = NULL,
