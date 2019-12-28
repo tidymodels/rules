@@ -376,7 +376,7 @@ organize_xrf_multi_pred <- function(x, object, penalty, fam) {
         )
       if (length(penalty) == 1) {
         # predict
-        res <- dplyr::select(res, dplyr::starts_with(".pred_"))
+        res <- dplyr::pull(res, .pred_class)
       } else {
         # multi-predict
         res <-
@@ -429,14 +429,21 @@ organize_xrf_multi_prob <- function(x, object, penalty, fam) {
     res <-
       apply(x, 3, as_tibble) %>%
       bind_rows() %>%
-      setNames(object$lvl) %>%
-      dplyr::mutate(.rows = rep(1:nrow(x), length(penalty))) %>%
-      dplyr::mutate(penalty = rep(penalty, each = nrow(x))) %>%
-      dplyr::group_by(.rows) %>%
-      tidyr::nest() %>%
-      dplyr::ungroup() %>%
-      dplyr::select(-.rows) %>%
-      setNames(".pred")
+      setNames(object$lvl)
+
+    # good format for predict()
+    if (length(penalty) > 1) {
+      # multi_predict
+      res <-
+        res %>%
+        dplyr::mutate(.rows = rep(1:nrow(x), length(penalty))) %>%
+        dplyr::mutate(penalty = rep(penalty, each = nrow(x))) %>%
+        dplyr::group_by(.rows) %>%
+        tidyr::nest() %>%
+        dplyr::ungroup() %>%
+        dplyr::select(-.rows) %>%
+        setNames(".pred")
+    }
   }
   res
 }

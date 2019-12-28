@@ -16,6 +16,7 @@ parsnip::multi_predict
 
 utils::globalVariables(
   c(
-    ".pred_1", ".pred_2", ".pred_class", ".rows", "object", "new_data", "name"
+    ".pred_1", ".pred_2", ".pred_class", ".rows", "object", "new_data", "name",
+    ".pred"
   )
 )

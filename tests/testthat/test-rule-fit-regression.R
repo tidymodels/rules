@@ -1,4 +1,4 @@
-context("rule_fit regression")
+context("rule_fit numeric outcomes")
 
 source(file.path(test_path(), "test-helpers.R"))
 
