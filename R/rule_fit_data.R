@@ -96,10 +96,10 @@ make_rule_fit <- function() {
     value = list(
       pre = NULL,
       post = organize_xrf_pred,
-      func = c(fun = "predict"),
+      func = c(fun = "xrf_pred"),
       args = list(
-        object = quote(object$fit),
-        newdata = quote(new_data),
+        object = quote(object),
+        new_data = quote(new_data),
         lambda = quote(object$fit$lambda),
         type = "response"
       )
@@ -125,11 +125,11 @@ make_rule_fit <- function() {
     type = "class",
     value = list(
       pre = NULL,
-      post = organize_xrf_class_pred,
-      func = c(pkg = NULL, fun = "predict"),
+      post = NULL,
+      func = c(pkg = NULL, fun = "xrf_pred"),
       args = list(
-        object = quote(object$fit),
-        newdata = quote(new_data),
+        object = quote(object),
+        new_data = quote(new_data),
         lambda = quote(object$fit$lambda),
         type = "response"  # post-processed into classes
       )
@@ -143,13 +143,13 @@ make_rule_fit <- function() {
     type = "prob",
     value = list(
       pre = NULL,
-      post = organize_xrf_class_prob,
-      func = c(pkg = NULL, fun = "predict"),
+      post = NULL,
+      func = c(pkg = NULL, fun = "xrf_pred"),
       args = list(
-        object = quote(object$fit),
-        newdata = quote(new_data),
+        object = quote(object),
+        new_data = quote(new_data),
         lambda = quote(object$fit$lambda),
-        type = "response"
+        type = "prob"
       )
     )
   )

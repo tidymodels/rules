@@ -292,20 +292,17 @@ multi_predict._xrf <-
 # ------------------------------------------------------------------------------
 
 organize_xrf_pred <- function(x, object) {
-  res <- x[, 1]
+  res <- dplyr::pull(x, .pred)
   res <- unname(res)
 }
 
 organize_xrf_class_pred <- function(x, object) {
-  if (length(object$lvl) == 2) {
-    res <- x[, 1]
-    res <- ifelse(res >= 0.5, object$lvl[2], object$lvl[1])
-  } else {
-    res <- x[,,1]
-    res <- apply(res, 1, which.max)
-    res <- object$lvl[res]
+  x <- tidyr::unnest(x, cols = c(.pred))
+  lams <- unique(x$penalty)
+  if (length(lams) > 1) {
+    x$penalty <- NULL
   }
-  factor(res, levels = object$lvl)
+  x
 }
 
 organize_xrf_class_prob <- function(x, object) {
@@ -319,6 +316,7 @@ organize_xrf_class_prob <- function(x, object) {
   colnames(x) <- object$lvl
   x
 }
+
 organize_xrf_multi_pred <- function(x, object, penalty, fam) {
   if (fam %in% c("gaussian", "poisson")) {
     if (ncol(x) == 1) {
@@ -338,21 +336,32 @@ organize_xrf_multi_pred <- function(x, object, penalty, fam) {
     }
   } else {
     if (fam == "binomial") {
+
       res <-
         tibble::as_tibble(x) %>%
         dplyr::mutate(.rows = 1:nrow(x)) %>%
-        tidyr::pivot_longer(cols = c(-.rows), values_to = ".pred_class") %>%
-        dplyr::mutate(penalty = rep(penalty, nrow(x))) %>%
+        tidyr::pivot_longer(cols = c(-.rows), values_to = ".pred_class")  %>%
         dplyr::select(-name) %>%
         dplyr::mutate(
           .pred_class = ifelse(.pred_class >= .5, object$lvl[2], object$lvl[1]),
           .pred_class = factor(.pred_class, levels = object$lvl)
-        ) %>%
-        dplyr::group_by(.rows) %>%
-        tidyr::nest() %>%
-        dplyr::ungroup() %>%
-        dplyr::select(-.rows) %>%
-        setNames(".pred")
+        )
+
+      if (length(penalty) == 1) {
+        # predict
+        res <- dplyr::pull(res, .pred_class)
+      } else {
+        # multipredict
+        res <-
+          res %>%
+          dplyr::mutate(penalty = rep(penalty, nrow(x))) %>%
+          dplyr::group_by(.rows) %>%
+          tidyr::nest() %>%
+          dplyr::ungroup() %>%
+          dplyr::select(-.rows) %>%
+          setNames(".pred")
+      }
+
     } else {
       # fam = "multinomial"
       res <-
@@ -360,17 +369,25 @@ organize_xrf_multi_pred <- function(x, object, penalty, fam) {
         tibble::as_tibble() %>%
         dplyr::mutate(.rows = 1:nrow(x)) %>%
         tidyr::pivot_longer(cols = c(-.rows), values_to = ".pred_class") %>%
-        dplyr::mutate(penalty = rep(penalty, nrow(x))) %>%
         dplyr::select(-name) %>%
         dplyr::mutate(
           .pred_class = object$lvl[.pred_class],
           .pred_class = factor(.pred_class, levels = object$lvl)
-        ) %>%
-        dplyr::group_by(.rows) %>%
-        tidyr::nest() %>%
-        dplyr::ungroup() %>%
-        dplyr::select(-.rows) %>%
-        setNames(".pred")
+        )
+      if (length(penalty) == 1) {
+        # predict
+        res <- dplyr::select(res, dplyr::starts_with(".pred_"))
+      } else {
+        # multi-predict
+        res <-
+          res %>%
+          dplyr::mutate(penalty = rep(penalty, nrow(x))) %>%
+          dplyr::group_by(.rows) %>%
+          tidyr::nest() %>%
+          dplyr::ungroup() %>%
+          dplyr::select(-.rows) %>%
+          setNames(".pred")
+      }
     }
   }
   res
@@ -379,20 +396,34 @@ organize_xrf_multi_pred <- function(x, object, penalty, fam) {
 organize_xrf_multi_prob <- function(x, object, penalty, fam) {
 
   if (fam == "binomial") {
+
     res <-
       tibble::as_tibble(x) %>%
       dplyr::mutate(.rows = 1:nrow(x)) %>%
-      tidyr::pivot_longer(cols = c(-.rows), values_to = ".pred_1") %>%
+      tidyr::pivot_longer(cols = c(-.rows), values_to = ".pred_2") %>%
       dplyr::mutate(penalty = rep(penalty, nrow(x))) %>%
       dplyr::select(-name) %>%
-      dplyr::mutate(.pred_2 = 1 - .pred_1) %>%
-      dplyr::select(.rows, penalty, .pred_1, .pred_2) %>%
-      setNames(c(".rows", "penalty", paste0(".pred_", object$lvl))) %>%
-      dplyr::group_by(.rows) %>%
-      tidyr::nest() %>%
-      dplyr::ungroup() %>%
-      dplyr::select(-.rows) %>%
-      setNames(".pred")
+      dplyr::mutate(.pred_1 = 1 - .pred_2) %>%
+      dplyr::select(.rows, penalty, .pred_1, .pred_2)
+
+    if (length(penalty) == 1) {
+      # predict
+      res <-
+        res %>%
+        setNames(c(".rows", "penalty", object$lvl)) %>%
+        dplyr::select(-.rows, -penalty)
+    } else {
+      # multi_predict
+      res <-
+        res %>%
+        setNames(c(".rows", "penalty", paste0(".pred_", object$lvl))) %>%
+        dplyr::group_by(.rows) %>%
+        tidyr::nest() %>%
+        dplyr::ungroup() %>%
+        dplyr::select(-.rows) %>%
+        setNames(".pred")
+    }
+
   } else {
     # fam = "multinomial"
     res <-

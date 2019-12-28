@@ -34,6 +34,9 @@ test_that('formula method', {
   expect_equal(names(cb_pred), ".pred")
   expect_true(tibble::is_tibble(cb_pred))
   expect_equal(cb_pred$.pred, cb_pred_exp)
+
+  # fails
+  # cb_pred <- multi_predict(cb_fit, as.data.frame(chi_pred), neighbors = c(0, 1, 9))
 })
 
 # ------------------------------------------------------------------------------
@@ -163,6 +166,24 @@ test_that('non-formula method', {
   expect_equal(names(cb_pred), ".pred")
   expect_true(tibble::is_tibble(cb_pred))
   expect_equal(cb_pred$.pred, cb_pred_exp)
+
+  K <- c(0, 1, 9)
+
+  expect_error(
+    cb_m_pred <- multi_predict(cb_fit, as.data.frame(chi_pred), neighbors = K),
+    NA
+  )
+  cb_m_pred <-
+    cb_m_pred %>%
+    mutate(.rows = 1:nrow(cb_m_pred)) %>%
+    tidyr::unnest(cols = c(.pred)) %>%
+    arrange(neighbors, .rows)
+
+  for (i in K) {
+    exp_pred <- predict(cb_fit_exp, as.data.frame(chi_pred), neighbors = i)
+    obs_pred <- cb_m_pred %>% dplyr::filter(neighbors == i) %>% pull(.pred)
+    expect_equal(exp_pred, obs_pred)
+  }
 })
 
 # ------------------------------------------------------------------------------

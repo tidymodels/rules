@@ -1,4 +1,4 @@
 library(testthat)
 library(rules)
 
-# test_check("rules")
+test_check("rules")
