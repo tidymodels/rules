@@ -38,6 +38,15 @@ make_cubist <- function() {
     has_submodel = TRUE
   )
 
+  parsnip::set_model_arg(
+    model = "cubist_rules",
+    eng = "Cubist",
+    parsnip = "max_rules",
+    original = "max_rules",
+    func = list(pkg = "rules", fun = "max_rules"),
+    has_submodel = FALSE
+  )
+
   parsnip::set_pred(
     model = "cubist_rules",
     eng = "Cubist",

@@ -18,6 +18,7 @@
 #'  The only possible value for this model is "regression".
 #' @param committees A non-negative integer (no greater than 100 for the number
 #'  of members of the ensemble.
+#' @param max_rules The largest number of rules.
 #' @param neighbors An integer between zero and nine for the number of training
 #' set instances that are used to adjust the model-based prediction.
 #' @details
@@ -41,11 +42,13 @@
 cubist_rules <-
   function(mode = "regression",
            committees = NULL,
-           neighbors = NULL) {
+           neighbors = NULL,
+           max_rules = NULL) {
 
     args <- list(
       committees = enquo(committees),
-      neighbors = enquo(neighbors)
+      neighbors = enquo(neighbors),
+      max_rules = enquo(max_rules)
     )
 
     new_model_spec(
@@ -86,7 +89,7 @@ print.cubist_rules <- function(x, ...) {
 update.cubist_rules <-
   function(object,
            parameters = NULL,
-           committees = NULL, neighbors = NULL,
+           committees = NULL, neighbors = NULL, max_rules = NULL,
            fresh = FALSE, ...) {
     update_dot_check(...)
 
@@ -95,7 +98,8 @@ update.cubist_rules <-
     }
     args <- list(
       committees = enquo(committees),
-      neighbors = enquo(neighbors)
+      neighbors = enquo(neighbors),
+      max_rules = enquo(max_rules)
     )
 
     args <- update_main_parameters(args, parameters)
@@ -169,7 +173,7 @@ check_args.cubist_rules <- function(object) {
 
 #' @export
 #' @keywords internal
-cubist_fit <- function(x, y, committees = 1, neighbors = 0, ...) {
+cubist_fit <- function(x, y, committees = 1, neighbors = 0, max_rules = NA, ...) {
 
   args <- list(
     x = expr(x),
@@ -177,13 +181,23 @@ cubist_fit <- function(x, y, committees = 1, neighbors = 0, ...) {
     committees = expr(committees)
     # neighbors not needed until predict time but are saved below
   )
-  dots <- rlang::enquos(...)
+  dots <- list(...)
   if (length(dots) > 0) {
     args <- c(args, dots)
+    if (any(names(dots) == "control")) {
+      if (!is.na(max_rules)) {
+        args$control$rules <- max_rules
+      }
+    } else {
+      if (!is.na(max_rules)) {
+        args$control <- expr(Cubist::cubistControl(rules = max_rules, seed = sample.int(10 ^ 5, 1)))
+      }
+    }
   } else {
     args <-
-      c(args, list(control = expr(Cubist::cubistControl(seed = sample.int(10 ^ 5, 1)))))
+      c(args, list(control = expr(Cubist::cubistControl(rules = max_rules, seed = sample.int(10 ^ 5, 1)))))
   }
+
  cl <- rlang::call2(.fn = "cubist", .ns = "Cubist", !!!args)
  res <- rlang::eval_tidy(cl)
  res$.neighbors <- rlang::eval_tidy(neighbors)
@@ -229,11 +243,11 @@ cubist_pred <- function(object, new_data, neighbors = NULL, ...) {
                  ...)
 }
 
-
-#' Parameter function for the number of committees
+#' Parameter functions for Cubist models
 #'
 #' Committee-based models enact a boosting-like procedure to produce ensembles.
-#' This parameter is for the number of models in the ensembles.
+#' `committees` parameter is for the number of models in the ensembles while
+#' `max_rules` can be used to limit the number of possible rules.
 #'
 #' @param range A two-element vector holding the _defaults_ for the smallest and
 #' largest possible values, respectively.
@@ -247,6 +261,8 @@ cubist_pred <- function(object, new_data, neighbors = NULL, ...) {
 #' @examples
 #' committees()
 #' committees(4:5)
+#'
+#' max_rules()
 #' @export
 committees <- function(range = c(1L, 100L), trans = NULL)  {
   range[range < 1] <- 1L
@@ -262,6 +278,20 @@ committees <- function(range = c(1L, 100L), trans = NULL)  {
   )
 }
 
+#' @export
+#' @rdname committees
+max_rules <- function(range = c(1L, 500L), trans = NULL)  {
+  range[range < 1] <- 1L
+
+  dials::new_quant_param(
+    type = "integer",
+    range = range,
+    inclusive = c(TRUE, TRUE),
+    trans = trans,
+    label = c(max_rules = "Max. Rules"),
+    finalize = NULL
+  )
+}
 
 #' [multi_predict()] methods for rule-based models
 #' @rdname multi_predict

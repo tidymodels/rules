@@ -5,13 +5,19 @@
 \alias{update.cubist_rules}
 \title{General Interface for Cubist Rule-Based Regression Models}
 \usage{
-cubist_rules(mode = "regression", committees = NULL, neighbors = NULL)
+cubist_rules(
+  mode = "regression",
+  committees = NULL,
+  neighbors = NULL,
+  max_rules = NULL
+)
 
 \method{update}{cubist_rules}(
   object,
   parameters = NULL,
   committees = NULL,
   neighbors = NULL,
+  max_rules = NULL,
   fresh = FALSE,
   ...
 )
@@ -25,6 +31,8 @@ of members of the ensemble.}
 
 \item{neighbors}{An integer between zero and nine for the number of training
 set instances that are used to adjust the model-based prediction.}
+
+\item{max_rules}{The largest number of rules.}
 
 \item{object}{A Cubist model specification.}
 }

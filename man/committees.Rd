@@ -2,9 +2,12 @@
 % Please edit documentation in R/cubist.R
 \name{committees}
 \alias{committees}
-\title{Parameter function for the number of committees}
+\alias{max_rules}
+\title{Parameter functions for Cubist models}
 \usage{
 committees(range = c(1L, 100L), trans = NULL)
+
+max_rules(range = c(1L, 500L), trans = NULL)
 }
 \arguments{
 \item{range}{A two-element vector holding the \emph{defaults} for the smallest and
@@ -20,9 +23,12 @@ A function with classes "quant_param" and "param"
 }
 \description{
 Committee-based models enact a boosting-like procedure to produce ensembles.
-This parameter is for the number of models in the ensembles.
+\code{committees} parameter is for the number of models in the ensembles while
+\code{max_rules} can be used to limit the number of possible rules.
 }
 \examples{
 committees()
 committees(4:5)
+
+max_rules()
 }
