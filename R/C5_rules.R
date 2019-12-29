@@ -163,8 +163,12 @@ check_args.C5_rules <- function(object) {
 
 # ------------------------------------------------------------------------------
 
+#' Internal function wrappers
+#'
+#' These are not supported when called by the user.
 #' @export
 #' @keywords internal
+#' @rdname rules-internal
 c5_fit <- function(x, y, trials = 1, minCases = 2, cost =  NULL, ...) {
 
   args <- list(
@@ -235,6 +239,7 @@ c5_pred_wrap <- function(trials = 1, object, new_data, type = "class", ...) {
 
 #' @export
 #' @keywords internal
+#' @rdname rules-internal
 c5_pred <- function(object, new_data, trials = object$fit$trials["Actual"], ...) {
 
   res <- purrr::map_dfr(trials,
@@ -255,6 +260,7 @@ c5_pred <- function(object, new_data, trials = object$fit$trials["Actual"], ...)
 #' @param new_data A rectangular data object, such as a data frame.
 #' @param type A single character value or `NULL`. Possible values
 #'  are class" and "prob".
+#' @param ... Not currently used.
 multi_predict._C5.0 <-
   function(object, new_data, type = NULL, trees = NULL, ...) {
     if (any(names(enquos(...)) == "newdata")) {

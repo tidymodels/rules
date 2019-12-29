@@ -39,6 +39,7 @@
 #'   to split further .
 #' @param sample_size An number for the number (or proportion) of data that is
 #'  exposed to the fitting routine.
+#' @param penalty L1 regularization parameter.
 #' @details
 #' The only availible engine is `"xrf"`.
 #'
@@ -112,6 +113,7 @@ print.rule_fit <- function(x, ...) {
 #' update(model, trees = 1, fresh = TRUE)
 #' @method update rule_fit
 #' @rdname rule_fit
+#' @inheritParams update.C5_rules
 #' @export
 update.rule_fit <-
   function(object,
@@ -165,6 +167,7 @@ update.rule_fit <-
 
 #' @export
 #' @keywords internal
+#' @rdname rules-internal
 xrf_fit <-
   function(formula,
            data,
@@ -251,6 +254,7 @@ get_glmnet_type <- function(x, type) {
 
 #' @export
 #' @keywords internal
+#' @rdname rules-internal
 xrf_pred <- function(object, new_data, lambda = object$fit$lambda, type, ...) {
 
   lambda <- sort(lambda)
@@ -267,6 +271,7 @@ xrf_pred <- function(object, new_data, lambda = object$fit$lambda, type, ...) {
 #' @rdname multi_predict
 #' @export
 #' @param penalty Non-negative penalty values.
+#' @param ... Not currently used.
 multi_predict._xrf <-
   function(object, new_data, type = NULL, penalty = NULL, ...) {
     if (any(names(enquos(...)) == "newdata")) {
@@ -449,6 +454,8 @@ organize_xrf_multi_prob <- function(x, object, penalty, fam) {
 }
 
 #' @export
+#' @keywords internal
+#' @rdname rules-internal
 tunable.rule_fit <- function(x, ...) {
   tibble::tibble(
     name = c('mtry', 'trees', 'min_n', 'tree_depth', 'learn_rate',

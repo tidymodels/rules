@@ -22,6 +22,8 @@ are class" and "prob".}
 
 \item{trees}{An numeric vector of \code{trees} between one and 100.}
 
+\item{...}{Not currently used.}
+
 \item{neighbors}{An numeric vector of neighbors values between zero and nine.}
 
 \item{penalty}{Non-negative penalty values.}

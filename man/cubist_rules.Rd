@@ -35,6 +35,16 @@ set instances that are used to adjust the model-based prediction.}
 \item{max_rules}{The largest number of rules.}
 
 \item{object}{A Cubist model specification.}
+
+\item{parameters}{A 1-row tibble or named list with \emph{main} parameters to update.
+If the individual arguments are used, these will supersede the values in
+parameters. Also, using engine arguments in this object will result in an
+error.}
+
+\item{fresh}{A logical for whether the arguments should be modified in-place
+or replaced wholesale.}
+
+\item{...}{Not used for \code{update()}.}
 }
 \description{
 \code{\link[=cubist_rules]{cubist_rules()}} is a way to generate a \emph{specification} of a model

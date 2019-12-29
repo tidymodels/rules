@@ -58,7 +58,19 @@ to split further .}
 \item{sample_size}{An number for the number (or proportion) of data that is
 exposed to the fitting routine.}
 
+\item{penalty}{L1 regularization parameter.}
+
 \item{object}{A \code{rule_fit} model specification.}
+
+\item{parameters}{A 1-row tibble or named list with \emph{main} parameters to update.
+If the individual arguments are used, these will supersede the values in
+parameters. Also, using engine arguments in this object will result in an
+error.}
+
+\item{fresh}{A logical for whether the arguments should be modified in-place
+or replaced wholesale.}
+
+\item{...}{Not used for \code{update()}.}
 }
 \description{
 \code{\link[=rule_fit]{rule_fit()}} is a way to generate a \emph{specification} of a model

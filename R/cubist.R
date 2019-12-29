@@ -85,6 +85,7 @@ print.cubist_rules <- function(x, ...) {
 #' update(model, committees = 1, fresh = TRUE)
 #' @method update cubist_rules
 #' @rdname cubist_rules
+#' @inheritParams update.C5_rules
 #' @export
 update.cubist_rules <-
   function(object,
@@ -173,6 +174,7 @@ check_args.cubist_rules <- function(object) {
 
 #' @export
 #' @keywords internal
+#' @rdname rules-internal
 cubist_fit <- function(x, y, committees = 1, neighbors = 0, max_rules = NA, ...) {
 
   args <- list(
