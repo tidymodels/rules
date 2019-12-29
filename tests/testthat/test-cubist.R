@@ -157,7 +157,7 @@ test_that('non-formula method', {
   )
 
   expect_error(
-    cb_fit <- fit_xy(cb_mod, x = chi_mod[, -1], y = chi_mod$ridership),
+    cb_fit <- fit_xy(as.data.frame(cb_mod), x = chi_mod[, -1], y = chi_mod$ridership),
     NA
   )
   cb_pred <- predict(cb_fit, chi_pred)
@@ -207,7 +207,7 @@ test_that('non-formula method - limited rules', {
   )
 
   expect_error(
-    cb_fit <- fit_xy(cb_mod, x = chi_mod[, -1], y = chi_mod$ridership),
+    cb_fit <- fit_xy(as.data.frame(cb_mod), x = chi_mod[, -1], y = chi_mod$ridership),
     NA
   )
   cb_pred <- predict(cb_fit, chi_pred)
@@ -239,7 +239,7 @@ test_that('non-formula method - limited rules and control', {
   )
 
   expect_error(
-    cb_fit <- fit_xy(cb_mod, x = chi_mod[, -1], y = chi_mod$ridership),
+    cb_fit <- fit_xy(as.data.frame(cb_mod), x = chi_mod[, -1], y = chi_mod$ridership),
     NA
   )
   cb_pred <- predict(cb_fit, chi_pred)
@@ -272,7 +272,7 @@ test_that('non-formula method - control', {
   )
 
   expect_error(
-    cb_fit <- fit_xy(cb_mod, x = chi_mod[, -1], y = chi_mod$ridership),
+    cb_fit <- fit_xy(as.data.frame(cb_mod), x = chi_mod[, -1], y = chi_mod$ridership),
     NA
   )
   cb_pred <- predict(cb_fit, chi_pred)
