@@ -85,7 +85,7 @@ test_that('non-formula method', {
       rules = TRUE,
       control = C50::C5.0Control(seed = 2)
     )
-  c5_pred_exp <- predict(c5_fit_exp, as.data.frame(ad_pred))
+  c5_pred_exp <- predict(c5_fit_exp, ad_pred)
 
   expect_error(
     c5_mod <-
@@ -119,7 +119,7 @@ test_that('non-formula method - control', {
       rules = TRUE,
       control = C50::C5.0Control(seed = 2, subset = FALSE)
     )
-  c5_pred_exp <- predict(c5_fit_exp, as.data.frame(ad_pred))
+  c5_pred_exp <- predict(c5_fit_exp, ad_pred)
 
   expect_error(
     c5_mod <-

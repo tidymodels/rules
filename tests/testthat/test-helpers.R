@@ -1,5 +1,6 @@
 library(modeldata)
 library(dplyr)
+library(rules)
 
 # ------------------------------------------------------------------------------
 
@@ -18,6 +19,9 @@ chi_pred_x <-
   as.data.frame() %>%
   select(-1)
 
+chi_mod <- as.data.frame(chi_mod)
+chi_pred <- as.data.frame(chi_pred)
+
 # ------------------------------------------------------------------------------
 
 data("ad_data")
@@ -33,6 +37,8 @@ ad_pred_x <-
   as.data.frame() %>%
   select(-1)
 
+ad_mod <- as.data.frame(ad_mod)
+ad_pred <- as.data.frame(ad_pred)
 
 # ------------------------------------------------------------------------------
 
@@ -46,3 +52,6 @@ in_pred <- keep[1501:1510]
 
 hpc_mod  <- hpc_data %>% slice(in_mod ) %>% select(class, compounds, protocol, input_fields)
 hpc_pred <- hpc_data %>% slice(in_pred) %>% select(       compounds, protocol, input_fields)
+
+hpc_mod <- as.data.frame(hpc_mod)
+hpc_pred <- as.data.frame(hpc_pred)

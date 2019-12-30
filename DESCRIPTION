@@ -9,7 +9,8 @@ Description: Bindings for additional models for use with the 'parsnip' package.
     Models include prediction rule ensembles (Friedman and Popescu, 2008) 
     <doi:10.1214/07-AOAS148>, model rules (Quinlan, 1992 ISBN: 1558602380), and 
     Cubist (Kuhn and Johnson, 2013) <doi:10.1007/978-1-4614-6849-3>. 
-License: GPL-2
+License: MIT + file LICENSE
+URL: https://github.com/tidymodels/rules
 Depends: 
     parsnip
 Suggests: 
