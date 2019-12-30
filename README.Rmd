@@ -3,7 +3,7 @@
 <!-- badges: start -->
 [![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
 [![CRAN status](https://www.r-pkg.org/badges/version/rules)](https://cran.r-project.org/package=rules)
-[![R build status](https://github.com/topepo/rules/workflows/R-CMD-check/badge.svg)](https://github.com/topepo/rules)
+[![R build status](https://github.com/tidymodels/rules/workflows/R-CMD-check/badge.svg)](https://github.com/tidymodels/rules)
 <!-- badges: end -->
 
 `rules` is a "`parsnip`-adjacent" packages with model definitions for different rule-based models, including:
@@ -18,6 +18,6 @@ Th package is not yet on CRAN and can be installed via:
 
 ``` r
 # install.packages("devtools")
-devtools::install_github("topepo/rules")
+devtools::install_github("tidymodels/rules")
 ```
 
