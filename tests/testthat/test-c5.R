@@ -16,8 +16,8 @@ test_that('formula method', {
       rules = TRUE,
       control = C50::C5.0Control(seed = 2)
     )
-  c5_pred_exp <- predict(c5_fit_exp, as.data.frame(ad_pred_x))
-  c5_prob_exp <- predict(c5_fit_exp, as.data.frame(ad_pred_x), type = "prob")
+  c5_pred_exp <- predict(c5_fit_exp, ad_pred_x)
+  c5_prob_exp <- predict(c5_fit_exp, ad_pred_x, type = "prob")
 
   expect_error(
     c5_mod <-
@@ -30,8 +30,8 @@ test_that('formula method', {
     c5_fit <- fit(c5_mod, Class ~ ., data = ad_mod),
     NA
   )
-  c5_pred <- predict(c5_fit, as.data.frame(ad_pred))
-  c5_prob <- predict(c5_fit, as.data.frame(ad_pred), type = "prob")
+  c5_pred <- predict(c5_fit, ad_pred)
+  c5_prob <- predict(c5_fit, ad_pred, type = "prob")
 
   expect_equal(c5_fit_exp$boostResults, c5_fit$fit$boostResults)
   expect_equal(names(c5_pred), ".pred_class")
@@ -51,7 +51,7 @@ test_that('formula method - control', {
       rules = TRUE,
       control = C50::C5.0Control(seed = 2, subset = FALSE)
     )
-  c5_pred_exp <- predict(c5_fit_exp, as.data.frame(ad_pred_x))
+  c5_pred_exp <- predict(c5_fit_exp, ad_pred_x)
 
   expect_error(
     c5_mod <-
@@ -64,8 +64,8 @@ test_that('formula method - control', {
     c5_fit <- fit(c5_mod, Class ~ ., data = ad_mod),
     NA
   )
-  c5_pred <- predict(c5_fit, as.data.frame(ad_pred))
-  c5_prob <- predict(c5_fit, as.data.frame(ad_pred), type = "prob")
+  c5_pred <- predict(c5_fit, ad_pred)
+  c5_prob <- predict(c5_fit, ad_pred, type = "prob")
 
   expect_equal(c5_fit_exp$boostResults, c5_fit$fit$boostResults)
   expect_equal(names(c5_pred), ".pred_class")
@@ -85,7 +85,7 @@ test_that('non-formula method', {
       rules = TRUE,
       control = C50::C5.0Control(seed = 2)
     )
-  c5_pred_exp <- predict(c5_fit_exp, as.data.frame(ad_pred))
+  c5_pred_exp <- predict(c5_fit_exp, ad_pred)
 
   expect_error(
     c5_mod <-
@@ -98,8 +98,8 @@ test_that('non-formula method', {
     c5_fit <- fit_xy(c5_mod, x = as.data.frame(ad_mod[, -1]), y = ad_mod$Class),
     NA
   )
-  c5_pred <- predict(c5_fit, as.data.frame(ad_pred))
-  c5_prob <- predict(c5_fit, as.data.frame(ad_pred), type = "prob")
+  c5_pred <- predict(c5_fit, ad_pred)
+  c5_prob <- predict(c5_fit, ad_pred, type = "prob")
 
   expect_equal(c5_fit_exp$boostResults, c5_fit$fit$boostResults)
   expect_equal(names(c5_pred), ".pred_class")
@@ -119,7 +119,7 @@ test_that('non-formula method - control', {
       rules = TRUE,
       control = C50::C5.0Control(seed = 2, subset = FALSE)
     )
-  c5_pred_exp <- predict(c5_fit_exp, as.data.frame(ad_pred))
+  c5_pred_exp <- predict(c5_fit_exp, ad_pred)
 
   expect_error(
     c5_mod <-
@@ -132,8 +132,8 @@ test_that('non-formula method - control', {
     c5_fit <- fit_xy(c5_mod, x = as.data.frame(ad_mod[, -1]), y = ad_mod$Class),
     NA
   )
-  c5_pred <- predict(c5_fit, as.data.frame(ad_pred))
-  c5_prob <- predict(c5_fit, as.data.frame(ad_pred), type = "prob")
+  c5_pred <- predict(c5_fit, ad_pred)
+  c5_prob <- predict(c5_fit, ad_pred, type = "prob")
 
   expect_equal(c5_fit_exp$boostResults, c5_fit$fit$boostResults)
   expect_equal(names(c5_pred), ".pred_class")

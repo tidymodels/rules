@@ -36,7 +36,7 @@ test_that('formula method', {
   expect_equal(cb_pred$.pred, cb_pred_exp)
 
   # fails
-  # cb_pred <- multi_predict(cb_fit, as.data.frame(chi_pred), neighbors = c(0, 1, 9))
+  # cb_pred <- multi_predict(cb_fit, chi_pred, neighbors = c(0, 1, 9))
 })
 
 # ------------------------------------------------------------------------------
@@ -147,7 +147,7 @@ test_that('non-formula method', {
       committees = 10,
       control = Cubist::cubistControl(seed = 2)
     )
-  cb_pred_exp <- predict(cb_fit_exp, as.data.frame(chi_pred))
+  cb_pred_exp <- predict(cb_fit_exp, chi_pred)
 
   expect_error(
     cb_mod <-
@@ -157,7 +157,7 @@ test_that('non-formula method', {
   )
 
   expect_error(
-    cb_fit <- fit_xy(as.data.frame(cb_mod), x = chi_mod[, -1], y = chi_mod$ridership),
+    cb_fit <- fit_xy(cb_mod, x = chi_mod[, -1], y = chi_mod$ridership),
     NA
   )
   cb_pred <- predict(cb_fit, chi_pred)
@@ -170,7 +170,7 @@ test_that('non-formula method', {
   K <- c(0, 1, 9)
 
   expect_error(
-    cb_m_pred <- multi_predict(cb_fit, as.data.frame(chi_pred), neighbors = K),
+    cb_m_pred <- multi_predict(cb_fit, chi_pred, neighbors = K),
     NA
   )
   cb_m_pred <-
@@ -180,7 +180,7 @@ test_that('non-formula method', {
     arrange(neighbors, .rows)
 
   for (i in K) {
-    exp_pred <- predict(cb_fit_exp, as.data.frame(chi_pred), neighbors = i)
+    exp_pred <- predict(cb_fit_exp, chi_pred, neighbors = i)
     obs_pred <- cb_m_pred %>% dplyr::filter(neighbors == i) %>% pull(.pred)
     expect_equal(exp_pred, obs_pred)
   }
@@ -197,7 +197,7 @@ test_that('non-formula method - limited rules', {
       committees = 2,
       control = Cubist::cubistControl(rules = 3, seed = 2)
     )
-  cb_pred_exp <- predict(cb_fit_exp, as.data.frame(chi_pred))
+  cb_pred_exp <- predict(cb_fit_exp, chi_pred)
 
   expect_error(
     cb_mod <-
@@ -207,7 +207,7 @@ test_that('non-formula method - limited rules', {
   )
 
   expect_error(
-    cb_fit <- fit_xy(as.data.frame(cb_mod), x = chi_mod[, -1], y = chi_mod$ridership),
+    cb_fit <- fit_xy(cb_mod, x = chi_mod[, -1], y = chi_mod$ridership),
     NA
   )
   cb_pred <- predict(cb_fit, chi_pred)
@@ -229,7 +229,7 @@ test_that('non-formula method - limited rules and control', {
       committees = 2,
       control = Cubist::cubistControl(rules = 3, seed = 2, unbiased = TRUE)
     )
-  cb_pred_exp <- predict(cb_fit_exp, as.data.frame(chi_pred))
+  cb_pred_exp <- predict(cb_fit_exp, chi_pred)
 
   expect_error(
     cb_mod <-
@@ -239,7 +239,7 @@ test_that('non-formula method - limited rules and control', {
   )
 
   expect_error(
-    cb_fit <- fit_xy(as.data.frame(cb_mod), x = chi_mod[, -1], y = chi_mod$ridership),
+    cb_fit <- fit_xy(cb_mod, x = chi_mod[, -1], y = chi_mod$ridership),
     NA
   )
   cb_pred <- predict(cb_fit, chi_pred)
@@ -262,7 +262,7 @@ test_that('non-formula method - control', {
       committees = 2,
       control = Cubist::cubistControl(seed = 2, unbiased = TRUE)
     )
-  cb_pred_exp <- predict(cb_fit_exp, as.data.frame(chi_pred))
+  cb_pred_exp <- predict(cb_fit_exp, chi_pred)
 
   expect_error(
     cb_mod <-
@@ -272,7 +272,7 @@ test_that('non-formula method - control', {
   )
 
   expect_error(
-    cb_fit <- fit_xy(as.data.frame(cb_mod), x = chi_mod[, -1], y = chi_mod$ridership),
+    cb_fit <- fit_xy(cb_mod, x = chi_mod[, -1], y = chi_mod$ridership),
     NA
   )
   cb_pred <- predict(cb_fit, chi_pred)
