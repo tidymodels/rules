@@ -12,7 +12,7 @@ Description: Bindings for additional models for use with the 'parsnip' package.
 License: MIT + file LICENSE
 URL: https://github.com/tidymodels/rules
 Depends: 
-    parsnip
+    parsnip (>= 0.0.5)
 Suggests: 
     testthat,
     C50,
