@@ -4,6 +4,7 @@
 \alias{c5_fit}
 \alias{c5_pred}
 \alias{cubist_fit}
+\alias{tunable.cubist_rules}
 \alias{xrf_fit}
 \alias{xrf_pred}
 \alias{tunable.rule_fit}
@@ -14,6 +15,8 @@ c5_fit(x, y, trials = 1, minCases = 2, cost = NULL, ...)
 c5_pred(object, new_data, trials = object$fit$trials["Actual"], ...)
 
 cubist_fit(x, y, committees = 1, neighbors = 0, max_rules = NA, ...)
+
+tunable.cubist_rules(x, ...)
 
 xrf_fit(
   formula,
