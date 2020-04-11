@@ -6,6 +6,52 @@ ctrl <- Cubist::cubistControl(unbiased = TRUE, seed = 2)
 
 # ------------------------------------------------------------------------------
 
+test_that('argument/call assembly', {
+  ctrl_1 <- Cubist::cubistControl(unbiased = TRUE, seed = 2)
+  ctrl_2 <- Cubist::cubistControl(unbiased = TRUE, seed = 2, rules = 13)
+
+  expect_equal(
+    rules:::cubist_args(list(quote(x), quote(y), committees = 12)),
+    rlang::call2("cubist", .ns = "Cubist", quote(x), quote(y), committees = 12)
+  )
+
+  expect_equal(
+    rules:::cubist_args(list(quote(x), quote(y), max_rules = 1)),
+    rlang::call2("cubist", .ns = "Cubist", quote(x), quote(y),
+                 control = quote(Cubist::cubistControl(rules = 1)))
+  )
+
+  expect_equal(
+    rules:::cubist_args(list(quote(x), quote(y), max_rules = NA)),
+    rlang::call2("cubist", .ns = "Cubist", quote(x), quote(y),
+                 control = quote(Cubist::cubistControl(rules = NA)))
+  )
+
+  expect_equal(
+    rules:::cubist_args(list(quote(x), quote(y), max_rules = NA, control = ctrl_1)),
+    rlang::call2("cubist", .ns = "Cubist", quote(x), quote(y),
+                 control = list(unbiased = TRUE, rules = NA, extrapolation = 1,
+                                sample = 0, label = "outcome", seed = 2))
+    )
+
+  expect_equal(
+    rules:::cubist_args(list(quote(x), quote(y), control = ctrl_2)),
+    rlang::call2("cubist", .ns = "Cubist", quote(x), quote(y),
+                 control = list(unbiased = TRUE, rules = 13, extrapolation = 1,
+                                sample = 0, label = "outcome", seed = 2))
+  )
+
+  expect_equal(
+    rules:::cubist_args(list(quote(x), quote(y), max_rules = 31, control = ctrl_2)),
+    rlang::call2("cubist", .ns = "Cubist", quote(x), quote(y),
+                 control = list(unbiased = TRUE, rules = 31, extrapolation = 1,
+                                sample = 0, label = "outcome", seed = 2))
+  )
+})
+
+
+# ------------------------------------------------------------------------------
+
 test_that('formula method', {
 
   cb_fit_exp <-
@@ -35,8 +81,27 @@ test_that('formula method', {
   expect_true(tibble::is_tibble(cb_pred))
   expect_equal(cb_pred$.pred, cb_pred_exp)
 
-  # fails
-  # cb_pred <- multi_predict(cb_fit, chi_pred, neighbors = c(0, 1, 9))
+  cb_pred <-
+    multi_predict(cb_fit, chi_pred[1:2,], neighbors = c(0, 1, 9)) %>%
+    mutate(.row = row_number()) %>%
+    tidyr::unnest(cols = c(.pred))
+
+  # Will be slightly different due to the value of `maxd`
+  expect_equal(
+    cb_pred$.pred[cb_pred$neighbors == 0],
+    predict(cb_fit_exp, chi_mod_x[1:2,], neighbors = 0),
+    tol = .1
+  )
+  expect_equal(
+    cb_pred$.pred[cb_pred$neighbors == 1],
+    predict(cb_fit_exp, chi_mod_x[1:2,], neighbors = 1),
+    tol = .1
+  )
+  expect_equal(
+    cb_pred$.pred[cb_pred$neighbors == 9],
+    predict(cb_fit_exp, chi_mod_x[1:2,], neighbors = 9),
+    tol = .1
+  )
 })
 
 # ------------------------------------------------------------------------------

@@ -172,59 +172,94 @@ check_args.cubist_rules <- function(object) {
 
 # ------------------------------------------------------------------------------
 
+cubist_args <- function(x) {
+  ctrl_args <- c('unbiased', 'rules', 'extrapolation', 'sample', 'seed', 'label')
+
+  # translate name
+  names(x) <- ifelse(names(x) == "max_rules", "rules", names(x))
+  nms <- names(x)
+
+  is_ctrl <- nms %in% ctrl_args
+  is_main_arg <- !is_ctrl & nms != "control"
+  main_args <- x[is_main_arg]
+  nms <- nms[!is_main_arg]
+
+  if (any(nms == "control")) {
+    ctrl_arg_nms <- nms[nms != "control"]
+    # Add any other options to ctrl
+    for (i in ctrl_arg_nms) {
+      x$control[[i]] <- x[[i]]
+    }
+    args <- c(main_args, x["control"])
+  } else {
+    if (any(is_ctrl)) {
+      ctrl_call <- rlang::call2("cubistControl", .ns = "Cubist", !!!x[nms])
+      args <- c(main_args, list(control = ctrl_call))
+    } else {
+      args <- main_args
+    }
+  }
+
+  rlang::call2("cubist", .ns = "Cubist", !!!args)
+}
+
 #' @export
 #' @keywords internal
 #' @rdname rules-internal
 cubist_fit <- function(x, y, committees = 1, neighbors = 0, max_rules = NA, ...) {
-
   args <- list(
     x = expr(x),
     y = expr(y),
-    committees = expr(committees)
-    # neighbors not needed until predict time but are saved below
+    committees = committees
+    # neighbors not needed until predict time but is saved below
   )
-  dots <- list(...)
+  if (!is.na(max_rules)) {
+    args$rules <- max_rules
+  }
+  dots <- rlang::dots_list(...)
   if (length(dots) > 0) {
     args <- c(args, dots)
-    if (any(names(dots) == "control")) {
-      if (!is.na(max_rules)) {
-        args$control$rules <- max_rules
-      }
-    } else {
-      if (!is.na(max_rules)) {
-        args$control <- expr(Cubist::cubistControl(rules = max_rules, seed = sample.int(10 ^ 5, 1)))
-      }
-    }
-  } else {
-    args <-
-      c(args, list(control = expr(Cubist::cubistControl(rules = max_rules, seed = sample.int(10 ^ 5, 1)))))
   }
 
- cl <- rlang::call2(.fn = "cubist", .ns = "Cubist", !!!args)
- res <- rlang::eval_tidy(cl)
+  cl <- cubist_args(args)
+
+  res <- rlang::eval_tidy(cl)
+
+ # Fix used args
+ used <- res$coefficients %>% dplyr::select(-`(Intercept)`, -committee, -rule)
+ used <- purrr::map_lgl(used, ~ any(!is.na(.x)))
+ res$vars$used <- names(used)[used]
+
  res$.neighbors <- rlang::eval_tidy(neighbors)
  res
 }
+
+#' @export
+#' @keywords internal
+#' @rdname rules-internal
+get_neighbors <- function(x) {
+  k <- rlang::eval_tidy(x$neighbors)
+  if (is.null(k) || k < 0) {
+    k <- 0
+  }
+  if (k > 9) {
+    k <- 9
+  }
+  k
+}
+
+
+## TODO the wrapper breaks when there are dummy variables since `fit()` makes
+## dummy variables. Maybe `predict.cubist_rules()` should directly invoke
+## `predict.cubist()`
 
 cubist_pred_wrap <- function(neighbors = 0, object, new_data, ...) {
   if (length(neighbors) > 1) {
     rlang::abort("`cubist_pred_wrap` takes a single neighbor.")
   }
-  neighbors[neighbors < 0] <- 0L
-  neighbors[neighbors > 9] <- 9L
-
-  args <- list(
-    object = expr(object$fit),
-    newdata = expr(new_data),
-    neighbors = neighbors
-  )
-  dots <- rlang::enquos(...)
-  if (length(dots) > 0) {
-    args <- c(args, dots)
-  }
-  cl <- rlang::call2(.fn = "predict", !!!args)
-  res <- rlang::eval_tidy(cl)
-  tibble::tibble(neighbors = neighbors, .pred = res)
+  object$spec$args$neighbors <- neighbors
+  res <- predict(object, new_data)
+  tibble::tibble(neighbors = neighbors, .pred = res$.pred)
 }
 
 cubist_pred <- function(object, new_data, neighbors = NULL, ...) {

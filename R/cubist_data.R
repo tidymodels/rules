@@ -60,7 +60,7 @@ make_cubist <- function() {
         list(
           object = expr(object$fit),
           newdata = expr(new_data),
-          type = "response"
+          neighbors = expr(rules::get_neighbors(object$spec$args))
         )
     )
   )
@@ -74,7 +74,12 @@ make_cubist <- function() {
       pre = NULL,
       post = NULL,
       func = c(fun = "predict"),
-      args = list(object = expr(object$fit), newdata = expr(new_data))
+      args =
+        list(
+          object = expr(object$fit),
+          newdata = expr(new_data),
+          neighbors = expr(rules::get_neighbors(object$spec$args))
+        )
     )
   )
 
