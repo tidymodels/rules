@@ -184,12 +184,16 @@ c5_fit <- function(x, y, trials = 1, minCases = 2, cost =  NULL, ...) {
       if (!any(names(dots$control) == "seed")) {
         dots$control$seed <- sample.int(10 ^ 5, 1)
       }
+      if (!any(names(dots$control) == "earlyStopping")) {
+        dots$control$earlyStopping <- FALSE
+      }
     }
     args <- c(args, dots)
   } else {
     args <-
       c(args,
-        list(control = expr(C50::C5.0Control(minCases = minCases, seed = sample.int(10 ^ 5, 1))))
+        list(control =
+               expr(C50::C5.0Control(minCases = minCases, seed = sample.int(10 ^ 5, 1), earlyStopping = FALSE)))
       )
   }
   args$rules <- TRUE
@@ -205,6 +209,8 @@ c5_fit <- function(x, y, trials = 1, minCases = 2, cost =  NULL, ...) {
 
   cl <- rlang::call2(.fn = "C5.0", .ns = "C50", !!!args)
   res <- rlang::eval_tidy(cl)
+  # Give an extra class to have a separate multi_predict() method
+  class(res) <- c("c5_rules", class(res))
   res
 }
 
@@ -214,6 +220,8 @@ c5_pred_wrap <- function(trials = 1, object, new_data, type = "class", ...) {
   }
   trials[trials <   1] <-   1L
   trials[trials > 100] <- 100L
+
+  new_data <- as.data.frame(new_data)
 
   args <- list(
     object = expr(object$fit),
@@ -261,13 +269,20 @@ c5_pred <- function(object, new_data, trials = object$fit$trials["Actual"], ...)
 #' @param type A single character value or `NULL`. Possible values
 #'  are class" and "prob".
 #' @param ... Not currently used.
-multi_predict._C5.0 <-
+#' @details
+#' For C5.0 rule-based models, the model fit may contain less boosting
+#' iterations than the number requested. Printing the object will show how many
+#' were used due to early stopping. This can be change using an option in
+#' [C50::C5.0Control()]. Beware that the number of iterations requested
+multi_predict._c5_rules <-
   function(object, new_data, type = NULL, trees = NULL, ...) {
     if (any(names(enquos(...)) == "newdata")) {
       rlang::abort("Did you mean to use `new_data` instead of `newdata`?")
     }
     trees_used <- object$fit$trials["Actual"]
     trees <- ifelse(trees > trees_used, trees_used, trees)
+    trees <- sort(unique(trees))
+
     if (is.null(type)) {
       type <- "class"
     }
@@ -277,6 +292,7 @@ multi_predict._C5.0 <-
     res$.rows <- rep(1:nrow(new_data), length(trees))
     res <-
       res %>%
+      dplyr::rename(trees = trials) %>%
       dplyr::group_by(.rows) %>%
       tidyr::nest() %>%
       dplyr::ungroup() %>%

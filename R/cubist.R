@@ -238,6 +238,8 @@ cubist_pred <- function(object, new_data, neighbors = NULL, ...) {
     neighbors <- rlang::eval_tidy(neighbors)
   }
 
+  new_data <- as.data.frame(new_data)
+
   purrr::map_dfr(neighbors,
                  cubist_pred_wrap,
                  object = object,
