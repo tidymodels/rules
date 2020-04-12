@@ -97,18 +97,17 @@ functions. If parameters need to be modified, \code{update()} can be used
 in lieu of recreating the object from scratch.
 }
 \details{
+The RuleFit model creates a regression model of rules in two stages. The
+first stage uses a tree-based model that is used to generate a set of rules
+that can be filtered, modified, and simplified. These rules are then added
+as predictors to a regularized generalized linear model that can also
+conduct feature selection during model training.
+
+For the \code{xrf} engine, the \code{xgboost} package is used to create the rule set
+that is then added to a \code{glmnet} model.
+
 The only availible engine is \code{"xrf"}.
 }
-\section{Engine Details}{
-
-
-Engines may have pre-set default arguments when executing the
-model fit call. For this type of
-model, the template of the fit calls are:
-
-\pkg{xrf}
-}
-
 \examples{
 rule_fit()
 # Parameters can be represented by a placeholder:
@@ -129,6 +128,10 @@ model
 update(model, trees = 1)
 update(model, trees = 1, fresh = TRUE)
 }
+\references{
+Friedman, J. H., and Popescu, B. E. (2008). "Predictive learning
+via rule ensembles." \emph{The Annals ofApplied Statistics}, 2(3), 916-954.
+}
 \seealso{
-\code{\link[parsnip:fit]{parsnip::fit()}}, \code{\link[parsnip:set_engine]{parsnip::set_engine()}}
+\code{\link[parsnip:fit]{parsnip::fit()}}, \code{\link[parsnip:fit_xy]{parsnip::fit_xy()}}, \code{\link[xrf:xrf.formula]{xrf::xrf.formula()}}
 }

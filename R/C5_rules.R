@@ -21,18 +21,36 @@
 #' @param min_n An integer greater than one zero and nine for the minimum number
 #'  of data points in a node that are required for the node to be split further.
 #' @details
-#' The only availible engine is `"C5.0"`.
+#' @details C5.0 is a classification model that is an extension of the C4.5
+#'  model of Quinlan (1993). It has tree- and rule-based versions that also
+#'  include boosting capabilities. `C5_rules()` enables the version of the model
+#'  that uses a series of rules (see the examples below). To make a set of
+#'  rules, an initial C5.0 tree is created and flattened into rules. The rules
+#'  are pruned, simplified, and ordered. Rule sets are created within each
+#'  iteration of boosting.
 #'
-#' @section Engine Details:
+#' The two main tuning parameters are the number of trees in the boosting
+#'  ensemble (`trees`) and the number of samples required to continue splitting
+#'  when creating a tree (`min_n`). There are no arguments to control the total
+#'  number of rules in the ensemble.
 #'
-#' Engines may have pre-set default arguments when executing the
-#'  model fit call. For this type of
-#'  model, the template of the fit calls are:
+#' Note that `C5_rules()` does not require that categorical predictors be
+#'  converted to numeric indicator values. Note that using [parsnip::fit()] will
+#'  _always_ create dummy variables so, if there is interest in keeping the
+#'  categorical predictors in their original format, [parsnip::fit_xy()] would
+#'  be a better choice. When using the `tune` package, using a recipe for
+#'  pre-processing enables more control over how such predictors are encoded
+#'  since recipes do not automatically create dummy variables.
 #'
-#' \pkg{C5.0}
+#' Note that C5.0 has a tool for _early stopping_ during boosting where less
+#'  iterations of boosting are performed than the number requested. `C5_rules()`
+#'  turns this feature off (although it can be re-enabled using
+#'  [C50::C5.0Control()]).
 #'
-#'
-#' @seealso [parsnip::fit()], [parsnip::set_engine()]
+#' @seealso [parsnip::fit()], [parsnip::fit_xy()], [C50::C5.0()],
+#' [C50::C5.0Control()]
+#' @references Quinlan R (1993). _C4.5: Programs for Machine Learning_. Morgan
+#' Kaufmann Publishers.
 #' @examples
 #' C5_rules()
 #' # Parameters can be represented by a placeholder:
@@ -237,6 +255,7 @@ c5_pred_wrap <- function(trials = 1, object, new_data, type = "class", ...) {
 
   new_data <- as.data.frame(new_data)
 
+  object$spec$method$fit$args$trials <- trials
 
   args <- list(
     object = expr(object),

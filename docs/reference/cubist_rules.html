@@ -10,26 +10,22 @@
 
 
 <!-- jquery -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 
 <!-- Bootstrap -->
 <link href="../tidyverse.css" rel="stylesheet">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
-
-<!-- bootstrap-toc -->
-<link rel="stylesheet" href="../bootstrap-toc.css">
-<script src="../bootstrap-toc.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
 
 <!-- headroom.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -65,15 +61,7 @@ in lieu of recreating the object from scratch." />
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
 
-<!-- Global site tag (gtag.js) - Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-115082821-1"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
 
-  gtag('config', 'UA-115082821-1');
-</script>
 
   </head>
 
@@ -92,7 +80,7 @@ in lieu of recreating the object from scratch." />
 
       <div class="navbar-brand-container">
         <a class="navbar-brand" href="../index.html">rules</a>
-        <div class="info hidden-xs hidden-sm">
+        <div class="info">
           <span class="partof">part of <a href="https://github.com/tidymodels">tidymodels</a></span>
           <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="Unreleased version">0.0.0.9000</span>
         </div>
@@ -212,19 +200,51 @@ or replaced wholesale.</p></td>
 
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>The only availible engine is <code>"Cubist"</code>.</p>
-    <h2 class="hasAnchor" id="engine-details"><a class="anchor" href="#engine-details"></a>Engine Details</h2>
+    <p>Cubist is a rule-based ensemble regression model. A basic model tree
+(Quinlan, 1992) is created that has a separate linear regression model
+corresponding for each terminal node. The paths along the model tree is
+flattened into rules these rules are simplified and pruned. The parameter
+<code>min_n</code> is the primary method for controlling the size of each tree while
+<code>max_rules</code> controls the number of rules.</p>
+<p>Cubist ensembles are created using <em>committees</em>, which are similar to
+boosting. After the first model in the committee is created, the second
+model uses a modified version of the outcome data based on whether the
+previous model under- or over-predicted the outcome. For iteration <em>m</em>, the
+new outcome <code>y*</code> is computed using</p>
+<p><img src='figures/comittees.png' alt='' /></p>
+<p>If a sample is under-predicted on the previous iteration, the outcome is
+adjusted so that the next time it is more likely to be over-predicted to
+compensate. This adjustment continues for each ensemble iteration. See
+Kuhn and Johnson (2013) for details.</p>
+<p>After the model is created, there is also an option for a post-hoc
+adjustment that uses the training set (Quinlan, 1993). When a new sample is
+predicted by the model, it can be modified by its nearest neighbors in the
+original training set. For <em>K</em> neighbors, the model based predicted value is
+adjusted by the neighbor using:</p>
+<p><img src='figures/adjust.png' alt='' /></p>
+<p>where <code>t</code> is the training set prediction and <code>w</code> is a weight that is inverse
+to the distance to the neighbor.</p>
+<p>Note that <code>cubist_rules()</code> does not require that categorical predictors be
+converted to numeric indicator values. Note that using <code><a href='https://rdrr.io/pkg/parsnip/man/reexports.html'>parsnip::fit()</a></code> will
+<em>always</em> create dummy variables so, if there is interest in keeping the
+categorical predictors in their original format, <code><a href='https://rdrr.io/pkg/parsnip/man/reexports.html'>parsnip::fit_xy()</a></code> would
+be a better choice. When using the <code>tune</code> package, using a recipe for
+pre-processing enables more control over how such predictors are encoded
+since recipes do not automatically create dummy variables.</p>
+<p>The only availible engine is <code>"Cubist"</code>.</p>
+    <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
-    
-
-
-<p>Engines may have pre-set default arguments when executing the
-model fit call. For this type of
-model, the template of the fit calls are:</p>
-<p><span class="pkg">Cubist</span></p>
+    <p>Quinlan R (1992). "Learning with Continuous Classes." Proceedings
+of the 5th Australian Joint Conference On Artificial Intelligence, pp.
+343-348.</p>
+<p>Quinlan R (1993)."Combining Instance-Based and Model-Based Learning."
+Proceedings of the Tenth International Conference on Machine Learning, pp.
+236-243.</p>
+<p>Kuhn M and Johnson K (2013). <em>Applied Predictive Modeling</em>. Springer.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><code><a href='https://rdrr.io/pkg/parsnip/man/reexports.html'>parsnip::fit()</a></code>, <code><a href='https://rdrr.io/pkg/parsnip/man/set_engine.html'>parsnip::set_engine()</a></code></p></div>
+    <div class='dont-index'><p><code><a href='https://rdrr.io/pkg/parsnip/man/reexports.html'>parsnip::fit()</a></code>, <code><a href='https://rdrr.io/pkg/parsnip/man/reexports.html'>parsnip::fit_xy()</a></code>, <code><a href='https://rdrr.io/pkg/Cubist/man/cubist.default.html'>Cubist::cubist()</a></code>,
+<code><a href='https://rdrr.io/pkg/Cubist/man/cubistControl.html'>Cubist::cubistControl()</a></code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'>cubist_rules</span>()</div><div class='output co'>#&gt; Cubist Model Specification (regression)
@@ -247,7 +267,7 @@ model, the template of the fit calls are:</p>
 
 <span class='no'>car_rules</span></div><div class='output co'>#&gt; parsnip model object
 #&gt; 
-#&gt; Fit time:  69ms 
+#&gt; Fit time:  66ms 
 #&gt; 
 #&gt; Call:
 #&gt; cubist.default(x = x, y = y, committees = 1)
@@ -263,7 +283,7 @@ model, the template of the fit calls are:</p>
 #&gt; cubist.default(x = x, y = y, committees = 1)
 #&gt; 
 #&gt; 
-#&gt; Cubist [Release 2.07 GPL Edition]  Sat Apr 11 23:21:29 2020
+#&gt; Cubist [Release 2.07 GPL Edition]  Sun Apr 12 19:12:56 2020
 #&gt; ---------------------------------
 #&gt; 
 #&gt;     Target attribute `outcome'
