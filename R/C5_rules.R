@@ -237,10 +237,10 @@ c5_pred_wrap <- function(trials = 1, object, new_data, type = "class", ...) {
 
   new_data <- as.data.frame(new_data)
 
+
   args <- list(
-    object = expr(object$fit),
-    newdata = expr(new_data),
-    trials = trials,
+    object = expr(object),
+    new_data = expr(new_data),
     type = type
   )
   dots <- rlang::enquos(...)
@@ -248,14 +248,8 @@ c5_pred_wrap <- function(trials = 1, object, new_data, type = "class", ...) {
     args <- c(args, dots)
   }
   cl <- rlang::call2(.fn = "predict", !!!args)
-  res <- rlang::eval_tidy(cl)
-  if (type == "class") {
-    res <- tibble::tibble(trials = trials, .pred_class = res)
-  } else {
-    res <- tibble::as_tibble(res)
-    names(res) <- paste0(".pred_", names(res))
-    res <- dplyr::bind_cols(tibble::tibble(trials = rep(trials, nrow(res))), res)
-  }
+  tbl_trial <- tibble::tibble(trees  = rep(trials, nrow(new_data)))
+  res <- bind_cols(tbl_trial, rlang::eval_tidy(cl))
   res
 }
 
@@ -306,7 +300,6 @@ multi_predict._c5_rules <-
     res$.rows <- rep(1:nrow(new_data), length(trees))
     res <-
       res %>%
-      dplyr::rename(trees = trials) %>%
       dplyr::group_by(.rows) %>%
       tidyr::nest() %>%
       dplyr::ungroup() %>%
