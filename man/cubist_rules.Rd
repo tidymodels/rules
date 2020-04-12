@@ -63,27 +63,82 @@ functions. If parameters need to be modified, \code{update()} can be used
 in lieu of recreating the object from scratch.
 }
 \details{
+Cubist is a rule-based ensemble regression model. A basic model tree
+(Quinlan, 1992) is created that has a separate linear regression model
+corresponding for each terminal node. The paths along the model tree is
+flattened into rules these rules are simplified and pruned. The parameter
+\code{min_n} is the primary method for controlling the size of each tree while
+\code{max_rules} controls the number of rules.
+
+Cubist ensembles are created using \emph{committees}, which are similar to
+boosting. After the first model in the committee is created, the second
+model uses a modified version of the outcome data based on whether the
+previous model under- or over-predicted the outcome. For iteration \emph{m}, the
+new outcome \verb{y*} is computed using
+
+\figure{comittees.png}
+
+If a sample is under-predicted on the previous iteration, the outcome is
+adjusted so that the next time it is more likely to be over-predicted to
+compensate. This adjustment continues for each ensemble iteration. See
+Kuhn and Johnson (2013) for details.
+
+After the model is created, there is also an option for a post-hoc
+adjustment that uses the training set (Quinlan, 1993). When a new sample is
+predicted by the model, it can be modified by its nearest neighbors in the
+original training set. For \emph{K} neighbors, the model based predicted value is
+adjusted by the neighbor using:
+
+\figure{adjust.png}
+
+where \code{t} is the training set prediction and \code{w} is a weight that is inverse
+to the distance to the neighbor.
+
+Note that \code{cubist_rules()} does not require that categorical predictors be
+converted to numeric indicator values. Note that using \code{\link[parsnip:fit]{parsnip::fit()}} will
+\emph{always} create dummy variables so, if there is interest in keeping the
+categorical predictors in their original format, \code{\link[parsnip:fit_xy]{parsnip::fit_xy()}} would
+be a better choice. When using the \code{tune} package, using a recipe for
+pre-processing enables more control over how such predictors are encoded
+since recipes do not automatically create dummy variables.
+
 The only availible engine is \code{"Cubist"}.
 }
-\section{Engine Details}{
-
-
-Engines may have pre-set default arguments when executing the
-model fit call. For this type of
-model, the template of the fit calls are:
-
-\pkg{Cubist}
-}
-
 \examples{
 cubist_rules()
 # Parameters can be represented by a placeholder:
 cubist_rules(committees = 7)
+
+# ------------------------------------------------------------------------------
+
+data(car_prices, package = "modeldata")
+car_rules <-
+  cubist_rules(committees = 1) \%>\%
+  fit(log10(Price) ~ ., data = car_prices)
+
+car_rules
+
+summary(car_rules$fit)
+
+# ------------------------------------------------------------------------------
+
 model <- cubist_rules(committees = 10, neighbors = 2)
 model
 update(model, committees = 1)
 update(model, committees = 1, fresh = TRUE)
 }
+\references{
+Quinlan R (1992). "Learning with Continuous Classes." Proceedings
+of the 5th Australian Joint Conference On Artificial Intelligence, pp.
+343-348.
+
+Quinlan R (1993)."Combining Instance-Based and Model-Based Learning."
+Proceedings of the Tenth International Conference on Machine Learning, pp.
+236-243.
+
+Kuhn M and Johnson K (2013). \emph{Applied Predictive Modeling}. Springer.
+}
 \seealso{
-\code{\link[parsnip:fit]{parsnip::fit()}}, \code{\link[parsnip:set_engine]{parsnip::set_engine()}}
+\code{\link[parsnip:fit]{parsnip::fit()}}, \code{\link[parsnip:fit_xy]{parsnip::fit_xy()}}, \code{\link[Cubist:cubist]{Cubist::cubist()}},
+\code{\link[Cubist:cubistControl]{Cubist::cubistControl()}}
 }

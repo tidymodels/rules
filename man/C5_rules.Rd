@@ -55,27 +55,60 @@ functions. If parameters need to be modified, \code{update()} can be used
 in lieu of recreating the object from scratch.
 }
 \details{
-The only availible engine is \code{"C5.0"}.
+C5.0 is a classification model that is an extension of the C4.5
+model of Quinlan (1993). It has tree- and rule-based versions that also
+include boosting capabilities. \code{C5_rules()} enables the version of the model
+that uses a series of rules (see the examples below). To make a set of
+rules, an initial C5.0 tree is created and flattened into rules. The rules
+are pruned, simplified, and ordered. Rule sets are created within each
+iteration of boosting.
+
+The two main tuning parameters are the number of trees in the boosting
+ensemble (\code{trees}) and the number of samples required to continue splitting
+when creating a tree (\code{min_n}). There are no arguments to control the total
+number of rules in the ensemble.
+
+Note that \code{C5_rules()} does not require that categorical predictors be
+converted to numeric indicator values. Note that using \code{\link[parsnip:fit]{parsnip::fit()}} will
+\emph{always} create dummy variables so, if there is interest in keeping the
+categorical predictors in their original format, \code{\link[parsnip:fit_xy]{parsnip::fit_xy()}} would
+be a better choice. When using the \code{tune} package, using a recipe for
+pre-processing enables more control over how such predictors are encoded
+since recipes do not automatically create dummy variables.
+
+Note that C5.0 has a tool for \emph{early stopping} during boosting where less
+iterations of boosting are performed than the number requested. \code{C5_rules()}
+turns this feature off (although it can be re-enabled using
+\code{\link[C50:C5.0Control]{C50::C5.0Control()}}).
 }
-\section{Engine Details}{
-
-
-Engines may have pre-set default arguments when executing the
-model fit call. For this type of
-model, the template of the fit calls are:
-
-\pkg{C5.0}
-}
-
 \examples{
 C5_rules()
 # Parameters can be represented by a placeholder:
 C5_rules(trees = 7)
+
+# ------------------------------------------------------------------------------
+
+data(ad_data, package = "modeldata")
+
+set.seed(282782)
+class_rules <-
+  C5_rules(trees = 1, min_n  = 10) \%>\%
+  fit(Class ~ ., data = ad_data)
+
+summary(class_rules$fit)
+
+# ------------------------------------------------------------------------------
+
 model <- C5_rules(trees = 10, min_n = 2)
 model
 update(model, trees = 1)
 update(model, trees = 1, fresh = TRUE)
 }
+\references{
+Quinlan R (1993). \emph{C4.5: Programs for Machine Learning}. Morgan
+Kaufmann Publishers.
+}
 \seealso{
-\code{\link[parsnip:fit]{parsnip::fit()}}, \code{\link[parsnip:set_engine]{parsnip::set_engine()}}
+\code{\link[parsnip:fit]{parsnip::fit()}}, \code{\link[parsnip:fit_xy]{parsnip::fit_xy()}}, \code{\link[C50:C5.0]{C50::C5.0()}},
+\code{\link[C50:C5.0Control]{C50::C5.0Control()}}
 }

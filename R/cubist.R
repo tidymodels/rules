@@ -22,22 +22,73 @@
 #' @param neighbors An integer between zero and nine for the number of training
 #' set instances that are used to adjust the model-based prediction.
 #' @details
+#' Cubist is a rule-based ensemble regression model. A basic model tree
+#'  (Quinlan, 1992) is created that has a separate linear regression model
+#'  corresponding for each terminal node. The paths along the model tree is
+#'  flattened into rules these rules are simplified and pruned. The parameter
+#'  `min_n` is the primary method for controlling the size of each tree while
+#'  `max_rules` controls the number of rules.
+#'
+#' Cubist ensembles are created using _committees_, which are similar to
+#'  boosting. After the first model in the committee is created, the second
+#'  model uses a modified version of the outcome data based on whether the
+#'  previous model under- or over-predicted the outcome. For iteration _m_, the
+#'  new outcome `y*` is computed using
+#'
+#' \figure{comittees.png}
+#'
+#' If a sample is under-predicted on the previous iteration, the outcome is
+#'  adjusted so that the next time it is more likely to be over-predicted to
+#'  compensate. This adjustment continues for each ensemble iteration. See
+#'  Kuhn and Johnson (2013) for details.
+#'
+#' After the model is created, there is also an option for a post-hoc
+#'  adjustment that uses the training set (Quinlan, 1993). When a new sample is
+#'  predicted by the model, it can be modified by its nearest neighbors in the
+#'  original training set. For _K_ neighbors, the model based predicted value is
+#'  adjusted by the neighbor using:
+#'
+#' \figure{adjust.png}
+#'
+#' where `t` is the training set prediction and `w` is a weight that is inverse
+#'  to the distance to the neighbor.
+#'
+#' Note that `cubist_rules()` does not require that categorical predictors be
+#'  converted to numeric indicator values. Note that using [parsnip::fit()] will
+#'  _always_ create dummy variables so, if there is interest in keeping the
+#'  categorical predictors in their original format, [parsnip::fit_xy()] would
+#'  be a better choice. When using the `tune` package, using a recipe for
+#'  pre-processing enables more control over how such predictors are encoded
+#'  since recipes do not automatically create dummy variables.
+#'
 #' The only availible engine is `"Cubist"`.
 #'
-#' @section Engine Details:
+#' @seealso [parsnip::fit()], [parsnip::fit_xy()], [Cubist::cubist()],
+#' [Cubist::cubistControl()]
+#' @references Quinlan R (1992). "Learning with Continuous Classes." Proceedings
+#' of the 5th Australian Joint Conference On Artificial Intelligence, pp.
+#' 343-348.
 #'
-#' Engines may have pre-set default arguments when executing the
-#'  model fit call. For this type of
-#'  model, the template of the fit calls are:
+#' Quinlan R (1993)."Combining Instance-Based and Model-Based Learning."
+#' Proceedings of the Tenth International Conference on Machine Learning, pp.
+#' 236-243.
 #'
-#' \pkg{Cubist}
-#'
-#'
-#' @seealso [parsnip::fit()], [parsnip::set_engine()]
+#' Kuhn M and Johnson K (2013). _Applied Predictive Modeling_. Springer.
 #' @examples
 #' cubist_rules()
 #' # Parameters can be represented by a placeholder:
 #' cubist_rules(committees = 7)
+#'
+#' # ------------------------------------------------------------------------------
+#'
+#' data(car_prices, package = "modeldata")
+#' car_rules <-
+#'   cubist_rules(committees = 1) %>%
+#'   fit(log10(Price) ~ ., data = car_prices)
+#'
+#' car_rules
+#'
+#' summary(car_rules$fit)
 #' @export
 cubist_rules <-
   function(mode = "regression",
@@ -79,6 +130,9 @@ print.cubist_rules <- function(x, ...) {
 
 #' @param object A Cubist model specification.
 #' @examples
+#'
+#' # ------------------------------------------------------------------------------
+#'
 #' model <- cubist_rules(committees = 10, neighbors = 2)
 #' model
 #' update(model, committees = 1)

@@ -48,19 +48,11 @@
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
 
-<!-- Global site tag (gtag.js) - Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-115082821-1"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
 
-  gtag('config', 'UA-115082821-1');
-</script>
 
   </head>
 
-  <body>
+  <body data-spy="scroll" data-target="#toc">
     <div class="container template-reference-index">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -93,7 +85,7 @@
   <a href="../reference/index.html">Reference</a>
 </li>
         <li>
-  <a href="https://github.com/tidymodels/rules">
+  <a href="https://github.com/tidymodels/rules/">
     <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
@@ -150,7 +142,13 @@
       </tr><tr>
         
         <td>
-          <p><code><a href="multi_predict.html">multi_predict(<i>&lt;_C5.0&gt;</i>)</a></code> <code><a href="multi_predict.html">multi_predict(<i>&lt;_cubist&gt;</i>)</a></code> <code><a href="multi_predict.html">multi_predict(<i>&lt;_xrf&gt;</i>)</a></code> </p>
+          <p><code><a href="mtry_frac.html">mtry_frac()</a></code> </p>
+        </td>
+        <td><p>Fraction of Randomly Selected Predictors</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="multi_predict.html">multi_predict(<i>&lt;_c5_rules&gt;</i>)</a></code> <code><a href="multi_predict.html">multi_predict(<i>&lt;_cubist&gt;</i>)</a></code> <code><a href="multi_predict.html">multi_predict(<i>&lt;_xrf&gt;</i>)</a></code> </p>
         </td>
         <td><p><code>multi_predict()</code> methods for rule-based models</p></td>
       </tr><tr>
@@ -164,11 +162,10 @@
     </table>
   </div>
 
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
-    <h2>Contents</h2>
-    <ul class="nav nav-pills nav-stacked">
-      <li><a href="#section-all-functions">All functions</a></li>
-    </ul>
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
+    <nav id="toc" data-toggle="toc" class="sticky-top">
+      <h2 data-toc-skip>Contents</h2>
+    </nav>
   </div>
 </div>
 

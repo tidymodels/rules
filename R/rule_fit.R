@@ -41,22 +41,33 @@
 #'  exposed to the fitting routine.
 #' @param penalty L1 regularization parameter.
 #' @details
+#' The RuleFit model creates a regression model of rules in two stages. The
+#'  first stage uses a tree-based model that is used to generate a set of rules
+#'  that can be filtered, modified, and simplified. These rules are then added
+#'  as predictors to a regularized generalized linear model that can also
+#'  conduct feature selection during model training.
+#'
+#' For the `xrf` engine, the `xgboost` package is used to create the rule set
+#'  that is then added to a `glmnet` model.
+#'
 #' The only availible engine is `"xrf"`.
 #'
-#' @section Engine Details:
-#'
-#' Engines may have pre-set default arguments when executing the
-#'  model fit call. For this type of
-#'  model, the template of the fit calls are:
-#'
-#' \pkg{xrf}
-#'
-#'
-#' @seealso [parsnip::fit()], [parsnip::set_engine()]
+#' @seealso [parsnip::fit()], [parsnip::fit_xy()], [xrf::xrf.formula()]
+#' @references Friedman, J. H., and Popescu, B. E. (2008). "Predictive learning
+#' via rule ensembles." _The Annals ofApplied Statistics_, 2(3), 916-954.
 #' @examples
 #' rule_fit()
 #' # Parameters can be represented by a placeholder:
 #' rule_fit(trees = 7)
+#'
+#' # ------------------------------------------------------------------------------
+#'
+#' set.seed(6907)
+#' rule_fit_rules <-
+#'   rule_fit(trees = 3, penalty = 0.1) %>%
+#'   set_mode("classification") %>%
+#'   fit(Species ~ ., data = iris)
+#'
 #' @export
 #' @importFrom purrr map_lgl
 rule_fit <-
@@ -107,6 +118,8 @@ print.rule_fit <- function(x, ...) {
 
 #' @param object A `rule_fit` model specification.
 #' @examples
+#' # ------------------------------------------------------------------------------
+#'
 #' model <- rule_fit(trees = 10, min_n = 2)
 #' model
 #' update(model, trees = 1)

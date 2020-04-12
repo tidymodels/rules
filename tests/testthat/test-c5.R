@@ -140,3 +140,49 @@ test_that('non-formula method - control', {
   expect_true(tibble::is_tibble(c5_pred))
   expect_equal(c5_pred$.pred_class, c5_pred_exp)
 })
+
+# ------------------------------------------------------------------------------
+
+test_that('printing', {
+  expect_output(print(C5_rules(trees = 1)))
+})
+
+# ------------------------------------------------------------------------------
+
+test_that('updates', {
+  spec_1 <-    C5_rules(trees =  1)
+  spec_1_a <-  C5_rules(trees =  1, min_n = 100)
+  spec_10 <-   C5_rules(trees = 10)
+  spec_10_a <- C5_rules(trees = 10, min_n = 100)
+
+  expect_equal(update(spec_1,   tibble::tibble(trees = 10))$args$trees, 10)
+  expect_equal(update(spec_1_a, tibble::tibble(trees = 10))$args$trees, 10)
+
+  expect_equal(update(spec_1,   trees = 10), spec_10)
+  expect_equal(update(spec_1_a, trees = 10), spec_10_a)
+})
+
+
+# ------------------------------------------------------------------------------
+
+test_that('mulit-predict', {
+  c5_fit <-
+    C5_rules(trees = 10) %>%
+    set_engine("C5.0", seed = 2) %>%
+    fit_xy(x = ad_mod_x[-(1:5), -1], y = ad_mod$Class[-(1:5)])
+
+  c5_multi_pred <-
+    multi_predict(c5_fit, ad_mod_x[1:5, -1], trees = 1:3) %>%
+    mutate(.rows = row_number()) %>%
+    tidyr::unnest(cols = c(.pred))
+  c5_multi_prob <-
+    multi_predict(c5_fit, ad_mod_x[1:5, -1], type = "prob", trees = 1:3) %>%
+    mutate(.rows = row_number()) %>%
+    tidyr::unnest(cols = c(.pred))
+
+  expect_equivalent(
+    predict(c5_fit$fit, ad_mod_x[1:5, -1], trees = 1, type = "prob")[,1],
+    c5_multi_prob$.pred_Impaired[c5_multi_prob$trees == 1]
+  )
+
+})

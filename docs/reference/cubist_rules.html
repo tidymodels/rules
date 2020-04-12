@@ -61,19 +61,11 @@ in lieu of recreating the object from scratch." />
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
 
-<!-- Global site tag (gtag.js) - Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-115082821-1"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
 
-  gtag('config', 'UA-115082821-1');
-</script>
 
   </head>
 
-  <body>
+  <body data-spy="scroll" data-target="#toc">
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -106,7 +98,7 @@ in lieu of recreating the object from scratch." />
   <a href="../reference/index.html">Reference</a>
 </li>
         <li>
-  <a href="https://github.com/tidymodels/rules">
+  <a href="https://github.com/tidymodels/rules/">
     <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
@@ -208,19 +200,51 @@ or replaced wholesale.</p></td>
 
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>The only availible engine is <code>"Cubist"</code>.</p>
-    <h2 class="hasAnchor" id="engine-details"><a class="anchor" href="#engine-details"></a>Engine Details</h2>
+    <p>Cubist is a rule-based ensemble regression model. A basic model tree
+(Quinlan, 1992) is created that has a separate linear regression model
+corresponding for each terminal node. The paths along the model tree is
+flattened into rules these rules are simplified and pruned. The parameter
+<code>min_n</code> is the primary method for controlling the size of each tree while
+<code>max_rules</code> controls the number of rules.</p>
+<p>Cubist ensembles are created using <em>committees</em>, which are similar to
+boosting. After the first model in the committee is created, the second
+model uses a modified version of the outcome data based on whether the
+previous model under- or over-predicted the outcome. For iteration <em>m</em>, the
+new outcome <code>y*</code> is computed using</p>
+<p><img src='figures/comittees.png' alt='' /></p>
+<p>If a sample is under-predicted on the previous iteration, the outcome is
+adjusted so that the next time it is more likely to be over-predicted to
+compensate. This adjustment continues for each ensemble iteration. See
+Kuhn and Johnson (2013) for details.</p>
+<p>After the model is created, there is also an option for a post-hoc
+adjustment that uses the training set (Quinlan, 1993). When a new sample is
+predicted by the model, it can be modified by its nearest neighbors in the
+original training set. For <em>K</em> neighbors, the model based predicted value is
+adjusted by the neighbor using:</p>
+<p><img src='figures/adjust.png' alt='' /></p>
+<p>where <code>t</code> is the training set prediction and <code>w</code> is a weight that is inverse
+to the distance to the neighbor.</p>
+<p>Note that <code>cubist_rules()</code> does not require that categorical predictors be
+converted to numeric indicator values. Note that using <code><a href='https://rdrr.io/pkg/parsnip/man/reexports.html'>parsnip::fit()</a></code> will
+<em>always</em> create dummy variables so, if there is interest in keeping the
+categorical predictors in their original format, <code><a href='https://rdrr.io/pkg/parsnip/man/reexports.html'>parsnip::fit_xy()</a></code> would
+be a better choice. When using the <code>tune</code> package, using a recipe for
+pre-processing enables more control over how such predictors are encoded
+since recipes do not automatically create dummy variables.</p>
+<p>The only availible engine is <code>"Cubist"</code>.</p>
+    <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
-    
-
-
-<p>Engines may have pre-set default arguments when executing the
-model fit call. For this type of
-model, the template of the fit calls are:</p>
-<p><span class="pkg">Cubist</span></p>
+    <p>Quinlan R (1992). "Learning with Continuous Classes." Proceedings
+of the 5th Australian Joint Conference On Artificial Intelligence, pp.
+343-348.</p>
+<p>Quinlan R (1993)."Combining Instance-Based and Model-Based Learning."
+Proceedings of the Tenth International Conference on Machine Learning, pp.
+236-243.</p>
+<p>Kuhn M and Johnson K (2013). <em>Applied Predictive Modeling</em>. Springer.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><code><a href='https://rdrr.io/pkg/parsnip/man/reexports.html'>parsnip::fit()</a></code>, <code><a href='https://rdrr.io/pkg/parsnip/man/set_engine.html'>parsnip::set_engine()</a></code></p></div>
+    <div class='dont-index'><p><code><a href='https://rdrr.io/pkg/parsnip/man/reexports.html'>parsnip::fit()</a></code>, <code><a href='https://rdrr.io/pkg/parsnip/man/reexports.html'>parsnip::fit_xy()</a></code>, <code><a href='https://rdrr.io/pkg/Cubist/man/cubist.default.html'>Cubist::cubist()</a></code>,
+<code><a href='https://rdrr.io/pkg/Cubist/man/cubistControl.html'>Cubist::cubistControl()</a></code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'>cubist_rules</span>()</div><div class='output co'>#&gt; Cubist Model Specification (regression)
@@ -233,7 +257,100 @@ model, the template of the fit calls are:</p>
 #&gt;   committees = 7
 #&gt; 
 #&gt; Computational engine: Cubist 
-#&gt; </div><div class='input'><span class='no'>model</span> <span class='kw'>&lt;-</span> <span class='fu'>cubist_rules</span>(<span class='kw'>committees</span> <span class='kw'>=</span> <span class='fl'>10</span>, <span class='kw'>neighbors</span> <span class='kw'>=</span> <span class='fl'>2</span>)
+#&gt; </div><div class='input'>
+<span class='co'># ------------------------------------------------------------------------------</span>
+
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>car_prices</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"modeldata"</span>)
+<span class='no'>car_rules</span> <span class='kw'>&lt;-</span>
+  <span class='fu'>cubist_rules</span>(<span class='kw'>committees</span> <span class='kw'>=</span> <span class='fl'>1</span>) <span class='kw'>%&gt;%</span>
+  <span class='fu'>fit</span>(<span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log10</a></span>(<span class='no'>Price</span>) ~ <span class='no'>.</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>car_prices</span>)
+
+<span class='no'>car_rules</span></div><div class='output co'>#&gt; parsnip model object
+#&gt; 
+#&gt; Fit time:  66ms 
+#&gt; 
+#&gt; Call:
+#&gt; cubist.default(x = x, y = y, committees = 1)
+#&gt; 
+#&gt; Number of samples: 804 
+#&gt; Number of predictors: 17 
+#&gt; 
+#&gt; Number of committees: 1 
+#&gt; Number of rules: 3 
+#&gt; </div><div class='input'>
+<span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span>(<span class='no'>car_rules</span>$<span class='no'>fit</span>)</div><div class='output co'>#&gt; 
+#&gt; Call:
+#&gt; cubist.default(x = x, y = y, committees = 1)
+#&gt; 
+#&gt; 
+#&gt; Cubist [Release 2.07 GPL Edition]  Sun Apr 12 19:12:56 2020
+#&gt; ---------------------------------
+#&gt; 
+#&gt;     Target attribute `outcome'
+#&gt; 
+#&gt; Read 804 cases (18 attributes) from undefined.data
+#&gt; 
+#&gt; Model:
+#&gt; 
+#&gt;   Rule 1: [280 cases, mean 4.113645, range 3.93646 to 4.2505, est err 0.028847]
+#&gt; 
+#&gt;     if
+#&gt; 	Cylinder &lt;= 4
+#&gt; 	Saab &lt;= 0
+#&gt;     then
+#&gt; 	outcome = 4.190694 - 3.5e-06 Mileage + 0.07 Saab - 0.072 hatchback
+#&gt; 	          - 0.035 Chevy + 0.061 wagon + 0.035 Leather - 0.009 sedan
+#&gt; 
+#&gt;   Rule 2: [410 cases, mean 4.362136, range 4.13308 to 4.84976, est err 0.041804]
+#&gt; 
+#&gt;     if
+#&gt; 	Cylinder &gt; 4
+#&gt;     then
+#&gt; 	outcome = 3.87139 + 0.07 Cylinder + 0.26 Cadillac + 0.154 convertible
+#&gt; 	          + 0.07 Chevy + 0.107 Buick - 3.5e-06 Mileage + 0.054 Cruise
+#&gt; 	          + 0.055 Pontiac - 0.015 Doors + 0.018 Saab - 0.008 hatchback
+#&gt; 	          - 0.004 sedan
+#&gt; 
+#&gt;   Rule 3: [114 cases, mean 4.466658, range 4.34723 to 4.58348, est err 0.022301]
+#&gt; 
+#&gt;     if
+#&gt; 	Saab &gt; 0
+#&gt;     then
+#&gt; 	outcome = 4.642401 - 3.6e-06 Mileage - 0.033 Doors - 0.022 sedan
+#&gt; 	          + 0.023 Leather + 0.01 Saab
+#&gt; 
+#&gt; 
+#&gt; Evaluation on training data (804 cases):
+#&gt; 
+#&gt;     Average  |error|           0.031589
+#&gt;     Relative |error|               0.22
+#&gt;     Correlation coefficient        0.97
+#&gt; 
+#&gt; 
+#&gt; 	Attribute usage:
+#&gt; 	  Conds  Model
+#&gt; 
+#&gt; 	   86%    51%    Cylinder
+#&gt; 	   49%   100%    Saab
+#&gt; 	         100%    Mileage
+#&gt; 	         100%    sedan
+#&gt; 	          86%    Chevy
+#&gt; 	          86%    hatchback
+#&gt; 	          65%    Doors
+#&gt; 	          51%    Cruise
+#&gt; 	          51%    Buick
+#&gt; 	          51%    Cadillac
+#&gt; 	          51%    Pontiac
+#&gt; 	          51%    convertible
+#&gt; 	          49%    Leather
+#&gt; 	          35%    wagon
+#&gt; 
+#&gt; 
+#&gt; Time: 0.0 secs
+#&gt; </div><div class='input'>
+<span class='co'># ------------------------------------------------------------------------------</span>
+
+<span class='no'>model</span> <span class='kw'>&lt;-</span> <span class='fu'>cubist_rules</span>(<span class='kw'>committees</span> <span class='kw'>=</span> <span class='fl'>10</span>, <span class='kw'>neighbors</span> <span class='kw'>=</span> <span class='fl'>2</span>)
 <span class='no'>model</span></div><div class='output co'>#&gt; Cubist Model Specification (regression)
 #&gt; 
 #&gt; Main Arguments:
@@ -256,16 +373,10 @@ model, the template of the fit calls are:</p>
 #&gt; Computational engine: Cubist 
 #&gt; </div></pre>
   </div>
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
-    <h2>Contents</h2>
-    <ul class="nav nav-pills nav-stacked">
-      <li><a href="#arguments">Arguments</a></li>
-      <li><a href="#details">Details</a></li>
-      <li><a href="#engine-details">Engine Details</a></li>
-      <li><a href="#see-also">See also</a></li>
-      <li><a href="#examples">Examples</a></li>
-    </ul>
-
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
+    <nav id="toc" data-toggle="toc" class="sticky-top">
+      <h2 data-toc-skip>Contents</h2>
+    </nav>
   </div>
 </div>
 
