@@ -4,6 +4,8 @@
 [![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
 [![CRAN status](https://www.r-pkg.org/badges/version/rules)](https://cran.r-project.org/package=rules)
 [![R build status](https://github.com/tidymodels/rules/workflows/R-CMD-check/badge.svg)](https://github.com/tidymodels/rules)
+[![Codecov test coverage](https://codecov.io/gh/tidymodels/rules/branch/master/graph/badge.svg)](https://codecov.io/gh/tidymodels/rules?branch=master)
+[![R build status](https://github.com/tidymodels/rules/workflows/R-CMD-check/badge.svg)](https://github.com/tidymodels/rules/actions)
 <!-- badges: end -->
 
 `rules` is a "`parsnip`-adjacent" packages with model definitions for different rule-based models, including:
@@ -21,3 +23,6 @@ Th package is not yet on CRAN and can be installed via:
 devtools::install_github("tidymodels/rules")
 ```
 
+## Code of Conduct
+  
+Please note that the rules project is released with a [Contributor Code of Conduct](https://contributor-covenant.org/version/2/0/CODE_OF_CONDUCT.html). By contributing to this project, you agree to abide by its terms.
