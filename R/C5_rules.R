@@ -20,7 +20,6 @@
 #'  of members of the ensemble.
 #' @param min_n An integer greater than one zero and nine for the minimum number
 #'  of data points in a node that are required for the node to be split further.
-#' @details
 #' @details C5.0 is a classification model that is an extension of the C4.5
 #'  model of Quinlan (1993). It has tree- and rule-based versions that also
 #'  include boosting capabilities. `C5_rules()` enables the version of the model
