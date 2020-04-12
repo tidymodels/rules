@@ -79,6 +79,20 @@ model, the template of the fit calls are:
 cubist_rules()
 # Parameters can be represented by a placeholder:
 cubist_rules(committees = 7)
+
+# ------------------------------------------------------------------------------
+
+data(car_prices, package = "modeldata")
+car_rules <-
+  cubist_rules(committees = 1) \%>\%
+  fit(log10(Price) ~ ., data = car_prices)
+
+car_rules
+
+summary(car_rules$fit)
+
+# ------------------------------------------------------------------------------
+
 model <- cubist_rules(committees = 10, neighbors = 2)
 model
 update(model, committees = 1)

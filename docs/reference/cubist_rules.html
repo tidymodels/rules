@@ -10,22 +10,26 @@
 
 
 <!-- jquery -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 
 <!-- Bootstrap -->
 <link href="../tidyverse.css" rel="stylesheet">
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
+
+<!-- bootstrap-toc -->
+<link rel="stylesheet" href="../bootstrap-toc.css">
+<script src="../bootstrap-toc.js"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
 
 <!-- headroom.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -73,7 +77,7 @@ in lieu of recreating the object from scratch." />
 
   </head>
 
-  <body>
+  <body data-spy="scroll" data-target="#toc">
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -88,7 +92,7 @@ in lieu of recreating the object from scratch." />
 
       <div class="navbar-brand-container">
         <a class="navbar-brand" href="../index.html">rules</a>
-        <div class="info">
+        <div class="info hidden-xs hidden-sm">
           <span class="partof">part of <a href="https://github.com/tidymodels">tidymodels</a></span>
           <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="Unreleased version">0.0.0.9000</span>
         </div>
@@ -106,7 +110,7 @@ in lieu of recreating the object from scratch." />
   <a href="../reference/index.html">Reference</a>
 </li>
         <li>
-  <a href="https://github.com/tidymodels/rules">
+  <a href="https://github.com/tidymodels/rules/">
     <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
@@ -233,7 +237,100 @@ model, the template of the fit calls are:</p>
 #&gt;   committees = 7
 #&gt; 
 #&gt; Computational engine: Cubist 
-#&gt; </div><div class='input'><span class='no'>model</span> <span class='kw'>&lt;-</span> <span class='fu'>cubist_rules</span>(<span class='kw'>committees</span> <span class='kw'>=</span> <span class='fl'>10</span>, <span class='kw'>neighbors</span> <span class='kw'>=</span> <span class='fl'>2</span>)
+#&gt; </div><div class='input'>
+<span class='co'># ------------------------------------------------------------------------------</span>
+
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>car_prices</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"modeldata"</span>)
+<span class='no'>car_rules</span> <span class='kw'>&lt;-</span>
+  <span class='fu'>cubist_rules</span>(<span class='kw'>committees</span> <span class='kw'>=</span> <span class='fl'>1</span>) <span class='kw'>%&gt;%</span>
+  <span class='fu'>fit</span>(<span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log10</a></span>(<span class='no'>Price</span>) ~ <span class='no'>.</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>car_prices</span>)
+
+<span class='no'>car_rules</span></div><div class='output co'>#&gt; parsnip model object
+#&gt; 
+#&gt; Fit time:  69ms 
+#&gt; 
+#&gt; Call:
+#&gt; cubist.default(x = x, y = y, committees = 1)
+#&gt; 
+#&gt; Number of samples: 804 
+#&gt; Number of predictors: 17 
+#&gt; 
+#&gt; Number of committees: 1 
+#&gt; Number of rules: 3 
+#&gt; </div><div class='input'>
+<span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span>(<span class='no'>car_rules</span>$<span class='no'>fit</span>)</div><div class='output co'>#&gt; 
+#&gt; Call:
+#&gt; cubist.default(x = x, y = y, committees = 1)
+#&gt; 
+#&gt; 
+#&gt; Cubist [Release 2.07 GPL Edition]  Sat Apr 11 23:21:29 2020
+#&gt; ---------------------------------
+#&gt; 
+#&gt;     Target attribute `outcome'
+#&gt; 
+#&gt; Read 804 cases (18 attributes) from undefined.data
+#&gt; 
+#&gt; Model:
+#&gt; 
+#&gt;   Rule 1: [280 cases, mean 4.113645, range 3.93646 to 4.2505, est err 0.028847]
+#&gt; 
+#&gt;     if
+#&gt; 	Cylinder &lt;= 4
+#&gt; 	Saab &lt;= 0
+#&gt;     then
+#&gt; 	outcome = 4.190694 - 3.5e-06 Mileage + 0.07 Saab - 0.072 hatchback
+#&gt; 	          - 0.035 Chevy + 0.061 wagon + 0.035 Leather - 0.009 sedan
+#&gt; 
+#&gt;   Rule 2: [410 cases, mean 4.362136, range 4.13308 to 4.84976, est err 0.041804]
+#&gt; 
+#&gt;     if
+#&gt; 	Cylinder &gt; 4
+#&gt;     then
+#&gt; 	outcome = 3.87139 + 0.07 Cylinder + 0.26 Cadillac + 0.154 convertible
+#&gt; 	          + 0.07 Chevy + 0.107 Buick - 3.5e-06 Mileage + 0.054 Cruise
+#&gt; 	          + 0.055 Pontiac - 0.015 Doors + 0.018 Saab - 0.008 hatchback
+#&gt; 	          - 0.004 sedan
+#&gt; 
+#&gt;   Rule 3: [114 cases, mean 4.466658, range 4.34723 to 4.58348, est err 0.022301]
+#&gt; 
+#&gt;     if
+#&gt; 	Saab &gt; 0
+#&gt;     then
+#&gt; 	outcome = 4.642401 - 3.6e-06 Mileage - 0.033 Doors - 0.022 sedan
+#&gt; 	          + 0.023 Leather + 0.01 Saab
+#&gt; 
+#&gt; 
+#&gt; Evaluation on training data (804 cases):
+#&gt; 
+#&gt;     Average  |error|           0.031589
+#&gt;     Relative |error|               0.22
+#&gt;     Correlation coefficient        0.97
+#&gt; 
+#&gt; 
+#&gt; 	Attribute usage:
+#&gt; 	  Conds  Model
+#&gt; 
+#&gt; 	   86%    51%    Cylinder
+#&gt; 	   49%   100%    Saab
+#&gt; 	         100%    Mileage
+#&gt; 	         100%    sedan
+#&gt; 	          86%    Chevy
+#&gt; 	          86%    hatchback
+#&gt; 	          65%    Doors
+#&gt; 	          51%    Cruise
+#&gt; 	          51%    Buick
+#&gt; 	          51%    Cadillac
+#&gt; 	          51%    Pontiac
+#&gt; 	          51%    convertible
+#&gt; 	          49%    Leather
+#&gt; 	          35%    wagon
+#&gt; 
+#&gt; 
+#&gt; Time: 0.0 secs
+#&gt; </div><div class='input'>
+<span class='co'># ------------------------------------------------------------------------------</span>
+
+<span class='no'>model</span> <span class='kw'>&lt;-</span> <span class='fu'>cubist_rules</span>(<span class='kw'>committees</span> <span class='kw'>=</span> <span class='fl'>10</span>, <span class='kw'>neighbors</span> <span class='kw'>=</span> <span class='fl'>2</span>)
 <span class='no'>model</span></div><div class='output co'>#&gt; Cubist Model Specification (regression)
 #&gt; 
 #&gt; Main Arguments:
@@ -256,16 +353,10 @@ model, the template of the fit calls are:</p>
 #&gt; Computational engine: Cubist 
 #&gt; </div></pre>
   </div>
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
-    <h2>Contents</h2>
-    <ul class="nav nav-pills nav-stacked">
-      <li><a href="#arguments">Arguments</a></li>
-      <li><a href="#details">Details</a></li>
-      <li><a href="#engine-details">Engine Details</a></li>
-      <li><a href="#see-also">See also</a></li>
-      <li><a href="#examples">Examples</a></li>
-    </ul>
-
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
+    <nav id="toc" data-toggle="toc" class="sticky-top">
+      <h2 data-toc-skip>Contents</h2>
+    </nav>
   </div>
 </div>
 

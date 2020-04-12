@@ -38,6 +38,17 @@
 #' cubist_rules()
 #' # Parameters can be represented by a placeholder:
 #' cubist_rules(committees = 7)
+#'
+#' # ------------------------------------------------------------------------------
+#'
+#' data(car_prices, package = "modeldata")
+#' car_rules <-
+#'   cubist_rules(committees = 1) %>%
+#'   fit(log10(Price) ~ ., data = car_prices)
+#'
+#' car_rules
+#'
+#' summary(car_rules$fit)
 #' @export
 cubist_rules <-
   function(mode = "regression",
@@ -79,6 +90,9 @@ print.cubist_rules <- function(x, ...) {
 
 #' @param object A Cubist model specification.
 #' @examples
+#'
+#' # ------------------------------------------------------------------------------
+#'
 #' model <- cubist_rules(committees = 10, neighbors = 2)
 #' model
 #' update(model, committees = 1)

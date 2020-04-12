@@ -37,6 +37,17 @@
 #' C5_rules()
 #' # Parameters can be represented by a placeholder:
 #' C5_rules(trees = 7)
+#'
+#' # ------------------------------------------------------------------------------
+#'
+#' data(ad_data, package = "modeldata")
+#'
+#' set.seed(282782)
+#' class_rules <-
+#'   C5_rules(trees = 1, min_n  = 10) %>%
+#'   fit(Class ~ ., data = ad_data)
+#'
+#' summary(class_rules$fit)
 #' @export
 #' @importFrom purrr map_lgl
 C5_rules <-
@@ -84,6 +95,9 @@ print.C5_rules <- function(x, ...) {
 #' or replaced wholesale.
 #' @param ...	Not used for `update()`.
 #' @examples
+#'
+#' # ------------------------------------------------------------------------------
+#'
 #' model <- C5_rules(trees = 10, min_n = 2)
 #' model
 #' update(model, trees = 1)

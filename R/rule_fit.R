@@ -57,6 +57,15 @@
 #' rule_fit()
 #' # Parameters can be represented by a placeholder:
 #' rule_fit(trees = 7)
+#'
+#' # ------------------------------------------------------------------------------
+#'
+#' set.seed(6907)
+#' rule_fit_rules <-
+#'   rule_fit(trees = 3, penalty = 0.1) %>%
+#'   set_mode("classification") %>%
+#'   fit(Species ~ ., data = iris)
+#'
 #' @export
 #' @importFrom purrr map_lgl
 rule_fit <-
@@ -107,6 +116,8 @@ print.rule_fit <- function(x, ...) {
 
 #' @param object A `rule_fit` model specification.
 #' @examples
+#' # ------------------------------------------------------------------------------
+#'
 #' model <- rule_fit(trees = 10, min_n = 2)
 #' model
 #' update(model, trees = 1)

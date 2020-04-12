@@ -10,22 +10,26 @@
 
 
 <!-- jquery -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 
 <!-- Bootstrap -->
 <link href="../tidyverse.css" rel="stylesheet">
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
+
+<!-- bootstrap-toc -->
+<link rel="stylesheet" href="../bootstrap-toc.css">
+<script src="../bootstrap-toc.js"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
 
 <!-- headroom.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -73,7 +77,7 @@ in lieu of recreating the object from scratch." />
 
   </head>
 
-  <body>
+  <body data-spy="scroll" data-target="#toc">
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -88,7 +92,7 @@ in lieu of recreating the object from scratch." />
 
       <div class="navbar-brand-container">
         <a class="navbar-brand" href="../index.html">rules</a>
-        <div class="info">
+        <div class="info hidden-xs hidden-sm">
           <span class="partof">part of <a href="https://github.com/tidymodels">tidymodels</a></span>
           <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="Unreleased version">0.0.0.9000</span>
         </div>
@@ -106,7 +110,7 @@ in lieu of recreating the object from scratch." />
   <a href="../reference/index.html">Reference</a>
 </li>
         <li>
-  <a href="https://github.com/tidymodels/rules">
+  <a href="https://github.com/tidymodels/rules/">
     <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
@@ -223,7 +227,93 @@ model, the template of the fit calls are:</p>
 #&gt;   trees = 7
 #&gt; 
 #&gt; Computational engine: C5.0 
-#&gt; </div><div class='input'><span class='no'>model</span> <span class='kw'>&lt;-</span> <span class='fu'>C5_rules</span>(<span class='kw'>trees</span> <span class='kw'>=</span> <span class='fl'>10</span>, <span class='kw'>min_n</span> <span class='kw'>=</span> <span class='fl'>2</span>)
+#&gt; </div><div class='input'>
+<span class='co'># ------------------------------------------------------------------------------</span>
+
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>ad_data</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"modeldata"</span>)
+
+<span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span>(<span class='fl'>282782</span>)
+<span class='no'>class_rules</span> <span class='kw'>&lt;-</span>
+  <span class='fu'>C5_rules</span>(<span class='kw'>trees</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>min_n</span>  <span class='kw'>=</span> <span class='fl'>10</span>) <span class='kw'>%&gt;%</span>
+  <span class='fu'>fit</span>(<span class='no'>Class</span> ~ <span class='no'>.</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>ad_data</span>)
+
+<span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span>(<span class='no'>class_rules</span>$<span class='no'>fit</span>)</div><div class='output co'>#&gt; 
+#&gt; Call:
+#&gt; C5.0.default(x = x, y = y, trials = trials, rules = TRUE, control
+#&gt;  = C50::C5.0Control(minCases = minCases, seed = sample.int(10^5,
+#&gt;  1), earlyStopping = FALSE))
+#&gt; 
+#&gt; 
+#&gt; C5.0 [Release 2.07 GPL Edition]  	Sat Apr 11 23:21:29 2020
+#&gt; -------------------------------
+#&gt; 
+#&gt; Class specified by attribute `outcome'
+#&gt; 
+#&gt; Read 333 cases (135 attributes) from undefined.data
+#&gt; 
+#&gt; Rules:
+#&gt; 
+#&gt; Rule 1: (17, lift 3.5)
+#&gt; 	Creatine_Kinase_MB &lt;= -1.610128
+#&gt; 	Fas_Ligand &lt;= 2.407182
+#&gt; 	Ab_42 &lt;= 11.28649
+#&gt; 	-&gt;  class Impaired  [0.947]
+#&gt; 
+#&gt; Rule 2: (45/6, lift 3.1)
+#&gt; 	Creatine_Kinase_MB &lt;= -1.610128
+#&gt; 	Eotaxin_3 &gt; 54
+#&gt; 	Ab_42 &lt;= 11.28649
+#&gt; 	-&gt;  class Impaired  [0.851]
+#&gt; 
+#&gt; Rule 3: (31/9, lift 2.6)
+#&gt; 	PAI_1 &gt; 0.58384
+#&gt; 	-&gt;  class Impaired  [0.697]
+#&gt; 
+#&gt; Rule 4: (87/8, lift 1.2)
+#&gt; 	Creatine_Kinase_MB &gt; -1.610128
+#&gt; 	-&gt;  class Control  [0.899]
+#&gt; 
+#&gt; Rule 5: (219/23, lift 1.2)
+#&gt; 	PAI_1 &lt;= 0.58384
+#&gt; 	Ab_42 &gt; 11.28649
+#&gt; 	-&gt;  class Control  [0.891]
+#&gt; 
+#&gt; Rule 6: (164/24, lift 1.2)
+#&gt; 	Eotaxin_3 &lt;= 54
+#&gt; 	-&gt;  class Control  [0.849]
+#&gt; 
+#&gt; Default class: Control
+#&gt; 
+#&gt; 
+#&gt; Evaluation on training data (333 cases):
+#&gt; 
+#&gt; 	        Rules     
+#&gt; 	  ----------------
+#&gt; 	    No      Errors
+#&gt; 
+#&gt; 	     6   47(14.1%)   &lt;&lt;
+#&gt; 
+#&gt; 
+#&gt; 	   (a)   (b)    &lt;-classified as
+#&gt; 	  ----  ----
+#&gt; 	    52    39    (a): class Impaired
+#&gt; 	     8   234    (b): class Control
+#&gt; 
+#&gt; 
+#&gt; 	Attribute usage:
+#&gt; 
+#&gt; 	 81.08%	Ab_42
+#&gt; 	 75.08%	PAI_1
+#&gt; 	 62.76%	Eotaxin_3
+#&gt; 	 41.44%	Creatine_Kinase_MB
+#&gt; 	  5.11%	Fas_Ligand
+#&gt; 
+#&gt; 
+#&gt; Time: 0.0 secs
+#&gt; </div><div class='input'>
+<span class='co'># ------------------------------------------------------------------------------</span>
+
+<span class='no'>model</span> <span class='kw'>&lt;-</span> <span class='fu'>C5_rules</span>(<span class='kw'>trees</span> <span class='kw'>=</span> <span class='fl'>10</span>, <span class='kw'>min_n</span> <span class='kw'>=</span> <span class='fl'>2</span>)
 <span class='no'>model</span></div><div class='output co'>#&gt; C5.0 Model Specification (classification)
 #&gt; 
 #&gt; Main Arguments:
@@ -246,16 +336,10 @@ model, the template of the fit calls are:</p>
 #&gt; Computational engine: C5.0 
 #&gt; </div></pre>
   </div>
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
-    <h2>Contents</h2>
-    <ul class="nav nav-pills nav-stacked">
-      <li><a href="#arguments">Arguments</a></li>
-      <li><a href="#details">Details</a></li>
-      <li><a href="#engine-details">Engine Details</a></li>
-      <li><a href="#see-also">See also</a></li>
-      <li><a href="#examples">Examples</a></li>
-    </ul>
-
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
+    <nav id="toc" data-toggle="toc" class="sticky-top">
+      <h2 data-toc-skip>Contents</h2>
+    </nav>
   </div>
 </div>
 
