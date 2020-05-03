@@ -46,7 +46,7 @@ the ensemble.}
 \item{min_n}{An integer for the minimum number of data points
 in a node that are required for the node to be split further.}
 
-\item{tree_depth}{An integer for the maximum deopth of the tree (i.e. number
+\item{tree_depth}{An integer for the maximum depth of the tree (i.e. number
 of splits).}
 
 \item{learn_rate}{A number for the rate at which the boosting algorithm adapts
@@ -106,7 +106,7 @@ conduct feature selection during model training.
 For the \code{xrf} engine, the \code{xgboost} package is used to create the rule set
 that is then added to a \code{glmnet} model.
 
-The only availible engine is \code{"xrf"}.
+The only available engine is \code{"xrf"}.
 }
 \examples{
 rule_fit()

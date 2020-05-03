@@ -31,7 +31,7 @@
 #'  the ensemble.
 #' @param min_n An integer for the minimum number of data points
 #'  in a node that are required for the node to be split further.
-#' @param tree_depth An integer for the maximum deopth of the tree (i.e. number
+#' @param tree_depth An integer for the maximum depth of the tree (i.e. number
 #'  of splits).
 #' @param learn_rate A number for the rate at which the boosting algorithm adapts
 #'   from iteration-to-iteration.
@@ -50,7 +50,7 @@
 #' For the `xrf` engine, the `xgboost` package is used to create the rule set
 #'  that is then added to a `glmnet` model.
 #'
-#' The only availible engine is `"xrf"`.
+#' The only available engine is `"xrf"`.
 #'
 #' @seealso [parsnip::fit()], [parsnip::fit_xy()], [xrf::xrf.formula()]
 #' @references Friedman, J. H., and Popescu, B. E. (2008). "Predictive learning

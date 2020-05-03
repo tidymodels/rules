@@ -19,11 +19,8 @@
 # is defined in the `tune` package. As of R 4.0, we need to register them.
 # Since `tune` is not on CRAN, we only register them if tune is installed
 maybe_register_tunable_methods <- function() {
-  if (!rlang::is_installed("tune")) {
-    return(invisible())
-  }
 
-  ns <- asNamespace("rules")
+    ns <- asNamespace("rules")
 
   names <- names(ns)
   names <- grep("tunable.rule_fit", names, fixed = TRUE, value = TRUE)
@@ -32,7 +29,7 @@ maybe_register_tunable_methods <- function() {
     s3_register("tune::tunable", name, get(name, envir = ns))
   }
 
-  invisible()
+  invisible(NULL)
 }
 
 # vctrs:::s3_register()

@@ -102,7 +102,7 @@ be a better choice. When using the \code{tune} package, using a recipe for
 pre-processing enables more control over how such predictors are encoded
 since recipes do not automatically create dummy variables.
 
-The only availible engine is \code{"Cubist"}.
+The only available engine is \code{"Cubist"}.
 }
 \examples{
 cubist_rules()

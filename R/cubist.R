@@ -61,7 +61,7 @@
 #'  pre-processing enables more control over how such predictors are encoded
 #'  since recipes do not automatically create dummy variables.
 #'
-#' The only availible engine is `"Cubist"`.
+#' The only available engine is `"Cubist"`.
 #'
 #' @seealso [parsnip::fit()], [parsnip::fit_xy()], [Cubist::cubist()],
 #' [Cubist::cubistControl()]

@@ -267,7 +267,7 @@ c5_pred_wrap <- function(trials = 1, object, new_data, type = "class", ...) {
   }
   cl <- rlang::call2(.fn = "predict", !!!args)
   tbl_trial <- tibble::tibble(trees  = rep(trials, nrow(new_data)))
-  res <- bind_cols(tbl_trial, rlang::eval_tidy(cl))
+  res <- dplyr::bind_cols(tbl_trial, rlang::eval_tidy(cl))
   res
 }
 

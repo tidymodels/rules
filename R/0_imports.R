@@ -9,7 +9,7 @@
 #' @importFrom dials new_quant_param
 #' @importFrom tidyr nest
 #' @importFrom utils head globalVariables
-#' @importFrom dplyr %>% bind_rows
+#' @importFrom dplyr %>% bind_rows bind_cols
 #'
 #' @export
 parsnip::multi_predict
