@@ -23,11 +23,11 @@ Depends:
 Suggests: 
     testthat,
     C50,
-    pre,
     Cubist,
-    xrf (>= 0.1.4),
+    xrf (>= 0.2.0),
     covr,
-    modeldata
+    modeldata,
+    spelling
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
@@ -41,3 +41,4 @@ Imports:
     dplyr
 Remotes:
     holub008/xrf
+Language: en-US

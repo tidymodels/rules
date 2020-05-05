@@ -1,3 +1,5 @@
+url: https://rules.tidymodels.org
+
 template:
   package: tidytemplate
   params:
