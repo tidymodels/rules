@@ -474,7 +474,7 @@ tunable.rule_fit <- function(x, ...) {
     name = c('mtry', 'trees', 'min_n', 'tree_depth', 'learn_rate',
              'loss_reduction', 'sample_size', 'penalty'),
     call_info = list(
-      list(pkg = "rules", fun = "mtry_frac"),
+      list(pkg = "rules", fun = "mtry_prop"),
       list(pkg = "dials", fun = "trees", range = c(5, 100)),
       list(pkg = "dials", fun = "min_n"),
       list(pkg = "dials", fun = "tree_depth", range = c(1, 10)),
@@ -489,17 +489,17 @@ tunable.rule_fit <- function(x, ...) {
   )
 }
 
-#' Fraction of Randomly Selected Predictors
+#' Proportion of Randomly Selected Predictors
 #'
 #' @inheritParams committees
 #' @export
-mtry_frac <- function(range = c(0.1, 1), trans = NULL)  {
+mtry_prop <- function(range = c(0.1, 1), trans = NULL)  {
   dials::new_quant_param(
     type = "double",
     range = range,
     inclusive = c(TRUE, TRUE),
     trans = trans,
-    label = c(mtry_frac = "Fraction Randomly Selected Predictors"),
+    label = c(mtry_prop = "Proportion Randomly Selected Predictors"),
     finalize = NULL
   )
 }
