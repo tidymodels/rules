@@ -15,6 +15,10 @@ largest possible values, respectively.}
 the default is used which matches the units used in \code{range}. If no
 transformation, \code{NULL}.}
 }
+\value{
+A \code{dials} with classes "quant_param" and "param". The \code{range} element
+of the object is always converted to a list with elements "lower" and "upper".
+}
 \description{
 Proportion of Randomly Selected Predictors
 }

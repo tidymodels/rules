@@ -4,7 +4,7 @@
 \alias{multi_predict._c5_rules}
 \alias{multi_predict._cubist}
 \alias{multi_predict._xrf}
-\title{\code{\link[=multi_predict]{multi_predict()}} methods for rule-based models}
+\title{\code{multi_predict()} methods for rule-based models}
 \usage{
 \method{multi_predict}{`_c5_rules`}(object, new_data, type = NULL, trees = NULL, ...)
 
@@ -28,8 +28,14 @@ are class" and "prob".}
 
 \item{penalty}{Non-negative penalty values.}
 }
+\value{
+A tibble with one row for each row of \code{new_data}. Multiple
+predictions are contained in a list column called \code{.pred}. That column has
+the standard \code{parsnip} prediction column names as well as the column with
+the tuning parameter values.
+}
 \description{
-\code{\link[=multi_predict]{multi_predict()}} methods for rule-based models
+\code{multi_predict()} methods for rule-based models
 }
 \details{
 For C5.0 rule-based models, the model fit may contain less boosting

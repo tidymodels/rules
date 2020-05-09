@@ -72,6 +72,9 @@ or replaced wholesale.}
 
 \item{...}{Not used for \code{update()}.}
 }
+\value{
+An updated \code{parsnip} model specification.
+}
 \description{
 \code{\link[=rule_fit]{rule_fit()}} is a way to generate a \emph{specification} of a model
 before fitting. The main arguments for the model are:

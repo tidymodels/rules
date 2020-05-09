@@ -46,6 +46,7 @@
 #'  turns this feature off (although it can be re-enabled using
 #'  [C50::C5.0Control()]).
 #'
+#' @return An updated `parsnip` model specification.
 #' @seealso [parsnip::fit()], [parsnip::fit_xy()], [C50::C5.0()],
 #' [C50::C5.0Control()]
 #' @references Quinlan R (1993). _C4.5: Programs for Machine Learning_. Morgan
@@ -295,6 +296,10 @@ c5_pred <- function(object, new_data, trials = object$fit$trials["Actual"], ...)
 #' @param type A single character value or `NULL`. Possible values
 #'  are class" and "prob".
 #' @param ... Not currently used.
+#' @return A tibble with one row for each row of `new_data`. Multiple
+#' predictions are contained in a list column called `.pred`. That column has
+#' the standard `parsnip` prediction column names as well as the column with
+#' the tuning parameter values.
 #' @details
 #' For C5.0 rule-based models, the model fit may contain less boosting
 #' iterations than the number requested. Printing the object will show how many

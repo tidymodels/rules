@@ -52,6 +52,7 @@
 #'
 #' The only available engine is `"xrf"`.
 #'
+#' @return An updated `parsnip` model specification.
 #' @seealso [parsnip::fit()], [parsnip::fit_xy()], [xrf::xrf.formula()]
 #' @references Friedman, J. H., and Popescu, B. E. (2008). "Predictive learning
 #' via rule ensembles." _The Annals ofApplied Statistics_, 2(3), 916-954.
@@ -492,6 +493,8 @@ tunable.rule_fit <- function(x, ...) {
 #' Proportion of Randomly Selected Predictors
 #'
 #' @inheritParams committees
+#' @return A `dials` with classes "quant_param" and "param". The `range` element
+#' of the object is always converted to a list with elements "lower" and "upper".
 #' @export
 mtry_prop <- function(range = c(0.1, 1), trans = NULL)  {
   dials::new_quant_param(

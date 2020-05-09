@@ -63,6 +63,7 @@
 #'
 #' The only available engine is `"Cubist"`.
 #'
+#' @return An updated `parsnip` model specification.
 #' @seealso [parsnip::fit()], [parsnip::fit_xy()], [Cubist::cubist()],
 #' [Cubist::cubistControl()]
 #' @references Quinlan R (1992). "Learning with Continuous Classes." Proceedings
@@ -404,7 +405,7 @@ tunable.cubist_rules <- function(x, ...) {
   )
 }
 
-#' [multi_predict()] methods for rule-based models
+#' `multi_predict()` methods for rule-based models
 #' @rdname multi_predict
 #' @export
 #' @param neighbors An numeric vector of neighbors values between zero and nine.
