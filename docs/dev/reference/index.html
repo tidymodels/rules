@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Internal function wrappers — c5_fit • rules</title>
+<title>Function reference • rules</title>
 
 
 <!-- jquery -->
@@ -34,12 +34,10 @@
 
 
 
-<meta property="og:title" content="Internal function wrappers — c5_fit" />
-<meta property="og:description" content="These are not supported when called by the user." />
-<meta name="twitter:card" content="summary" />
+<meta property="og:title" content="Function reference" />
 
 
-
+<meta name="robots" content="noindex">
 
 <!-- mathjax -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script>
@@ -55,7 +53,7 @@
   </head>
 
   <body data-spy="scroll" data-target="#toc">
-    <div class="container template-reference-topic">
+    <div class="container template-reference-index">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -71,7 +69,7 @@
         <a class="navbar-brand" href="../index.html">rules</a>
         <div class="info">
           <span class="partof">part of <a href="https://tidymodels.orgs">tidymodels</a></span>
-          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.1</span>
+          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.0.1.9000</span>
         </div>
       </div>
     </div>
@@ -103,48 +101,72 @@
       </header>
 
 <div class="row">
-  <div class="col-md-9 contents">
+  <div class="contents col-md-9">
     <div class="page-header">
-    <h1>Internal function wrappers</h1>
-    <small class="dont-index">Source: <a href='https://github.com/tidymodels/rules/blob/master/R/C5_rules.R'><code>R/C5_rules.R</code></a>, <a href='https://github.com/tidymodels/rules/blob/master/R/cubist.R'><code>R/cubist.R</code></a>, <a href='https://github.com/tidymodels/rules/blob/master/R/rule_fit.R'><code>R/rule_fit.R</code></a></small>
-    <div class="hidden name"><code>rules-internal.Rd</code></div>
+      <h1>Reference</h1>
     </div>
 
-    <div class="ref-description">
-    <p>These are not supported when called by the user.</p>
-    </div>
+    <table class="ref-index">
 
-    <pre class="usage"><span class='fu'>c5_fit</span>(<span class='no'>x</span>, <span class='no'>y</span>, <span class='kw'>trials</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>minCases</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>cost</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>...</span>)
+    <colgroup>
+      
+      <col class="alias" />
+      <col class="title" />
+    </colgroup>
 
-<span class='fu'>c5_pred</span>(<span class='no'>object</span>, <span class='no'>new_data</span>, <span class='kw'>trials</span> <span class='kw'>=</span> <span class='no'>object</span>$<span class='no'>fit</span>$<span class='no'>trials</span>[<span class='st'>"Actual"</span>], <span class='no'>...</span>)
-
-<span class='fu'>cubist_fit</span>(<span class='no'>x</span>, <span class='no'>y</span>, <span class='kw'>committees</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>neighbors</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='kw'>max_rules</span> <span class='kw'>=</span> <span class='fl'>NA</span>, <span class='no'>...</span>)
-
-<span class='fu'>get_neighbors</span>(<span class='no'>x</span>)
-
-<span class='fu'>tunable.cubist_rules</span>(<span class='no'>x</span>, <span class='no'>...</span>)
-
-<span class='fu'>xrf_fit</span>(
-  <span class='no'>formula</span>,
-  <span class='no'>data</span>,
-  <span class='kw'>max_depth</span> <span class='kw'>=</span> <span class='fl'>6</span>,
-  <span class='kw'>nrounds</span> <span class='kw'>=</span> <span class='fl'>15</span>,
-  <span class='kw'>eta</span> <span class='kw'>=</span> <span class='fl'>0.3</span>,
-  <span class='kw'>colsample_bytree</span> <span class='kw'>=</span> <span class='fl'>1</span>,
-  <span class='kw'>min_child_weight</span> <span class='kw'>=</span> <span class='fl'>1</span>,
-  <span class='kw'>gamma</span> <span class='kw'>=</span> <span class='fl'>0</span>,
-  <span class='kw'>subsample</span> <span class='kw'>=</span> <span class='fl'>1</span>,
-  <span class='kw'>lambda</span> <span class='kw'>=</span> <span class='fl'>0.1</span>,
-  <span class='no'>...</span>
-)
-
-<span class='fu'>xrf_pred</span>(<span class='no'>object</span>, <span class='no'>new_data</span>, <span class='kw'>lambda</span> <span class='kw'>=</span> <span class='no'>object</span>$<span class='no'>fit</span>$<span class='no'>lambda</span>, <span class='no'>type</span>, <span class='no'>...</span>)
-
-<span class='fu'>tunable.rule_fit</span>(<span class='no'>x</span>, <span class='no'>...</span>)</pre>
-
-
-
+    <tbody>
+      <tr>
+        <th colspan="2">
+          <h2 id="section-all-functions" class="hasAnchor"><a href="#section-all-functions" class="anchor"></a>All functions</h2>
+          <p class="section-desc"></p>
+        </th>
+      </tr>
+      
+      
+    </tbody><tbody>
+      
+      
+      <tr>
+        
+        <td>
+          <p><code><a href="C5_rules.html">C5_rules()</a></code> <code><a href="C5_rules.html">update(<i>&lt;C5_rules&gt;</i>)</a></code> </p>
+        </td>
+        <td><p>General Interface for C5.0 Rule-Based Classification Models</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="committees.html">committees()</a></code> <code><a href="committees.html">max_rules()</a></code> </p>
+        </td>
+        <td><p>Parameter functions for Cubist models</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="cubist_rules.html">cubist_rules()</a></code> <code><a href="cubist_rules.html">update(<i>&lt;cubist_rules&gt;</i>)</a></code> </p>
+        </td>
+        <td><p>General Interface for Cubist Rule-Based Regression Models</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="mtry_prop.html">mtry_prop()</a></code> </p>
+        </td>
+        <td><p>Proportion of Randomly Selected Predictors</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="multi_predict.html">multi_predict(<i>&lt;_c5_rules&gt;</i>)</a></code> <code><a href="multi_predict.html">multi_predict(<i>&lt;_cubist&gt;</i>)</a></code> <code><a href="multi_predict.html">multi_predict(<i>&lt;_xrf&gt;</i>)</a></code> </p>
+        </td>
+        <td><p><code>multi_predict()</code> methods for rule-based models</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="rule_fit.html">rule_fit()</a></code> <code><a href="rule_fit.html">update(<i>&lt;rule_fit&gt;</i>)</a></code> </p>
+        </td>
+        <td><p>General Interface for RuleFit Models</p></td>
+      </tr>
+    </tbody>
+    </table>
   </div>
+
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
       <h2 data-toc-skip>Contents</h2>

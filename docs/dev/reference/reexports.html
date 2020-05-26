@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Internal function wrappers — c5_fit • rules</title>
+<title>Objects exported from other packages — reexports • rules</title>
 
 
 <!-- jquery -->
@@ -34,12 +34,17 @@
 
 
 
-<meta property="og:title" content="Internal function wrappers — c5_fit" />
-<meta property="og:description" content="These are not supported when called by the user." />
+<meta property="og:title" content="Objects exported from other packages — reexports" />
+<meta property="og:description" content="These objects are imported from other packages. Follow the links
+below to see their documentation.
+
+  parsnipmulti_predict
+
+" />
 <meta name="twitter:card" content="summary" />
 
 
-
+<meta name="robots" content="noindex">
 
 <!-- mathjax -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script>
@@ -71,7 +76,7 @@
         <a class="navbar-brand" href="../index.html">rules</a>
         <div class="info">
           <span class="partof">part of <a href="https://tidymodels.orgs">tidymodels</a></span>
-          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.1</span>
+          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.0.1.9000</span>
         </div>
       </div>
     </div>
@@ -105,42 +110,20 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Internal function wrappers</h1>
-    <small class="dont-index">Source: <a href='https://github.com/tidymodels/rules/blob/master/R/C5_rules.R'><code>R/C5_rules.R</code></a>, <a href='https://github.com/tidymodels/rules/blob/master/R/cubist.R'><code>R/cubist.R</code></a>, <a href='https://github.com/tidymodels/rules/blob/master/R/rule_fit.R'><code>R/rule_fit.R</code></a></small>
-    <div class="hidden name"><code>rules-internal.Rd</code></div>
+    <h1>Objects exported from other packages</h1>
+    <small class="dont-index">Source: <a href='https://github.com/tidymodels/rules/blob/master/R/0_imports.R'><code>R/0_imports.R</code></a></small>
+    <div class="hidden name"><code>reexports.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>These are not supported when called by the user.</p>
+    <p>These objects are imported from other packages. Follow the links
+below to see their documentation.</p>
+<dl>
+  <dt>parsnip</dt><dd><p><code><a href='https://parsnip.tidymodels.org/reference/multi_predict.html'>multi_predict</a></code></p></dd>
+
+</dl>
     </div>
 
-    <pre class="usage"><span class='fu'>c5_fit</span>(<span class='no'>x</span>, <span class='no'>y</span>, <span class='kw'>trials</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>minCases</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>cost</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>...</span>)
-
-<span class='fu'>c5_pred</span>(<span class='no'>object</span>, <span class='no'>new_data</span>, <span class='kw'>trials</span> <span class='kw'>=</span> <span class='no'>object</span>$<span class='no'>fit</span>$<span class='no'>trials</span>[<span class='st'>"Actual"</span>], <span class='no'>...</span>)
-
-<span class='fu'>cubist_fit</span>(<span class='no'>x</span>, <span class='no'>y</span>, <span class='kw'>committees</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>neighbors</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='kw'>max_rules</span> <span class='kw'>=</span> <span class='fl'>NA</span>, <span class='no'>...</span>)
-
-<span class='fu'>get_neighbors</span>(<span class='no'>x</span>)
-
-<span class='fu'>tunable.cubist_rules</span>(<span class='no'>x</span>, <span class='no'>...</span>)
-
-<span class='fu'>xrf_fit</span>(
-  <span class='no'>formula</span>,
-  <span class='no'>data</span>,
-  <span class='kw'>max_depth</span> <span class='kw'>=</span> <span class='fl'>6</span>,
-  <span class='kw'>nrounds</span> <span class='kw'>=</span> <span class='fl'>15</span>,
-  <span class='kw'>eta</span> <span class='kw'>=</span> <span class='fl'>0.3</span>,
-  <span class='kw'>colsample_bytree</span> <span class='kw'>=</span> <span class='fl'>1</span>,
-  <span class='kw'>min_child_weight</span> <span class='kw'>=</span> <span class='fl'>1</span>,
-  <span class='kw'>gamma</span> <span class='kw'>=</span> <span class='fl'>0</span>,
-  <span class='kw'>subsample</span> <span class='kw'>=</span> <span class='fl'>1</span>,
-  <span class='kw'>lambda</span> <span class='kw'>=</span> <span class='fl'>0.1</span>,
-  <span class='no'>...</span>
-)
-
-<span class='fu'>xrf_pred</span>(<span class='no'>object</span>, <span class='no'>new_data</span>, <span class='kw'>lambda</span> <span class='kw'>=</span> <span class='no'>object</span>$<span class='no'>fit</span>$<span class='no'>lambda</span>, <span class='no'>type</span>, <span class='no'>...</span>)
-
-<span class='fu'>tunable.rule_fit</span>(<span class='no'>x</span>, <span class='no'>...</span>)</pre>
 
 
 

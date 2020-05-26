@@ -109,7 +109,10 @@ conduct feature selection during model training.
 For the \code{xrf} engine, the \code{xgboost} package is used to create the rule set
 that is then added to a \code{glmnet} model.
 
-The only available engine is \code{"xrf"}.
+The only available engine is \code{"xrf"}. Not that, per the documentation in
+\code{?xrf}, transformations of the response variable are not supported. To
+use these with \code{rule_fit()}, we recommend using a recipe instead of the
+formula method.
 }
 \examples{
 rule_fit()

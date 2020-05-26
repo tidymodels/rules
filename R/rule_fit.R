@@ -50,7 +50,10 @@
 #' For the `xrf` engine, the `xgboost` package is used to create the rule set
 #'  that is then added to a `glmnet` model.
 #'
-#' The only available engine is `"xrf"`.
+#' The only available engine is `"xrf"`. Not that, per the documentation in
+#' `?xrf`, transformations of the response variable are not supported. To
+#' use these with `rule_fit()`, we recommend using a recipe instead of the
+#' formula method.
 #'
 #' @return An updated `parsnip` model specification.
 #' @seealso [parsnip::fit()], [parsnip::fit_xy()], [xrf::xrf.formula()]
