@@ -10,26 +10,22 @@
 
 
 <!-- jquery -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 
 <!-- Bootstrap -->
 <link href="../tidyverse.css" rel="stylesheet">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
-
-<!-- bootstrap-toc -->
-<link rel="stylesheet" href="../bootstrap-toc.css">
-<script src="../bootstrap-toc.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
 
 <!-- headroom.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -65,15 +61,7 @@ in lieu of recreating the object from scratch." />
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
 
-<!-- Global site tag (gtag.js) - Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-115082821-1"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
 
-  gtag('config', 'UA-115082821-1');
-</script>
 
   </head>
 
@@ -92,9 +80,9 @@ in lieu of recreating the object from scratch." />
 
       <div class="navbar-brand-container">
         <a class="navbar-brand" href="../index.html">rules</a>
-        <div class="info hidden-xs hidden-sm">
-          <span class="partof">part of <a href="https://github.com/tidymodels">tidymodels</a></span>
-          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="Unreleased version">0.0.0.9000</span>
+        <div class="info">
+          <span class="partof">part of <a href="https://tidymodels.orgs">tidymodels</a></span>
+          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.1</span>
         </div>
       </div>
     </div>
@@ -142,7 +130,7 @@ ensemble (rules are derived from an initial set of boosted trees).</p></li>
 required for the node to be split further.</p></li>
 </ul><p>These arguments are converted to their specific names at the
 time that the model is fit. Other options and argument can be
-set using <code><a href='https://rdrr.io/pkg/parsnip/man/set_engine.html'>parsnip::set_engine()</a></code>. If left to their defaults
+set using <code><a href='https://parsnip.tidymodels.org/reference/set_engine.html'>parsnip::set_engine()</a></code>. If left to their defaults
 here (<code>NULL</code>), the values are taken from the underlying model
 functions. If parameters need to be modified, <code><a href='https://rdrr.io/r/stats/update.html'>update()</a></code> can be used
 in lieu of recreating the object from scratch.</p>
@@ -200,6 +188,9 @@ or replaced wholesale.</p></td>
     </tr>
     </table>
 
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>An updated <code>parsnip</code> model specification.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>C5.0 is a classification model that is an extension of the C4.5
@@ -214,9 +205,9 @@ ensemble (<code>trees</code>) and the number of samples required to continue spl
 when creating a tree (<code>min_n</code>). There are no arguments to control the total
 number of rules in the ensemble.</p>
 <p>Note that <code>C5_rules()</code> does not require that categorical predictors be
-converted to numeric indicator values. Note that using <code><a href='https://rdrr.io/pkg/parsnip/man/reexports.html'>parsnip::fit()</a></code> will
+converted to numeric indicator values. Note that using <code><a href='https://parsnip.tidymodels.org/reference/reexports.html'>parsnip::fit()</a></code> will
 <em>always</em> create dummy variables so, if there is interest in keeping the
-categorical predictors in their original format, <code><a href='https://rdrr.io/pkg/parsnip/man/reexports.html'>parsnip::fit_xy()</a></code> would
+categorical predictors in their original format, <code><a href='https://parsnip.tidymodels.org/reference/reexports.html'>parsnip::fit_xy()</a></code> would
 be a better choice. When using the <code>tune</code> package, using a recipe for
 pre-processing enables more control over how such predictors are encoded
 since recipes do not automatically create dummy variables.</p>
@@ -230,7 +221,7 @@ turns this feature off (although it can be re-enabled using
 Kaufmann Publishers.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><code><a href='https://rdrr.io/pkg/parsnip/man/reexports.html'>parsnip::fit()</a></code>, <code><a href='https://rdrr.io/pkg/parsnip/man/reexports.html'>parsnip::fit_xy()</a></code>, <code><a href='https://rdrr.io/pkg/C50/man/C5.0.html'>C50::C5.0()</a></code>,
+    <div class='dont-index'><p><code><a href='https://parsnip.tidymodels.org/reference/reexports.html'>parsnip::fit()</a></code>, <code><a href='https://parsnip.tidymodels.org/reference/reexports.html'>parsnip::fit_xy()</a></code>, <code><a href='https://rdrr.io/pkg/C50/man/C5.0.html'>C50::C5.0()</a></code>,
 <code><a href='https://rdrr.io/pkg/C50/man/C5.0Control.html'>C50::C5.0Control()</a></code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
@@ -261,7 +252,7 @@ Kaufmann Publishers.</p>
 #&gt;  1), earlyStopping = FALSE))
 #&gt; 
 #&gt; 
-#&gt; C5.0 [Release 2.07 GPL Edition]  	Sat May  2 23:11:54 2020
+#&gt; C5.0 [Release 2.07 GPL Edition]  	Tue May 26 10:25:52 2020
 #&gt; -------------------------------
 #&gt; 
 #&gt; Class specified by attribute `outcome'

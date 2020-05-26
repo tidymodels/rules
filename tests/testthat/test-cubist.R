@@ -53,6 +53,7 @@ test_that('argument/call assembly', {
 # ------------------------------------------------------------------------------
 
 test_that('formula method', {
+  skip_on_cran()
 
   cb_fit_exp <-
     Cubist::cubist(
@@ -107,6 +108,7 @@ test_that('formula method', {
 # ------------------------------------------------------------------------------
 
 test_that('formula method - limited rules', {
+  skip_on_cran()
 
   cb_fit_exp <-
     Cubist::cubist(
@@ -139,6 +141,7 @@ test_that('formula method - limited rules', {
 # ------------------------------------------------------------------------------
 
 test_that('formula method - limited rules and control', {
+  skip_on_cran()
 
   cb_fit_exp <-
     Cubist::cubist(
@@ -172,6 +175,7 @@ test_that('formula method - limited rules and control', {
 # ------------------------------------------------------------------------------
 
 test_that('formula method - control', {
+  skip_on_cran()
 
   cb_fit_exp <-
     Cubist::cubist(
@@ -204,6 +208,7 @@ test_that('formula method - control', {
 # ------------------------------------------------------------------------------
 
 test_that('non-formula method', {
+  skip_on_cran()
 
   cb_fit_exp <-
     Cubist::cubist(
@@ -254,6 +259,7 @@ test_that('non-formula method', {
 # ------------------------------------------------------------------------------
 
 test_that('non-formula method - limited rules', {
+  skip_on_cran()
 
   cb_fit_exp <-
     Cubist::cubist(
@@ -286,6 +292,7 @@ test_that('non-formula method - limited rules', {
 # ------------------------------------------------------------------------------
 
 test_that('non-formula method - limited rules and control', {
+  skip_on_cran()
 
   cb_fit_exp <-
     Cubist::cubist(
@@ -319,6 +326,7 @@ test_that('non-formula method - limited rules and control', {
 # ------------------------------------------------------------------------------
 
 test_that('non-formula method - control', {
+  skip_on_cran()
 
   cb_fit_exp <-
     Cubist::cubist(

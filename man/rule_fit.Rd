@@ -72,6 +72,9 @@ or replaced wholesale.}
 
 \item{...}{Not used for \code{update()}.}
 }
+\value{
+An updated \code{parsnip} model specification.
+}
 \description{
 \code{\link[=rule_fit]{rule_fit()}} is a way to generate a \emph{specification} of a model
 before fitting. The main arguments for the model are:
@@ -106,7 +109,10 @@ conduct feature selection during model training.
 For the \code{xrf} engine, the \code{xgboost} package is used to create the rule set
 that is then added to a \code{glmnet} model.
 
-The only available engine is \code{"xrf"}.
+The only available engine is \code{"xrf"}. Not that, per the documentation in
+\code{?xrf}, transformations of the response variable are not supported. To
+use these with \code{rule_fit()}, we recommend using a recipe instead of the
+formula method.
 }
 \examples{
 rule_fit()

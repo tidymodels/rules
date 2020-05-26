@@ -46,6 +46,9 @@ or replaced wholesale.}
 
 \item{...}{Not used for \code{update()}.}
 }
+\value{
+An updated \code{parsnip} model specification.
+}
 \description{
 \code{\link[=cubist_rules]{cubist_rules()}} is a way to generate a \emph{specification} of a model
 before fitting. The main arguments for the model are:
