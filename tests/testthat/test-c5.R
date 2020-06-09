@@ -1,6 +1,6 @@
 context("C5 fits")
 
-source(file.path(test_path(), "test-helpers.R"))
+source(test_path("test-helpers.R"))
 
 ctrl <- C50::C5.0Control(subset = FALSE, seed = 2)
 
@@ -173,11 +173,11 @@ test_that('mulit-predict', {
 
   c5_multi_pred <-
     multi_predict(c5_fit, ad_mod_x[1:5, -1], trees = 1:3) %>%
-    mutate(.rows = row_number()) %>%
+    mutate(.row_number = row_number()) %>%
     tidyr::unnest(cols = c(.pred))
   c5_multi_prob <-
     multi_predict(c5_fit, ad_mod_x[1:5, -1], type = "prob", trees = 1:3) %>%
-    mutate(.rows = row_number()) %>%
+    mutate(.row_number = row_number()) %>%
     tidyr::unnest(cols = c(.pred))
 
   expect_equivalent(
