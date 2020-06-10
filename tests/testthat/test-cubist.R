@@ -245,9 +245,9 @@ test_that('non-formula method', {
   )
   cb_m_pred <-
     cb_m_pred %>%
-    mutate(.rows = 1:nrow(cb_m_pred)) %>%
+    mutate(.row_number = 1:nrow(cb_m_pred)) %>%
     tidyr::unnest(cols = c(.pred)) %>%
-    arrange(neighbors, .rows)
+    arrange(neighbors, .row_number)
 
   for (i in K) {
     exp_pred <- predict(cb_fit_exp, chi_pred, neighbors = i)

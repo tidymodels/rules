@@ -46,9 +46,9 @@ test_that('formula method', {
   )
   rf_m_pred <-
     rf_m_pred %>%
-    mutate(.rows = 1:nrow(rf_m_pred)) %>%
+    mutate(.row_number = 1:nrow(rf_m_pred)) %>%
     tidyr::unnest(cols = c(.pred)) %>%
-    arrange(penalty, .rows)
+    arrange(penalty, .row_number)
 
   for (i in vals) {
     exp_pred <- predict(rf_fit_exp, chi_pred, lambda = i)[,1]
@@ -99,9 +99,9 @@ test_that('non-formula method', {
   )
   rf_m_pred <-
     rf_m_pred %>%
-    mutate(.rows = 1:nrow(rf_m_pred)) %>%
+    mutate(.row_number = 1:nrow(rf_m_pred)) %>%
     tidyr::unnest(cols = c(.pred)) %>%
-    arrange(penalty, .rows)
+    arrange(penalty, .row_number)
 
   for (i in vals) {
     exp_pred <- predict(rf_fit_exp, chi_pred, lambda = i)[,1]

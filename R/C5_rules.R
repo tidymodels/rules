@@ -320,13 +320,13 @@ multi_predict._c5_rules <-
 
     res <- c5_pred(object, new_data, trials = trees, type = type, ...)
 
-    res$.rows <- rep(1:nrow(new_data), length(trees))
+    res$.row_number <- rep(1:nrow(new_data), length(trees))
     res <-
       res %>%
-      dplyr::group_by(.rows) %>%
+      dplyr::group_by(.row_number) %>%
       tidyr::nest() %>%
       dplyr::ungroup() %>%
-      dplyr::select(-.rows) %>%
+      dplyr::select(-.row_number) %>%
       setNames(".pred")
     res
   }

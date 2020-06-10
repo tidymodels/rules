@@ -421,13 +421,13 @@ multi_predict._cubist <-
     }
     res <- cubist_pred(object, new_data, neighbors = neighbors, ...)
     if (n > 1) {
-      res$.rows <- rep(1:nrow(new_data), n)
+      res$.row_number <- rep(1:nrow(new_data), n)
       res <-
         res %>%
-        dplyr::group_by(.rows) %>%
+        dplyr::group_by(.row_number) %>%
         tidyr::nest() %>%
         dplyr::ungroup() %>%
-        dplyr::select(-.rows) %>%
+        dplyr::select(-.row_number) %>%
         setNames(".pred")
     }
     res
