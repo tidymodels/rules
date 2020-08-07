@@ -133,33 +133,33 @@
     <p>These are not supported when called by the user.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>c5_fit</span>(<span class='no'>x</span>, <span class='no'>y</span>, <span class='kw'>trials</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>minCases</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>cost</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>...</span>)
+    <pre class="usage"><span class='fu'>c5_fit</span>(<span class='kw'>x</span>, <span class='kw'>y</span>, trials = <span class='fl'>1</span>, minCases = <span class='fl'>2</span>, cost = <span class='kw'>NULL</span>, <span class='kw'>...</span>)
 
-<span class='fu'>c5_pred</span>(<span class='no'>object</span>, <span class='no'>new_data</span>, <span class='kw'>trials</span> <span class='kw'>=</span> <span class='no'>object</span>$<span class='no'>fit</span>$<span class='no'>trials</span>[<span class='st'>"Actual"</span>], <span class='no'>...</span>)
+<span class='fu'>c5_pred</span>(<span class='kw'>object</span>, <span class='kw'>new_data</span>, trials = <span class='kw'>object</span><span class='op'>$</span><span class='kw'>fit</span><span class='op'>$</span><span class='kw'>trials</span>[<span class='st'>"Actual"</span>], <span class='kw'>...</span>)
 
-<span class='fu'>cubist_fit</span>(<span class='no'>x</span>, <span class='no'>y</span>, <span class='kw'>committees</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>neighbors</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='kw'>max_rules</span> <span class='kw'>=</span> <span class='fl'>NA</span>, <span class='no'>...</span>)
+<span class='fu'>cubist_fit</span>(<span class='kw'>x</span>, <span class='kw'>y</span>, committees = <span class='fl'>1</span>, neighbors = <span class='fl'>0</span>, max_rules = <span class='fl'>NA</span>, <span class='kw'>...</span>)
 
-<span class='fu'>get_neighbors</span>(<span class='no'>x</span>)
+<span class='fu'>get_neighbors</span>(<span class='kw'>x</span>)
 
-<span class='fu'>tunable.cubist_rules</span>(<span class='no'>x</span>, <span class='no'>...</span>)
+<span class='fu'>tunable.cubist_rules</span>(<span class='kw'>x</span>, <span class='kw'>...</span>)
 
 <span class='fu'>xrf_fit</span>(
-  <span class='no'>formula</span>,
-  <span class='no'>data</span>,
-  <span class='kw'>max_depth</span> <span class='kw'>=</span> <span class='fl'>6</span>,
-  <span class='kw'>nrounds</span> <span class='kw'>=</span> <span class='fl'>15</span>,
-  <span class='kw'>eta</span> <span class='kw'>=</span> <span class='fl'>0.3</span>,
-  <span class='kw'>colsample_bytree</span> <span class='kw'>=</span> <span class='fl'>1</span>,
-  <span class='kw'>min_child_weight</span> <span class='kw'>=</span> <span class='fl'>1</span>,
-  <span class='kw'>gamma</span> <span class='kw'>=</span> <span class='fl'>0</span>,
-  <span class='kw'>subsample</span> <span class='kw'>=</span> <span class='fl'>1</span>,
-  <span class='kw'>lambda</span> <span class='kw'>=</span> <span class='fl'>0.1</span>,
-  <span class='no'>...</span>
+  <span class='kw'>formula</span>,
+  <span class='kw'>data</span>,
+  max_depth = <span class='fl'>6</span>,
+  nrounds = <span class='fl'>15</span>,
+  eta = <span class='fl'>0.3</span>,
+  colsample_bytree = <span class='fl'>1</span>,
+  min_child_weight = <span class='fl'>1</span>,
+  gamma = <span class='fl'>0</span>,
+  subsample = <span class='fl'>1</span>,
+  lambda = <span class='fl'>0.1</span>,
+  <span class='kw'>...</span>
 )
 
-<span class='fu'>xrf_pred</span>(<span class='no'>object</span>, <span class='no'>new_data</span>, <span class='kw'>lambda</span> <span class='kw'>=</span> <span class='no'>object</span>$<span class='no'>fit</span>$<span class='no'>lambda</span>, <span class='no'>type</span>, <span class='no'>...</span>)
+<span class='fu'>xrf_pred</span>(<span class='kw'>object</span>, <span class='kw'>new_data</span>, lambda = <span class='kw'>object</span><span class='op'>$</span><span class='kw'>fit</span><span class='op'>$</span><span class='kw'>lambda</span>, <span class='kw'>type</span>, <span class='kw'>...</span>)
 
-<span class='fu'>tunable.rule_fit</span>(<span class='no'>x</span>, <span class='no'>...</span>)</pre>
+<span class='fu'>tunable.rule_fit</span>(<span class='kw'>x</span>, <span class='kw'>...</span>)</pre>
 
 
 
