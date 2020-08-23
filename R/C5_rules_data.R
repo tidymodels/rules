@@ -9,6 +9,8 @@ make_c5 <- function() {
 
   parsnip::set_model_engine("C5_rules", "classification", "C5.0")
   parsnip::set_dependency("C5_rules", "C5.0", "C50")
+  parsnip::set_dependency("C5_rules", "C5.0", "rules")
+
 
   parsnip::set_fit(
     model = "C5_rules",

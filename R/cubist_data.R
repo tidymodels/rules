@@ -10,6 +10,7 @@ make_cubist <- function() {
 
   parsnip::set_model_engine("cubist_rules", "regression", "Cubist")
   parsnip::set_dependency("cubist_rules", "Cubist", "Cubist")
+  parsnip::set_dependency("cubist_rules", "Cubist", "rules")
 
   parsnip::set_fit(
     model = "cubist_rules",
