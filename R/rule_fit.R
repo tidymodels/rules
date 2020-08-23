@@ -50,7 +50,7 @@
 #' For the `xrf` engine, the `xgboost` package is used to create the rule set
 #'  that is then added to a `glmnet` model.
 #'
-#' The only available engine is `"xrf"`. Not that, per the documentation in
+#' The only available engine is `"xrf"`. Note that, per the documentation in
 #' `?xrf`, transformations of the response variable are not supported. To
 #' use these with `rule_fit()`, we recommend using a recipe instead of the
 #' formula method.
