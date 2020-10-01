@@ -1,12 +1,14 @@
 AOAS
 Codecov
 doi
+glmnet
 Kaufmann
 Lifecycle
 ofApplied
 param
 Popescu
 pre
+PSOCK
 quant
 Quinlan
 reprex
@@ -16,3 +18,4 @@ Springer
 th
 tibble
 tidymodels
+xrf

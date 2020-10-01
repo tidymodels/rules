@@ -122,7 +122,7 @@ default values are:
 
 \itemize{
 \item \code{trees} (xrf: 100, rules: 15)
-\item \code{max_depth} xrf: 3, rules: 6)
+\item \code{max_depth} (xrf: 3, rules: 6)
 }
 
 These differences will create a difference in the values of the \code{penalty}
