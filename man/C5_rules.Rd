@@ -72,9 +72,9 @@ when creating a tree (\code{min_n}). There are no arguments to control the total
 number of rules in the ensemble.
 
 Note that \code{C5_rules()} does not require that categorical predictors be
-converted to numeric indicator values. Note that using \code{\link[parsnip:fit]{parsnip::fit()}} will
+converted to numeric indicator values. Note that using \code{\link[parsnip:reexports]{parsnip::fit()}} will
 \emph{always} create dummy variables so, if there is interest in keeping the
-categorical predictors in their original format, \code{\link[parsnip:fit_xy]{parsnip::fit_xy()}} would
+categorical predictors in their original format, \code{\link[parsnip:reexports]{parsnip::fit_xy()}} would
 be a better choice. When using the \code{tune} package, using a recipe for
 pre-processing enables more control over how such predictors are encoded
 since recipes do not automatically create dummy variables.
@@ -112,6 +112,6 @@ Quinlan R (1993). \emph{C4.5: Programs for Machine Learning}. Morgan
 Kaufmann Publishers.
 }
 \seealso{
-\code{\link[parsnip:fit]{parsnip::fit()}}, \code{\link[parsnip:fit_xy]{parsnip::fit_xy()}}, \code{\link[C50:C5.0]{C50::C5.0()}},
+\code{\link[parsnip:reexports]{parsnip::fit()}}, \code{\link[parsnip:reexports]{parsnip::fit_xy()}}, \code{\link[C50:C5.0]{C50::C5.0()}},
 \code{\link[C50:C5.0Control]{C50::C5.0Control()}}
 }

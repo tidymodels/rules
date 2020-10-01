@@ -15,6 +15,7 @@
 #'   \item \code{loss_reduction}: The reduction in the loss function required
 #'   to split further.
 #'   \item \code{sample_size}: The amount of data exposed to the fitting routine.
+#'   \item \code{penalty}: The amount of regularization in the glmnet model.
 #' }
 #' These arguments are converted to their specific names at the
 #'  time that the model is fit. Other options and argument can be
@@ -48,12 +49,27 @@
 #'  conduct feature selection during model training.
 #'
 #' For the `xrf` engine, the `xgboost` package is used to create the rule set
-#'  that is then added to a `glmnet` model.
+#'  that is then added to a `glmnet` model. The only available engine is `"xrf"`.
 #'
-#' The only available engine is `"xrf"`. Note that, per the documentation in
+#' ## Differences from the xrf package
+#'
+#' Note that, per the documentation in
 #' `?xrf`, transformations of the response variable are not supported. To
 #' use these with `rule_fit()`, we recommend using a recipe instead of the
 #' formula method.
+#'
+#' Also, there are several configuration differences in how `xrf()` is fit
+#'  between that package and the wrapper used in `rules`. Some differences in
+#'  default values are:
+#'
+##' \itemize{
+#'   \item \code{trees} (xrf: 100, rules: 15)
+#'   \item \code{max_depth} (xrf: 3, rules: 6)
+#' }
+#'
+#' These differences will create a difference in the values of the `penalty`
+#' argument that `glmnet` uses. Also, `rules` can also set `penalty` whereas
+#' `xrf` uses an internal 5-fold cross-validation to determine it (by default).
 #'
 #' @return An updated `parsnip` model specification.
 #' @seealso [parsnip::fit()], [parsnip::fit_xy()], [xrf::xrf.formula()]

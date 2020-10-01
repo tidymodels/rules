@@ -98,9 +98,9 @@ where \code{t} is the training set prediction and \code{w} is a weight that is i
 to the distance to the neighbor.
 
 Note that \code{cubist_rules()} does not require that categorical predictors be
-converted to numeric indicator values. Note that using \code{\link[parsnip:fit]{parsnip::fit()}} will
+converted to numeric indicator values. Note that using \code{\link[parsnip:reexports]{parsnip::fit()}} will
 \emph{always} create dummy variables so, if there is interest in keeping the
-categorical predictors in their original format, \code{\link[parsnip:fit_xy]{parsnip::fit_xy()}} would
+categorical predictors in their original format, \code{\link[parsnip:reexports]{parsnip::fit_xy()}} would
 be a better choice. When using the \code{tune} package, using a recipe for
 pre-processing enables more control over how such predictors are encoded
 since recipes do not automatically create dummy variables.
@@ -142,6 +142,6 @@ Proceedings of the Tenth International Conference on Machine Learning, pp.
 Kuhn M and Johnson K (2013). \emph{Applied Predictive Modeling}. Springer.
 }
 \seealso{
-\code{\link[parsnip:fit]{parsnip::fit()}}, \code{\link[parsnip:fit_xy]{parsnip::fit_xy()}}, \code{\link[Cubist:cubist]{Cubist::cubist()}},
+\code{\link[parsnip:reexports]{parsnip::fit()}}, \code{\link[parsnip:reexports]{parsnip::fit_xy()}}, \code{\link[Cubist:cubist.default]{Cubist::cubist()}},
 \code{\link[Cubist:cubistControl]{Cubist::cubistControl()}}
 }

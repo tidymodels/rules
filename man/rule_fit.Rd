@@ -91,6 +91,7 @@ from iteration-to-iteration.
 \item \code{loss_reduction}: The reduction in the loss function required
 to split further.
 \item \code{sample_size}: The amount of data exposed to the fitting routine.
+\item \code{penalty}: The amount of regularization in the glmnet model.
 }
 These arguments are converted to their specific names at the
 time that the model is fit. Other options and argument can be
@@ -107,12 +108,27 @@ as predictors to a regularized generalized linear model that can also
 conduct feature selection during model training.
 
 For the \code{xrf} engine, the \code{xgboost} package is used to create the rule set
-that is then added to a \code{glmnet} model.
+that is then added to a \code{glmnet} model. The only available engine is \code{"xrf"}.
+\subsection{Differences from the xrf package}{
 
-The only available engine is \code{"xrf"}. Not that, per the documentation in
+Note that, per the documentation in
 \code{?xrf}, transformations of the response variable are not supported. To
 use these with \code{rule_fit()}, we recommend using a recipe instead of the
 formula method.
+
+Also, there are several configuration differences in how \code{xrf()} is fit
+between that package and the wrapper used in \code{rules}. Some differences in
+default values are:
+
+\itemize{
+\item \code{trees} (xrf: 100, rules: 15)
+\item \code{max_depth} xrf: 3, rules: 6)
+}
+
+These differences will create a difference in the values of the \code{penalty}
+argument that \code{glmnet} uses. Also, \code{rules} can also set \code{penalty} whereas
+\code{xrf} uses an internal 5-fold cross-validation to determine it (by default).
+}
 }
 \examples{
 rule_fit()
@@ -139,5 +155,5 @@ Friedman, J. H., and Popescu, B. E. (2008). "Predictive learning
 via rule ensembles." \emph{The Annals ofApplied Statistics}, 2(3), 916-954.
 }
 \seealso{
-\code{\link[parsnip:fit]{parsnip::fit()}}, \code{\link[parsnip:fit_xy]{parsnip::fit_xy()}}, \code{\link[xrf:xrf.formula]{xrf::xrf.formula()}}
+\code{\link[parsnip:reexports]{parsnip::fit()}}, \code{\link[parsnip:reexports]{parsnip::fit_xy()}}, \code{\link[xrf:xrf.formula]{xrf::xrf.formula()}}
 }
