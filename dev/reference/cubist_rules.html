@@ -98,19 +98,13 @@ in lieu of recreating the object from scratch." />
         <a class="navbar-brand" href="../index.html">rules</a>
         <div class="info hidden-xs hidden-sm">
           <span class="partof">part of <a href="https://tidymodels.orgs">tidymodels</a></span>
-          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.0.2.9000</span>
+          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.0.3.9000</span>
         </div>
       </div>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
-<li>
   <a href="../reference/index.html">Reference</a>
 </li>
 <li>
@@ -155,23 +149,23 @@ functions. If parameters need to be modified, <code><a href='https://rdrr.io/r/s
 in lieu of recreating the object from scratch.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>cubist_rules</span>(
-  mode = <span class='st'>"regression"</span>,
-  committees = <span class='kw'>NULL</span>,
-  neighbors = <span class='kw'>NULL</span>,
-  max_rules = <span class='kw'>NULL</span>
-)
+    <pre class="usage"><span class='fu'>cubist_rules</span><span class='op'>(</span>
+  mode <span class='op'>=</span> <span class='st'>"regression"</span>,
+  committees <span class='op'>=</span> <span class='cn'>NULL</span>,
+  neighbors <span class='op'>=</span> <span class='cn'>NULL</span>,
+  max_rules <span class='op'>=</span> <span class='cn'>NULL</span>
+<span class='op'>)</span>
 
 <span class='co'># S3 method for cubist_rules</span>
-<span class='fu'><a href='https://rdrr.io/r/stats/update.html'>update</a></span>(
-  <span class='kw'>object</span>,
-  parameters = <span class='kw'>NULL</span>,
-  committees = <span class='kw'>NULL</span>,
-  neighbors = <span class='kw'>NULL</span>,
-  max_rules = <span class='kw'>NULL</span>,
-  fresh = <span class='fl'>FALSE</span>,
-  <span class='kw'>...</span>
-)</pre>
+<span class='fu'><a href='https://rdrr.io/r/stats/update.html'>update</a></span><span class='op'>(</span>
+  <span class='va'>object</span>,
+  parameters <span class='op'>=</span> <span class='cn'>NULL</span>,
+  committees <span class='op'>=</span> <span class='cn'>NULL</span>,
+  neighbors <span class='op'>=</span> <span class='cn'>NULL</span>,
+  max_rules <span class='op'>=</span> <span class='cn'>NULL</span>,
+  fresh <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  <span class='va'>...</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -265,15 +259,17 @@ Proceedings of the Tenth International Conference on Machine Learning, pp.
 <p>Kuhn M and Johnson K (2013). <em>Applied Predictive Modeling</em>. Springer.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><code><a href='https://rdrr.io/pkg/generics/man/fit.html'>parsnip::fit()</a></code>, <code><a href='https://rdrr.io/pkg/generics/man/fit_xy.html'>parsnip::fit_xy()</a></code>, <code><a href='https://rdrr.io/pkg/Cubist/man/cubist.default.html'>Cubist::cubist()</a></code>,
-<code><a href='https://rdrr.io/pkg/Cubist/man/cubistControl.html'>Cubist::cubistControl()</a></code></p></div>
+    <div class='dont-index'><p><code><a href='https://rdrr.io/pkg/generics/man/fit.html'>parsnip::fit()</a></code>, <code><a href='https://rdrr.io/pkg/generics/man/fit_xy.html'>parsnip::fit_xy()</a></code>, <code><a href='https://topepo.github.io/Cubist/reference/cubist.default.html'>Cubist::cubist()</a></code>,
+<code><a href='https://topepo.github.io/Cubist/reference/cubistControl.html'>Cubist::cubistControl()</a></code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>cubist_rules</span>()</div><div class='output co'>#&gt; Cubist Model Specification (regression)
+    <pre class="examples"><div class='input'><span class='fu'>cubist_rules</span><span class='op'>(</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; Cubist Model Specification (regression)
 #&gt; 
 #&gt; Computational engine: Cubist 
 #&gt; </div><div class='input'><span class='co'># Parameters can be represented by a placeholder:</span>
-<span class='fu'>cubist_rules</span>(committees = <span class='fl'>7</span>)</div><div class='output co'>#&gt; Cubist Model Specification (regression)
+<span class='fu'>cubist_rules</span><span class='op'>(</span>committees <span class='op'>=</span> <span class='fl'>7</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; Cubist Model Specification (regression)
 #&gt; 
 #&gt; Main Arguments:
 #&gt;   committees = 7
@@ -282,14 +278,15 @@ Proceedings of the Tenth International Conference on Machine Learning, pp.
 #&gt; </div><div class='input'>
 <span class='co'># ------------------------------------------------------------------------------</span>
 
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='kw'>car_prices</span>, package = <span class='st'>"modeldata"</span>)
-<span class='kw'>car_rules</span> <span class='op'>&lt;-</span>
-  <span class='fu'>cubist_rules</span>(committees = <span class='fl'>1</span>) <span class='op'>%&gt;%</span>
-  <span class='fu'>fit</span>(<span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log10</a></span>(<span class='kw'>Price</span>) <span class='op'>~</span> <span class='kw'>.</span>, data = <span class='kw'>car_prices</span>)
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>car_prices</span>, package <span class='op'>=</span> <span class='st'>"modeldata"</span><span class='op'>)</span>
+<span class='va'>car_rules</span> <span class='op'>&lt;-</span>
+  <span class='fu'>cubist_rules</span><span class='op'>(</span>committees <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>fit</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log10</a></span><span class='op'>(</span><span class='va'>Price</span><span class='op'>)</span> <span class='op'>~</span> <span class='va'>.</span>, data <span class='op'>=</span> <span class='va'>car_prices</span><span class='op'>)</span>
 
-<span class='kw'>car_rules</span></div><div class='output co'>#&gt; parsnip model object
+<span class='va'>car_rules</span>
+</div><div class='output co'>#&gt; parsnip model object
 #&gt; 
-#&gt; Fit time:  100ms 
+#&gt; Fit time:  76ms 
 #&gt; 
 #&gt; Call:
 #&gt; cubist.default(x = x, y = y, committees = 1)
@@ -300,12 +297,13 @@ Proceedings of the Tenth International Conference on Machine Learning, pp.
 #&gt; Number of committees: 1 
 #&gt; Number of rules: 3 
 #&gt; </div><div class='input'>
-<span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span>(<span class='kw'>car_rules</span><span class='op'>$</span><span class='kw'>fit</span>)</div><div class='output co'>#&gt; 
+<span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span><span class='op'>(</span><span class='va'>car_rules</span><span class='op'>$</span><span class='va'>fit</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; 
 #&gt; Call:
 #&gt; cubist.default(x = x, y = y, committees = 1)
 #&gt; 
 #&gt; 
-#&gt; Cubist [Release 2.07 GPL Edition]  Sun Aug 23 23:28:44 2020
+#&gt; Cubist [Release 2.07 GPL Edition]  Fri Oct  2 17:59:04 2020
 #&gt; ---------------------------------
 #&gt; 
 #&gt;     Target attribute `outcome'
@@ -372,22 +370,25 @@ Proceedings of the Tenth International Conference on Machine Learning, pp.
 #&gt; </div><div class='input'>
 <span class='co'># ------------------------------------------------------------------------------</span>
 
-<span class='kw'>model</span> <span class='op'>&lt;-</span> <span class='fu'>cubist_rules</span>(committees = <span class='fl'>10</span>, neighbors = <span class='fl'>2</span>)
-<span class='kw'>model</span></div><div class='output co'>#&gt; Cubist Model Specification (regression)
+<span class='va'>model</span> <span class='op'>&lt;-</span> <span class='fu'>cubist_rules</span><span class='op'>(</span>committees <span class='op'>=</span> <span class='fl'>10</span>, neighbors <span class='op'>=</span> <span class='fl'>2</span><span class='op'>)</span>
+<span class='va'>model</span>
+</div><div class='output co'>#&gt; Cubist Model Specification (regression)
 #&gt; 
 #&gt; Main Arguments:
 #&gt;   committees = 10
 #&gt;   neighbors = 2
 #&gt; 
 #&gt; Computational engine: Cubist 
-#&gt; </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/stats/update.html'>update</a></span>(<span class='kw'>model</span>, committees = <span class='fl'>1</span>)</div><div class='output co'>#&gt; Cubist Model Specification (regression)
+#&gt; </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/stats/update.html'>update</a></span><span class='op'>(</span><span class='va'>model</span>, committees <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; Cubist Model Specification (regression)
 #&gt; 
 #&gt; Main Arguments:
 #&gt;   committees = 1
 #&gt;   neighbors = 2
 #&gt; 
 #&gt; Computational engine: Cubist 
-#&gt; </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/stats/update.html'>update</a></span>(<span class='kw'>model</span>, committees = <span class='fl'>1</span>, fresh = <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; Cubist Model Specification (regression)
+#&gt; </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/stats/update.html'>update</a></span><span class='op'>(</span><span class='va'>model</span>, committees <span class='op'>=</span> <span class='fl'>1</span>, fresh <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; Cubist Model Specification (regression)
 #&gt; 
 #&gt; Main Arguments:
 #&gt;   committees = 1

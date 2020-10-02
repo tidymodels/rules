@@ -87,19 +87,13 @@
         <a class="navbar-brand" href="../index.html">rules</a>
         <div class="info hidden-xs hidden-sm">
           <span class="partof">part of <a href="https://tidymodels.orgs">tidymodels</a></span>
-          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.0.2.9000</span>
+          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.0.3.9000</span>
         </div>
       </div>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
-<li>
   <a href="../reference/index.html">Reference</a>
 </li>
 <li>
@@ -134,13 +128,13 @@
     </div>
 
     <pre class="usage"><span class='co'># S3 method for `_c5_rules`</span>
-<span class='fu'><a href='https://parsnip.tidymodels.org/reference/multi_predict.html'>multi_predict</a></span>(<span class='kw'>object</span>, <span class='kw'>new_data</span>, type = <span class='kw'>NULL</span>, trees = <span class='kw'>NULL</span>, <span class='kw'>...</span>)
+<span class='fu'><a href='https://parsnip.tidymodels.org/reference/multi_predict.html'>multi_predict</a></span><span class='op'>(</span><span class='va'>object</span>, <span class='va'>new_data</span>, type <span class='op'>=</span> <span class='cn'>NULL</span>, trees <span class='op'>=</span> <span class='cn'>NULL</span>, <span class='va'>...</span><span class='op'>)</span>
 
 <span class='co'># S3 method for `_cubist`</span>
-<span class='fu'><a href='https://parsnip.tidymodels.org/reference/multi_predict.html'>multi_predict</a></span>(<span class='kw'>object</span>, <span class='kw'>new_data</span>, type = <span class='kw'>NULL</span>, neighbors = <span class='kw'>NULL</span>, <span class='kw'>...</span>)
+<span class='fu'><a href='https://parsnip.tidymodels.org/reference/multi_predict.html'>multi_predict</a></span><span class='op'>(</span><span class='va'>object</span>, <span class='va'>new_data</span>, type <span class='op'>=</span> <span class='cn'>NULL</span>, neighbors <span class='op'>=</span> <span class='cn'>NULL</span>, <span class='va'>...</span><span class='op'>)</span>
 
 <span class='co'># S3 method for `_xrf`</span>
-<span class='fu'><a href='https://parsnip.tidymodels.org/reference/multi_predict.html'>multi_predict</a></span>(<span class='kw'>object</span>, <span class='kw'>new_data</span>, type = <span class='kw'>NULL</span>, penalty = <span class='kw'>NULL</span>, <span class='kw'>...</span>)</pre>
+<span class='fu'><a href='https://parsnip.tidymodels.org/reference/multi_predict.html'>multi_predict</a></span><span class='op'>(</span><span class='va'>object</span>, <span class='va'>new_data</span>, type <span class='op'>=</span> <span class='cn'>NULL</span>, penalty <span class='op'>=</span> <span class='cn'>NULL</span>, <span class='va'>...</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -187,7 +181,7 @@ the tuning parameter values.</p>
     <p>For C5.0 rule-based models, the model fit may contain less boosting
 iterations than the number requested. Printing the object will show how many
 were used due to early stopping. This can be change using an option in
-<code><a href='https://rdrr.io/pkg/C50/man/C5.0Control.html'>C50::C5.0Control()</a></code>. Beware that the number of iterations requested</p>
+<code><a href='https://topepo.github.io/C5.0/reference/C5.0Control.html'>C50::C5.0Control()</a></code>. Beware that the number of iterations requested</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
