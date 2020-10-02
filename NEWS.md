@@ -1,3 +1,5 @@
+# rules (development version)
+
 # rules 0.0.3
 
 * Documentation changes (some demanded by CRAN).
