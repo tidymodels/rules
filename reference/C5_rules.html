@@ -98,19 +98,13 @@ in lieu of recreating the object from scratch." />
         <a class="navbar-brand" href="../index.html">rules</a>
         <div class="info hidden-xs hidden-sm">
           <span class="partof">part of <a href="https://tidymodels.orgs">tidymodels</a></span>
-          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.2</span>
+          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.3</span>
         </div>
       </div>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
-<li>
   <a href="../reference/index.html">Reference</a>
 </li>
 <li>
@@ -155,17 +149,17 @@ functions. If parameters need to be modified, <code><a href='https://rdrr.io/r/s
 in lieu of recreating the object from scratch.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>C5_rules</span>(<span class='kw'>mode</span> <span class='kw'>=</span> <span class='st'>"classification"</span>, <span class='kw'>trees</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>min_n</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)
+    <pre class="usage"><span class='fu'>C5_rules</span><span class='op'>(</span>mode <span class='op'>=</span> <span class='st'>"classification"</span>, trees <span class='op'>=</span> <span class='cn'>NULL</span>, min_n <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span>
 
 <span class='co'># S3 method for C5_rules</span>
-<span class='fu'><a href='https://rdrr.io/r/stats/update.html'>update</a></span>(
-  <span class='no'>object</span>,
-  <span class='kw'>parameters</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>trees</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>min_n</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>fresh</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='no'>...</span>
-)</pre>
+<span class='fu'><a href='https://rdrr.io/r/stats/update.html'>update</a></span><span class='op'>(</span>
+  <span class='va'>object</span>,
+  parameters <span class='op'>=</span> <span class='cn'>NULL</span>,
+  trees <span class='op'>=</span> <span class='cn'>NULL</span>,
+  min_n <span class='op'>=</span> <span class='cn'>NULL</span>,
+  fresh <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  <span class='va'>...</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -224,31 +218,33 @@ ensemble (<code>trees</code>) and the number of samples required to continue spl
 when creating a tree (<code>min_n</code>). There are no arguments to control the total
 number of rules in the ensemble.</p>
 <p>Note that <code>C5_rules()</code> does not require that categorical predictors be
-converted to numeric indicator values. Note that using <code><a href='https://parsnip.tidymodels.org/reference/reexports.html'>parsnip::fit()</a></code> will
+converted to numeric indicator values. Note that using <code><a href='https://rdrr.io/pkg/generics/man/fit.html'>parsnip::fit()</a></code> will
 <em>always</em> create dummy variables so, if there is interest in keeping the
-categorical predictors in their original format, <code><a href='https://parsnip.tidymodels.org/reference/reexports.html'>parsnip::fit_xy()</a></code> would
+categorical predictors in their original format, <code><a href='https://rdrr.io/pkg/generics/man/fit_xy.html'>parsnip::fit_xy()</a></code> would
 be a better choice. When using the <code>tune</code> package, using a recipe for
 pre-processing enables more control over how such predictors are encoded
 since recipes do not automatically create dummy variables.</p>
 <p>Note that C5.0 has a tool for <em>early stopping</em> during boosting where less
 iterations of boosting are performed than the number requested. <code>C5_rules()</code>
 turns this feature off (although it can be re-enabled using
-<code><a href='https://rdrr.io/pkg/C50/man/C5.0Control.html'>C50::C5.0Control()</a></code>).</p>
+<code><a href='https://topepo.github.io/C5.0/reference/C5.0Control.html'>C50::C5.0Control()</a></code>).</p>
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
     <p>Quinlan R (1993). <em>C4.5: Programs for Machine Learning</em>. Morgan
 Kaufmann Publishers.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><code><a href='https://parsnip.tidymodels.org/reference/reexports.html'>parsnip::fit()</a></code>, <code><a href='https://parsnip.tidymodels.org/reference/reexports.html'>parsnip::fit_xy()</a></code>, <code><a href='https://rdrr.io/pkg/C50/man/C5.0.html'>C50::C5.0()</a></code>,
-<code><a href='https://rdrr.io/pkg/C50/man/C5.0Control.html'>C50::C5.0Control()</a></code></p></div>
+    <div class='dont-index'><p><code><a href='https://rdrr.io/pkg/generics/man/fit.html'>parsnip::fit()</a></code>, <code><a href='https://rdrr.io/pkg/generics/man/fit_xy.html'>parsnip::fit_xy()</a></code>, <code><a href='https://topepo.github.io/C5.0/reference/C5.0.html'>C50::C5.0()</a></code>,
+<code><a href='https://topepo.github.io/C5.0/reference/C5.0Control.html'>C50::C5.0Control()</a></code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>C5_rules</span>()</div><div class='output co'>#&gt; C5.0 Model Specification (classification)
+    <pre class="examples"><div class='input'><span class='fu'>C5_rules</span><span class='op'>(</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; C5.0 Model Specification (classification)
 #&gt; 
 #&gt; Computational engine: C5.0 
 #&gt; </div><div class='input'><span class='co'># Parameters can be represented by a placeholder:</span>
-<span class='fu'>C5_rules</span>(<span class='kw'>trees</span> <span class='kw'>=</span> <span class='fl'>7</span>)</div><div class='output co'>#&gt; C5.0 Model Specification (classification)
+<span class='fu'>C5_rules</span><span class='op'>(</span>trees <span class='op'>=</span> <span class='fl'>7</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; C5.0 Model Specification (classification)
 #&gt; 
 #&gt; Main Arguments:
 #&gt;   trees = 7
@@ -257,21 +253,22 @@ Kaufmann Publishers.</p>
 #&gt; </div><div class='input'>
 <span class='co'># ------------------------------------------------------------------------------</span>
 
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>ad_data</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"modeldata"</span>)
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>ad_data</span>, package <span class='op'>=</span> <span class='st'>"modeldata"</span><span class='op'>)</span>
 
-<span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span>(<span class='fl'>282782</span>)
-<span class='no'>class_rules</span> <span class='kw'>&lt;-</span>
-  <span class='fu'>C5_rules</span>(<span class='kw'>trees</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>min_n</span>  <span class='kw'>=</span> <span class='fl'>10</span>) <span class='kw'>%&gt;%</span>
-  <span class='fu'>fit</span>(<span class='no'>Class</span> ~ <span class='no'>.</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>ad_data</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span><span class='op'>(</span><span class='fl'>282782</span><span class='op'>)</span>
+<span class='va'>class_rules</span> <span class='op'>&lt;-</span>
+  <span class='fu'>C5_rules</span><span class='op'>(</span>trees <span class='op'>=</span> <span class='fl'>1</span>, min_n  <span class='op'>=</span> <span class='fl'>10</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>fit</span><span class='op'>(</span><span class='va'>Class</span> <span class='op'>~</span> <span class='va'>.</span>, data <span class='op'>=</span> <span class='va'>ad_data</span><span class='op'>)</span>
 
-<span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span>(<span class='no'>class_rules</span>$<span class='no'>fit</span>)</div><div class='output co'>#&gt; 
+<span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span><span class='op'>(</span><span class='va'>class_rules</span><span class='op'>$</span><span class='va'>fit</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; 
 #&gt; Call:
 #&gt; C5.0.default(x = x, y = y, trials = trials, rules = TRUE, control
 #&gt;  = C50::C5.0Control(minCases = minCases, seed = sample.int(10^5,
 #&gt;  1), earlyStopping = FALSE))
 #&gt; 
 #&gt; 
-#&gt; C5.0 [Release 2.07 GPL Edition]  	Wed Jun 10 19:51:03 2020
+#&gt; C5.0 [Release 2.07 GPL Edition]  	Fri Oct  2 17:56:39 2020
 #&gt; -------------------------------
 #&gt; 
 #&gt; Class specified by attribute `outcome'
@@ -340,22 +337,25 @@ Kaufmann Publishers.</p>
 #&gt; </div><div class='input'>
 <span class='co'># ------------------------------------------------------------------------------</span>
 
-<span class='no'>model</span> <span class='kw'>&lt;-</span> <span class='fu'>C5_rules</span>(<span class='kw'>trees</span> <span class='kw'>=</span> <span class='fl'>10</span>, <span class='kw'>min_n</span> <span class='kw'>=</span> <span class='fl'>2</span>)
-<span class='no'>model</span></div><div class='output co'>#&gt; C5.0 Model Specification (classification)
+<span class='va'>model</span> <span class='op'>&lt;-</span> <span class='fu'>C5_rules</span><span class='op'>(</span>trees <span class='op'>=</span> <span class='fl'>10</span>, min_n <span class='op'>=</span> <span class='fl'>2</span><span class='op'>)</span>
+<span class='va'>model</span>
+</div><div class='output co'>#&gt; C5.0 Model Specification (classification)
 #&gt; 
 #&gt; Main Arguments:
 #&gt;   trees = 10
 #&gt;   min_n = 2
 #&gt; 
 #&gt; Computational engine: C5.0 
-#&gt; </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/stats/update.html'>update</a></span>(<span class='no'>model</span>, <span class='kw'>trees</span> <span class='kw'>=</span> <span class='fl'>1</span>)</div><div class='output co'>#&gt; C5.0 Model Specification (classification)
+#&gt; </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/stats/update.html'>update</a></span><span class='op'>(</span><span class='va'>model</span>, trees <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; C5.0 Model Specification (classification)
 #&gt; 
 #&gt; Main Arguments:
 #&gt;   trees = 1
 #&gt;   min_n = 2
 #&gt; 
 #&gt; Computational engine: C5.0 
-#&gt; </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/stats/update.html'>update</a></span>(<span class='no'>model</span>, <span class='kw'>trees</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>fresh</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; C5.0 Model Specification (classification)
+#&gt; </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/stats/update.html'>update</a></span><span class='op'>(</span><span class='va'>model</span>, trees <span class='op'>=</span> <span class='fl'>1</span>, fresh <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; C5.0 Model Specification (classification)
 #&gt; 
 #&gt; Main Arguments:
 #&gt;   trees = 1
