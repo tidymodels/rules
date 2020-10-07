@@ -24,6 +24,18 @@ make_c5 <- function() {
     )
   )
 
+  parsnip::set_encoding(
+    model = "C5_rules",
+    eng = "C5.0",
+    mode = "classification",
+    options = list(
+      predictor_indicators = "none",
+      compute_intercept = FALSE,
+      remove_intercept = FALSE,
+      allow_sparse_x = FALSE
+    )
+  )
+
   parsnip::set_model_arg(
     model = "C5_rules",
     eng = "C5.0",

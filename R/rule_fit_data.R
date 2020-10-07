@@ -89,6 +89,18 @@ make_rule_fit <- function() {
     )
   )
 
+  parsnip::set_encoding(
+    model = "rule_fit",
+    eng = "xrf",
+    mode = "regression",
+    options = list(
+      predictor_indicators = "none",
+      compute_intercept = FALSE,
+      remove_intercept = FALSE,
+      allow_sparse_x = FALSE
+    )
+  )
+
   parsnip::set_pred(
     model = "rule_fit",
     eng = "xrf",
@@ -116,6 +128,18 @@ make_rule_fit <- function() {
       protect = c("object", "data"),
       func = c(pkg = "rules", fun = "xrf_fit"),
       defaults = list()
+    )
+  )
+
+  parsnip::set_encoding(
+    model = "rule_fit",
+    eng = "xrf",
+    mode = "classification",
+    options = list(
+      predictor_indicators = "none",
+      compute_intercept = FALSE,
+      remove_intercept = FALSE,
+      allow_sparse_x = FALSE
     )
   )
 

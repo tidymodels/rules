@@ -24,6 +24,18 @@ make_cubist <- function() {
     )
   )
 
+  parsnip::set_encoding(
+    model = "cubist_rules",
+    eng = "Cubist",
+    mode = "regression",
+    options = list(
+      predictor_indicators = "none",
+      compute_intercept = FALSE,
+      remove_intercept = FALSE,
+      allow_sparse_x = FALSE
+    )
+  )
+
   parsnip::set_model_arg(
     model = "cubist_rules",
     eng = "Cubist",
