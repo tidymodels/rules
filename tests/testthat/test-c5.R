@@ -10,14 +10,14 @@ test_that('formula method', {
 
   c5_fit_exp <-
     C50::C5.0(
-      x = ad_mod_x,
+      x = ad_mod[, names(ad_mod) != "Class"],
       y = ad_mod$Class,
       trials = 10,
       rules = TRUE,
       control = C50::C5.0Control(seed = 2)
     )
-  c5_pred_exp <- predict(c5_fit_exp, ad_pred_x)
-  c5_prob_exp <- predict(c5_fit_exp, ad_pred_x, type = "prob")
+  c5_pred_exp <- predict(c5_fit_exp, ad_pred)
+  c5_prob_exp <- predict(c5_fit_exp, ad_pred, type = "prob")
 
   expect_error(
     c5_mod <-
@@ -45,13 +45,13 @@ test_that('formula method - control', {
 
   c5_fit_exp <-
     C50::C5.0(
-      x = ad_mod_x,
+      x = ad_mod[, names(ad_mod) != "Class"],
       y = ad_mod$Class,
       trials = 2,
       rules = TRUE,
       control = C50::C5.0Control(seed = 2, subset = FALSE)
     )
-  c5_pred_exp <- predict(c5_fit_exp, ad_pred_x)
+  c5_pred_exp <- predict(c5_fit_exp, ad_pred)
 
   expect_error(
     c5_mod <-
@@ -79,7 +79,7 @@ test_that('non-formula method', {
 
   c5_fit_exp <-
     C50::C5.0(
-      x = as.data.frame(ad_mod[, -1]),
+      x = ad_mod[, names(ad_mod) != "Class"],
       y = ad_mod$Class,
       trials = 10,
       rules = TRUE,
@@ -95,7 +95,7 @@ test_that('non-formula method', {
   )
 
   expect_error(
-    c5_fit <- fit_xy(c5_mod, x = as.data.frame(ad_mod[, -1]), y = ad_mod$Class),
+    c5_fit <- fit_xy(c5_mod, x = ad_mod[, names(ad_mod) != "Class"], y = ad_mod$Class),
     NA
   )
   c5_pred <- predict(c5_fit, ad_pred)

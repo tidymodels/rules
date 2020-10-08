@@ -57,12 +57,12 @@ test_that('formula method', {
 
   cb_fit_exp <-
     Cubist::cubist(
-      x = chi_mod_x,
+      x = chi_mod[, names(chi_mod) != "ridership"],
       y = chi_mod$ridership,
       committees = 10,
       control = Cubist::cubistControl(seed = 2)
     )
-  cb_pred_exp <- predict(cb_fit_exp, chi_pred_x)
+  cb_pred_exp <- predict(cb_fit_exp, chi_pred)
 
   expect_error(
     cb_mod <-
@@ -90,17 +90,17 @@ test_that('formula method', {
   # Will be slightly different due to the value of `maxd`
   expect_equal(
     cb_pred$.pred[cb_pred$neighbors == 0],
-    predict(cb_fit_exp, chi_mod_x[1:2,], neighbors = 0),
+    predict(cb_fit_exp, chi_mod[1:2,], neighbors = 0),
     tol = .1
   )
   expect_equal(
     cb_pred$.pred[cb_pred$neighbors == 1],
-    predict(cb_fit_exp, chi_mod_x[1:2,], neighbors = 1),
+    predict(cb_fit_exp, chi_mod[1:2,], neighbors = 1),
     tol = .1
   )
   expect_equal(
     cb_pred$.pred[cb_pred$neighbors == 9],
-    predict(cb_fit_exp, chi_mod_x[1:2,], neighbors = 9),
+    predict(cb_fit_exp, chi_mod[1:2,], neighbors = 9),
     tol = .1
   )
 })
@@ -112,12 +112,12 @@ test_that('formula method - limited rules', {
 
   cb_fit_exp <-
     Cubist::cubist(
-      x = chi_mod_x,
+      x = chi_mod[, names(chi_mod) != "ridership"],
       y = chi_mod$ridership,
       committees = 2,
       control = Cubist::cubistControl(rules = 3, seed = 2)
     )
-  cb_pred_exp <- predict(cb_fit_exp, chi_pred_x)
+  cb_pred_exp <- predict(cb_fit_exp, chi_pred)
 
   expect_error(
     cb_mod <-
@@ -145,12 +145,12 @@ test_that('formula method - limited rules and control', {
 
   cb_fit_exp <-
     Cubist::cubist(
-      x = chi_mod_x,
+      x = chi_mod[, names(chi_mod) != "ridership"],
       y = chi_mod$ridership,
       committees = 2,
       control = Cubist::cubistControl(rules = 3, seed = 2, unbiased = TRUE)
     )
-  cb_pred_exp <- predict(cb_fit_exp, chi_pred_x)
+  cb_pred_exp <- predict(cb_fit_exp, chi_pred)
 
   expect_error(
     cb_mod <-
@@ -179,16 +179,16 @@ test_that('formula method - control', {
 
   cb_fit_exp <-
     Cubist::cubist(
-      x = chi_mod_x,
+      x = chi_mod[, names(chi_mod) != "ridership"],
       y = chi_mod$ridership,
       committees = 2,
       control = Cubist::cubistControl(seed = 2, unbiased = TRUE)
     )
-  cb_pred_exp <- predict(cb_fit_exp, chi_pred_x)
+  cb_pred_exp <- predict(cb_fit_exp, chi_pred)
 
   expect_error(
     cb_mod <-
-      cubist_rules(committees = 2) %>%
+      cubist_rules(committees = 2, neighbors = 0) %>%
       set_engine("Cubist", control = ctrl),
     NA
   )
@@ -212,7 +212,7 @@ test_that('non-formula method', {
 
   cb_fit_exp <-
     Cubist::cubist(
-      x = chi_mod[, -1],
+      x = chi_mod[, names(chi_mod) != "ridership"],
       y = chi_mod$ridership,
       committees = 10,
       control = Cubist::cubistControl(seed = 2)
@@ -221,13 +221,15 @@ test_that('non-formula method', {
 
   expect_error(
     cb_mod <-
-      cubist_rules(committees = 10) %>%
+      cubist_rules(committees = 10, neighbors = 0) %>%
       set_engine("Cubist", seed = 2),
     NA
   )
 
   expect_error(
-    cb_fit <- fit_xy(cb_mod, x = chi_mod[, -1], y = chi_mod$ridership),
+    cb_fit <-
+      fit_xy(cb_mod, x = chi_mod[, names(chi_mod) != "ridership"],
+             y = chi_mod$ridership),
     NA
   )
   cb_pred <- predict(cb_fit, chi_pred)
@@ -263,7 +265,7 @@ test_that('non-formula method - limited rules', {
 
   cb_fit_exp <-
     Cubist::cubist(
-      x = chi_mod[, -1],
+      x = chi_mod[, names(chi_mod) != "ridership"],
       y = chi_mod$ridership,
       committees = 2,
       control = Cubist::cubistControl(rules = 3, seed = 2)
@@ -272,13 +274,15 @@ test_that('non-formula method - limited rules', {
 
   expect_error(
     cb_mod <-
-      cubist_rules(committees = 2, max_rules = 3) %>%
+      cubist_rules(committees = 2, max_rules = 3, neighbors = 0) %>%
       set_engine("Cubist", seed = 2),
     NA
   )
 
   expect_error(
-    cb_fit <- fit_xy(cb_mod, x = chi_mod[, -1], y = chi_mod$ridership),
+    cb_fit <- fit_xy(cb_mod,
+                     x = chi_mod[, names(chi_mod) != "ridership"],
+                     y = chi_mod$ridership),
     NA
   )
   cb_pred <- predict(cb_fit, chi_pred)
@@ -296,7 +300,7 @@ test_that('non-formula method - limited rules and control', {
 
   cb_fit_exp <-
     Cubist::cubist(
-      x = chi_mod[, -1],
+      x = chi_mod[, names(chi_mod) != "ridership"],
       y = chi_mod$ridership,
       committees = 2,
       control = Cubist::cubistControl(rules = 3, seed = 2, unbiased = TRUE)
@@ -305,7 +309,7 @@ test_that('non-formula method - limited rules and control', {
 
   expect_error(
     cb_mod <-
-      cubist_rules(committees = 2, max_rules = 3) %>%
+      cubist_rules(committees = 2, max_rules = 3, neighbors = 0) %>%
       set_engine("Cubist", control = ctrl),
     NA
   )
@@ -339,7 +343,7 @@ test_that('non-formula method - control', {
 
   expect_error(
     cb_mod <-
-      cubist_rules(committees = 2) %>%
+      cubist_rules(committees = 2, neighbors = 0) %>%
       set_engine("Cubist", control = ctrl),
     NA
   )
