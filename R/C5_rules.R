@@ -318,6 +318,12 @@ multi_predict._c5_rules <-
       type <- "class"
     }
 
+    new_data <- parsnip::prepare_data(object, new_data)
+    # preprocess data
+    if (!is.null(object$spec$method$pred$numeric$pre)) {
+      new_data <- object$spec$method$pred$numeric$pre(new_data, object)
+    }
+
     res <- c5_pred(object, new_data, trials = trees, type = type, ...)
 
     res$.row_number <- rep(1:nrow(new_data), length(trees))

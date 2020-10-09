@@ -323,6 +323,12 @@ multi_predict._xrf <-
       }
     }
 
+    new_data <- parsnip::prepare_data(object, new_data)
+    # preprocess data
+    if (!is.null(object$spec$method$pred$numeric$pre)) {
+      new_data <- object$spec$method$pred$numeric$pre(new_data, object)
+    }
+
     res <- xrf_pred(object, new_data, lambda = penalty, type = type, ...)
     res
   }
