@@ -1,4 +1,4 @@
-# rules (development version)
+# rules 0.1.0
 
 * The default encoding methods were changed such that `parsnip` will respect the encoding that the underlying model uses. 
 
