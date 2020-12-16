@@ -78,7 +78,7 @@ ames_rec <-
          data = ames) \%>\%
   step_dummy(Neighborhood, Central_Air) \%>\%
   step_zv(all_predictors()) \%>\%
-  step_normalize(all_predictors())
+  step_range(Longitude, Latitude, Gr_Liv_Area)
 
 ames_processed <- prep(ames_rec) \%>\% bake(new_data = NULL)
 
@@ -88,12 +88,12 @@ xrf_reg_fit <-
   fit(Sale_Price ~ ., data = ames_processed)
 
 xrf_rule_res <- tidy(xrf_reg_fit)
-xrf_rule_res$rule[100]
+xrf_rule_res$rule[nrow(xrf_rule_res)] \%>\% rlang::parse_expr()
 
 xrf_col_res <- tidy(xrf_reg_fit, unit = "columns")
 xrf_col_res
 
-# variable importance (depends on centering and scaling all predictors)
+# variable importance (depends on predictors being on the same scale)
 xrf_col_res \%>\%
   group_by(term) \%>\%
   summarize(effect = sum(abs(estimate)), .groups = "drop") \%>\%
