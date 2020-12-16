@@ -241,6 +241,7 @@ xrf_fit <-
     res <- rlang::eval_tidy(cl)
     res$lambda  <- lambda
     res$family <- args$family
+    res$levels <- get_levels(formula, data)
     res
   }
 
@@ -282,6 +283,17 @@ get_glmnet_type <- function(x, type) {
     type <- "response"
   }
   type
+}
+
+
+get_levels <- function(formula, data) {
+  m <- model.frame(formula, head(data))
+  y <- model.response(m)
+  res <- levels(y)
+  if (length(res) == 0) {
+    res <- character(0)
+  }
+  res
 }
 
 

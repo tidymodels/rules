@@ -14,6 +14,10 @@
 #' @export
 parsnip::multi_predict
 
+#' @importFrom generics tidy
+#' @export
+generics::tidy
+
 # ------------------------------------------------------------------------------
 
 utils::globalVariables(
