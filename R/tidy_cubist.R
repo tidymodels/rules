@@ -171,5 +171,12 @@ cb_cond_3 <- function(txt) {
   var_name <- stringr::str_remove(var_name, "\"")
   elts <- entires[3]
   elts <- stringr::str_remove(elts, "elts=")
-  stringr::str_c("(", var_name, " %in% c(", elts, ") )", sep = " ")
+
+  if (!stringr::str_detect(elts, ",")) {
+    elts <- stringr::str_remove(elts, "val=")
+    res <- stringr::str_c("(", var_name, "==", elts, ")", sep = " ")
+  } else {
+    res <- stringr::str_c("(", var_name, " %in% c(", elts, ") )", sep = " ")
+  }
+  res
 }
