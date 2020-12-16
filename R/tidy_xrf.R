@@ -4,48 +4,10 @@
 #' @param unit What data should be returned? For `unit = 'rules'`, each row
 #' corresponds to a rule. For `unit = 'columns'`, each row is a predictor
 #' column. The latter can be helpful when determining variable importance.
-#' @examples
-#' # ------------------------------------------------------------------------------
-#' \donttest{
-#' library(recipes)
-#'
-#' xrf_reg_mod <-
-#'   rule_fit(trees = 10, penalty = .001) %>%
-#'   set_engine("xrf") %>%
-#'   set_mode("regression")
-#'
-#' ames_rec <-
-#'   recipe(Sale_Price ~ Neighborhood + Longitude + Latitude +
-#'          Gr_Liv_Area + Central_Air,
-#'          data = ames) %>%
-#'   step_dummy(Neighborhood, Central_Air) %>%
-#'   step_zv(all_predictors()) %>%
-#'   step_range(Longitude, Latitude, Gr_Liv_Area)
-#'
-#' ames_processed <- prep(ames_rec) %>% bake(new_data = NULL)
-#'
-#' set.seed(1)
-#' xrf_reg_fit <-
-#'   xrf_reg_mod %>%
-#'   fit(Sale_Price ~ ., data = ames_processed)
-#'
-#' xrf_rule_res <- tidy(xrf_reg_fit)
-#' xrf_rule_res$rule[nrow(xrf_rule_res)] %>% rlang::parse_expr()
-#'
-#' xrf_col_res <- tidy(xrf_reg_fit, unit = "columns")
-#' xrf_col_res
-#'
-#' # variable importance (depends on predictors being on the same scale)
-#' xrf_col_res %>%
-#'   group_by(term) %>%
-#'   summarize(effect = sum(abs(estimate)), .groups = "drop") %>%
-#'   ungroup() %>%
-#'   arrange(desc(effect)) %>%
-#'   dplyr::filter(term != "(Intercept)")
-#' }
 tidy.xrf <- function(x, penalty = NULL, unit = "rules", ...) {
   # check args
 
+  lvls <- x$levels
   cat_terms <- expand_xlev(x$glm$xlev)
   coef_table <- xrf_coefs(x)
   if (unit == "rules") {
@@ -54,8 +16,14 @@ tidy.xrf <- function(x, penalty = NULL, unit = "rules", ...) {
       dplyr::mutate(
         rule_comp = xrf_term(column, term, less_than, split_value, level),
         rule_id = ifelse(is.na(rule_id), term, rule_id)
-      ) %>%
-      dplyr::group_by(rule_id) %>%
+      )
+    if (length(lvls) > 2) {
+      res <- res %>% dplyr::group_by(rule_id, class)
+    } else {
+      res <- res %>% dplyr::group_by(rule_id)
+    }
+
+    res <- res %>%
       dplyr::summarize(
         rule = paste("(", sort(unique(rule_comp)), ")", collapse = " & "),
         estimate = min(value),
@@ -80,7 +48,7 @@ xrf_coefs <- function(x, penalty = NULL) {
 
   lvls <- x$levels
   rule_info <- x$rules
-  feature_coef <- coef(x$glm$model, s = penalty)
+  feature_coef <- stats::coef(x$glm$model, s = penalty)
   if (is.list(feature_coef)) {
     feature_coef <- purrr::map(feature_coef, ~ as.matrix(.x))
     feature_coef <-
@@ -93,7 +61,7 @@ xrf_coefs <- function(x, penalty = NULL) {
                   ~ rlang::set_names(.x, c("rule_id", .y)))
     tmp <- feature_coef[[1]]
     for (cls in 2:length(feature_coef)) {
-      tmp <- full_join(tmp, feature_coef[[cls]], by = "rule_id")
+      tmp <- dplyr::full_join(tmp, feature_coef[[cls]], by = "rule_id")
     }
     feature_coef <- tmp
   } else {
@@ -105,7 +73,7 @@ xrf_coefs <- function(x, penalty = NULL) {
   }
 
   feature_coef <- dplyr::full_join(rule_info, feature_coef, by = "rule_id")
-  if (length(lvls) > 0) {
+  if (length(lvls) > 2) {
     feature_coef <-
       tidyr::pivot_longer(
         feature_coef,
@@ -117,7 +85,7 @@ xrf_coefs <- function(x, penalty = NULL) {
 
   feature_coef %>%
     # Fix cases where features as added as rules
-    mutate(
+    dplyr::mutate(
       feature = ifelse(is.na(split_id), rule_id, feature)
     )  %>%
     dplyr::filter(value != 0) %>%

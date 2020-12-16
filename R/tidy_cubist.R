@@ -17,6 +17,8 @@
 #' conditions. These can be converted to an R expression using
 #' [rlang::parse_expr()].
 #' @examples
+#' library(dplyr)
+#'
 #' data(ames, package = "modeldata")
 #'
 #' ames <-
@@ -41,6 +43,46 @@
 #' cb_res$statistic[[1]]
 #' }
 #'
+#' # ------------------------------------------------------------------------------
+#'
+#' \donttest{
+#' library(recipes)
+#' library(dplyr)
+#'
+#' xrf_reg_mod <-
+#'   rule_fit(trees = 10, penalty = .001) %>%
+#'   set_engine("xrf") %>%
+#'   set_mode("regression")
+#'
+#' ames_rec <-
+#'   recipe(Sale_Price ~ Neighborhood + Longitude + Latitude +
+#'          Gr_Liv_Area + Central_Air,
+#'          data = ames) %>%
+#'   step_dummy(Neighborhood, Central_Air) %>%
+#'   step_zv(all_predictors()) %>%
+#'   step_range(Longitude, Latitude, Gr_Liv_Area)
+#'
+#' ames_processed <- prep(ames_rec) %>% bake(new_data = NULL)
+#'
+#' set.seed(1)
+#' xrf_reg_fit <-
+#'   xrf_reg_mod %>%
+#'   fit(Sale_Price ~ ., data = ames_processed)
+#'
+#' xrf_rule_res <- tidy(xrf_reg_fit)
+#' xrf_rule_res$rule[nrow(xrf_rule_res)] %>% rlang::parse_expr()
+#'
+#' xrf_col_res <- tidy(xrf_reg_fit, unit = "columns")
+#' xrf_col_res
+#'
+#' # variable importance (depends on predictors being on the same scale)
+#' xrf_col_res %>%
+#'   group_by(term) %>%
+#'   summarize(effect = sum(abs(estimate)), .groups = "drop") %>%
+#'   ungroup() %>%
+#'   arrange(desc(effect)) %>%
+#'   dplyr::filter(term != "(Intercept)")
+#' }
 #' @export
 tidy.cubist <- function(x, ...) {
   txt <- x$model
@@ -78,7 +120,7 @@ tidy.cubist <- function(x, ...) {
     cond_att <- purrr::map_dfr(attr_inds, parse_cond, txt = txt_rows)
     comm_data <-
       dplyr::bind_cols(comm_data, cond_att) %>%
-      mutate(num_conditions = conds) %>%
+      dplyr::mutate(num_conditions = conds) %>%
       dplyr::rename(coverage = cover, min = loval, max = hival, error = esterr) %>%
       tidyr::nest(statistic = c(num_conditions, coverage, mean, min, max, error))
 

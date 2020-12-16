@@ -39,6 +39,8 @@ conditions. These can be converted to an R expression using
 Turn regression rule models into tidy tibbles
 }
 \examples{
+library(dplyr)
+
 data(ames, package = "modeldata")
 
 ames <-
@@ -64,8 +66,10 @@ cb_res$statistic[[1]]
 }
 
 # ------------------------------------------------------------------------------
+
 \donttest{
 library(recipes)
+library(dplyr)
 
 xrf_reg_mod <-
   rule_fit(trees = 10, penalty = .001) \%>\%

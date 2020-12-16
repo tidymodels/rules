@@ -366,3 +366,98 @@ test_that('cubist parameters', {
   expect_equal(max_rules(1:2)$range,  list(lower = 1L, upper = 2L))
   expect_equal(committees(1:2)$range, list(lower = 1L, upper = 2L))
 })
+
+
+# ------------------------------------------------------------------------------
+
+test_that('tidy method for cubist - one committee', {
+  cb_single <- cubist_rules(committees = 1) %>% set_engine("Cubist")
+
+  set.seed(1)
+  cb_single_fit <-
+    cb_single %>%
+    fit(Sale_Price ~ Neighborhood + Longitude + Latitude +
+          Gr_Liv_Area + Central_Air, data = ames)
+
+  # check for consistent cubist model:
+  expect_output(
+    print(summary(cb_single_fit$fit)),
+    "Rule 18: \\[269 cases, mean 5.517277, range 5.167317 to 5.877947, est err 0.061801\\]"
+    )
+
+  cb_single_fit_res <- tidy(cb_single_fit)
+  expect_equal(max(cb_single_fit_res$rule_num), 18)
+  expect_equal(max(cb_single_fit_res$committee), 1)
+
+  expect_equal(cb_single_fit_res$statistic[[18]]$error, 0.061801)
+  expect_equal(unname(cb_single_fit_res$estimate[[18]]$estimate[1]), -404.368656)
+  expect_equal(unname(cb_single_fit_res$estimate[[18]]$estimate[2]), 9.68)
+  expect_true(grepl("\\( Gr_Liv_Area", cb_single_fit_res$rule[18]))
+  expect_true(grepl("\\( Neighborhood", cb_single_fit_res$rule[18]))
+  expect_true(grepl("\\( Latitude", cb_single_fit_res$rule[18]))
+  expect_true(!grepl("\\( Longitude", cb_single_fit_res$rule[18]))
+  expect_true(!grepl("\\( Central_Air", cb_single_fit_res$rule[18]))
+
+})
+
+test_that('tidy method for cubist - one committee - only intercepts', {
+  cb_single <- cubist_rules(committees = 1) %>% set_engine("Cubist")
+
+  set.seed(1)
+  cb_single_fit <-
+    cb_single %>%
+    fit(Sale_Price ~ Neighborhood + Central_Air + MS_SubClass, data = ames)
+
+  # check for consistent cubist model:
+  expect_output(
+    print(summary(cb_single_fit$fit)),
+    "Rule 15: \\[216 cases, mean 5.536680, range 5.278754 to 5.877947, est err 0.084098\\]"
+  )
+
+  cb_single_fit_res <- tidy(cb_single_fit)
+  terms <-
+    cb_single_fit_res %>%
+    dplyr::select(estimate) %>%
+    tidyr::unnest(cols = c(estimate)) %>%
+    pull(term) %>%
+    unique()
+
+  expect_true(all(terms == "(Intercept)"))
+})
+
+
+test_that('tidy method for cubist - many committees', {
+  cb_mult <- cubist_rules(committees = 10) %>% set_engine("Cubist")
+
+  set.seed(1)
+  cb_mult_fit <-
+    cb_mult %>%
+    fit(Sale_Price ~ Neighborhood + Longitude + Latitude +
+          Gr_Liv_Area + Central_Air, data = ames)
+
+  # check for consistent cubist model:
+  expect_output(
+    print(summary(cb_mult_fit$fit)),
+    "Rule 10/11: \\[143 cases, mean 5.493898, range 5.190332 to 5.788875, est err 0.066138\\]"
+  )
+
+  cb_mult_fit_res <- tidy(cb_mult_fit)
+  expect_equal(max(cb_mult_fit_res$rule_num), 23)
+  expect_equal(max(cb_mult_fit_res$committee), 10)
+
+  n <- nrow(cb_mult_fit_res)
+
+  expect_equal(cb_mult_fit_res$statistic[[n]]$error, 0.066138)
+  expect_equal(unname(cb_mult_fit_res$estimate[[n]]$estimate[1]), -3184.858676)
+  expect_equal(unname(cb_mult_fit_res$estimate[[n]]$estimate[2]), -27.66)
+  expect_equal(unname(cb_mult_fit_res$estimate[[n]]$estimate[3]), 14.22)
+  expect_equal(unname(cb_mult_fit_res$estimate[[n]]$estimate[4]), 0.54)
+  expect_true(!grepl("\\( Gr_Liv_Area", cb_mult_fit_res$rule[n]))
+  expect_true(!grepl("\\( Neighborhood", cb_mult_fit_res$rule[n]))
+  expect_true(grepl("\\( Latitude", cb_mult_fit_res$rule[n]))
+  expect_true(grepl("\\( Longitude", cb_mult_fit_res$rule[n]))
+  expect_true(!grepl("\\( Central_Air", cb_mult_fit_res$rule[n]))
+
+})
+
+

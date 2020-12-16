@@ -110,3 +110,41 @@ test_that('non-formula method', {
   }
 })
 
+
+# ------------------------------------------------------------------------------
+
+test_that('tidy method - regression', {
+  skip_on_cran()
+
+  library(xrf)
+
+  xrf_reg_mod <-
+    rule_fit(trees = 3, penalty = .001) %>%
+    set_engine("xrf") %>%
+    set_mode("regression")
+
+  set.seed(1)
+  xrf_reg_fit <-
+    xrf_reg_mod %>%
+    fit(Sale_Price ~ Neighborhood + Longitude + Latitude +
+          Gr_Liv_Area + Central_Air, data = ames)
+
+  xrf_rule_res <- tidy(xrf_reg_fit)
+  raw_coef <- coef(xrf_reg_fit$fit, lambda = 0.001)
+  raw_coef <- raw_coef[raw_coef[,1] != 0, ]
+  expect_true(nrow(raw_coef) == nrow(xrf_rule_res))
+  expect_true(all(raw_coef$term %in% xrf_rule_res$rule_id))
+
+
+  xrf_col_res <- tidy(xrf_reg_fit, unit = "column")
+  expect_equal(
+    sort(unique(xrf_col_res$term)),
+    c("(Intercept)", "Central_Air", "Gr_Liv_Area", "Latitude", "Longitude",
+      "Neighborhood")
+  )
+  expect_equal(
+    sort(unique(raw_coef$term)),
+    sort(unique(xrf_col_res$rule_id))
+  )
+
+})

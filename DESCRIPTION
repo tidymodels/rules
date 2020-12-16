@@ -41,6 +41,5 @@ Imports:
     tidyr,
     dplyr,
     stringr,
-    tidyr,
-    tibble
+    generics
 Language: en-US
