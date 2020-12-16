@@ -34,7 +34,11 @@ tidy.cubist <- function(x, ...) {
     # Where are the lines that show the `conds` lines
     attr_inds <- find_cond_info(txt_rows, loc, uppr)
     cond_att <- purrr::map_dfr(attr_inds, parse_cond, txt = txt_rows)
-    comm_data <- dplyr::bind_cols(comm_data, cond_att)
+    comm_data <-
+      dplyr::bind_cols(comm_data, cond_att) %>%
+      mutate(num_conditions = conds) %>%
+      dplyr::rename(coverage = cover, min = loval, max = hival, error = esterr) %>%
+      tidyr::nest(statistic = c(num_conditions, coverage, mean, min, max, error))
 
     # Loop over all of the rules and get their rule conditions
     for (j in seq_along(attr_inds)) {
@@ -52,8 +56,7 @@ tidy.cubist <- function(x, ...) {
   }
   res <-
     dplyr::bind_rows(comms) %>%
-    dplyr::select(committee, rule_num, rule, estimate, cover, mean,
-                  lower = loval, upper = hival, err = esterr)
+    dplyr::select(committee, rule_num, rule, estimate, statistic)
   res
 }
 
