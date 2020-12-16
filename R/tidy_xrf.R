@@ -1,5 +1,49 @@
 #' @export
-tidy.xrf <- function(x, lambda = NULL, unit = "rules", ...) {
+#' @rdname tidy.cubist
+#' @param penalty A single numeric value for the `lambda` penalty value.
+#' @param unit What data should be returned? For `unit = 'rules'`, each row
+#' corresponds to a rule. For `unit = 'columns'`, each row is a predictor
+#' column. The latter can be helpful when determining variable importance.
+#' @examples
+#' # ------------------------------------------------------------------------------
+#' \donttest{
+#' library(recipes)
+#'
+#' xrf_reg_mod <-
+#'   rule_fit(trees = 10, penalty = .001) %>%
+#'   set_engine("xrf") %>%
+#'   set_mode("regression")
+#'
+#' ames_rec <-
+#'   recipe(Sale_Price ~ Neighborhood + Longitude + Latitude +
+#'          Gr_Liv_Area + Central_Air,
+#'          data = ames) %>%
+#'   step_dummy(Neighborhood, Central_Air) %>%
+#'   step_zv(all_predictors()) %>%
+#'   step_normalize(all_predictors())
+#'
+#' ames_processed <- prep(ames_rec) %>% bake(new_data = NULL)
+#'
+#' set.seed(1)
+#' xrf_reg_fit <-
+#'   xrf_reg_mod %>%
+#'   fit(Sale_Price ~ ., data = ames_processed)
+#'
+#' xrf_rule_res <- tidy(xrf_reg_fit)
+#' xrf_rule_res$rule[100]
+#'
+#' xrf_col_res <- tidy(xrf_reg_fit, unit = "columns")
+#' xrf_col_res
+#'
+#' # variable importance (depends on centering and scaling all predictors)
+#' xrf_col_res %>%
+#'   group_by(term) %>%
+#'   summarize(effect = sum(abs(estimate)), .groups = "drop") %>%
+#'   ungroup() %>%
+#'   arrange(desc(effect)) %>%
+#'   dplyr::filter(term != "(Intercept)")
+#' }
+tidy.xrf <- function(x, penalty = NULL, unit = "rules", ...) {
   # check args
 
   cat_terms <- expand_xlev(x$glm$xlev)
@@ -29,14 +73,14 @@ tidy.xrf <- function(x, lambda = NULL, unit = "rules", ...) {
 
 }
 
-xrf_coefs <- function(x, lambda = NULL) {
-  if (is.null(lambda)) {
-    lambda <- x$lambda
+xrf_coefs <- function(x, penalty = NULL) {
+  if (is.null(penalty)) {
+    penalty <- x$lambda
   }
 
   lvls <- x$levels
   rule_info <- x$rules
-  feature_coef <- coef(x$glm$model, s = lambda)
+  feature_coef <- coef(x$glm$model, s = penalty)
   if (is.list(feature_coef)) {
     feature_coef <- purrr::map(feature_coef, ~ as.matrix(.x))
     feature_coef <-
@@ -92,7 +136,17 @@ lvl_to_tibble <- function(x, var_name) {
 
 expand_xlev <- function(x) {
   nms <- names(x)
-  purrr::map2_dfr(x, nms, lvl_to_tibble)
+  if (length(nms) > 0) {
+    res <- purrr::map2_dfr(x, nms, lvl_to_tibble)
+  } else {
+    res <-
+      tibble::tibble(
+        term = NA_character_,
+        column = NA_character_,
+        level = NA_character_
+      )
+  }
+  res
 }
 
 xrf_term <- function(col, trm, lt, val, lvl) {

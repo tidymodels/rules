@@ -1,4 +1,46 @@
-
+#' Turn regression rule models into tidy tibbles
+#'
+#' @param x A `Cubist` or `xrf` object.
+#' @param ... Not currently used.
+#' @return
+#' The Cubist method has columns `committee`, `rule_num`, `rule`, `estimate`,
+#' and `statistics`. The latter two are nested tibbles. `estimate` contains
+#' the parameter estimates for each term in the regression model and `statistics`
+#' has statistics about the data selected by the rules and the model fit.
+#'
+#' The `xrf` results has columns `rule_id`, `rule`, and `estimate`. The
+#' `rule_id` column has the rule identifier (e.g., "r0_21") or the feature
+#' column name when the column is added directly into the model. For multiclass
+#' models, a `class` column is included.
+#'
+#' In each case, the `rule` column has a character string with the rule
+#' conditions. These can be converted to an R expression using
+#' [rlang::parse_expr()].
+#' @examples
+#' data(ames, package = "modeldata")
+#'
+#' ames <-
+#'   ames %>%
+#'   mutate(Sale_Price = log10(ames$Sale_Price),
+#'          Gr_Liv_Area = log10(ames$Gr_Liv_Area))
+#'
+#' # ------------------------------------------------------------------------------
+#'
+#' library(dplyr)
+#' \donttest{
+#' cb_fit <-
+#'   cubist_rules(committees = 10) %>%
+#'   set_engine("Cubist") %>%
+#'   fit(Sale_Price ~ Neighborhood + Longitude + Latitude + Gr_Liv_Area + Central_Air,
+#'       data = ames)
+#'
+#' cb_res <- tidy(cb_fit)
+#' cb_res
+#'
+#' cb_res$estimate[[1]]
+#' cb_res$statistic[[1]]
+#' }
+#'
 #' @export
 tidy.cubist <- function(x, ...) {
   txt <- x$model
@@ -70,9 +112,9 @@ find_cond_info <- function(txt, strt = 0, stp = 0) {
 parse_cond <- function(ind, txt) {
   entires <- stringr::str_split(txt[ind], " ") %>% unlist()
   tmp <- purrr::map(entires, ~ stringr::str_split(.x, pattern = "=") %>% unlist())
-  nms <- purrr::map_chr(tmp, pluck, 1)
+  nms <- purrr::map_chr(tmp, purrr::pluck, 1)
   vals <- purrr::map(tmp, stringr::str_remove_all, pattern = "\"")
-  vals <- purrr::map_dbl(vals, ~ pluck(.x, 2) %>% as.numeric())
+  vals <- purrr::map_dbl(vals, ~ purrr::pluck(.x, 2) %>% as.numeric())
   names(vals) <- nms
   as.data.frame(t(vals))
 }
