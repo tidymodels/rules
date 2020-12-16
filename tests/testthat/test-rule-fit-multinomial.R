@@ -202,7 +202,7 @@ test_that('tidy method - multi-class', {
 
   xrf_col_res <- tidy(xrf_cls_fit, unit = "column")
   expect_true(length(unique(xrf_col_res$class)) == 4)
-  expect_true(sum(xrf_col_res$term == "( (Intercept) )") == 4)
+  expect_true(sum(xrf_col_res$term == "(Intercept)") == 4)
   expect_true(sum(xrf_col_res$rule_id == "(Intercept)") == 4)
   expect_equal(
     sort(unique(xrf_col_res$term)),

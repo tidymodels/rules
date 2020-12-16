@@ -458,6 +458,24 @@ test_that('tidy method for cubist - many committees', {
   expect_true(grepl("\\( Longitude", cb_mult_fit_res$rule[n]))
   expect_true(!grepl("\\( Central_Air", cb_mult_fit_res$rule[n]))
 
+  # ------------------------------------------------------------------------------
+
+  # case with no rule conditions inspired by
+  # https://github.com/tidymodels/tidymodels.org/issues/205
+
+  ames2 <- ames
+  set.seed(1)
+  ames2$Neighborhood <- sample(ames2$Neighborhood)
+
+  cb_single <- cubist_rules(committees = 1) %>% set_engine("Cubist")
+
+  cb_single_fit <-
+    cb_single %>%
+    fit(Sale_Price ~ Neighborhood+ Gr_Liv_Area, data = ames2)
+
+  cb_mult_fit_res <- tidy(cb_single_fit)
+  expect_true(nrow(cb_mult_fit_res) == 1)
+  expect_equal(cb_mult_fit_res$rule[1], "<no conditions>")
 })
 
 

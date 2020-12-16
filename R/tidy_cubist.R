@@ -128,7 +128,12 @@ tidy.cubist <- function(x, ...) {
     for (j in seq_along(attr_inds)) {
       att_loc <- attr_inds[j] + 1:comm_data$conds[j]
       atts <- purrr::map_chr(txt_rows[att_loc], make_conds)
-      atts <- stringr::str_c(atts, collapse = " & ")
+      # case with rule with no conditions
+      if (all(nchar(atts) == 0)) {
+        atts <- "<no conditions>"
+      } else {
+        atts <- stringr::str_c(atts, collapse = " & ")
+      }
       comm_data$rule[j] <- atts
     }
 
@@ -228,6 +233,10 @@ paste_slopes <- function(txt) {
 # ------------------------------------------------------------------------------
 
 make_conds <- function(txt) {
+  # When there are no rule conditions, return nothing
+  if (grepl("^coef", txt) | grepl("^conds=\"0\"", txt)) {
+    return("")
+  }
   res <- purrr::map_chr(txt, single_cond)
   res <- stringr::str_c(res, collapse = " & ")
   res <- stringr::str_replace_all(res, "\"", "'")
