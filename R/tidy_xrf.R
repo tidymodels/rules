@@ -30,7 +30,7 @@
 #'   fit(Sale_Price ~ ., data = ames_processed)
 #'
 #' xrf_rule_res <- tidy(xrf_reg_fit)
-#' xrf_rule_res$rule[100]
+#' xrf_rule_res$rule[100] %>% rlang::parse_expr()
 #'
 #' xrf_col_res <- tidy(xrf_reg_fit, unit = "columns")
 #' xrf_col_res
