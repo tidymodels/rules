@@ -14,7 +14,7 @@ tidy.xrf <- function(x, lambda = NULL, unit = "rules", ...) {
       dplyr::group_by(rule_id) %>%
       dplyr::summarize(
         rule = paste("(", sort(unique(rule_comp)), ")", collapse = " & "),
-        value = min(value),
+        estimate = min(value),
         .groups = "keep"
       ) %>%
       dplyr::ungroup()
@@ -22,7 +22,8 @@ tidy.xrf <- function(x, lambda = NULL, unit = "rules", ...) {
     res <-
       dplyr::left_join(coef_table, cat_terms, by = "term") %>%
       dplyr::mutate(term = ifelse(is.na(column), term, column)) %>%
-      dplyr::select(rule_id, term, estimate = value)
+      dplyr::rename(estimate = value) %>%
+      dplyr::select(dplyr::any_of(c("rule_id", "term", "class", "estimate")))
   }
   res
 

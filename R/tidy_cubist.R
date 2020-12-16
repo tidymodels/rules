@@ -29,7 +29,7 @@ tidy.cubist <- function(x, ...) {
       tibble::tibble(
         rule_num = 1:num_rules,
         rule = NA,
-        value = NA
+        estimate = NA
       )
     # Where are the lines that show the `conds` lines
     attr_inds <- find_cond_info(txt_rows, loc, uppr)
@@ -46,13 +46,13 @@ tidy.cubist <- function(x, ...) {
 
     # Get regression equations
     eq_ind <- attr_inds + comm_data$conds + 1
-    comm_data$value <- purrr::map(txt_rows[eq_ind], get_reg_data)
+    comm_data$estimate <- purrr::map(txt_rows[eq_ind], get_reg_data)
     comm_data$committee <- i
     comms[[i]] <- comm_data
   }
   res <-
     dplyr::bind_rows(comms) %>%
-    dplyr::select(committee, rule_num, rule, value, cover, mean,
+    dplyr::select(committee, rule_num, rule, estimate, cover, mean,
                   lower = loval, upper = hival, err = esterr)
   res
 }
@@ -98,7 +98,7 @@ get_reg_data <- function(txt, results = "expression") {
     split_terms <- split(vals, rep(1:n_terms, each = 2))
     res <- splits_to_coefs(split_terms, res)
   } else {
-    res <- tibble::tibble(term = "(Intercept)", value = as.numeric(res))
+    res <- tibble::tibble(term = "(Intercept)", estimate = as.numeric(res))
   }
   res
 }
@@ -109,9 +109,9 @@ splits_to_coefs <- function(x, int) {
     rlang::abort("Problem with getting coefficients")
   }
   coef_val <- purrr::map_dbl(x, ~ as.numeric(.x[2]))
-  res <- tibble::tibble(term = purrr::map_chr(x, ~ .x[1]), value = coef_val)
+  res <- tibble::tibble(term = purrr::map_chr(x, ~ .x[1]), estimate = coef_val)
   res <- dplyr::bind_rows(
-    tibble::tibble(term = "(Intercept)", value = as.numeric(int)),
+    tibble::tibble(term = "(Intercept)", estimate = as.numeric(int)),
     res
   )
   res
