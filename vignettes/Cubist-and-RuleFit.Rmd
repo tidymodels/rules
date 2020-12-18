@@ -1,0 +1,263 @@
+---
+title: "What's the difference between Cubist and RuleFit?"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{What's the difference between Cubist and RuleFit}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+library(dplyr)
+library(purrr)
+library(rlang)
+library(tidyr)
+library(workflows)
+library(recipes)
+```
+
+
+[Cubist](https://www.rulequest.com/cubist-win.html) and [RuleFit](https://statweb.stanford.edu/~jhf/R_RuleFit.html) are two rule-based regression models. They are similar in some ways but otherwise very different. This vignette is a short description of their approaches. 
+
+Cubist is for numeric outcomes while RuleFit can work with numeric and categorical outcomes. For this document, we'll focus on numeric outcomes (without loss of generality). 
+
+## Both start by making rules from trees
+
+For each model, an an initial tree-based model is created. Let's look at a really simple example tree: 
+
+```{r tree, echo = FALSE, fig.align="center"}
+knitr::include_graphics("rules-from-trees.svg")
+```
+
+In this case, two predictors are used in splits: `A` and `B`. On this graph, the split to the left is the "<" condition. There are three terminal nodes shown as diamonds. This tree-based structure can be converted to a set of distinct rules. Each rule is a collection of `if/then` statements that define the path to the terminal nodes. In this example: 
+
+```r
+rule_1 <- (A <  a) & (B <  b)
+rule_2 <- (A <  a) & (B >= b)
+rule_3 <- (A >= a)
+```
+
+As is, these paths through the tree are mutually exclusive. For deep trees, these rules can become overly complex and may contain redundancies. Cubist takes the approach of [simplifying rules](https://scholar.google.com/scholar?hl=en&as_sdt=0%2C7&q=%22Simplifying+decision+trees%22&btnG=) whenever possible. For example, 
+
+```r
+rule_x <- (A <  10)  & (A <  7) & (B >= 1)
+```
+
+becomes
+
+```r
+rule_y <- (A < 7) & (B >= 1)
+```
+
+Cubist also has an approach that can _prune_ conditions inside of the rule that simplifies the structure without degrading performance. If `B` doesn't matter much in the rule above, then Cubist could reduce it to `A < 7`. 
+
+Cubist and RuleFit are also ensemble methods. For RuleFit, any tree ensemble model could generate a set of rules. For the `xrf` package, the `xgboost` package creates the initial set of rules. The rules create be each tree are pooled into a broader rule set. Cubist takes a different approach and uses model committees (see [_APM_](http://appliedpredictivemodeling.com/) Chapter 14). This is similar to boosting but creates a pseudo-outcome for each tree in the ensemble. This outcome adjusts the trees based on the size of the residual from the previous tree.
+
+At the end of the rule generating process, the rules are unlikely to mutually exclusive. Any data point is likely to be fall into multiple rules. 
+
+Now let's look at how each model uses the rules. 
+
+## Cubists makes a model for each rule
+
+Before delving into the rules, let's start with the [_model tree_](https://scholar.google.com/scholar?hl=en&as_sdt=0%2C7&q=%22Learning+with+continuous+classes%22&btnG=) initially created by Cubist. An initial tree is created and a regression model is created for _each split in the tree_. Each linear regression is created on the subset of the data covered by the current rule and uses only the predictors in the current rule. In the tree shown above, the first split produces two models with `A` as a predictor. The data for each are filtered either with `A < a` or `A >= a`. The entire set of models are: 
+
+```{r, eval = FALSE}
+split_1_low  <- filter(data, A <  a)
+model_1_low  <- lm(y ~ A, data = split_1_low)
+
+split_1_high <- filter(data, A >= a)
+model_1_high <- lm(y ~ A, data = split_1_high)
+
+split_2_low  <- filter(data, A <  a & B <  b)
+model_2_low  <- lm(y ~ A + B, data = split_2_low)
+
+split_2_high <- filter(data, A <  a & B >= b)
+model_2_high <- lm(y ~ A + B, data = split_2_high)
+```
+
+Cubist does some feature selection on these models so they may not contain all of the possible predictors. Also, since Cubist prunes the rules, there may be not appear to be a connection between the variables used in a rule and its corresponding model. 
+
+The models associated with the rules are actually average of many models further up the tree. Since these are linear models, the models used by Cubist for each rule have coefficients that are averages:
+
+| Rule |    Logic          | Blended Models                   |
+|------|-------------------|----------------------------------|
+| 1    | `A <  a & B < b`  | `model_1_low` and `model_2_low`  |
+| 2    | `A <  a & B >= b` | `model_1_low` and `model_2_high` |
+| 2    | `A >= a`          | `model_1_high`                   |
+
+The equations for averaging were first described in [Quinlan (1992)](https://scholar.google.com/scholar?hl=en&as_sdt=0%2C7&q=%22Learning+with+continuous+classes%22&btnG=) but the updated equation for Cubist can be found in Chapter 14 of [_APM_](http://appliedpredictivemodeling.com/). 
+
+There is a model for each committee and rule within committee. When predicting, a new observation is compared to the conditions in the rules to determine which rules are active for this data point. The active linear models predict the new sample and these predictions are averaged to produce the final prediction value. 
+
+Perhaps unrelated to this document, which focuses on how rules are used, Cubist also does a [nearest-neighbor correction](https://scholar.google.com/scholar?hl=en&as_sdt=0%2C7&q=%22Combining+instance-based+and+model-based+learning%22&btnG=) to the predicted values. 
+
+Let's look at an example model on the Palmer penguin data: 
+
+```{r cubist-penguins}
+library(rules)
+data(penguins, package = "modeldata")
+
+cubist_fit <- 
+  cubist_rules(committees = 2) %>% 
+  set_engine("Cubist") %>% 
+  fit(body_mass_g ~ ., data = penguins)
+cubist_fit
+```
+
+The `summary()` function shows the details of the rules. 
+
+```{r cubist-summary}
+summary(cubist_fit$fit)
+```
+Note that the only rule in the second committee has no conditions; all data points being predicted are affected by that rule. Also, it is possible for the linear model within a rule to only contain an intercept. 
+
+The `tidy()` function can extract the rule and model data: 
+
+```{r cubist-tidy}
+cb_res <- tidy(cubist_fit)
+cb_res
+```
+
+The `estimate` and `statistic` columns contain tibbles with parameter estimates and rule statistics, respectively. They can be easily expanded using `unnest()`: 
+
+```{r stats}
+library(tidyr)
+cb_res %>% 
+  dplyr::select(committee, rule_num, statistic) %>% 
+  unnest(cols = c(statistic))
+```
+For the first committee, rule four contains two conditions and covers 23 data points from the original data set. We can find these data points by converting the character string for the rule to an R expression, then evaluate the expression on the data set: 
+
+```{r cubist-expr}
+library(dplyr)
+library(purrr)
+library(rlang)
+
+rule_4_filter <- 
+  cb_res %>% 
+  dplyr::filter(rule_num == 4) %>% 
+  pluck("rule") %>%   # <- character string
+  parse_expr() %>%    # <- R expression
+  eval_tidy(penguins) # <- logical vector
+
+penguins %>% 
+  dplyr::slice(which(rule_4_filter))
+```
+
+
+## RuleFit makes one model with rule predictors
+
+RuleFit uses rules in a more straightforward way.  It creates an initial tree (or ensemble of trees) from the data. Rules are extracted from this initial model and converted to a set of binary features. These features are then added to a regularized regression model (along with the original columns). For example: 
+
+
+```{r rule-fit, eval = FALSE}
+data_with_rules <- 
+  data %>% 
+  mutate(
+    rule_1 = ifelse(A <  a & B <  b, 0, 1),
+    rule_2 = ifelse(A <  a & B >= b, 0, 1),
+    rule_2 = ifelse(A >= a,          0, 1)
+  )
+
+rule_fit_model <- 
+  glmnet(x = data_with_rules %>% select(A, B, starts_with("rule_") %>% as.matrix(),
+         y = data_with_rules$y,
+         alpha = 1)
+```
+
+It is common to use a lasso model to regularize the model and eliminate non-informative features. 
+
+While the details can depend on the implementation, the rules do not appear to be pruned or simplified. 
+
+The tuning parameters for this model inherits the parameter of the tree-based model as well as the amount of regularization used in the `glmnet` model. The complexity of the rules is determined by the allowed depth of the tree. For example, using a depth of four means that each rule may have up to four terms that define it. The number of rules would be primarily determined by the number of boosting iterations. 
+
+RuleFit, as implemented by the `xrf` package, required all of the data to be complete (i.e, non-missing). In the original data set, the body mass is encoded as integer and `xrf` requires a double, so: 
+
+```{r preproc}
+penguins <- 
+  penguins %>% 
+  mutate(body_mass_g = body_mass_g + 0.0) %>% 
+  na.omit()
+```
+
+Also, both the predictors and binary rules are passed to the `glmnet` function. Since this model penalizes using the sum of the absolute coefficients, the predictors should be on the same scale. Otherwise, predictors with very large ranges will have an undue influence on the model. To do this, a recipe can be used to scale the original (raw) predictors to be between zero and one so that they are on the same scale as the rules: 
+
+```{r rf-penguins, results = 'hide', warning=FALSE, message=FALSE}
+library(workflows)
+library(recipes)
+
+rule_fit_rec <- 
+  recipe(body_mass_g ~ ., data = penguins) %>% 
+  step_range(starts_with("bill_"), flipper_length_mm)
+
+rule_fit_spec <- 
+  rule_fit(trees = 10, tree_depth = 5, penalty = 0.01) %>% 
+  set_engine("xrf") %>%
+  set_mode("regression") 
+
+rule_fit_wflow <- 
+  workflow() %>% 
+  add_model(rule_fit_spec) %>% 
+  add_recipe(rule_fit_rec)
+
+rule_fit_fit <- fit(rule_fit_wflow, data = penguins)
+```
+
+```{r rf-penguins-print}
+rule_fit_fit %>% pull_workflow_fit()
+```
+
+To get the rules and their associated coefficients, the `tidy()` method can be used again:
+
+```{r rf-tidy}
+rf_res <- 
+  rule_fit_fit %>% 
+  pull_workflow_fit() %>% 
+  tidy()
+rf_res
+```
+
+Note that the units of each predictor have been scaled to be between zero and one. 
+
+Looking at the rules, there are examples of some rules, such as: 
+
+```r
+( bill_depth_mm >= 0.125 ) & 
+( flipper_length_mm <  0.957627118 ) & 
+( flipper_length_mm >= 0.432203412 ) & 
+( flipper_length_mm >= 0.88983047 ) & 
+( flipper_length_mm >= 0.932203412 )
+```
+
+which can be simplified to have fewer conditions:
+
+```r
+( bill_depth_mm >= 0.125 ) & 
+( flipper_length_mm >= 0.432203412 ) & 
+( flipper_length_mm <  0.957627118 )
+```
+
+Also, the `tidy()` function can extract the same information but use the original predictors as the unit:
+
+```{r rf-cols}
+rf_variable_res <- 
+  rule_fit_fit %>% 
+  pull_workflow_fit() %>% 
+  tidy(unit = "columns")
+rf_variable_res
+```
+
+A single rule might be represented with multiple rows of this version of the data. These results can also be used to compute a rough estimate or variable importance using the absolute value of the coefficients (since the model predictors were scaled to be between zero and one): 
+
+```{r rf-imp}
+rf_variable_res %>% 
+  dplyr::filter(term != "(Intercept)") %>% 
+  group_by(term) %>% 
+  summarize(effect = sum(abs(estimate)), .groups = "drop") %>% 
+  ungroup() %>% 
+  arrange(desc(effect))
+```
