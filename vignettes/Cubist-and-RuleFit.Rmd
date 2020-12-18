@@ -16,7 +16,6 @@ library(dplyr)
 library(purrr)
 library(rlang)
 library(tidyr)
-library(workflows)
 library(recipes)
 ```
 
@@ -184,40 +183,27 @@ penguins <-
   na.omit()
 ```
 
-Also, both the predictors and binary rules are passed to the `glmnet` function. Since this model penalizes using the sum of the absolute coefficients, the predictors should be on the same scale. Otherwise, predictors with very large ranges will have an undue influence on the model. To do this, a recipe can be used to scale the original (raw) predictors to be between zero and one so that they are on the same scale as the rules: 
+Fitting the model: 
 
 ```{r rf-penguins, results = 'hide', warning=FALSE, message=FALSE}
-library(workflows)
-library(recipes)
-
-rule_fit_rec <- 
-  recipe(body_mass_g ~ ., data = penguins) %>% 
-  step_range(starts_with("bill_"), flipper_length_mm)
-
 rule_fit_spec <- 
   rule_fit(trees = 10, tree_depth = 5, penalty = 0.01) %>% 
   set_engine("xrf") %>%
   set_mode("regression") 
 
-rule_fit_wflow <- 
-  workflow() %>% 
-  add_model(rule_fit_spec) %>% 
-  add_recipe(rule_fit_rec)
-
-rule_fit_fit <- fit(rule_fit_wflow, data = penguins)
+rule_fit_fit <- 
+  rule_fit_spec %>% 
+  fit(body_mass_g ~ ., data = penguins)
 ```
 
 ```{r rf-penguins-print}
-rule_fit_fit %>% pull_workflow_fit()
+rule_fit_fit
 ```
 
 To get the rules and their associated coefficients, the `tidy()` method can be used again:
 
 ```{r rf-tidy}
-rf_res <- 
-  rule_fit_fit %>% 
-  pull_workflow_fit() %>% 
-  tidy()
+rf_res <- tidy(rule_fit_fit)
 rf_res
 ```
 
@@ -226,38 +212,39 @@ Note that the units of each predictor have been scaled to be between zero and on
 Looking at the rules, there are examples of some rules, such as: 
 
 ```r
-( bill_depth_mm >= 0.125 ) & 
-( flipper_length_mm <  0.957627118 ) & 
-( flipper_length_mm >= 0.432203412 ) & 
-( flipper_length_mm >= 0.88983047 ) & 
-( flipper_length_mm >= 0.932203412 )
+( bill_depth_mm >= 14.1499996 ) & 
+( flipper_length_mm <  227 ) & 
+( flipper_length_mm <  228.5 ) & 
+( flipper_length_mm >= 197.5 ) & 
+( flipper_length_mm >= 224.5 )"
 ```
 
 which can be simplified to have fewer conditions:
 
 ```r
-( bill_depth_mm >= 0.125 ) & 
-( flipper_length_mm >= 0.432203412 ) & 
-( flipper_length_mm <  0.957627118 )
+( bill_depth_mm >= 14.1499996 ) & 
+( flipper_length_mm <  227 ) & 
+( flipper_length_mm >= 197.5 ) & 
 ```
 
 Also, the `tidy()` function can extract the same information but use the original predictors as the unit:
 
 ```{r rf-cols}
-rf_variable_res <- 
-  rule_fit_fit %>% 
-  pull_workflow_fit() %>% 
-  tidy(unit = "columns")
+rf_variable_res <- tidy(rule_fit_fit, unit = "columns")
 rf_variable_res
 ```
 
-A single rule might be represented with multiple rows of this version of the data. These results can also be used to compute a rough estimate or variable importance using the absolute value of the coefficients (since the model predictors were scaled to be between zero and one): 
+A single rule might be represented with multiple rows of this version of the data. These results can also be used to compute a rough estimate or variable importance using the absolute value of the coefficients: 
 
 ```{r rf-imp}
+num_rules <- sum(grepl("^r[0-9]*_", unique(rf_res$rule_id))) + 1
+
 rf_variable_res %>% 
   dplyr::filter(term != "(Intercept)") %>% 
   group_by(term) %>% 
   summarize(effect = sum(abs(estimate)), .groups = "drop") %>% 
   ungroup() %>% 
+  # normalize by number of possible occurrences
+  mutate(effect = effect / num_rules ) %>% 
   arrange(desc(effect))
 ```

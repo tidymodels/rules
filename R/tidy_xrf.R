@@ -4,8 +4,8 @@
 #' @param unit What data should be returned? For `unit = 'rules'`, each row
 #' corresponds to a rule. For `unit = 'columns'`, each row is a predictor
 #' column. The latter can be helpful when determining variable importance.
-tidy.xrf <- function(x, penalty = NULL, unit = "rules", ...) {
-  # check args
+tidy.xrf <- function(x, penalty = NULL, unit = c("rules", "columns"), ...) {
+  unit <- match.arg(unit)
 
   lvls <- x$levels
   cat_terms <- expand_xlev(x$glm$xlev)
@@ -29,7 +29,8 @@ tidy.xrf <- function(x, penalty = NULL, unit = "rules", ...) {
         estimate = min(value),
         .groups = "keep"
       ) %>%
-      dplyr::ungroup()
+      dplyr::ungroup() %>%
+      dplyr::mutate(rule = ifelse(rule == "( (Intercept) )", "( TRUE )", rule))
   } else {
     res <-
       dplyr::left_join(coef_table, cat_terms, by = "term") %>%
@@ -44,6 +45,9 @@ tidy.xrf <- function(x, penalty = NULL, unit = "rules", ...) {
 xrf_coefs <- function(x, penalty = NULL) {
   if (is.null(penalty)) {
     penalty <- x$lambda
+  }
+  if (length(penalty) != 1) {
+    rlang::abort("`penalty` should be a single numeric measure.")
   }
 
   lvls <- x$levels

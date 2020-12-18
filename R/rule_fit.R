@@ -74,7 +74,7 @@
 #' @return An updated `parsnip` model specification.
 #' @seealso [parsnip::fit()], [parsnip::fit_xy()], [xrf::xrf.formula()]
 #' @references Friedman, J. H., and Popescu, B. E. (2008). "Predictive learning
-#' via rule ensembles." _The Annals ofApplied Statistics_, 2(3), 916-954.
+#' via rule ensembles." _The Annals of Applied Statistics_, 2(3), 916-954.
 #' @examples
 #' rule_fit()
 #' # Parameters can be represented by a placeholder:

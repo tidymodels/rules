@@ -176,8 +176,6 @@ test_that('non-formula method', {
 
 })
 
-
-
 # ------------------------------------------------------------------------------
 
 test_that('tidy method - multi-class', {
@@ -197,7 +195,7 @@ test_that('tidy method - multi-class', {
 
   xrf_rule_res <- tidy(xrf_cls_fit)
   expect_true(length(unique(xrf_rule_res$class)) == 4)
-  expect_true(sum(xrf_rule_res$rule == "( (Intercept) )") == 4)
+  expect_true(sum(xrf_rule_res$rule == "( TRUE )") == 4)
   expect_true(sum(xrf_rule_res$rule_id == "(Intercept)") == 4)
 
   xrf_col_res <- tidy(xrf_cls_fit, unit = "column")

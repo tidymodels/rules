@@ -28,7 +28,6 @@
 #'
 #' # ------------------------------------------------------------------------------
 #'
-#' library(dplyr)
 #' \donttest{
 #' cb_fit <-
 #'   cubist_rules(committees = 10) %>%
@@ -47,20 +46,19 @@
 #'
 #' \donttest{
 #' library(recipes)
-#' library(dplyr)
 #'
 #' xrf_reg_mod <-
 #'   rule_fit(trees = 10, penalty = .001) %>%
 #'   set_engine("xrf") %>%
 #'   set_mode("regression")
 #'
+#' # Make dummy variables since xgboost will not
 #' ames_rec <-
 #'   recipe(Sale_Price ~ Neighborhood + Longitude + Latitude +
 #'          Gr_Liv_Area + Central_Air,
 #'          data = ames) %>%
 #'   step_dummy(Neighborhood, Central_Air) %>%
-#'   step_zv(all_predictors()) %>%
-#'   step_range(Longitude, Latitude, Gr_Liv_Area)
+#'   step_zv(all_predictors())
 #'
 #' ames_processed <- prep(ames_rec) %>% bake(new_data = NULL)
 #'
@@ -74,14 +72,6 @@
 #'
 #' xrf_col_res <- tidy(xrf_reg_fit, unit = "columns")
 #' xrf_col_res
-#'
-#' # variable importance (depends on predictors being on the same scale)
-#' xrf_col_res %>%
-#'   group_by(term) %>%
-#'   summarize(effect = sum(abs(estimate)), .groups = "drop") %>%
-#'   ungroup() %>%
-#'   arrange(desc(effect)) %>%
-#'   dplyr::filter(term != "(Intercept)")
 #' }
 #' @export
 tidy.cubist <- function(x, ...) {
