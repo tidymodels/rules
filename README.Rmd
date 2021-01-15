@@ -53,6 +53,6 @@ This project is released with a [Contributor Code of Conduct](https://contributo
 
 - If you think you have encountered a bug, please [submit an issue](https://github.com/tidymodels/rules/issues).
 
-- Either way, learn how to create and share a [reprex](https://rstd.io/reprex) (a minimal, reproducible example), to clearly communicate about your code.
+- Either way, learn how to create and share a [reprex](https://reprex.tidyverse.org/articles/articles/learn-reprex.html) (a minimal, reproducible example), to clearly communicate about your code.
 
 - Check out further details on [contributing guidelines for tidymodels packages](https://www.tidymodels.org/contribute/) and [how to get help](https://www.tidymodels.org/help/).
