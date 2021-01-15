@@ -8,6 +8,7 @@ vals <- c(0.01, .1, 1)
 
 test_that('formula method', {
   skip_on_cran()
+  skip_if_not_installed("xrf")
 
   set.seed(4526)
   rf_fit_exp <-
@@ -61,6 +62,7 @@ test_that('formula method', {
 
 test_that('non-formula method', {
   skip_on_cran()
+  skip_if_not_installed("xrf")
 
   set.seed(4526)
   rf_fit_exp <-
@@ -110,11 +112,11 @@ test_that('non-formula method', {
   }
 })
 
-
 # ------------------------------------------------------------------------------
 
 test_that('tidy method - regression', {
   skip_on_cran()
+  skip_if_not_installed("xrf")
 
   library(xrf)
 

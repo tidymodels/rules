@@ -9,6 +9,7 @@ lvls <- levels(hpc_mod$class)
 
 test_that('formula method', {
   skip_on_cran()
+  skip_if_not_installed("xrf")
 
   set.seed(4526)
   rf_fit_exp <-
@@ -95,6 +96,7 @@ test_that('formula method', {
 
 test_that('non-formula method', {
   skip_on_cran()
+  skip_if_not_installed("xrf")
 
   set.seed(4526)
   rf_fit_exp <-
@@ -180,6 +182,7 @@ test_that('non-formula method', {
 
 test_that('tidy method - multi-class', {
   skip_on_cran()
+  skip_if_not_installed("xrf")
 
   library(xrf)
 
@@ -207,4 +210,3 @@ test_that('tidy method - multi-class', {
     c("(Intercept)", "compounds", "input_fields", "protocol")
   )
 })
-

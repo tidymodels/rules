@@ -181,8 +181,26 @@ test_that('mulit-predict', {
     tidyr::unnest(cols = c(.pred))
 
   expect_equivalent(
-    predict(c5_fit$fit, ad_mod_x[1:5, -1], trees = 1, type = "prob")[,1],
-    c5_multi_prob$.pred_Impaired[c5_multi_prob$trees == 1]
+    predict(c5_fit$fit, ad_mod_x[1:5, -1], trees = 2, type = "class"),
+    c5_multi_pred$.pred_class[c5_multi_pred$trees == 2]
+  )
+  expect_equivalent(
+    predict(c5_fit$fit, ad_mod_x[1:5, -1], trees = 2, type = "prob")[,1],
+    c5_multi_prob$.pred_Impaired[c5_multi_prob$trees == 2]
+  )
+
+})
+
+
+test_that('tunable', {
+  C5_rules_C5.0 <-
+    rules::C5_rules(trees = tune(), min_n = tune()) %>%
+    set_engine('C5.0') %>%
+    tunable()
+
+  expect_equal(
+    C5_rules_C5.0$call_info[C5_rules_C5.0$name=="trees"][[1]]$range,
+    c(1L, 100L)
   )
 
 })
