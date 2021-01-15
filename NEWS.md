@@ -1,5 +1,7 @@
 # rules (development version)
 
+* `tidy()` methods for Cubist and RuleFit models to get the rule expressions. 
+
 # rules 0.1.0
 
 * The default encoding methods were changed such that `parsnip` will respect the encoding that the underlying model uses. 
