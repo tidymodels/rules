@@ -12,6 +12,10 @@
   s3_register("stats::update", "rule_fit")
   s3_register("stats::update", "cubist_rules")
   s3_register("stats::update", "C5_rules")
+
+  s3_register("generics::tidy", "cubist")
+  s3_register("generics::tidy", "xrf")
+
   maybe_register_tunable_methods()
 }
 

@@ -74,7 +74,7 @@
 #' @return An updated `parsnip` model specification.
 #' @seealso [parsnip::fit()], [parsnip::fit_xy()], [xrf::xrf.formula()]
 #' @references Friedman, J. H., and Popescu, B. E. (2008). "Predictive learning
-#' via rule ensembles." _The Annals ofApplied Statistics_, 2(3), 916-954.
+#' via rule ensembles." _The Annals of Applied Statistics_, 2(3), 916-954.
 #' @examples
 #' rule_fit()
 #' # Parameters can be represented by a placeholder:
@@ -241,6 +241,7 @@ xrf_fit <-
     res <- rlang::eval_tidy(cl)
     res$lambda  <- lambda
     res$family <- args$family
+    res$levels <- get_levels(formula, data)
     res
   }
 
@@ -282,6 +283,17 @@ get_glmnet_type <- function(x, type) {
     type <- "response"
   }
   type
+}
+
+
+get_levels <- function(formula, data) {
+  m <- model.frame(formula, head(data))
+  y <- model.response(m)
+  res <- levels(y)
+  if (length(res) == 0) {
+    res <- character(0)
+  }
+  res
 }
 
 

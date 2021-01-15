@@ -4,6 +4,7 @@
 \name{reexports}
 \alias{reexports}
 \alias{multi_predict}
+\alias{tidy}
 \title{Objects exported from other packages}
 \keyword{internal}
 \description{
@@ -11,6 +12,8 @@ These objects are imported from other packages. Follow the links
 below to see their documentation.
 
 \describe{
+  \item{generics}{\code{\link[generics]{tidy}}}
+
   \item{parsnip}{\code{\link[parsnip]{multi_predict}}}
 }}
 
