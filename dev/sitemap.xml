@@ -27,4 +27,10 @@
   <url>
     <loc>https://rules.tidymodels.org/reference/rules-internal.html</loc>
   </url>
+  <url>
+    <loc>https://rules.tidymodels.org/reference/tidy.cubist.html</loc>
+  </url>
+  <url>
+    <loc>https://rules.tidymodels.org/articles/Cubist-and-RuleFit.html</loc>
+  </url>
 </urlset>

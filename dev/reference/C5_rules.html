@@ -107,12 +107,24 @@ in lieu of recreating the object from scratch." />
         <li>
   <a href="../reference/index.html">Reference</a>
 </li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Articles
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="../articles/Cubist-and-RuleFit.html">What's the difference between Cubist and RuleFit?</a>
+    </li>
+  </ul>
+</li>
 <li>
   <a href="../news/index.html">Changelog</a>
 </li>
         <li>
   <a href="https://github.com/tidymodels/rules/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -218,9 +230,9 @@ ensemble (<code>trees</code>) and the number of samples required to continue spl
 when creating a tree (<code>min_n</code>). There are no arguments to control the total
 number of rules in the ensemble.</p>
 <p>Note that <code>C5_rules()</code> does not require that categorical predictors be
-converted to numeric indicator values. Note that using <code><a href='https://rdrr.io/pkg/generics/man/fit.html'>parsnip::fit()</a></code> will
+converted to numeric indicator values. Note that using <code><a href='https://generics.r-lib.org/reference/fit.html'>parsnip::fit()</a></code> will
 <em>always</em> create dummy variables so, if there is interest in keeping the
-categorical predictors in their original format, <code><a href='https://rdrr.io/pkg/generics/man/fit_xy.html'>parsnip::fit_xy()</a></code> would
+categorical predictors in their original format, <code><a href='https://generics.r-lib.org/reference/fit_xy.html'>parsnip::fit_xy()</a></code> would
 be a better choice. When using the <code>tune</code> package, using a recipe for
 pre-processing enables more control over how such predictors are encoded
 since recipes do not automatically create dummy variables.</p>
@@ -234,7 +246,7 @@ turns this feature off (although it can be re-enabled using
 Kaufmann Publishers.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><code><a href='https://rdrr.io/pkg/generics/man/fit.html'>parsnip::fit()</a></code>, <code><a href='https://rdrr.io/pkg/generics/man/fit_xy.html'>parsnip::fit_xy()</a></code>, <code><a href='https://topepo.github.io/C5.0/reference/C5.0.html'>C50::C5.0()</a></code>,
+    <div class='dont-index'><p><code><a href='https://generics.r-lib.org/reference/fit.html'>parsnip::fit()</a></code>, <code><a href='https://generics.r-lib.org/reference/fit_xy.html'>parsnip::fit_xy()</a></code>, <code><a href='https://topepo.github.io/C5.0/reference/C5.0.html'>C50::C5.0()</a></code>,
 <code><a href='https://topepo.github.io/C5.0/reference/C5.0Control.html'>C50::C5.0Control()</a></code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
@@ -268,7 +280,7 @@ Kaufmann Publishers.</p>
 #&gt;  1), earlyStopping = FALSE))
 #&gt; 
 #&gt; 
-#&gt; C5.0 [Release 2.07 GPL Edition]  	Wed Oct 28 20:08:58 2020
+#&gt; C5.0 [Release 2.07 GPL Edition]  	Fri Jan 15 15:53:34 2021
 #&gt; -------------------------------
 #&gt; 
 #&gt; Class specified by attribute `outcome'
