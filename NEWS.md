@@ -1,7 +1,10 @@
-# rules (development version)
+# rules 0.1.0
 
-* Added `tidy()` methods for cubist and RuleFit models to get back the rules
-  and model coefficients. 
+* Added `tidy()` methods for cubist and RuleFit models to get back the rules and model coefficients. 
+
+* Clean up `tunable()` methods that define the default parameter ranges for the tuning parameters. 
+
+* Changes to test for cases when CRAN cannot get `xgboost` to work on their Solaris configuration. 
 
 # rules 0.1.0
 
