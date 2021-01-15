@@ -26,7 +26,10 @@ Suggests:
     xrf (>= 0.2.0),
     covr,
     modeldata,
-    spelling
+    spelling,
+    recipes,
+    knitr,
+    rmarkdown
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
@@ -41,3 +44,4 @@ Imports:
     stringr,
     generics (>= 0.1.0)
 Language: en-US
+VignetteBuilder: knitr

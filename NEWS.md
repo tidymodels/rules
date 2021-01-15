@@ -1,6 +1,7 @@
 # rules (development version)
 
-* `tidy()` methods for Cubist and RuleFit models to get the rule expressions. 
+* Added `tidy()` methods for cubist and RuleFit models to get back the rules
+  and model coefficients. 
 
 # rules 0.1.0
 

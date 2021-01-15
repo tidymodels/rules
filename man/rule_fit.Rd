@@ -152,7 +152,7 @@ update(model, trees = 1, fresh = TRUE)
 }
 \references{
 Friedman, J. H., and Popescu, B. E. (2008). "Predictive learning
-via rule ensembles." \emph{The Annals ofApplied Statistics}, 2(3), 916-954.
+via rule ensembles." \emph{The Annals of Applied Statistics}, 2(3), 916-954.
 }
 \seealso{
 \code{\link[parsnip:reexports]{parsnip::fit()}}, \code{\link[parsnip:reexports]{parsnip::fit_xy()}}, \code{\link[xrf:xrf.formula]{xrf::xrf.formula()}}

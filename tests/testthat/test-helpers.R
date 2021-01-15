@@ -44,6 +44,14 @@ ad_pred <- as.data.frame(ad_pred)
 
 data("hpc_data")
 
+# ------------------------------------------------------------------------------
+
+data(ames, package = "modeldata")
+
+ames <-
+  ames %>%
+  mutate(Sale_Price = log10(ames$Sale_Price),
+         Gr_Liv_Area = log10(ames$Gr_Liv_Area))
 
 set.seed(1001)
 keep <- sample(1:nrow(hpc_data), 1510)
