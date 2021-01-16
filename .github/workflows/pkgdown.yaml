@@ -6,7 +6,7 @@ name: pkgdown
 
 jobs:
   pkgdown:
-    runs-on: ubuntu-16.04
+    runs-on: macOS-latest
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
     steps:
@@ -32,6 +32,7 @@ jobs:
 
       - name: Install dependencies
         run: |
+          remotes::install_cran("libcoin")
           remotes::install_deps(dependencies = TRUE)
           remotes::install_dev("pkgdown")
           remotes::install_github("tidyverse/tidytemplate")
