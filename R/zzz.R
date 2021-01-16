@@ -13,27 +13,13 @@
   s3_register("stats::update", "cubist_rules")
   s3_register("stats::update", "C5_rules")
 
+  s3_register("generics::tunable", "cubist_rules")
+  s3_register("generics::tunable", "rule_fit")
+  s3_register("generics::tunable", "C5_rules")
+
   s3_register("generics::tidy", "cubist")
   s3_register("generics::tidy", "xrf")
 
-  maybe_register_tunable_methods()
-}
-
-# This package has specific methods for the `tunable()` generic. That generic
-# is defined in the `tune` package. As of R 4.0, we need to register them.
-# Since `tune` is not on CRAN, we only register them if tune is installed
-maybe_register_tunable_methods <- function() {
-
-    ns <- asNamespace("rules")
-
-  names <- names(ns)
-  names <- grep("tunable.rule_fit", names, fixed = TRUE, value = TRUE)
-
-  for (name in names) {
-    s3_register("tune::tunable", name, get(name, envir = ns))
-  }
-
-  invisible(NULL)
 }
 
 # vctrs:::s3_register()

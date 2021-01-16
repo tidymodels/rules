@@ -395,8 +395,8 @@ tunable.cubist_rules <- function(x, ...) {
   tibble::tibble(
     name = c('committees', 'neighbors', 'max_rules'),
     call_info = list(
-      list(pkg = "rules", fun = "committees"),
-      list(pkg = "dials", fun = "neighbors", range = c(0, 9)),
+      list(pkg = "rules", fun = "committees", range = c(1L, 100L)),
+      list(pkg = "dials", fun = "neighbors",  range = c(0L,   9L)),
       list(pkg = "rules", fun = "max_rules")
     ),
     source = "model_spec",

@@ -367,7 +367,6 @@ test_that('cubist parameters', {
   expect_equal(committees(1:2)$range, list(lower = 1L, upper = 2L))
 })
 
-
 # ------------------------------------------------------------------------------
 
 test_that('tidy method for cubist - one committee', {
@@ -478,4 +477,22 @@ test_that('tidy method for cubist - many committees', {
   expect_equal(cb_mult_fit_res$rule[1], "<no conditions>")
 })
 
+
+test_that('tunable', {
+  cubist_rules_Cubist <-
+    rules::cubist_rules(committees = tune(), neighbors = tune(), max_rules = tune()) %>%
+    set_engine('Cubist') %>%
+    tunable()
+
+  expect_equal(
+    cubist_rules_Cubist$call_info[cubist_rules_Cubist$name=="committees"][[1]]$range,
+    c(1L, 100L)
+  )
+
+  expect_equal(
+    cubist_rules_Cubist$call_info[cubist_rules_Cubist$name=="neighbors"][[1]]$range,
+    c(0L, 9L)
+  )
+
+})
 

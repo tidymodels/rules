@@ -242,7 +242,7 @@ c5_fit <- function(x, y, trials = 1, minCases = 2, cost =  NULL, ...) {
   cl <- rlang::call2(.fn = "C5.0", .ns = "C50", !!!args)
   res <- rlang::eval_tidy(cl)
   # Give an extra class to have a separate multi_predict() method
-  class(res) <- c("c5_rules", class(res))
+  class(res) <- c("C5_rules", class(res))
   res
 }
 
@@ -305,7 +305,7 @@ c5_pred <- function(object, new_data, trials = object$fit$trials["Actual"], ...)
 #' iterations than the number requested. Printing the object will show how many
 #' were used due to early stopping. This can be change using an option in
 #' [C50::C5.0Control()]. Beware that the number of iterations requested
-multi_predict._c5_rules <-
+multi_predict._C5_rules <-
   function(object, new_data, type = NULL, trees = NULL, ...) {
     if (any(names(enquos(...)) == "newdata")) {
       rlang::abort("Did you mean to use `new_data` instead of `newdata`?")
@@ -342,3 +342,22 @@ multi_predict._c5_rules <-
 prob_matrix_to_tibble <- function(x, object) {
   tibble::as_tibble(x)
 }
+
+# ------------------------------------------------------------------------------
+
+
+#' @export
+#' @keywords internal
+#' @rdname rules-internal
+tunable.C5_rules <- function(x, ...) {
+  tibble::tibble(
+    name = c('trees'),
+    call_info = list(
+      list(pkg = "dials", fun = "trees", range = c(1L, 100L))
+    ),
+    source = "model_spec",
+    component = class(x)[class(x) != "model_spec"][1],
+    component_id =  "main"
+  )
+}
+

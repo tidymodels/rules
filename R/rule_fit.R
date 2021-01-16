@@ -513,10 +513,10 @@ tunable.rule_fit <- function(x, ...) {
              'loss_reduction', 'sample_size', 'penalty'),
     call_info = list(
       list(pkg = "rules", fun = "mtry_prop"),
-      list(pkg = "dials", fun = "trees", range = c(5, 100)),
+      list(pkg = "dials", fun = "trees", range = c(5L, 100L)),
       list(pkg = "dials", fun = "min_n"),
-      list(pkg = "dials", fun = "tree_depth", range = c(1, 10)),
-      list(pkg = "dials", fun = "learn_rate"),
+      list(pkg = "dials", fun = "tree_depth", range = c(1L, 10L)),
+      list(pkg = "dials", fun = "learn_rate", range = c(-10, 0)),
       list(pkg = "dials", fun = "loss_reduction"),
       list(pkg = "dials", fun = "sample_prop", range = c(0.50, 0.95)),
       list(pkg = "dials", fun = "penalty")
