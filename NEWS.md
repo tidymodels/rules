@@ -1,3 +1,5 @@
+# rules (development version)
+
 # rules 0.1.1
 
 * Added `tidy()` methods for cubist and RuleFit models to get back the rules and model coefficients. 
