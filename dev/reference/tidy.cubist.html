@@ -8,6 +8,13 @@
 
 <title>Turn regression rule models into tidy tibbles — tidy.cubist • rules</title>
 
+<!-- favicons -->
+<link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
+<link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png" />
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
@@ -44,6 +51,7 @@
 
 <meta property="og:title" content="Turn regression rule models into tidy tibbles — tidy.cubist" />
 <meta property="og:description" content="Turn regression rule models into tidy tibbles" />
+<meta property="og:image" content="https://rules.tidymodels.org/logo.png" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -87,7 +95,7 @@
         <a class="navbar-brand" href="../index.html">rules</a>
         <div class="info hidden-xs hidden-sm">
           <span class="partof">part of <a href="https://tidymodels.orgs">tidymodels</a></span>
-          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.1.0.9000</span>
+          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.1.1.9000</span>
         </div>
       </div>
     </div>
@@ -262,8 +270,8 @@ conditions. These can be converted to an R expression using
 <span class='va'>xrf_reg_fit</span> <span class='op'>&lt;-</span>
   <span class='va'>xrf_reg_mod</span> <span class='op'>%&gt;%</span>
   <span class='fu'>fit</span><span class='op'>(</span><span class='va'>Sale_Price</span> <span class='op'>~</span> <span class='va'>.</span>, data <span class='op'>=</span> <span class='va'>ames_processed</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [15:53:42] WARNING: amalgamation/../src/objective/regression_obj.cu:170: reg:linear is now deprecated in favor of reg:squarederror.
-#&gt; [15:53:42] WARNING: amalgamation/../src/learner.cc:541: 
+</div><div class='output co'>#&gt; [18:46:06] WARNING: amalgamation/../src/objective/regression_obj.cu:170: reg:linear is now deprecated in favor of reg:squarederror.
+#&gt; [18:46:06] WARNING: amalgamation/../src/learner.cc:541: 
 #&gt; Parameters: { nrounds } might not be used.
 #&gt; 
 #&gt;   This may not be accurate due to some parameters are only used in language bindings but

@@ -8,6 +8,13 @@
 
 <title>Changelog • rules</title>
 
+<!-- favicons -->
+<link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
+<link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png" />
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
@@ -43,6 +50,8 @@
 
 
 <meta property="og:title" content="Changelog" />
+<meta property="og:image" content="https://rules.tidymodels.org/logo.png" />
+<meta name="twitter:card" content="summary" />
 
 
 <meta name="robots" content="noindex">
@@ -85,7 +94,7 @@
         <a class="navbar-brand" href="../index.html">rules</a>
         <div class="info hidden-xs hidden-sm">
           <span class="partof">part of <a href="https://tidymodels.orgs">tidymodels</a></span>
-          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.1.0.9000</span>
+          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.1.1.9000</span>
         </div>
       </div>
     </div>
@@ -136,8 +145,15 @@
 <h1 class="page-header" data-toc-text="development version">
 <a href="#rules-development-version" class="anchor"></a>rules (development version)<small> Unreleased </small>
 </h1>
+</div>
+    <div id="rules-011" class="section level1">
+<h1 class="page-header" data-toc-text="0.1.1">
+<a href="#rules-011" class="anchor"></a>rules 0.1.1<small> 2021-01-16 </small>
+</h1>
 <ul>
-<li>Added <code><a href="https://generics.r-lib.org/reference/tidy.html">tidy()</a></code> methods for cubist and RuleFit models to get back the rules and model coefficients.</li>
+<li><p>Added <code><a href="https://generics.r-lib.org/reference/tidy.html">tidy()</a></code> methods for cubist and RuleFit models to get back the rules and model coefficients.</p></li>
+<li><p>Clean up <code><a href="https://generics.r-lib.org/reference/tunable.html">tunable()</a></code> methods that define the default parameter ranges for the tuning parameters.</p></li>
+<li><p>Changes to test for cases when CRAN cannot get <code>xgboost</code> to work on their Solaris configuration.</p></li>
 </ul>
 </div>
     <div id="rules-010" class="section level1">
