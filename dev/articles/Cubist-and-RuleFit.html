@@ -110,7 +110,7 @@
 <h2 class="hasAnchor">
 <a href="#both-start-by-making-rules-from-trees" class="anchor"></a>Both start by making rules from trees</h2>
 <p>For each model, an an initial tree-based model is created. Let’s look at a really simple example tree:</p>
-<p><img src="../man/figures/rules-from-trees.svg" style="display: block; margin: auto;"></p>
+<p><a href="https://raw.githubusercontent.com/tidymodels/rules/gh-pages/reference/figures/rules-from-trees.svg"></a></p>
 <p>In this case, two predictors are used in splits: <code>A</code> and <code>B</code>. On this graph, the split to the left is the “&lt;” condition. There are three terminal nodes shown as diamonds. This tree-based structure can be converted to a set of distinct rules. Each rule is a collection of <code>if/then</code> statements that define the path to the terminal nodes. In this example:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">rule_1</span> <span class="op">&lt;-</span> <span class="op">(</span><span class="va">A</span> <span class="op">&lt;</span>  <span class="va">a</span><span class="op">)</span> <span class="op">&amp;</span> <span class="op">(</span><span class="va">B</span> <span class="op">&lt;</span>  <span class="va">b</span><span class="op">)</span>
@@ -189,7 +189,7 @@
 <span class="va">cubist_fit</span>
 <span class="co">#&gt; parsnip model object</span>
 <span class="co">#&gt; </span>
-<span class="co">#&gt; Fit time:  44ms </span>
+<span class="co">#&gt; Fit time:  41ms </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; Call:</span>
 <span class="co">#&gt; cubist.default(x = x, y = y, committees = 2)</span>
@@ -207,7 +207,7 @@
 <span class="co">#&gt; cubist.default(x = x, y = y, committees = 2)</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; </span>
-<span class="co">#&gt; Cubist [Release 2.07 GPL Edition]  Thu Jan 21 16:45:43 2021</span>
+<span class="co">#&gt; Cubist [Release 2.07 GPL Edition]  Tue Jan 26 14:10:34 2021</span>
 <span class="co">#&gt; ---------------------------------</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt;     Target attribute `outcome'</span>
@@ -382,7 +382,7 @@
 <code class="sourceCode R"><span class="va">rule_fit_fit</span>
 <span class="co">#&gt; parsnip model object</span>
 <span class="co">#&gt; </span>
-<span class="co">#&gt; Fit time:  3.3s </span>
+<span class="co">#&gt; Fit time:  2.9s </span>
 <span class="co">#&gt; An eXtreme RuleFit model of 112 rules.</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; Original Formula:</span>
