@@ -29,7 +29,7 @@ Cubist is for numeric outcomes while RuleFit can work with numeric and categoric
 For each model, an an initial tree-based model is created. Let's look at a really simple example tree: 
 
 ```{r tree, echo = FALSE, fig.align="center"}
-knitr::include_graphics("../man/figures/rules-from-trees.svg")
+knitr::include_graphics("../reference/figures/rules-from-trees.svg")
 ```
 
 In this case, two predictors are used in splits: `A` and `B`. On this graph, the split to the left is the "<" condition. There are three terminal nodes shown as diamonds. This tree-based structure can be converted to a set of distinct rules. Each rule is a collection of `if/then` statements that define the path to the terminal nodes. In this example: 
