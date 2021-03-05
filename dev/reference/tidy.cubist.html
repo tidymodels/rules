@@ -76,9 +76,15 @@
   gtag('config', 'UA-115082821-1');
 </script>
 
+  
+
+  
+
   </head>
 
   <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -216,32 +222,32 @@ conditions. These can be converted to an R expression using
 
 <span class='va'>cb_res</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://generics.r-lib.org/reference/tidy.html'>tidy</a></span><span class='op'>(</span><span class='va'>cb_fit</span><span class='op'>)</span>
 <span class='va'>cb_res</span>
-</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 157 x 5</span><span>
+</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 157 x 5</span><span>
 #&gt;    committee rule_num rule                               estimate    statistic  
-#&gt;        </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>                              </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span>     
-#&gt; </span><span style='color: #555555;'> 1</span><span>         1        1 ( Central_Air == 'N' ) &amp; ( Gr_Liv… </span><span style='color: #555555;'>&lt;tibble [4</span><span>… </span><span style='color: #555555;'>&lt;tibble [1</span><span>…
-#&gt; </span><span style='color: #555555;'> 2</span><span>         1        2 ( Gr_Liv_Area &lt;= 3.0326188 ) &amp; ( … </span><span style='color: #555555;'>&lt;tibble [4</span><span>… </span><span style='color: #555555;'>&lt;tibble [1</span><span>…
-#&gt; </span><span style='color: #555555;'> 3</span><span>         1        3 ( Neighborhood  %in% c( 'Old_Town… </span><span style='color: #555555;'>&lt;tibble [3</span><span>… </span><span style='color: #555555;'>&lt;tibble [1</span><span>…
-#&gt; </span><span style='color: #555555;'> 4</span><span>         1        4 ( Neighborhood  %in% c( 'Old_Town… </span><span style='color: #555555;'>&lt;tibble [4</span><span>… </span><span style='color: #555555;'>&lt;tibble [1</span><span>…
-#&gt; </span><span style='color: #555555;'> 5</span><span>         1        5 ( Central_Air == 'N' ) &amp; ( Gr_Liv… </span><span style='color: #555555;'>&lt;tibble [4</span><span>… </span><span style='color: #555555;'>&lt;tibble [1</span><span>…
-#&gt; </span><span style='color: #555555;'> 6</span><span>         1        6 ( Longitude &lt;= -93.652023 ) &amp; ( N… </span><span style='color: #555555;'>&lt;tibble [4</span><span>… </span><span style='color: #555555;'>&lt;tibble [1</span><span>…
-#&gt; </span><span style='color: #555555;'> 7</span><span>         1        7 ( Gr_Liv_Area &gt; 3.2284005 ) &amp; ( N… </span><span style='color: #555555;'>&lt;tibble [4</span><span>… </span><span style='color: #555555;'>&lt;tibble [1</span><span>…
-#&gt; </span><span style='color: #555555;'> 8</span><span>         1        8 ( Neighborhood  %in% c( 'North_Am… </span><span style='color: #555555;'>&lt;tibble [4</span><span>… </span><span style='color: #555555;'>&lt;tibble [1</span><span>…
-#&gt; </span><span style='color: #555555;'> 9</span><span>         1        9 ( Latitude &lt;= 42.009399 ) &amp; ( Nei… </span><span style='color: #555555;'>&lt;tibble [3</span><span>… </span><span style='color: #555555;'>&lt;tibble [1</span><span>…
-#&gt; </span><span style='color: #555555;'>10</span><span>         1       10 ( Neighborhood  %in% c( 'College_… </span><span style='color: #555555;'>&lt;tibble [4</span><span>… </span><span style='color: #555555;'>&lt;tibble [1</span><span>…
-#&gt; </span><span style='color: #555555;'># … with 147 more rows</span><span></div><div class='input'>
+#&gt;        </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span>    </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>                              </span><span style='color: #949494;font-style: italic;'>&lt;list&gt;</span><span>      </span><span style='color: #949494;font-style: italic;'>&lt;list&gt;</span><span>     
+#&gt; </span><span style='color: #BCBCBC;'> 1</span><span>         1        1 ( Central_Air == 'N' ) &amp; ( Gr_Liv… </span><span style='color: #949494;'>&lt;tibble [4</span><span>… </span><span style='color: #949494;'>&lt;tibble [1</span><span>…
+#&gt; </span><span style='color: #BCBCBC;'> 2</span><span>         1        2 ( Gr_Liv_Area &lt;= 3.0326188 ) &amp; ( … </span><span style='color: #949494;'>&lt;tibble [4</span><span>… </span><span style='color: #949494;'>&lt;tibble [1</span><span>…
+#&gt; </span><span style='color: #BCBCBC;'> 3</span><span>         1        3 ( Neighborhood  %in% c( 'Old_Town… </span><span style='color: #949494;'>&lt;tibble [3</span><span>… </span><span style='color: #949494;'>&lt;tibble [1</span><span>…
+#&gt; </span><span style='color: #BCBCBC;'> 4</span><span>         1        4 ( Neighborhood  %in% c( 'Old_Town… </span><span style='color: #949494;'>&lt;tibble [4</span><span>… </span><span style='color: #949494;'>&lt;tibble [1</span><span>…
+#&gt; </span><span style='color: #BCBCBC;'> 5</span><span>         1        5 ( Central_Air == 'N' ) &amp; ( Gr_Liv… </span><span style='color: #949494;'>&lt;tibble [4</span><span>… </span><span style='color: #949494;'>&lt;tibble [1</span><span>…
+#&gt; </span><span style='color: #BCBCBC;'> 6</span><span>         1        6 ( Longitude &lt;= -93.652023 ) &amp; ( N… </span><span style='color: #949494;'>&lt;tibble [4</span><span>… </span><span style='color: #949494;'>&lt;tibble [1</span><span>…
+#&gt; </span><span style='color: #BCBCBC;'> 7</span><span>         1        7 ( Gr_Liv_Area &gt; 3.2284005 ) &amp; ( N… </span><span style='color: #949494;'>&lt;tibble [4</span><span>… </span><span style='color: #949494;'>&lt;tibble [1</span><span>…
+#&gt; </span><span style='color: #BCBCBC;'> 8</span><span>         1        8 ( Neighborhood  %in% c( 'North_Am… </span><span style='color: #949494;'>&lt;tibble [4</span><span>… </span><span style='color: #949494;'>&lt;tibble [1</span><span>…
+#&gt; </span><span style='color: #BCBCBC;'> 9</span><span>         1        9 ( Latitude &lt;= 42.009399 ) &amp; ( Nei… </span><span style='color: #949494;'>&lt;tibble [3</span><span>… </span><span style='color: #949494;'>&lt;tibble [1</span><span>…
+#&gt; </span><span style='color: #BCBCBC;'>10</span><span>         1       10 ( Neighborhood  %in% c( 'College_… </span><span style='color: #949494;'>&lt;tibble [4</span><span>… </span><span style='color: #949494;'>&lt;tibble [1</span><span>…
+#&gt; </span><span style='color: #949494;'># … with 147 more rows</span><span></div><div class='input'>
 <span class='va'>cb_res</span><span class='op'>$</span><span class='va'>estimate</span><span class='op'>[[</span><span class='fl'>1</span><span class='op'>]</span><span class='op'>]</span>
-</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 4 x 2</span><span>
+</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 4 x 2</span><span>
 #&gt;   term        estimate
-#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #555555;'>1</span><span> (Intercept)  -</span><span style='color: #BB0000;'>408.</span><span>  
-#&gt; </span><span style='color: #555555;'>2</span><span> Longitude      -</span><span style='color: #BB0000;'>1.43</span><span>
-#&gt; </span><span style='color: #555555;'>3</span><span> Latitude        6.6 
-#&gt; </span><span style='color: #555555;'>4</span><span> Gr_Liv_Area     0.7 </div><div class='input'><span class='va'>cb_res</span><span class='op'>$</span><span class='va'>statistic</span><span class='op'>[[</span><span class='fl'>1</span><span class='op'>]</span><span class='op'>]</span>
-</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 1 x 6</span><span>
+#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #BCBCBC;'>1</span><span> (Intercept)  -</span><span style='color: #BB0000;'>408.</span><span>  
+#&gt; </span><span style='color: #BCBCBC;'>2</span><span> Longitude      -</span><span style='color: #BB0000;'>1.43</span><span>
+#&gt; </span><span style='color: #BCBCBC;'>3</span><span> Latitude        6.6 
+#&gt; </span><span style='color: #BCBCBC;'>4</span><span> Gr_Liv_Area     0.7 </div><div class='input'><span class='va'>cb_res</span><span class='op'>$</span><span class='va'>statistic</span><span class='op'>[[</span><span class='fl'>1</span><span class='op'>]</span><span class='op'>]</span>
+</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 1 x 6</span><span>
 #&gt;   num_conditions coverage  mean   min   max  error
-#&gt;            </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #555555;'>1</span><span>              2      154  4.94  4.11  5.31 0.095</span><span style='text-decoration: underline;'>6</span><span></div><div class='input'><span class='co'># }</span>
+#&gt;            </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>    </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>  </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #BCBCBC;'>1</span><span>              2      154  4.94  4.11  5.31 0.095</span><span style='text-decoration: underline;'>6</span><span></div><div class='input'><span class='co'># }</span>
 
 <span class='co'># ------------------------------------------------------------------------------</span>
 
@@ -270,8 +276,8 @@ conditions. These can be converted to an R expression using
 <span class='va'>xrf_reg_fit</span> <span class='op'>&lt;-</span>
   <span class='va'>xrf_reg_mod</span> <span class='op'>%&gt;%</span>
   <span class='fu'>fit</span><span class='op'>(</span><span class='va'>Sale_Price</span> <span class='op'>~</span> <span class='va'>.</span>, data <span class='op'>=</span> <span class='va'>ames_processed</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [14:10:24] WARNING: amalgamation/../src/objective/regression_obj.cu:170: reg:linear is now deprecated in favor of reg:squarederror.
-#&gt; [14:10:24] WARNING: amalgamation/../src/learner.cc:541: 
+</div><div class='output co'>#&gt; [15:40:37] WARNING: amalgamation/../src/objective/regression_obj.cu:170: reg:linear is now deprecated in favor of reg:squarederror.
+#&gt; [15:40:37] WARNING: amalgamation/../src/learner.cc:541: 
 #&gt; Parameters: { nrounds } might not be used.
 #&gt; 
 #&gt;   This may not be accurate due to some parameters are only used in language bindings but
@@ -292,20 +298,20 @@ conditions. These can be converted to an R expression using
 #&gt;     (Neighborhood_Old_Town &gt;= -9.53674316e-07)</div><div class='input'>
 <span class='va'>xrf_col_res</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://generics.r-lib.org/reference/tidy.html'>tidy</a></span><span class='op'>(</span><span class='va'>xrf_reg_fit</span>, unit <span class='op'>=</span> <span class='st'>"columns"</span><span class='op'>)</span>
 <span class='va'>xrf_col_res</span>
-</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 149 x 3</span><span>
+</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 149 x 3</span><span>
 #&gt;    rule_id term           estimate
-#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>             </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #555555;'> 1</span><span> r0_1    Gr_Liv_Area   -</span><span style='color: #BB0000;'>1.27</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>- 2</span><span>
-#&gt; </span><span style='color: #555555;'> 2</span><span> r2_4    Gr_Liv_Area   -</span><span style='color: #BB0000;'>3.70</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>-10</span><span>
-#&gt; </span><span style='color: #555555;'> 3</span><span> r2_2    Gr_Liv_Area    7.59</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>- 3</span><span>
-#&gt; </span><span style='color: #555555;'> 4</span><span> r2_4    Central_Air_Y -</span><span style='color: #BB0000;'>3.70</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>-10</span><span>
-#&gt; </span><span style='color: #555555;'> 5</span><span> r3_5    Longitude      1.06</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>- 1</span><span>
-#&gt; </span><span style='color: #555555;'> 6</span><span> r3_6    Longitude      2.65</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>- 2</span><span>
-#&gt; </span><span style='color: #555555;'> 7</span><span> r3_5    Latitude       1.06</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>- 1</span><span>
-#&gt; </span><span style='color: #555555;'> 8</span><span> r3_6    Latitude       2.65</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>- 2</span><span>
-#&gt; </span><span style='color: #555555;'> 9</span><span> r3_5    Longitude      1.06</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>- 1</span><span>
-#&gt; </span><span style='color: #555555;'>10</span><span> r3_6    Longitude      2.65</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>- 2</span><span>
-#&gt; </span><span style='color: #555555;'># … with 139 more rows</span><span></div><div class='input'><span class='co'># }</span>
+#&gt;    </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>             </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #BCBCBC;'> 1</span><span> r0_1    Gr_Liv_Area   -</span><span style='color: #BB0000;'>1.27</span><span style='color: #949494;'>e</span><span style='color: #BB0000;'>- 2</span><span>
+#&gt; </span><span style='color: #BCBCBC;'> 2</span><span> r2_4    Gr_Liv_Area   -</span><span style='color: #BB0000;'>3.70</span><span style='color: #949494;'>e</span><span style='color: #BB0000;'>-10</span><span>
+#&gt; </span><span style='color: #BCBCBC;'> 3</span><span> r2_2    Gr_Liv_Area    7.59</span><span style='color: #949494;'>e</span><span style='color: #BB0000;'>- 3</span><span>
+#&gt; </span><span style='color: #BCBCBC;'> 4</span><span> r2_4    Central_Air_Y -</span><span style='color: #BB0000;'>3.70</span><span style='color: #949494;'>e</span><span style='color: #BB0000;'>-10</span><span>
+#&gt; </span><span style='color: #BCBCBC;'> 5</span><span> r3_5    Longitude      1.06</span><span style='color: #949494;'>e</span><span style='color: #BB0000;'>- 1</span><span>
+#&gt; </span><span style='color: #BCBCBC;'> 6</span><span> r3_6    Longitude      2.65</span><span style='color: #949494;'>e</span><span style='color: #BB0000;'>- 2</span><span>
+#&gt; </span><span style='color: #BCBCBC;'> 7</span><span> r3_5    Latitude       1.06</span><span style='color: #949494;'>e</span><span style='color: #BB0000;'>- 1</span><span>
+#&gt; </span><span style='color: #BCBCBC;'> 8</span><span> r3_6    Latitude       2.65</span><span style='color: #949494;'>e</span><span style='color: #BB0000;'>- 2</span><span>
+#&gt; </span><span style='color: #BCBCBC;'> 9</span><span> r3_5    Longitude      1.06</span><span style='color: #949494;'>e</span><span style='color: #BB0000;'>- 1</span><span>
+#&gt; </span><span style='color: #BCBCBC;'>10</span><span> r3_6    Longitude      2.65</span><span style='color: #949494;'>e</span><span style='color: #BB0000;'>- 2</span><span>
+#&gt; </span><span style='color: #949494;'># … with 139 more rows</span><span></div><div class='input'><span class='co'># }</span>
 </div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
@@ -333,6 +339,8 @@ conditions. These can be converted to an R expression using
 
   
 
+
+  
 
   </body>
 </html>

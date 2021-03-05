@@ -36,6 +36,8 @@
 </script>
 </head>
 <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-article">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -50,7 +52,7 @@
       <div class="navbar-brand-container">
         <a class="navbar-brand" href="../index.html">rules</a>
         <div class="info hidden-xs hidden-sm">
-          <span class="partof">part of <a href="https://tidymodels.orgs">tidymodels</a></span>
+          <span class="partof">part of <a href="https://tidymodels.orgs" class="external-link">tidymodels</a></span>
           <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.1.1.9000</span>
         </div>
       </div>
@@ -76,7 +78,7 @@
   <a href="../news/index.html">Changelog</a>
 </li>
         <li>
-  <a href="https://github.com/tidymodels/rules/">
+  <a href="https://github.com/tidymodels/rules/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -97,52 +99,52 @@
       <h1 data-toc-skip>What’s the difference between Cubist and RuleFit?</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/tidymodels/rules/blob/master/vignettes/Cubist-and-RuleFit.Rmd"><code>vignettes/Cubist-and-RuleFit.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/tidymodels/rules/blob/master/vignettes/Cubist-and-RuleFit.Rmd" class="external-link"><code>vignettes/Cubist-and-RuleFit.Rmd</code></a></small>
       <div class="hidden name"><code>Cubist-and-RuleFit.Rmd</code></div>
 
     </div>
 
     
     
-<p><a href="https://www.rulequest.com/cubist-win.html">Cubist</a> and <a href="https://statweb.stanford.edu/~jhf/R_RuleFit.html">RuleFit</a> are two rule-based regression models. They are similar in some ways but otherwise very different. This vignette is a short description of their approaches.</p>
+<p><a href="https://www.rulequest.com/cubist-win.html" class="external-link">Cubist</a> and <a href="https://statweb.stanford.edu/~jhf/R_RuleFit.html" class="external-link">RuleFit</a> are two rule-based regression models. They are similar in some ways but otherwise very different. This vignette is a short description of their approaches.</p>
 <p>Cubist is for numeric outcomes while RuleFit can work with numeric and categorical outcomes. For this document, we’ll focus on numeric outcomes (without loss of generality).</p>
 <div id="both-start-by-making-rules-from-trees" class="section level2">
 <h2 class="hasAnchor">
 <a href="#both-start-by-making-rules-from-trees" class="anchor"></a>Both start by making rules from trees</h2>
 <p>For each model, an an initial tree-based model is created. Let’s look at a really simple example tree:</p>
-<p><a href="https://raw.githubusercontent.com/tidymodels/rules/gh-pages/reference/figures/rules-from-trees.svg"></a></p>
+<p><a href="https://raw.githubusercontent.com/tidymodels/rules/gh-pages/reference/figures/rules-from-trees.svg" class="external-link"></a></p>
 <p>In this case, two predictors are used in splits: <code>A</code> and <code>B</code>. On this graph, the split to the left is the “&lt;” condition. There are three terminal nodes shown as diamonds. This tree-based structure can be converted to a set of distinct rules. Each rule is a collection of <code>if/then</code> statements that define the path to the terminal nodes. In this example:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">rule_1</span> <span class="op">&lt;-</span> <span class="op">(</span><span class="va">A</span> <span class="op">&lt;</span>  <span class="va">a</span><span class="op">)</span> <span class="op">&amp;</span> <span class="op">(</span><span class="va">B</span> <span class="op">&lt;</span>  <span class="va">b</span><span class="op">)</span>
 <span class="va">rule_2</span> <span class="op">&lt;-</span> <span class="op">(</span><span class="va">A</span> <span class="op">&lt;</span>  <span class="va">a</span><span class="op">)</span> <span class="op">&amp;</span> <span class="op">(</span><span class="va">B</span> <span class="op">&gt;=</span> <span class="va">b</span><span class="op">)</span>
 <span class="va">rule_3</span> <span class="op">&lt;-</span> <span class="op">(</span><span class="va">A</span> <span class="op">&gt;=</span> <span class="va">a</span><span class="op">)</span></code></pre></div>
-<p>As is, these paths through the tree are mutually exclusive. For deep trees, these rules can become overly complex and may contain redundancies. Cubist takes the approach of <a href="https://scholar.google.com/scholar?hl=en&amp;as_sdt=0%2C7&amp;q=%22Simplifying+decision+trees%22&amp;btnG=">simplifying rules</a> whenever possible. For example,</p>
+<p>As is, these paths through the tree are mutually exclusive. For deep trees, these rules can become overly complex and may contain redundancies. Cubist takes the approach of <a href="https://scholar.google.com/scholar?hl=en&amp;as_sdt=0%2C7&amp;q=%22Simplifying+decision+trees%22&amp;btnG=" class="external-link">simplifying rules</a> whenever possible. For example,</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">rule_x</span> <span class="op">&lt;-</span> <span class="op">(</span><span class="va">A</span> <span class="op">&lt;</span>  <span class="fl">10</span><span class="op">)</span>  <span class="op">&amp;</span> <span class="op">(</span><span class="va">A</span> <span class="op">&lt;</span>  <span class="fl">7</span><span class="op">)</span> <span class="op">&amp;</span> <span class="op">(</span><span class="va">B</span> <span class="op">&gt;=</span> <span class="fl">1</span><span class="op">)</span></code></pre></div>
 <p>becomes</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">rule_y</span> <span class="op">&lt;-</span> <span class="op">(</span><span class="va">A</span> <span class="op">&lt;</span> <span class="fl">7</span><span class="op">)</span> <span class="op">&amp;</span> <span class="op">(</span><span class="va">B</span> <span class="op">&gt;=</span> <span class="fl">1</span><span class="op">)</span></code></pre></div>
 <p>Cubist also has an approach that can <em>prune</em> conditions inside of the rule that simplifies the structure without degrading performance. If <code>B</code> doesn’t matter much in the rule above, then Cubist could reduce it to <code>A &lt; 7</code>.</p>
-<p>Cubist and RuleFit are also ensemble methods. For RuleFit, any tree ensemble model could generate a set of rules. For the <code>xrf</code> package, the <code>xgboost</code> package creates the initial set of rules. The rules create be each tree are pooled into a broader rule set. Cubist takes a different approach and uses model committees (see <a href="http://appliedpredictivemodeling.com/"><em>APM</em></a> Chapter 14). This is similar to boosting but creates a pseudo-outcome for each tree in the ensemble. This outcome adjusts the trees based on the size of the residual from the previous tree.</p>
+<p>Cubist and RuleFit are also ensemble methods. For RuleFit, any tree ensemble model could generate a set of rules. For the <code>xrf</code> package, the <code>xgboost</code> package creates the initial set of rules. The rules create be each tree are pooled into a broader rule set. Cubist takes a different approach and uses model committees (see <a href="http://appliedpredictivemodeling.com/" class="external-link"><em>APM</em></a> Chapter 14). This is similar to boosting but creates a pseudo-outcome for each tree in the ensemble. This outcome adjusts the trees based on the size of the residual from the previous tree.</p>
 <p>At the end of the rule generating process, the rules are unlikely to mutually exclusive. Any data point is likely to be fall into multiple rules.</p>
 <p>Now let’s look at how each model uses the rules.</p>
 </div>
 <div id="cubists-makes-a-model-for-each-rule" class="section level2">
 <h2 class="hasAnchor">
 <a href="#cubists-makes-a-model-for-each-rule" class="anchor"></a>Cubists makes a model for each rule</h2>
-<p>Before delving into the rules, let’s start with the <a href="https://scholar.google.com/scholar?hl=en&amp;as_sdt=0%2C7&amp;q=%22Learning+with+continuous+classes%22&amp;btnG="><em>model tree</em></a> initially created by Cubist. An initial tree is created and a regression model is created for <em>each split in the tree</em>. Each linear regression is created on the subset of the data covered by the current rule and uses only the predictors in the current rule. In the tree shown above, the first split produces two models with <code>A</code> as a predictor. The data for each are filtered either with <code>A &lt; a</code> or <code>A &gt;= a</code>. The entire set of models are:</p>
+<p>Before delving into the rules, let’s start with the <a href="https://scholar.google.com/scholar?hl=en&amp;as_sdt=0%2C7&amp;q=%22Learning+with+continuous+classes%22&amp;btnG=" class="external-link"><em>model tree</em></a> initially created by Cubist. An initial tree is created and a regression model is created for <em>each split in the tree</em>. Each linear regression is created on the subset of the data covered by the current rule and uses only the predictors in the current rule. In the tree shown above, the first split produces two models with <code>A</code> as a predictor. The data for each are filtered either with <code>A &lt; a</code> or <code>A &gt;= a</code>. The entire set of models are:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">split_1_low</span>  <span class="op">&lt;-</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">data</span>, <span class="va">A</span> <span class="op">&lt;</span>  <span class="va">a</span><span class="op">)</span>
-<span class="va">model_1_low</span>  <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">y</span> <span class="op">~</span> <span class="va">A</span>, data <span class="op">=</span> <span class="va">split_1_low</span><span class="op">)</span>
+<code class="sourceCode R"><span class="va">split_1_low</span>  <span class="op">&lt;-</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">data</span>, <span class="va">A</span> <span class="op">&lt;</span>  <span class="va">a</span><span class="op">)</span>
+<span class="va">model_1_low</span>  <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">y</span> <span class="op">~</span> <span class="va">A</span>, data <span class="op">=</span> <span class="va">split_1_low</span><span class="op">)</span>
 
-<span class="va">split_1_high</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">data</span>, <span class="va">A</span> <span class="op">&gt;=</span> <span class="va">a</span><span class="op">)</span>
-<span class="va">model_1_high</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">y</span> <span class="op">~</span> <span class="va">A</span>, data <span class="op">=</span> <span class="va">split_1_high</span><span class="op">)</span>
+<span class="va">split_1_high</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">data</span>, <span class="va">A</span> <span class="op">&gt;=</span> <span class="va">a</span><span class="op">)</span>
+<span class="va">model_1_high</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">y</span> <span class="op">~</span> <span class="va">A</span>, data <span class="op">=</span> <span class="va">split_1_high</span><span class="op">)</span>
 
-<span class="va">split_2_low</span>  <span class="op">&lt;-</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">data</span>, <span class="va">A</span> <span class="op">&lt;</span>  <span class="va">a</span> <span class="op">&amp;</span> <span class="va">B</span> <span class="op">&lt;</span>  <span class="va">b</span><span class="op">)</span>
-<span class="va">model_2_low</span>  <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">y</span> <span class="op">~</span> <span class="va">A</span> <span class="op">+</span> <span class="va">B</span>, data <span class="op">=</span> <span class="va">split_2_low</span><span class="op">)</span>
+<span class="va">split_2_low</span>  <span class="op">&lt;-</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">data</span>, <span class="va">A</span> <span class="op">&lt;</span>  <span class="va">a</span> <span class="op">&amp;</span> <span class="va">B</span> <span class="op">&lt;</span>  <span class="va">b</span><span class="op">)</span>
+<span class="va">model_2_low</span>  <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">y</span> <span class="op">~</span> <span class="va">A</span> <span class="op">+</span> <span class="va">B</span>, data <span class="op">=</span> <span class="va">split_2_low</span><span class="op">)</span>
 
-<span class="va">split_2_high</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">data</span>, <span class="va">A</span> <span class="op">&lt;</span>  <span class="va">a</span> <span class="op">&amp;</span> <span class="va">B</span> <span class="op">&gt;=</span> <span class="va">b</span><span class="op">)</span>
-<span class="va">model_2_high</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">y</span> <span class="op">~</span> <span class="va">A</span> <span class="op">+</span> <span class="va">B</span>, data <span class="op">=</span> <span class="va">split_2_high</span><span class="op">)</span></code></pre></div>
+<span class="va">split_2_high</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">data</span>, <span class="va">A</span> <span class="op">&lt;</span>  <span class="va">a</span> <span class="op">&amp;</span> <span class="va">B</span> <span class="op">&gt;=</span> <span class="va">b</span><span class="op">)</span>
+<span class="va">model_2_high</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">y</span> <span class="op">~</span> <span class="va">A</span> <span class="op">+</span> <span class="va">B</span>, data <span class="op">=</span> <span class="va">split_2_high</span><span class="op">)</span></code></pre></div>
 <p>Cubist does some feature selection on these models so they may not contain all of the possible predictors. Also, since Cubist prunes the rules, there may be not appear to be a connection between the variables used in a rule and its corresponding model.</p>
 <p>The models associated with the rules are actually average of many models further up the tree. Since these are linear models, the models used by Cubist for each rule have coefficients that are averages:</p>
 <table class="table">
@@ -173,14 +175,14 @@
 </tr>
 </tbody>
 </table>
-<p>The equations for averaging were first described in <a href="https://scholar.google.com/scholar?hl=en&amp;as_sdt=0%2C7&amp;q=%22Learning+with+continuous+classes%22&amp;btnG=">Quinlan (1992)</a> but the updated equation for Cubist can be found in Chapter 14 of <a href="http://appliedpredictivemodeling.com/"><em>APM</em></a>.</p>
+<p>The equations for averaging were first described in <a href="https://scholar.google.com/scholar?hl=en&amp;as_sdt=0%2C7&amp;q=%22Learning+with+continuous+classes%22&amp;btnG=" class="external-link">Quinlan (1992)</a> but the updated equation for Cubist can be found in Chapter 14 of <a href="http://appliedpredictivemodeling.com/" class="external-link"><em>APM</em></a>.</p>
 <p>There is a model for each committee and rule within committee. When predicting, a new observation is compared to the conditions in the rules to determine which rules are active for this data point. The active linear models predict the new sample and these predictions are averaged to produce the final prediction value.</p>
-<p>Perhaps unrelated to this document, which focuses on how rules are used, Cubist also does a <a href="https://scholar.google.com/scholar?hl=en&amp;as_sdt=0%2C7&amp;q=%22Combining+instance-based+and+model-based+learning%22&amp;btnG=">nearest-neighbor correction</a> to the predicted values.</p>
+<p>Perhaps unrelated to this document, which focuses on how rules are used, Cubist also does a <a href="https://scholar.google.com/scholar?hl=en&amp;as_sdt=0%2C7&amp;q=%22Combining+instance-based+and+model-based+learning%22&amp;btnG=" class="external-link">nearest-neighbor correction</a> to the predicted values.</p>
 <p>Let’s look at an example model on the Palmer penguin data:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/tidymodels/rules">rules</a></span><span class="op">)</span>
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/tidymodels/rules" class="external-link">rules</a></span><span class="op">)</span>
 <span class="co">#&gt; Loading required package: parsnip</span>
-<span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">penguins</span>, package <span class="op">=</span> <span class="st">"modeldata"</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">penguins</span>, package <span class="op">=</span> <span class="st">"modeldata"</span><span class="op">)</span>
 
 <span class="va">cubist_fit</span> <span class="op">&lt;-</span> 
   <span class="fu"><a href="../reference/cubist_rules.html">cubist_rules</a></span><span class="op">(</span>committees <span class="op">=</span> <span class="fl">2</span><span class="op">)</span> <span class="op">%&gt;%</span> 
@@ -189,7 +191,7 @@
 <span class="va">cubist_fit</span>
 <span class="co">#&gt; parsnip model object</span>
 <span class="co">#&gt; </span>
-<span class="co">#&gt; Fit time:  41ms </span>
+<span class="co">#&gt; Fit time:  43ms </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; Call:</span>
 <span class="co">#&gt; cubist.default(x = x, y = y, committees = 2)</span>
@@ -199,15 +201,15 @@
 <span class="co">#&gt; </span>
 <span class="co">#&gt; Number of committees: 2 </span>
 <span class="co">#&gt; Number of rules per committee: 5, 1</span></code></pre></div>
-<p>The <code><a href="https://rdrr.io/r/base/summary.html">summary()</a></code> function shows the details of the rules.</p>
+<p>The <code><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary()</a></code> function shows the details of the rules.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">cubist_fit</span><span class="op">$</span><span class="va">fit</span><span class="op">)</span>
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">cubist_fit</span><span class="op">$</span><span class="va">fit</span><span class="op">)</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; Call:</span>
 <span class="co">#&gt; cubist.default(x = x, y = y, committees = 2)</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; </span>
-<span class="co">#&gt; Cubist [Release 2.07 GPL Edition]  Tue Jan 26 14:10:34 2021</span>
+<span class="co">#&gt; Cubist [Release 2.07 GPL Edition]  Fri Mar  5 15:40:50 2021</span>
 <span class="co">#&gt; ---------------------------------</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt;     Target attribute `outcome'</span>
@@ -285,9 +287,9 @@
 <span class="co">#&gt; </span>
 <span class="co">#&gt; Time: 0.0 secs</span></code></pre></div>
 <p>Note that the only rule in the second committee has no conditions; all data points being predicted are affected by that rule. Also, it is possible for the linear model within a rule to only contain an intercept.</p>
-<p>The <code><a href="https://generics.r-lib.org/reference/tidy.html">tidy()</a></code> function can extract the rule and model data:</p>
+<p>The <code><a href="https://generics.r-lib.org/reference/tidy.html" class="external-link">tidy()</a></code> function can extract the rule and model data:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">cb_res</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://generics.r-lib.org/reference/tidy.html">tidy</a></span><span class="op">(</span><span class="va">cubist_fit</span><span class="op">)</span>
+<code class="sourceCode R"><span class="va">cb_res</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://generics.r-lib.org/reference/tidy.html" class="external-link">tidy</a></span><span class="op">(</span><span class="va">cubist_fit</span><span class="op">)</span>
 <span class="va">cb_res</span>
 <span class="co">#&gt; # A tibble: 6 x 5</span>
 <span class="co">#&gt;   committee rule_num rule                             estimate      statistic   </span>
@@ -298,12 +300,12 @@
 <span class="co">#&gt; 4         1        4 ( flipper_length_mm &gt; 202 ) &amp; (… &lt;tibble [2 ×… &lt;tibble [1 …</span>
 <span class="co">#&gt; 5         1        5 ( bill_depth_mm &lt;= 16.4 ) &amp; ( s… &lt;tibble [4 ×… &lt;tibble [1 …</span>
 <span class="co">#&gt; 6         2        1 &lt;no conditions&gt;                  &lt;tibble [2 ×… &lt;tibble [1 …</span></code></pre></div>
-<p>The <code>estimate</code> and <code>statistic</code> columns contain tibbles with parameter estimates and rule statistics, respectively. They can be easily expanded using <code><a href="https://tidyr.tidyverse.org/reference/nest.html">unnest()</a></code>:</p>
+<p>The <code>estimate</code> and <code>statistic</code> columns contain tibbles with parameter estimates and rule statistics, respectively. They can be easily expanded using <code><a href="https://tidyr.tidyverse.org/reference/nest.html" class="external-link">unnest()</a></code>:</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyr.tidyverse.org">tidyr</a></span><span class="op">)</span>
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyr.tidyverse.org" class="external-link">tidyr</a></span><span class="op">)</span>
 <span class="va">cb_res</span> <span class="op">%&gt;%</span> 
-  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">committee</span>, <span class="va">rule_num</span>, <span class="va">statistic</span><span class="op">)</span> <span class="op">%&gt;%</span> 
-  <span class="fu"><a href="https://tidyr.tidyverse.org/reference/nest.html">unnest</a></span><span class="op">(</span>cols <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">statistic</span><span class="op">)</span><span class="op">)</span>
+  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">committee</span>, <span class="va">rule_num</span>, <span class="va">statistic</span><span class="op">)</span> <span class="op">%&gt;%</span> 
+  <span class="fu"><a href="https://tidyr.tidyverse.org/reference/nest.html" class="external-link">unnest</a></span><span class="op">(</span>cols <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">statistic</span><span class="op">)</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 6 x 8</span>
 <span class="co">#&gt;   committee rule_num num_conditions coverage  mean   min   max error</span>
 <span class="co">#&gt;       &lt;int&gt;    &lt;int&gt;          &lt;dbl&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span>
@@ -315,32 +317,32 @@
 <span class="co">#&gt; 6         2        1              0      333 4207.  2700  6300  315.</span></code></pre></div>
 <p>For the first committee, rule four contains two conditions and covers 23 data points from the original data set. We can find these data points by converting the character string for the rule to an R expression, then evaluate the expression on the data set:</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org">dplyr</a></span><span class="op">)</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://purrr.tidyverse.org">purrr</a></span><span class="op">)</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://rlang.r-lib.org">rlang</a></span><span class="op">)</span>
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="http://purrr.tidyverse.org" class="external-link">purrr</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://rlang.r-lib.org" class="external-link">rlang</a></span><span class="op">)</span>
 
 <span class="va">rule_4_filter</span> <span class="op">&lt;-</span> 
   <span class="va">cb_res</span> <span class="op">%&gt;%</span> 
-  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">rule_num</span> <span class="op">==</span> <span class="fl">4</span><span class="op">)</span> <span class="op">%&gt;%</span> 
-  <span class="fu"><a href="https://purrr.tidyverse.org/reference/pluck.html">pluck</a></span><span class="op">(</span><span class="st">"rule"</span><span class="op">)</span> <span class="op">%&gt;%</span>   <span class="co"># &lt;- character string</span>
-  <span class="fu"><a href="https://rlang.r-lib.org/reference/parse_expr.html">parse_expr</a></span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span>    <span class="co"># &lt;- R expression</span>
-  <span class="fu"><a href="https://rlang.r-lib.org/reference/eval_tidy.html">eval_tidy</a></span><span class="op">(</span><span class="va">penguins</span><span class="op">)</span> <span class="co"># &lt;- logical vector</span>
+  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">rule_num</span> <span class="op">==</span> <span class="fl">4</span><span class="op">)</span> <span class="op">%&gt;%</span> 
+  <span class="fu"><a href="https://purrr.tidyverse.org/reference/pluck.html" class="external-link">pluck</a></span><span class="op">(</span><span class="st">"rule"</span><span class="op">)</span> <span class="op">%&gt;%</span>   <span class="co"># &lt;- character string</span>
+  <span class="fu"><a href="https://rlang.r-lib.org/reference/parse_expr.html" class="external-link">parse_expr</a></span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span>    <span class="co"># &lt;- R expression</span>
+  <span class="fu"><a href="https://rlang.r-lib.org/reference/eval_tidy.html" class="external-link">eval_tidy</a></span><span class="op">(</span><span class="va">penguins</span><span class="op">)</span> <span class="co"># &lt;- logical vector</span>
 
 <span class="va">penguins</span> <span class="op">%&gt;%</span> 
-  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/slice.html">slice</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/which.html">which</a></span><span class="op">(</span><span class="va">rule_4_filter</span><span class="op">)</span><span class="op">)</span>
+  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/slice.html" class="external-link">slice</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/which.html" class="external-link">which</a></span><span class="op">(</span><span class="va">rule_4_filter</span><span class="op">)</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 23 x 7</span>
-<span class="co">#&gt;    species island bill_length_mm bill_depth_mm flipper_length_… body_mass_g</span>
-<span class="co">#&gt;    &lt;fct&gt;   &lt;fct&gt;           &lt;dbl&gt;         &lt;dbl&gt;            &lt;int&gt;       &lt;int&gt;</span>
-<span class="co">#&gt;  1 Adelie  Dream            41.1          18.1              205        4300</span>
-<span class="co">#&gt;  2 Adelie  Dream            40.8          18.9              208        4300</span>
-<span class="co">#&gt;  3 Adelie  Biscoe           41            20                203        4725</span>
-<span class="co">#&gt;  4 Adelie  Torge…           44.1          18                210        4000</span>
-<span class="co">#&gt;  5 Gentoo  Biscoe           59.6          17                230        6050</span>
-<span class="co">#&gt;  6 Gentoo  Biscoe           44.4          17.3              219        5250</span>
-<span class="co">#&gt;  7 Gentoo  Biscoe           49.8          16.8              230        5700</span>
-<span class="co">#&gt;  8 Gentoo  Biscoe           50.8          17.3              228        5600</span>
-<span class="co">#&gt;  9 Gentoo  Biscoe           52.1          17                230        5550</span>
-<span class="co">#&gt; 10 Gentoo  Biscoe           52.2          17.1              228        5400</span>
+<span class="co">#&gt;    species island    bill_length_mm bill_depth_mm flipper_length_mm body_mass_g</span>
+<span class="co">#&gt;    &lt;fct&gt;   &lt;fct&gt;              &lt;dbl&gt;         &lt;dbl&gt;             &lt;int&gt;       &lt;int&gt;</span>
+<span class="co">#&gt;  1 Adelie  Dream               41.1          18.1               205        4300</span>
+<span class="co">#&gt;  2 Adelie  Dream               40.8          18.9               208        4300</span>
+<span class="co">#&gt;  3 Adelie  Biscoe              41            20                 203        4725</span>
+<span class="co">#&gt;  4 Adelie  Torgersen           44.1          18                 210        4000</span>
+<span class="co">#&gt;  5 Gentoo  Biscoe              59.6          17                 230        6050</span>
+<span class="co">#&gt;  6 Gentoo  Biscoe              44.4          17.3               219        5250</span>
+<span class="co">#&gt;  7 Gentoo  Biscoe              49.8          16.8               230        5700</span>
+<span class="co">#&gt;  8 Gentoo  Biscoe              50.8          17.3               228        5600</span>
+<span class="co">#&gt;  9 Gentoo  Biscoe              52.1          17                 230        5550</span>
+<span class="co">#&gt; 10 Gentoo  Biscoe              52.2          17.1               228        5400</span>
 <span class="co">#&gt; # … with 13 more rows, and 1 more variable: sex &lt;fct&gt;</span></code></pre></div>
 </div>
 <div id="rulefit-makes-one-model-with-rule-predictors" class="section level2">
@@ -366,8 +368,8 @@
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">penguins</span> <span class="op">&lt;-</span> 
   <span class="va">penguins</span> <span class="op">%&gt;%</span> 
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>body_mass_g <span class="op">=</span> <span class="va">body_mass_g</span> <span class="op">+</span> <span class="fl">0.0</span><span class="op">)</span> <span class="op">%&gt;%</span> 
-  <span class="fu"><a href="https://rdrr.io/r/stats/na.fail.html">na.omit</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>body_mass_g <span class="op">=</span> <span class="va">body_mass_g</span> <span class="op">+</span> <span class="fl">0.0</span><span class="op">)</span> <span class="op">%&gt;%</span> 
+  <span class="fu"><a href="https://rdrr.io/r/stats/na.fail.html" class="external-link">na.omit</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <p>Fitting the model:</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">rule_fit_spec</span> <span class="op">&lt;-</span> 
@@ -382,15 +384,15 @@
 <code class="sourceCode R"><span class="va">rule_fit_fit</span>
 <span class="co">#&gt; parsnip model object</span>
 <span class="co">#&gt; </span>
-<span class="co">#&gt; Fit time:  2.9s </span>
+<span class="co">#&gt; Fit time:  3.3s </span>
 <span class="co">#&gt; An eXtreme RuleFit model of 112 rules.</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; Original Formula:</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; body_mass_g ~ species + island + bill_length_mm + bill_depth_mm + flipper_length_mm + [truncated]</span></code></pre></div>
-<p>To get the rules and their associated coefficients, the <code><a href="https://generics.r-lib.org/reference/tidy.html">tidy()</a></code> method can be used again:</p>
+<p>To get the rules and their associated coefficients, the <code><a href="https://generics.r-lib.org/reference/tidy.html" class="external-link">tidy()</a></code> method can be used again:</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">rf_res</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://generics.r-lib.org/reference/tidy.html">tidy</a></span><span class="op">(</span><span class="va">rule_fit_fit</span><span class="op">)</span>
+<code class="sourceCode R"><span class="va">rf_res</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://generics.r-lib.org/reference/tidy.html" class="external-link">tidy</a></span><span class="op">(</span><span class="va">rule_fit_fit</span><span class="op">)</span>
 <span class="va">rf_res</span>
 <span class="co">#&gt; # A tibble: 110 x 3</span>
 <span class="co">#&gt;    rule_id          rule                                                estimate</span>
@@ -417,9 +419,9 @@
 <div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1"></a>( bill_depth_mm <span class="op">&gt;=</span><span class="st"> </span><span class="fl">14.1499996</span> ) <span class="op">&amp;</span><span class="st"> </span></span>
 <span id="cb16-2"><a href="#cb16-2"></a>( flipper_length_mm <span class="op">&lt;</span><span class="st">  </span><span class="dv">227</span> ) <span class="op">&amp;</span><span class="st"> </span></span>
 <span id="cb16-3"><a href="#cb16-3"></a>( flipper_length_mm <span class="op">&gt;=</span><span class="st"> </span><span class="fl">197.5</span> ) <span class="op">&amp;</span><span class="st"> </span></span></code></pre></div>
-<p>Also, the <code><a href="https://generics.r-lib.org/reference/tidy.html">tidy()</a></code> function can extract the same information but use the original predictors as the unit:</p>
+<p>Also, the <code><a href="https://generics.r-lib.org/reference/tidy.html" class="external-link">tidy()</a></code> function can extract the same information but use the original predictors as the unit:</p>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">rf_variable_res</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://generics.r-lib.org/reference/tidy.html">tidy</a></span><span class="op">(</span><span class="va">rule_fit_fit</span>, unit <span class="op">=</span> <span class="st">"columns"</span><span class="op">)</span>
+<code class="sourceCode R"><span class="va">rf_variable_res</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://generics.r-lib.org/reference/tidy.html" class="external-link">tidy</a></span><span class="op">(</span><span class="va">rule_fit_fit</span>, unit <span class="op">=</span> <span class="st">"columns"</span><span class="op">)</span>
 <span class="va">rf_variable_res</span>
 <span class="co">#&gt; # A tibble: 452 x 3</span>
 <span class="co">#&gt;    rule_id term              estimate</span>
@@ -437,16 +439,16 @@
 <span class="co">#&gt; # … with 442 more rows</span></code></pre></div>
 <p>A single rule might be represented with multiple rows of this version of the data. These results can also be used to compute a rough estimate or variable importance using the absolute value of the coefficients:</p>
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">num_rules</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/grep.html">grepl</a></span><span class="op">(</span><span class="st">"^r[0-9]*_"</span>, <span class="fu"><a href="https://rdrr.io/r/base/unique.html">unique</a></span><span class="op">(</span><span class="va">rf_res</span><span class="op">$</span><span class="va">rule_id</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> <span class="fl">1</span>
+<code class="sourceCode R"><span class="va">num_rules</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">grepl</a></span><span class="op">(</span><span class="st">"^r[0-9]*_"</span>, <span class="fu"><a href="https://rdrr.io/r/base/unique.html" class="external-link">unique</a></span><span class="op">(</span><span class="va">rf_res</span><span class="op">$</span><span class="va">rule_id</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> <span class="fl">1</span>
 
 <span class="va">rf_variable_res</span> <span class="op">%&gt;%</span> 
-  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">term</span> <span class="op">!=</span> <span class="st">"(Intercept)"</span><span class="op">)</span> <span class="op">%&gt;%</span> 
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">term</span><span class="op">)</span> <span class="op">%&gt;%</span> 
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarize</a></span><span class="op">(</span>effect <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">abs</a></span><span class="op">(</span><span class="va">estimate</span><span class="op">)</span><span class="op">)</span>, .groups <span class="op">=</span> <span class="st">"drop"</span><span class="op">)</span> <span class="op">%&gt;%</span> 
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">ungroup</a></span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span> 
+  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">term</span> <span class="op">!=</span> <span class="st">"(Intercept)"</span><span class="op">)</span> <span class="op">%&gt;%</span> 
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">term</span><span class="op">)</span> <span class="op">%&gt;%</span> 
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html" class="external-link">summarize</a></span><span class="op">(</span>effect <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">abs</a></span><span class="op">(</span><span class="va">estimate</span><span class="op">)</span><span class="op">)</span>, .groups <span class="op">=</span> <span class="st">"drop"</span><span class="op">)</span> <span class="op">%&gt;%</span> 
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">ungroup</a></span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span> 
   <span class="co"># normalize by number of possible occurrences</span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>effect <span class="op">=</span> <span class="va">effect</span> <span class="op">/</span> <span class="va">num_rules</span> <span class="op">)</span> <span class="op">%&gt;%</span> 
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html">arrange</a></span><span class="op">(</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/desc.html">desc</a></span><span class="op">(</span><span class="va">effect</span><span class="op">)</span><span class="op">)</span>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>effect <span class="op">=</span> <span class="va">effect</span> <span class="op">/</span> <span class="va">num_rules</span> <span class="op">)</span> <span class="op">%&gt;%</span> 
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html" class="external-link">arrange</a></span><span class="op">(</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/desc.html" class="external-link">desc</a></span><span class="op">(</span><span class="va">effect</span><span class="op">)</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 6 x 2</span>
 <span class="co">#&gt;   term              effect</span>
 <span class="co">#&gt;   &lt;chr&gt;              &lt;dbl&gt;</span>
@@ -476,7 +478,7 @@
 <div class="author">
   <p>
     Developed by Max Kuhn.
-    Site built by <a href="https://pkgdown.r-lib.org">pkgdown</a>.
+    Site built by <a href="https://pkgdown.r-lib.org" class="external-link">pkgdown</a>.
   </p>
 </div>
 
@@ -485,6 +487,8 @@
 
   
 
+
+  
 
   </body>
 </html>
