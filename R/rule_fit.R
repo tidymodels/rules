@@ -1,28 +1,17 @@
-#' General Interface for RuleFit Models
+#' RuleFit models
 #'
-#' [rule_fit()] is a way to generate a _specification_ of a model
-#'  before fitting. The main arguments for the model are:
-#' \itemize{
-#'   \item \code{mtry}: The number of predictors that will be
-#'   randomly sampled at each split when creating the tree models.
-#'   \item \code{trees}: The number of trees contained in the ensemble.
-#'   \item \code{min_n}: The minimum number of data points in a node
-#'   that are required for the node to be split further.
-#'   \item \code{tree_depth}: The maximum depth of the tree (i.e. number of
-#'  splits).
-#'   \item \code{learn_rate}: The rate at which the boosting algorithm adapts
-#'   from iteration-to-iteration.
-#'   \item \code{loss_reduction}: The reduction in the loss function required
-#'   to split further.
-#'   \item \code{sample_size}: The amount of data exposed to the fitting routine.
-#'   \item \code{penalty}: The amount of regularization in the glmnet model.
-#' }
-#' These arguments are converted to their specific names at the
-#'  time that the model is fit. Other options and argument can be
-#'  set using [parsnip::set_engine()]. If left to their defaults
-#'  here (`NULL`), the values are taken from the underlying model
-#'  functions. If parameters need to be modified, `update()` can be used
-#'  in lieu of recreating the object from scratch.
+#' @description
+#' `rule_fit()` defines a model that derives simple feature rules from a tree
+#' ensemble and uses them as features to a regularized model.
+#'
+#' There are different ways to fit this model. See the engine-specific pages
+#' for more details
+#'
+#' \Sexpr[stage=render,results=rd]{parsnip:::make_engine_list("rule_fit", pkg = "rules")}
+#'
+#' More information on how \pkg{parsnip} is used for modeling is at
+#' \url{https://www.tidymodels.org/}.
+#'
 #' @param mode A single character string for the type of model.
 #'  Possible values for this model are "unknown", "regression", or
 #'  "classification".
@@ -48,45 +37,19 @@
 #'  as predictors to a regularized generalized linear model that can also
 #'  conduct feature selection during model training.
 #'
-#' For the `xrf` engine, the `xgboost` package is used to create the rule set
-#'  that is then added to a `glmnet` model. The only available engine is `"xrf"`.
-#'
-#' ## Differences from the xrf package
-#'
-#' Note that, per the documentation in
-#' `?xrf`, transformations of the response variable are not supported. To
-#' use these with `rule_fit()`, we recommend using a recipe instead of the
-#' formula method.
-#'
-#' Also, there are several configuration differences in how `xrf()` is fit
-#'  between that package and the wrapper used in `rules`. Some differences in
-#'  default values are:
-#'
-##' \itemize{
-#'   \item \code{trees} (xrf: 100, rules: 15)
-#'   \item \code{max_depth} (xrf: 3, rules: 6)
-#' }
-#'
-#' These differences will create a difference in the values of the `penalty`
-#' argument that `glmnet` uses. Also, `rules` can also set `penalty` whereas
-#' `xrf` uses an internal 5-fold cross-validation to determine it (by default).
-#'
-#' @return An updated `parsnip` model specification.
-#' @seealso [parsnip::fit()], [parsnip::fit_xy()], [xrf::xrf.formula()]
 #' @references Friedman, J. H., and Popescu, B. E. (2008). "Predictive learning
 #' via rule ensembles." _The Annals of Applied Statistics_, 2(3), 916-954.
+#'
+#' @template spec-details
+#'
+#' @template spec-references
+#'
+#' @seealso [xrf::xrf.formula()] \Sexpr[stage=render,results=rd]{parsnip:::make_seealso_list("gen_additive_mod")}
+#'
 #' @examples
+#' show_engines("rule_fit")
+#'
 #' rule_fit()
-#' # Parameters can be represented by a placeholder:
-#' rule_fit(trees = 7)
-#'
-#' # ------------------------------------------------------------------------------
-#'
-#' set.seed(6907)
-#' rule_fit_rules <-
-#'   rule_fit(trees = 3, penalty = 0.1) %>%
-#'   set_mode("classification") %>%
-#'   fit(Species ~ ., data = iris)
 #'
 #' @export
 #' @importFrom purrr map_lgl
@@ -96,7 +59,8 @@ rule_fit <-
            tree_depth = NULL, learn_rate = NULL,
            loss_reduction = NULL,
            sample_size = NULL,
-           penalty = NULL) {
+           penalty = NULL,
+           engine = "xrf") {
 
     args <- list(
       mtry = enquo(mtry),
@@ -116,7 +80,7 @@ rule_fit <-
       eng_args = NULL,
       mode = mode,
       method = NULL,
-      engine = "xrf"
+      engine = engine
     )
   }
 
