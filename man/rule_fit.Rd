@@ -61,6 +61,9 @@ exposed to the fitting routine.}
 
 \item{penalty}{L1 regularization parameter.}
 
+\item{engine}{A single character string specifying what computational engine
+to use for fitting.}
+
 \item{object}{A \code{rule_fit} model specification.}
 
 \item{parameters}{A 1-row tibble or named list with \emph{main} parameters to update.
@@ -77,8 +80,7 @@ or replaced wholesale.}
 \code{rule_fit()} defines a model that derives simple feature rules from a tree
 ensemble and uses them as features to a regularized model.
 
-There are different ways to fit this model. See the engine-specific pages
-for more details
+The engine for this model is:
 
 \Sexpr[stage=render,results=rd]{parsnip:::make_engine_list("rule_fit", pkg = "rules")}
 
@@ -117,5 +119,5 @@ via rule ensembles." \emph{The Annals of Applied Statistics}, 2(3), 916-954.
 \url{https://www.tidymodels.org}, \href{https://tmwr.org}{\emph{Tidy Models with R}}
 }
 \seealso{
-\code{\link[xrf:xrf.formula]{xrf::xrf.formula()}} \Sexpr[stage=render,results=rd]{parsnip:::make_seealso_list("gen_additive_mod")}
+\code{\link[xrf:xrf.formula]{xrf::xrf.formula()}}, \Sexpr[stage=render,results=rd]{parsnip:::make_seealso_list("rule_fit", "rules")}
 }

@@ -3,9 +3,9 @@
 \name{C5_rules}
 \alias{C5_rules}
 \alias{update.C5_rules}
-\title{General Interface for C5.0 Rule-Based Classification Models}
+\title{C5.0 rule-based classification models}
 \usage{
-C5_rules(mode = "classification", trees = NULL, min_n = NULL)
+C5_rules(mode = "classification", trees = NULL, min_n = NULL, engine = "C5.0")
 
 \method{update}{C5_rules}(
   object,
@@ -26,6 +26,9 @@ of members of the ensemble.}
 \item{min_n}{An integer greater than one zero and nine for the minimum number
 of data points in a node that are required for the node to be split further.}
 
+\item{engine}{A single character string specifying what computational engine
+to use for fitting.}
+
 \item{object}{A \code{C5_rules} model specification.}
 
 \item{parameters}{A 1-row tibble or named list with \emph{main} parameters to update.
@@ -38,24 +41,16 @@ or replaced wholesale.}
 
 \item{...}{Not used for \code{update()}.}
 }
-\value{
-An updated \code{parsnip} model specification.
-}
 \description{
-\code{\link[=C5_rules]{C5_rules()}} is a way to generate a \emph{specification} of a model
-before fitting. The main arguments for the model are:
-\itemize{
-\item \code{trees}: The number of sequential models included in the
-ensemble (rules are derived from an initial set of boosted trees).
-\item \code{min_n}: The minimum number of data points in a node that are
-required for the node to be split further.
-}
-These arguments are converted to their specific names at the
-time that the model is fit. Other options and argument can be
-set using \code{\link[parsnip:set_engine]{parsnip::set_engine()}}. If left to their defaults
-here (\code{NULL}), the values are taken from the underlying model
-functions. If parameters need to be modified, \code{update()} can be used
-in lieu of recreating the object from scratch.
+\code{C5_rules()} defines a model that derives feature rules from a tree for
+prediction. A single tree or boosted ensemble can be used.
+
+The engine for this model is:
+
+\Sexpr[stage=render,results=rd]{parsnip:::make_engine_list("C5_rules", pkg = "rules")}
+
+More information on how \pkg{parsnip} is used for modeling is at
+\url{https://www.tidymodels.org/}.
 }
 \details{
 C5.0 is a classification model that is an extension of the C4.5
@@ -66,39 +61,16 @@ rules, an initial C5.0 tree is created and flattened into rules. The rules
 are pruned, simplified, and ordered. Rule sets are created within each
 iteration of boosting.
 
-The two main tuning parameters are the number of trees in the boosting
-ensemble (\code{trees}) and the number of samples required to continue splitting
-when creating a tree (\code{min_n}). There are no arguments to control the total
-number of rules in the ensemble.
+This function only defines what \emph{type} of model is being fit. Once an engine
+is specified, the \emph{method} to fit the model is also defined.
 
-Note that \code{C5_rules()} does not require that categorical predictors be
-converted to numeric indicator values. Note that using \code{\link[parsnip:reexports]{parsnip::fit()}} will
-\emph{always} create dummy variables so, if there is interest in keeping the
-categorical predictors in their original format, \code{\link[parsnip:reexports]{parsnip::fit_xy()}} would
-be a better choice. When using the \code{tune} package, using a recipe for
-pre-processing enables more control over how such predictors are encoded
-since recipes do not automatically create dummy variables.
-
-Note that C5.0 has a tool for \emph{early stopping} during boosting where less
-iterations of boosting are performed than the number requested. \code{C5_rules()}
-turns this feature off (although it can be re-enabled using
-\code{\link[C50:C5.0Control]{C50::C5.0Control()}}).
+The model is not trained or fit until the \code{\link[=fit.model_spec]{fit.model_spec()}} function is used
+with the data.
 }
 \examples{
+show_engines("C5_rules")
+
 C5_rules()
-# Parameters can be represented by a placeholder:
-C5_rules(trees = 7)
-
-# ------------------------------------------------------------------------------
-
-data(ad_data, package = "modeldata")
-
-set.seed(282782)
-class_rules <-
-  C5_rules(trees = 1, min_n  = 10) \%>\%
-  fit(Class ~ ., data = ad_data)
-
-summary(class_rules$fit)
 
 # ------------------------------------------------------------------------------
 
@@ -110,8 +82,10 @@ update(model, trees = 1, fresh = TRUE)
 \references{
 Quinlan R (1993). \emph{C4.5: Programs for Machine Learning}. Morgan
 Kaufmann Publishers.
+
+\url{https://www.tidymodels.org}, \href{https://tmwr.org}{\emph{Tidy Models with R}}
 }
 \seealso{
-\code{\link[parsnip:reexports]{parsnip::fit()}}, \code{\link[parsnip:reexports]{parsnip::fit_xy()}}, \code{\link[C50:C5.0]{C50::C5.0()}},
-\code{\link[C50:C5.0Control]{C50::C5.0Control()}}
+\code{\link[C50:C5.0]{C50::C5.0()}}, \code{\link[C50:C5.0Control]{C50::C5.0Control()}},
+\Sexpr[stage=render,results=rd]{parsnip:::make_seealso_list("C5_rules", "rules")}
 }

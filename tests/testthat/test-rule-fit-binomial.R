@@ -205,6 +205,7 @@ test_that('tidy method - two classes', {
 
 
 test_that('tunable', {
+  skip_if_not_installed("xrf")
   rule_fit_xrf <-
     rules::rule_fit(
       tree_depth = tune(),

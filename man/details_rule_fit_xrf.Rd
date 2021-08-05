@@ -108,8 +108,8 @@ Also, there are several configuration differences in how \code{xrf()} is fit
 between that package and the wrapper used in \code{rules}. Some differences
 in default values are:
 \itemize{
-\item \code{trees}: : 100, : 15)
-\item \code{max_depth} : 3, : 6) }
+\item \code{trees}: \verb{xrf: 100,}rules`: 15
+\item \code{max_depth}: \code{xrf}: 3, \code{rules}: 6
 }
 
 These differences will create a difference in the values of the

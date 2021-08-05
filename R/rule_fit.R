@@ -4,14 +4,15 @@
 #' `rule_fit()` defines a model that derives simple feature rules from a tree
 #' ensemble and uses them as features to a regularized model.
 #'
-#' There are different ways to fit this model. See the engine-specific pages
-#' for more details
+#' The engine for this model is:
 #'
 #' \Sexpr[stage=render,results=rd]{parsnip:::make_engine_list("rule_fit", pkg = "rules")}
 #'
 #' More information on how \pkg{parsnip} is used for modeling is at
 #' \url{https://www.tidymodels.org/}.
 #'
+#' @param engine A single character string specifying what computational engine
+#'  to use for fitting.
 #' @param mode A single character string for the type of model.
 #'  Possible values for this model are "unknown", "regression", or
 #'  "classification".
@@ -44,7 +45,7 @@
 #'
 #' @template spec-references
 #'
-#' @seealso [xrf::xrf.formula()] \Sexpr[stage=render,results=rd]{parsnip:::make_seealso_list("gen_additive_mod")}
+#' @seealso [xrf::xrf.formula()], \Sexpr[stage=render,results=rd]{parsnip:::make_seealso_list("rule_fit", "rules")}
 #'
 #' @examples
 #' show_engines("rule_fit")

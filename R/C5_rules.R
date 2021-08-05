@@ -1,19 +1,18 @@
-#' General Interface for C5.0 Rule-Based Classification Models
+#' C5.0 rule-based classification models
 #'
-#' [C5_rules()] is a way to generate a _specification_ of a model
-#'  before fitting. The main arguments for the model are:
-#' \itemize{
-#'   \item \code{trees}: The number of sequential models included in the
-#'   ensemble (rules are derived from an initial set of boosted trees).
-#'   \item \code{min_n}: The minimum number of data points in a node that are
-#'   required for the node to be split further.
-#' }
-#' These arguments are converted to their specific names at the
-#'  time that the model is fit. Other options and argument can be
-#'  set using [parsnip::set_engine()]. If left to their defaults
-#'  here (`NULL`), the values are taken from the underlying model
-#'  functions. If parameters need to be modified, `update()` can be used
-#'  in lieu of recreating the object from scratch.
+#' @description
+#' `C5_rules()` defines a model that derives feature rules from a tree for
+#' prediction. A single tree or boosted ensemble can be used.
+#'
+#' The engine for this model is:
+#'
+#' \Sexpr[stage=render,results=rd]{parsnip:::make_engine_list("C5_rules", pkg = "rules")}
+#'
+#' More information on how \pkg{parsnip} is used for modeling is at
+#' \url{https://www.tidymodels.org/}.
+#'
+#' @param engine A single character string specifying what computational engine
+#'  to use for fitting.
 #' @param mode A single character string for the type of model.
 #'  The only possible value for this model is "classification".
 #' @param trees A non-negative integer (no greater than 100 for the number
@@ -28,50 +27,26 @@
 #'  are pruned, simplified, and ordered. Rule sets are created within each
 #'  iteration of boosting.
 #'
-#' The two main tuning parameters are the number of trees in the boosting
-#'  ensemble (`trees`) and the number of samples required to continue splitting
-#'  when creating a tree (`min_n`). There are no arguments to control the total
-#'  number of rules in the ensemble.
-#'
-#' Note that `C5_rules()` does not require that categorical predictors be
-#'  converted to numeric indicator values. Note that using [parsnip::fit()] will
-#'  _always_ create dummy variables so, if there is interest in keeping the
-#'  categorical predictors in their original format, [parsnip::fit_xy()] would
-#'  be a better choice. When using the `tune` package, using a recipe for
-#'  pre-processing enables more control over how such predictors are encoded
-#'  since recipes do not automatically create dummy variables.
-#'
-#' Note that C5.0 has a tool for _early stopping_ during boosting where less
-#'  iterations of boosting are performed than the number requested. `C5_rules()`
-#'  turns this feature off (although it can be re-enabled using
-#'  [C50::C5.0Control()]).
-#'
-#' @return An updated `parsnip` model specification.
-#' @seealso [parsnip::fit()], [parsnip::fit_xy()], [C50::C5.0()],
-#' [C50::C5.0Control()]
 #' @references Quinlan R (1993). _C4.5: Programs for Machine Learning_. Morgan
 #' Kaufmann Publishers.
+#' @template spec-details
+#'
+#' @template spec-references
+#'
+#' @seealso [C50::C5.0()], [C50::C5.0Control()],
+#' \Sexpr[stage=render,results=rd]{parsnip:::make_seealso_list("C5_rules", "rules")}
+#'
 #' @examples
+#' show_engines("C5_rules")
+#'
 #' C5_rules()
-#' # Parameters can be represented by a placeholder:
-#' C5_rules(trees = 7)
-#'
-#' # ------------------------------------------------------------------------------
-#'
-#' data(ad_data, package = "modeldata")
-#'
-#' set.seed(282782)
-#' class_rules <-
-#'   C5_rules(trees = 1, min_n  = 10) %>%
-#'   fit(Class ~ ., data = ad_data)
-#'
-#' summary(class_rules$fit)
 #' @export
 #' @importFrom purrr map_lgl
 C5_rules <-
   function(mode = "classification",
            trees = NULL,
-           min_n = NULL) {
+           min_n = NULL,
+           engine = "C5.0") {
 
     args <- list(
       trees = enquo(trees),
@@ -84,7 +59,7 @@ C5_rules <-
       eng_args = NULL,
       mode = mode,
       method = NULL,
-      engine = "C5.0"
+      engine = engine
     )
   }
 
