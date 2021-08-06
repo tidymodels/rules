@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>General Interface for RuleFit Models — rule_fit • rules</title>
+<title>RuleFit models — rule_fit • rules</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -49,28 +49,15 @@
 
 
 
-<meta property="og:title" content="General Interface for RuleFit Models — rule_fit" />
-<meta property="og:description" content="rule_fit() is a way to generate a specification of a model
-before fitting. The main arguments for the model are:
-mtry: The number of predictors that will be
-randomly sampled at each split when creating the tree models.
-trees: The number of trees contained in the ensemble.
-min_n: The minimum number of data points in a node
-that are required for the node to be split further.
-tree_depth: The maximum depth of the tree (i.e. number of
-splits).
-learn_rate: The rate at which the boosting algorithm adapts
-from iteration-to-iteration.
-loss_reduction: The reduction in the loss function required
-to split further.
-sample_size: The amount of data exposed to the fitting routine.
-penalty: The amount of regularization in the glmnet model.
-These arguments are converted to their specific names at the
-time that the model is fit. Other options and argument can be
-set using parsnip::set_engine(). If left to their defaults
-here (NULL), the values are taken from the underlying model
-functions. If parameters need to be modified, update() can be used
-in lieu of recreating the object from scratch." />
+<meta property="og:title" content="RuleFit models — rule_fit" />
+<meta property="og:description" content="rule_fit() defines a model that derives simple feature rules from a tree
+ensemble and uses them as features to a regularized model.
+The engine for this model is:
+
+xrf  (default) 
+
+More information on how parsnip is used for modeling is at
+https://www.tidymodels.org/." />
 <meta property="og:image" content="https://rules.tidymodels.org/logo.png" />
 <meta name="twitter:card" content="summary" />
 
@@ -130,18 +117,6 @@ in lieu of recreating the object from scratch." />
         <li>
   <a href="../reference/index.html">Reference</a>
 </li>
-<li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-    Articles
-     
-    <span class="caret"></span>
-  </a>
-  <ul class="dropdown-menu" role="menu">
-    <li>
-      <a href="../articles/Cubist-and-RuleFit.html">What's the difference between Cubist and RuleFit?</a>
-    </li>
-  </ul>
-</li>
 <li>
   <a href="../news/index.html">Changelog</a>
 </li>
@@ -164,36 +139,23 @@ in lieu of recreating the object from scratch." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>General Interface for RuleFit Models</h1>
+    <h1>RuleFit models</h1>
     <small class="dont-index">Source: <a href='https://github.com/tidymodels/rules/blob/master/R/rule_fit.R'><code>R/rule_fit.R</code></a></small>
     <div class="hidden name"><code>rule_fit.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p><code>rule_fit()</code> is a way to generate a <em>specification</em> of a model
-before fitting. The main arguments for the model are:</p><ul>
-<li><p><code>mtry</code>: The number of predictors that will be
-randomly sampled at each split when creating the tree models.</p></li>
-<li><p><code>trees</code>: The number of trees contained in the ensemble.</p></li>
-<li><p><code>min_n</code>: The minimum number of data points in a node
-that are required for the node to be split further.</p></li>
-<li><p><code>tree_depth</code>: The maximum depth of the tree (i.e. number of
-splits).</p></li>
-<li><p><code>learn_rate</code>: The rate at which the boosting algorithm adapts
-from iteration-to-iteration.</p></li>
-<li><p><code>loss_reduction</code>: The reduction in the loss function required
-to split further.</p></li>
-<li><p><code>sample_size</code>: The amount of data exposed to the fitting routine.</p></li>
-<li><p><code>penalty</code>: The amount of regularization in the glmnet model.</p></li>
-</ul><p>These arguments are converted to their specific names at the
-time that the model is fit. Other options and argument can be
-set using <code><a href='https://parsnip.tidymodels.org/reference/set_engine.html'>parsnip::set_engine()</a></code>. If left to their defaults
-here (<code>NULL</code>), the values are taken from the underlying model
-functions. If parameters need to be modified, <code><a href='https://rdrr.io/r/stats/update.html'>update()</a></code> can be used
-in lieu of recreating the object from scratch.</p>
+    <p><code>rule_fit()</code> defines a model that derives simple feature rules from a tree
+ensemble and uses them as features to a regularized model.</p>
+<p>The engine for this model is:</p>
+<p><ul>
+<li><p><code><a href='details_rule_fit_xrf.html'>xrf</a>  (default) </code></p></li>
+</ul></p>
+<p>More information on how <span class="pkg">parsnip</span> is used for modeling is at
+<a href='https://www.tidymodels.org/'>https://www.tidymodels.org/</a>.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>rule_fit</span><span class='op'>(</span>
+    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>rule_fit</span><span class='op'>(</span>
   mode <span class='op'>=</span> <span class='st'>"unknown"</span>,
   mtry <span class='op'>=</span> <span class='cn'>NULL</span>,
   trees <span class='op'>=</span> <span class='cn'>NULL</span>,
@@ -202,24 +164,9 @@ in lieu of recreating the object from scratch.</p>
   learn_rate <span class='op'>=</span> <span class='cn'>NULL</span>,
   loss_reduction <span class='op'>=</span> <span class='cn'>NULL</span>,
   sample_size <span class='op'>=</span> <span class='cn'>NULL</span>,
-  penalty <span class='op'>=</span> <span class='cn'>NULL</span>
-<span class='op'>)</span>
-
-<span class='co'># S3 method for rule_fit</span>
-<span class='fu'><a href='https://rdrr.io/r/stats/update.html'>update</a></span><span class='op'>(</span>
-  <span class='va'>object</span>,
-  parameters <span class='op'>=</span> <span class='cn'>NULL</span>,
-  mtry <span class='op'>=</span> <span class='cn'>NULL</span>,
-  trees <span class='op'>=</span> <span class='cn'>NULL</span>,
-  min_n <span class='op'>=</span> <span class='cn'>NULL</span>,
-  tree_depth <span class='op'>=</span> <span class='cn'>NULL</span>,
-  learn_rate <span class='op'>=</span> <span class='cn'>NULL</span>,
-  loss_reduction <span class='op'>=</span> <span class='cn'>NULL</span>,
-  sample_size <span class='op'>=</span> <span class='cn'>NULL</span>,
   penalty <span class='op'>=</span> <span class='cn'>NULL</span>,
-  fresh <span class='op'>=</span> <span class='cn'>FALSE</span>,
-  <span class='va'>...</span>
-<span class='op'>)</span></pre>
+  engine <span class='op'>=</span> <span class='st'>"xrf"</span>
+<span class='op'>)</span></code></pre></div>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -270,30 +217,12 @@ exposed to the fitting routine.</p></td>
       <td><p>L1 regularization parameter.</p></td>
     </tr>
     <tr>
-      <th>object</th>
-      <td><p>A <code>rule_fit</code> model specification.</p></td>
-    </tr>
-    <tr>
-      <th>parameters</th>
-      <td><p>A 1-row tibble or named list with <em>main</em> parameters to update.
-If the individual arguments are used, these will supersede the values in
-parameters. Also, using engine arguments in this object will result in an
-error.</p></td>
-    </tr>
-    <tr>
-      <th>fresh</th>
-      <td><p>A logical for whether the arguments should be modified in-place
-or replaced wholesale.</p></td>
-    </tr>
-    <tr>
-      <th>...</th>
-      <td><p>Not used for <code><a href='https://rdrr.io/r/stats/update.html'>update()</a></code>.</p></td>
+      <th>engine</th>
+      <td><p>A single character string specifying what computational engine
+to use for fitting.</p></td>
     </tr>
     </table>
 
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
-
-    <p>An updated <code>parsnip</code> model specification.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>The RuleFit model creates a regression model of rules in two stages. The
@@ -301,97 +230,34 @@ first stage uses a tree-based model that is used to generate a set of rules
 that can be filtered, modified, and simplified. These rules are then added
 as predictors to a regularized generalized linear model that can also
 conduct feature selection during model training.</p>
-<p>For the <code>xrf</code> engine, the <code>xgboost</code> package is used to create the rule set
-that is then added to a <code>glmnet</code> model. The only available engine is <code>"xrf"</code>.</p><h3 class='hasAnchor' id='differences-from-the-xrf-package'><a class='anchor' href='#differences-from-the-xrf-package'></a>Differences from the xrf package</h3>
-
-
-<p>Note that, per the documentation in
-<code>?xrf</code>, transformations of the response variable are not supported. To
-use these with <code>rule_fit()</code>, we recommend using a recipe instead of the
-formula method.</p>
-<p>Also, there are several configuration differences in how <code>xrf()</code> is fit
-between that package and the wrapper used in <code>rules</code>. Some differences in
-default values are:</p>
-<ul>
-<li><p><code>trees</code> (xrf: 100, rules: 15)</p></li>
-<li><p><code>max_depth</code> (xrf: 3, rules: 6)</p></li>
-</ul>
-
-<p>These differences will create a difference in the values of the <code>penalty</code>
-argument that <code>glmnet</code> uses. Also, <code>rules</code> can also set <code>penalty</code> whereas
-<code>xrf</code> uses an internal 5-fold cross-validation to determine it (by default).</p>
-
+<p>This function only defines what <em>type</em> of model is being fit. Once an engine
+is specified, the <em>method</em> to fit the model is also defined.</p>
+<p>The model is not trained or fit until the <code><a href='https://parsnip.tidymodels.org/reference/fit.html'>fit.model_spec()</a></code> function is used
+with the data.</p>
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
     <p>Friedman, J. H., and Popescu, B. E. (2008). "Predictive learning
 via rule ensembles." <em>The Annals of Applied Statistics</em>, 2(3), 916-954.</p>
+<p><a href='https://www.tidymodels.org'>https://www.tidymodels.org</a>, <a href='https://tmwr.org'><em>Tidy Models with R</em></a></p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><code><a href='https://generics.r-lib.org/reference/fit.html'>parsnip::fit()</a></code>, <code><a href='https://generics.r-lib.org/reference/fit_xy.html'>parsnip::fit_xy()</a></code>, <code><a href='https://rdrr.io/pkg/xrf/man/xrf.formula.html'>xrf::xrf.formula()</a></code></p></div>
+    <div class='dont-index'><p><code><a href='https://rdrr.io/pkg/xrf/man/xrf.formula.html'>xrf::xrf.formula()</a></code>, <code><a href='details_rule_fit_xrf.html'>xrf engine details</a></code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>rule_fit</span><span class='op'>(</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; RuleFit Model Specification (unknown)
-#&gt; 
-#&gt; Computational engine: xrf 
-#&gt; </div><div class='input'><span class='co'># Parameters can be represented by a placeholder:</span>
-<span class='fu'>rule_fit</span><span class='op'>(</span>trees <span class='op'>=</span> <span class='fl'>7</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; RuleFit Model Specification (unknown)
-#&gt; 
-#&gt; Main Arguments:
-#&gt;   trees = 7
-#&gt; 
-#&gt; Computational engine: xrf 
-#&gt; </div><div class='input'>
-<span class='co'># ------------------------------------------------------------------------------</span>
-
-<span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span><span class='op'>(</span><span class='fl'>6907</span><span class='op'>)</span>
-<span class='va'>rule_fit_rules</span> <span class='op'>&lt;-</span>
-  <span class='fu'>rule_fit</span><span class='op'>(</span>trees <span class='op'>=</span> <span class='fl'>3</span>, penalty <span class='op'>=</span> <span class='fl'>0.1</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'>set_mode</span><span class='op'>(</span><span class='st'>"classification"</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'>fit</span><span class='op'>(</span><span class='va'>Species</span> <span class='op'>~</span> <span class='va'>.</span>, data <span class='op'>=</span> <span class='va'>iris</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [15:40:31] WARNING: amalgamation/../src/learner.cc:541: 
-#&gt; Parameters: { nrounds } might not be used.
-#&gt; 
-#&gt;   This may not be accurate due to some parameters are only used in language bindings but
-#&gt;   passed down to XGBoost core.  Or some parameters are not used but slip through this
-#&gt;   verification. Please open an issue if you find above cases.
-#&gt; 
-#&gt; 
-#&gt; [15:40:31] WARNING: amalgamation/../src/learner.cc:1061: Starting in XGBoost 1.3.0, the default evaluation metric used with the objective 'multi:softmax' was changed from 'merror' to 'mlogloss'. Explicitly set eval_metric if you'd like to restore the old behavior.</div><div class='output co'>#&gt; <span class='message'>New names:</span>
-#&gt; <span class='message'>* . -&gt; ....1</span>
-#&gt; <span class='message'>* . -&gt; ....2</span>
-#&gt; <span class='message'>* . -&gt; ....3</span>
-#&gt; <span class='message'>* . -&gt; ....4</span>
-#&gt; <span class='message'>* . -&gt; ....5</span>
-#&gt; <span class='message'>* ...</span></div><div class='input'>
-<span class='co'># ------------------------------------------------------------------------------</span>
-
-<span class='va'>model</span> <span class='op'>&lt;-</span> <span class='fu'>rule_fit</span><span class='op'>(</span>trees <span class='op'>=</span> <span class='fl'>10</span>, min_n <span class='op'>=</span> <span class='fl'>2</span><span class='op'>)</span>
-<span class='va'>model</span>
-</div><div class='output co'>#&gt; RuleFit Model Specification (unknown)
-#&gt; 
-#&gt; Main Arguments:
-#&gt;   trees = 10
-#&gt;   min_n = 2
-#&gt; 
-#&gt; Computational engine: xrf 
-#&gt; </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/stats/update.html'>update</a></span><span class='op'>(</span><span class='va'>model</span>, trees <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; RuleFit Model Specification (unknown)
-#&gt; 
-#&gt; Main Arguments:
-#&gt;   trees = 1
-#&gt;   min_n = 2
-#&gt; 
-#&gt; Computational engine: xrf 
-#&gt; </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/stats/update.html'>update</a></span><span class='op'>(</span><span class='va'>model</span>, trees <span class='op'>=</span> <span class='fl'>1</span>, fresh <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; RuleFit Model Specification (unknown)
-#&gt; 
-#&gt; Main Arguments:
-#&gt;   trees = 1
-#&gt; 
-#&gt; Computational engine: xrf 
-#&gt; </div></pre>
+    <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'><span class='fu'><a href='https://parsnip.tidymodels.org/reference/show_engines.html'>show_engines</a></span><span class='op'>(</span><span class='st'>"rule_fit"</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># A tibble: 2 × 2</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   engine mode          </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>         </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>1</span> xrf    classification</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>2</span> xrf    regression    </span>
+<span class='r-in'></span>
+<span class='r-in'><span class='fu'>rule_fit</span><span class='op'>(</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> RuleFit Model Specification (unknown)</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Computational engine: xrf </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-in'></span>
+</code></pre></div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

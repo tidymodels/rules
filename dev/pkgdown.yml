@@ -1,9 +1,8 @@
 pandoc: 2.7.3
-pkgdown: 1.6.1.9000
-pkgdown_sha: 9c95f00d2505ddd83c4722e019202370715d3a3d
-articles:
-  Cubist-and-RuleFit: Cubist-and-RuleFit.html
-last_built: 2021-03-05T15:40Z
+pkgdown: 1.6.1.9001
+pkgdown_sha: ce9781a15c7ea07df9fb17a11295ba4abec0b54b
+articles: {}
+last_built: 2021-08-06T14:47Z
 urls:
   reference: https://rules.tidymodels.org/reference
   article: https://rules.tidymodels.org/articles

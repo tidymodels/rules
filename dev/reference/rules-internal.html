@@ -110,18 +110,6 @@
         <li>
   <a href="../reference/index.html">Reference</a>
 </li>
-<li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-    Articles
-     
-    <span class="caret"></span>
-  </a>
-  <ul class="dropdown-menu" role="menu">
-    <li>
-      <a href="../articles/Cubist-and-RuleFit.html">What's the difference between Cubist and RuleFit?</a>
-    </li>
-  </ul>
-</li>
 <li>
   <a href="../news/index.html">Changelog</a>
 </li>
@@ -145,7 +133,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Internal function wrappers</h1>
-    <small class="dont-index">Source: <a href='https://github.com/tidymodels/rules/blob/master/R/C5_rules.R'><code>R/C5_rules.R</code></a>, <a href='https://github.com/tidymodels/rules/blob/master/R/cubist.R'><code>R/cubist.R</code></a>, <a href='https://github.com/tidymodels/rules/blob/master/R/rule_fit.R'><code>R/rule_fit.R</code></a></small>
+    <small class="dont-index">Source: <a href='https://github.com/tidymodels/rules/blob/master/R/C5_rules.R'><code>R/C5_rules.R</code></a>, <a href='https://github.com/tidymodels/rules/blob/master/R/cubist_rules.R'><code>R/cubist_rules.R</code></a>, <a href='https://github.com/tidymodels/rules/blob/master/R/rule_fit.R'><code>R/rule_fit.R</code></a></small>
     <div class="hidden name"><code>rules-internal.Rd</code></div>
     </div>
 
@@ -153,7 +141,7 @@
     <p>These are not supported when called by the user.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>c5_fit</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>y</span>, trials <span class='op'>=</span> <span class='fl'>1</span>, minCases <span class='op'>=</span> <span class='fl'>2</span>, cost <span class='op'>=</span> <span class='cn'>NULL</span>, <span class='va'>...</span><span class='op'>)</span>
+    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>c5_fit</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>y</span>, trials <span class='op'>=</span> <span class='fl'>1</span>, minCases <span class='op'>=</span> <span class='fl'>2</span>, cost <span class='op'>=</span> <span class='cn'>NULL</span>, <span class='va'>...</span><span class='op'>)</span>
 
 <span class='fu'>c5_pred</span><span class='op'>(</span><span class='va'>object</span>, <span class='va'>new_data</span>, trials <span class='op'>=</span> <span class='va'>object</span><span class='op'>$</span><span class='va'>fit</span><span class='op'>$</span><span class='va'>trials</span><span class='op'>[</span><span class='st'>"Actual"</span><span class='op'>]</span>, <span class='va'>...</span><span class='op'>)</span>
 
@@ -184,7 +172,7 @@
 <span class='fu'>xrf_pred</span><span class='op'>(</span><span class='va'>object</span>, <span class='va'>new_data</span>, lambda <span class='op'>=</span> <span class='va'>object</span><span class='op'>$</span><span class='va'>fit</span><span class='op'>$</span><span class='va'>lambda</span>, <span class='va'>type</span>, <span class='va'>...</span><span class='op'>)</span>
 
 <span class='co'># S3 method for rule_fit</span>
-<span class='fu'><a href='https://generics.r-lib.org/reference/tunable.html'>tunable</a></span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>...</span><span class='op'>)</span></pre>
+<span class='fu'><a href='https://generics.r-lib.org/reference/tunable.html'>tunable</a></span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>...</span><span class='op'>)</span></code></pre></div>
 
 
 

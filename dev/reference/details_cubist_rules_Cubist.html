@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Articles • rules</title>
+<title>Cubist rule-based regression models — details_cubist_rules_Cubist • rules</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -49,7 +49,10 @@
 
 
 
-<meta property="og:title" content="Articles" />
+<meta property="og:title" content="Cubist rule-based regression models — details_cubist_rules_Cubist" />
+<meta property="og:description" content="Cubist::cubist() fits a model that derives simple feature rules from a tree
+ensemble and uses creates regression models within each rule.
+cubist_fit() is a wrapper around this function." />
 <meta property="og:image" content="https://rules.tidymodels.org/logo.png" />
 <meta name="twitter:card" content="summary" />
 
@@ -84,7 +87,7 @@
   <body data-spy="scroll" data-target="#toc">
     
 
-    <div class="container template-article-index">
+    <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -109,18 +112,6 @@
         <li>
   <a href="../reference/index.html">Reference</a>
 </li>
-<li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-    Articles
-     
-    <span class="caret"></span>
-  </a>
-  <ul class="dropdown-menu" role="menu">
-    <li>
-      <a href="../articles/Cubist-and-RuleFit.html">What's the difference between Cubist and RuleFit?</a>
-    </li>
-  </ul>
-</li>
 <li>
   <a href="../news/index.html">Changelog</a>
 </li>
@@ -143,18 +134,84 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-      <h1>Articles</h1>
+    <h1>Cubist rule-based regression models</h1>
+    <small class="dont-index">Source: <a href='https://github.com/tidymodels/rules/blob/master/R/cubist_rules_Cubist.R'><code>R/cubist_rules_Cubist.R</code></a></small>
+    <div class="hidden name"><code>details_cubist_rules_Cubist.Rd</code></div>
     </div>
 
-    <div class="section ">
-      <h3>All vignettes</h3>
-      <p class="section-desc"></p>
-
-      <dl>
-        <dt><a href="Cubist-and-RuleFit.html">What's the difference between Cubist and RuleFit?</a></dt>
-        <dd></dt>
-      </dl>
+    <div class="ref-description">
+    <p><code><a href='http://topepo.github.io/Cubist/reference/cubist.default.html'>Cubist::cubist()</a></code> fits a model that derives simple feature rules from a tree
+ensemble and uses creates regression models within each rule.
+<code><a href='rules-internal.html'>cubist_fit()</a></code> is a wrapper around this function.</p>
     </div>
+
+
+
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>For this engine, there is a single mode: regression</p><h3 class='hasAnchor' id='tuning-parameters'><a class='anchor' aria-hidden='true' href='#tuning-parameters'></a>Tuning Parameters</h3>
+
+
+<p>This model has 3 tuning parameters:</p><ul>
+<li><p><code>committees</code>: # Committees (type: integer, default: 1L)</p></li>
+<li><p><code>neighbors</code>: # Nearest Neighbors (type: integer, default: 0L)</p></li>
+<li><p><code>max_rules</code>: Maximum Number of Rules (type: integer, default:
+NA_integer)</p></li>
+</ul>
+
+
+<h3 class='hasAnchor' id='translation-from-parsnip-to-the-underlying-model-call-regression-'><a class='anchor' aria-hidden='true' href='#translation-from-parsnip-to-the-underlying-model-call-regression-'></a>Translation from parsnip to the underlying model call (regression)</h3>
+<p><div class="r"></p><pre class='sourceCode r'><code><span class='fu'><a href='cubist_rules.html'>cubist_rules</a></span><span class='op'>(</span>
+  committees <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/integer.html'>integer</a></span><span class='op'>(</span><span class='fl'>1</span><span class='op'>)</span>,
+  neighbors <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/integer.html'>integer</a></span><span class='op'>(</span><span class='fl'>1</span><span class='op'>)</span>,
+  max_rules <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/integer.html'>integer</a></span><span class='op'>(</span><span class='fl'>1</span><span class='op'>)</span>
+<span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span>
+  <span class='fu'><a href='https://parsnip.tidymodels.org/reference/set_engine.html'>set_engine</a></span><span class='op'>(</span><span class='st'>"Cubist"</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span>
+  <span class='fu'><a href='https://parsnip.tidymodels.org/reference/set_args.html'>set_mode</a></span><span class='op'>(</span><span class='st'>"regression"</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span>
+  <span class='fu'><a href='https://parsnip.tidymodels.org/reference/translate.html'>translate</a></span><span class='op'>(</span><span class='op'>)</span>
+</code></pre><p></div></p><pre class='sourceCode r'><code><span class='co'>## Cubist Model Specification (regression)</span>
+<span class='co'>## </span>
+<span class='co'>## Main Arguments:</span>
+<span class='co'>##   committees = integer(1)</span>
+<span class='co'>##   neighbors = integer(1)</span>
+<span class='co'>##   max_rules = integer(1)</span>
+<span class='co'>## </span>
+<span class='co'>## Computational engine: Cubist </span>
+<span class='co'>## </span>
+<span class='co'>## Model fit template:</span>
+<span class='co'>## rules::cubist_fit(x = missing_arg(), y = missing_arg(), weights = missing_arg(), </span>
+<span class='co'>##     committees = integer(1), neighbors = integer(1), max_rules = integer(1))</span>
+</code></pre>
+
+
+<h3 class='hasAnchor' id='preprocessing-requirements'><a class='anchor' aria-hidden='true' href='#preprocessing-requirements'></a>Preprocessing requirements</h3>
+
+
+<p>This engine does not require any special encoding of the predictors.
+Categorical predictors can be partitioned into groups of factor levels
+(e.g. <code>{a, c}</code> vs <code>{b, d}</code>) when splitting at a node. Dummy variables
+are not required for this model.</p>
+
+<h3 class='hasAnchor' id='references'><a class='anchor' aria-hidden='true' href='#references'></a>References</h3>
+
+<ul>
+<li><p>Quinlan R (1992). “Learning with Continuous Classes.” Proceedings of
+the 5th Australian Joint Conference On Artificial Intelligence,
+pp. 343-348.</p></li>
+<li><p>Quinlan R (1993).“Combining Instance-Based and Model-Based
+Learning.” Proceedings of the Tenth International Conference on
+Machine Learning, pp. 236-243.</p></li>
+<li><p>Kuhn M and Johnson K (2013). <em>Applied Predictive Modeling</em>.
+Springer.</p></li>
+</ul>
+
+
+
+  </div>
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
+    <nav id="toc" data-toggle="toc" class="sticky-top">
+      <h2 data-toc-skip>Contents</h2>
+    </nav>
   </div>
 </div>
 

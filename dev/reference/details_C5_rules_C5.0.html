@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>multi_predict() methods for rule-based models — multi_predict._C5_rules • rules</title>
+<title>C5.0 rule-based classification models — details_C5_rules_C5.0 • rules</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -49,8 +49,10 @@
 
 
 
-<meta property="og:title" content="multi_predict() methods for rule-based models — multi_predict._C5_rules" />
-<meta property="og:description" content="multi_predict() methods for rule-based models" />
+<meta property="og:title" content="C5.0 rule-based classification models — details_C5_rules_C5.0" />
+<meta property="og:description" content="C50::C5.0() fits model that derives feature rules from a tree for
+prediction. A single tree or boosted ensemble can be used. c5_fit()
+is a wrapper around this function." />
 <meta property="og:image" content="https://rules.tidymodels.org/logo.png" />
 <meta name="twitter:card" content="summary" />
 
@@ -132,70 +134,78 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1><code>multi_predict()</code> methods for rule-based models</h1>
-    <small class="dont-index">Source: <a href='https://github.com/tidymodels/rules/blob/master/R/C5_rules.R'><code>R/C5_rules.R</code></a>, <a href='https://github.com/tidymodels/rules/blob/master/R/cubist_rules.R'><code>R/cubist_rules.R</code></a>, <a href='https://github.com/tidymodels/rules/blob/master/R/rule_fit.R'><code>R/rule_fit.R</code></a></small>
-    <div class="hidden name"><code>multi_predict.Rd</code></div>
+    <h1>C5.0 rule-based classification models</h1>
+    <small class="dont-index">Source: <a href='https://github.com/tidymodels/rules/blob/master/R/C5_rules_C5.0.R'><code>R/C5_rules_C5.0.R</code></a></small>
+    <div class="hidden name"><code>details_C5_rules_C5.0.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p><code><a href='https://parsnip.tidymodels.org/reference/multi_predict.html'>multi_predict()</a></code> methods for rule-based models</p>
+    <p><code><a href='https://topepo.github.io/C5.0/reference/C5.0.html'>C50::C5.0()</a></code> fits model that derives feature rules from a tree for
+prediction. A single tree or boosted ensemble can be used. <code><a href='rules-internal.html'>c5_fit()</a></code>
+is a wrapper around this function.</p>
     </div>
 
-    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='co'># S3 method for `_C5_rules`</span>
-<span class='fu'><a href='https://parsnip.tidymodels.org/reference/multi_predict.html'>multi_predict</a></span><span class='op'>(</span><span class='va'>object</span>, <span class='va'>new_data</span>, type <span class='op'>=</span> <span class='cn'>NULL</span>, trees <span class='op'>=</span> <span class='cn'>NULL</span>, <span class='va'>...</span><span class='op'>)</span>
 
-<span class='co'># S3 method for `_cubist`</span>
-<span class='fu'><a href='https://parsnip.tidymodels.org/reference/multi_predict.html'>multi_predict</a></span><span class='op'>(</span><span class='va'>object</span>, <span class='va'>new_data</span>, type <span class='op'>=</span> <span class='cn'>NULL</span>, neighbors <span class='op'>=</span> <span class='cn'>NULL</span>, <span class='va'>...</span><span class='op'>)</span>
 
-<span class='co'># S3 method for `_xrf`</span>
-<span class='fu'><a href='https://parsnip.tidymodels.org/reference/multi_predict.html'>multi_predict</a></span><span class='op'>(</span><span class='va'>object</span>, <span class='va'>new_data</span>, type <span class='op'>=</span> <span class='cn'>NULL</span>, penalty <span class='op'>=</span> <span class='cn'>NULL</span>, <span class='va'>...</span><span class='op'>)</span></code></pre></div>
-
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
-    <table class="ref-arguments">
-    <colgroup><col class="name" /><col class="desc" /></colgroup>
-    <tr>
-      <th>object</th>
-      <td><p>An object of class <code>model_fit</code></p></td>
-    </tr>
-    <tr>
-      <th>new_data</th>
-      <td><p>A rectangular data object, such as a data frame.</p></td>
-    </tr>
-    <tr>
-      <th>type</th>
-      <td><p>A single character value or <code>NULL</code>. Possible values
-are class" and "prob".</p></td>
-    </tr>
-    <tr>
-      <th>trees</th>
-      <td><p>An numeric vector of <code>trees</code> between one and 100.</p></td>
-    </tr>
-    <tr>
-      <th>...</th>
-      <td><p>Not currently used.</p></td>
-    </tr>
-    <tr>
-      <th>neighbors</th>
-      <td><p>An numeric vector of neighbors values between zero and nine.</p></td>
-    </tr>
-    <tr>
-      <th>penalty</th>
-      <td><p>Non-negative penalty values.</p></td>
-    </tr>
-    </table>
-
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
-
-    <p>A tibble with one row for each row of <code>new_data</code>. Multiple
-predictions are contained in a list column called <code>.pred</code>. That column has
-the standard <code>parsnip</code> prediction column names as well as the column with
-the tuning parameter values.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>For C5.0 rule-based models, the model fit may contain less boosting
-iterations than the number requested. Printing the object will show how many
-were used due to early stopping. This can be change using an option in
-<code><a href='https://topepo.github.io/C5.0/reference/C5.0Control.html'>C50::C5.0Control()</a></code>. Beware that the number of iterations requested</p>
+    <p>For this engine, there is a single mode: classification</p><h3 class='hasAnchor' id='tuning-parameters'><a class='anchor' aria-hidden='true' href='#tuning-parameters'></a>Tuning Parameters</h3>
+
+
+<p>This model has 2 tuning parameters:</p><ul>
+<li><p><code>trees</code>: # Trees (type: integer, default: 1L)</p></li>
+<li><p><code>min_n</code>: NA (type: NA, default: 2L)</p></li>
+</ul>
+
+<p>Note that C5.0 has a tool for <em>early stopping</em> during boosting where
+less iterations of boosting are performed than the number requested.
+<code><a href='C5_rules.html'>C5_rules()</a></code> turns this feature off (although it can be re-enabled using
+<code><a href='https://topepo.github.io/C5.0/reference/C5.0Control.html'>C50::C5.0Control()</a></code>).</p>
+
+<h3 class='hasAnchor' id='translation-from-parsnip-to-the-underlying-model-call-regression-'><a class='anchor' aria-hidden='true' href='#translation-from-parsnip-to-the-underlying-model-call-regression-'></a>Translation from parsnip to the underlying model call (regression)</h3>
+<p><div class="r"></p><pre class='sourceCode r'><code><span class='fu'><a href='C5_rules.html'>C5_rules</a></span><span class='op'>(</span>
+  trees <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/integer.html'>integer</a></span><span class='op'>(</span><span class='fl'>1</span><span class='op'>)</span>,
+  min_n <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/integer.html'>integer</a></span><span class='op'>(</span><span class='fl'>1</span><span class='op'>)</span>
+<span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span>
+  <span class='fu'><a href='https://parsnip.tidymodels.org/reference/set_engine.html'>set_engine</a></span><span class='op'>(</span><span class='st'>"C5.0"</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span>
+  <span class='fu'><a href='https://parsnip.tidymodels.org/reference/set_args.html'>set_mode</a></span><span class='op'>(</span><span class='st'>"classification"</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span>
+  <span class='fu'><a href='https://parsnip.tidymodels.org/reference/translate.html'>translate</a></span><span class='op'>(</span><span class='op'>)</span>
+</code></pre><p></div></p><pre class='sourceCode r'><code><span class='co'>## C5.0 Model Specification (classification)</span>
+<span class='co'>## </span>
+<span class='co'>## Main Arguments:</span>
+<span class='co'>##   trees = integer(1)</span>
+<span class='co'>##   min_n = integer(1)</span>
+<span class='co'>## </span>
+<span class='co'>## Computational engine: C5.0 </span>
+<span class='co'>## </span>
+<span class='co'>## Model fit template:</span>
+<span class='co'>## rules::c5_fit(x = missing_arg(), y = missing_arg(), weights = missing_arg(), </span>
+<span class='co'>##     trials = integer(1), minCases = integer(1))</span>
+</code></pre>
+
+
+<h3 class='hasAnchor' id='preprocessing-requirements'><a class='anchor' aria-hidden='true' href='#preprocessing-requirements'></a>Preprocessing requirements</h3>
+
+
+<p>This engine does not require any special encoding of the predictors.
+Categorical predictors can be partitioned into groups of factor levels
+(e.g. <code>{a, c}</code> vs <code>{b, d}</code>) when splitting at a node. Dummy variables
+are not required for this model.</p>
+
+<h3 class='hasAnchor' id='references'><a class='anchor' aria-hidden='true' href='#references'></a>References</h3>
+
+<ul>
+<li><p>Quinlan R (1992). “Learning with Continuous Classes.” Proceedings of
+the 5th Australian Joint Conference On Artificial Intelligence,
+pp. 343-348.</p></li>
+<li><p>Quinlan R (1993).“Combining Instance-Based and Model-Based
+Learning.” Proceedings of the Tenth International Conference on
+Machine Learning, pp. 236-243.</p></li>
+<li><p>Kuhn M and Johnson K (2013). <em>Applied Predictive Modeling</em>.
+Springer.</p></li>
+</ul>
+
+
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

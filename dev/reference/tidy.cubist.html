@@ -110,18 +110,6 @@
         <li>
   <a href="../reference/index.html">Reference</a>
 </li>
-<li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-    Articles
-     
-    <span class="caret"></span>
-  </a>
-  <ul class="dropdown-menu" role="menu">
-    <li>
-      <a href="../articles/Cubist-and-RuleFit.html">What's the difference between Cubist and RuleFit?</a>
-    </li>
-  </ul>
-</li>
 <li>
   <a href="../news/index.html">Changelog</a>
 </li>
@@ -153,11 +141,11 @@
     <p>Turn regression rule models into tidy tibbles</p>
     </div>
 
-    <pre class="usage"><span class='co'># S3 method for cubist</span>
+    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='co'># S3 method for cubist</span>
 <span class='fu'><a href='https://generics.r-lib.org/reference/tidy.html'>tidy</a></span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>...</span><span class='op'>)</span>
 
 <span class='co'># S3 method for xrf</span>
-<span class='fu'><a href='https://generics.r-lib.org/reference/tidy.html'>tidy</a></span><span class='op'>(</span><span class='va'>x</span>, penalty <span class='op'>=</span> <span class='cn'>NULL</span>, unit <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"rules"</span>, <span class='st'>"columns"</span><span class='op'>)</span>, <span class='va'>...</span><span class='op'>)</span></pre>
+<span class='fu'><a href='https://generics.r-lib.org/reference/tidy.html'>tidy</a></span><span class='op'>(</span><span class='va'>x</span>, penalty <span class='op'>=</span> <span class='cn'>NULL</span>, unit <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"rules"</span>, <span class='st'>"columns"</span><span class='op'>)</span>, <span class='va'>...</span><span class='op'>)</span></code></pre></div>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -195,124 +183,119 @@ models, a <code>class</code> column is included.</p>
 <p>In each case, the <code>rule</code> column has a character string with the rule
 conditions. These can be converted to an R expression using
 <code><a href='https://rlang.r-lib.org/reference/parse_expr.html'>rlang::parse_expr()</a></code>.</p>
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://dplyr.tidyverse.org'>dplyr</a></span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'></span>
-#&gt; <span class='message'>Attaching package: ‘dplyr’</span></div><div class='output co'>#&gt; <span class='message'>The following objects are masked from ‘package:stats’:</span>
-#&gt; <span class='message'></span>
-#&gt; <span class='message'>    filter, lag</span></div><div class='output co'>#&gt; <span class='message'>The following objects are masked from ‘package:base’:</span>
-#&gt; <span class='message'></span>
-#&gt; <span class='message'>    intersect, setdiff, setequal, union</span></div><div class='input'>
+    
+<h3 class='hasAnchor' id='an-example'><a class='anchor' aria-hidden='true' href='#an-example'></a>An example</h3>
+<p><div class="r"></p><pre class='sourceCode r'><code><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://dplyr.tidyverse.org'>dplyr</a></span><span class='op'>)</span>
+
 <span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>ames</span>, package <span class='op'>=</span> <span class='st'>"modeldata"</span><span class='op'>)</span>
 
 <span class='va'>ames</span> <span class='op'>&lt;-</span>
-  <span class='va'>ames</span> <span class='op'>%&gt;%</span>
+  <span class='va'>ames</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span>
   <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span>Sale_Price <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log10</a></span><span class='op'>(</span><span class='va'>ames</span><span class='op'>$</span><span class='va'>Sale_Price</span><span class='op'>)</span>,
          Gr_Liv_Area <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log10</a></span><span class='op'>(</span><span class='va'>ames</span><span class='op'>$</span><span class='va'>Gr_Liv_Area</span><span class='op'>)</span><span class='op'>)</span>
 
 <span class='co'># ------------------------------------------------------------------------------</span>
 
-<span class='co'># \donttest{</span>
 <span class='va'>cb_fit</span> <span class='op'>&lt;-</span>
-  <span class='fu'><a href='cubist_rules.html'>cubist_rules</a></span><span class='op'>(</span>committees <span class='op'>=</span> <span class='fl'>10</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'>set_engine</span><span class='op'>(</span><span class='st'>"Cubist"</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'>fit</span><span class='op'>(</span><span class='va'>Sale_Price</span> <span class='op'>~</span> <span class='va'>Neighborhood</span> <span class='op'>+</span> <span class='va'>Longitude</span> <span class='op'>+</span> <span class='va'>Latitude</span> <span class='op'>+</span> <span class='va'>Gr_Liv_Area</span> <span class='op'>+</span> <span class='va'>Central_Air</span>,
+  <span class='fu'><a href='cubist_rules.html'>cubist_rules</a></span><span class='op'>(</span>committees <span class='op'>=</span> <span class='fl'>10</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span>
+  <span class='fu'><a href='https://parsnip.tidymodels.org/reference/set_engine.html'>set_engine</a></span><span class='op'>(</span><span class='st'>"Cubist"</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span>
+  <span class='fu'><a href='https://generics.r-lib.org/reference/fit.html'>fit</a></span><span class='op'>(</span><span class='va'>Sale_Price</span> <span class='op'>~</span> <span class='va'>Neighborhood</span> <span class='op'>+</span> <span class='va'>Longitude</span> <span class='op'>+</span> <span class='va'>Latitude</span> <span class='op'>+</span> <span class='va'>Gr_Liv_Area</span> <span class='op'>+</span> <span class='va'>Central_Air</span>,
       data <span class='op'>=</span> <span class='va'>ames</span><span class='op'>)</span>
 
 <span class='va'>cb_res</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://generics.r-lib.org/reference/tidy.html'>tidy</a></span><span class='op'>(</span><span class='va'>cb_fit</span><span class='op'>)</span>
 <span class='va'>cb_res</span>
-</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 157 x 5</span><span>
-#&gt;    committee rule_num rule                               estimate    statistic  
-#&gt;        </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span>    </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>                              </span><span style='color: #949494;font-style: italic;'>&lt;list&gt;</span><span>      </span><span style='color: #949494;font-style: italic;'>&lt;list&gt;</span><span>     
-#&gt; </span><span style='color: #BCBCBC;'> 1</span><span>         1        1 ( Central_Air == 'N' ) &amp; ( Gr_Liv… </span><span style='color: #949494;'>&lt;tibble [4</span><span>… </span><span style='color: #949494;'>&lt;tibble [1</span><span>…
-#&gt; </span><span style='color: #BCBCBC;'> 2</span><span>         1        2 ( Gr_Liv_Area &lt;= 3.0326188 ) &amp; ( … </span><span style='color: #949494;'>&lt;tibble [4</span><span>… </span><span style='color: #949494;'>&lt;tibble [1</span><span>…
-#&gt; </span><span style='color: #BCBCBC;'> 3</span><span>         1        3 ( Neighborhood  %in% c( 'Old_Town… </span><span style='color: #949494;'>&lt;tibble [3</span><span>… </span><span style='color: #949494;'>&lt;tibble [1</span><span>…
-#&gt; </span><span style='color: #BCBCBC;'> 4</span><span>         1        4 ( Neighborhood  %in% c( 'Old_Town… </span><span style='color: #949494;'>&lt;tibble [4</span><span>… </span><span style='color: #949494;'>&lt;tibble [1</span><span>…
-#&gt; </span><span style='color: #BCBCBC;'> 5</span><span>         1        5 ( Central_Air == 'N' ) &amp; ( Gr_Liv… </span><span style='color: #949494;'>&lt;tibble [4</span><span>… </span><span style='color: #949494;'>&lt;tibble [1</span><span>…
-#&gt; </span><span style='color: #BCBCBC;'> 6</span><span>         1        6 ( Longitude &lt;= -93.652023 ) &amp; ( N… </span><span style='color: #949494;'>&lt;tibble [4</span><span>… </span><span style='color: #949494;'>&lt;tibble [1</span><span>…
-#&gt; </span><span style='color: #BCBCBC;'> 7</span><span>         1        7 ( Gr_Liv_Area &gt; 3.2284005 ) &amp; ( N… </span><span style='color: #949494;'>&lt;tibble [4</span><span>… </span><span style='color: #949494;'>&lt;tibble [1</span><span>…
-#&gt; </span><span style='color: #BCBCBC;'> 8</span><span>         1        8 ( Neighborhood  %in% c( 'North_Am… </span><span style='color: #949494;'>&lt;tibble [4</span><span>… </span><span style='color: #949494;'>&lt;tibble [1</span><span>…
-#&gt; </span><span style='color: #BCBCBC;'> 9</span><span>         1        9 ( Latitude &lt;= 42.009399 ) &amp; ( Nei… </span><span style='color: #949494;'>&lt;tibble [3</span><span>… </span><span style='color: #949494;'>&lt;tibble [1</span><span>…
-#&gt; </span><span style='color: #BCBCBC;'>10</span><span>         1       10 ( Neighborhood  %in% c( 'College_… </span><span style='color: #949494;'>&lt;tibble [4</span><span>… </span><span style='color: #949494;'>&lt;tibble [1</span><span>…
-#&gt; </span><span style='color: #949494;'># … with 147 more rows</span><span></div><div class='input'>
-<span class='va'>cb_res</span><span class='op'>$</span><span class='va'>estimate</span><span class='op'>[[</span><span class='fl'>1</span><span class='op'>]</span><span class='op'>]</span>
-</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 4 x 2</span><span>
-#&gt;   term        estimate
-#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #BCBCBC;'>1</span><span> (Intercept)  -</span><span style='color: #BB0000;'>408.</span><span>  
-#&gt; </span><span style='color: #BCBCBC;'>2</span><span> Longitude      -</span><span style='color: #BB0000;'>1.43</span><span>
-#&gt; </span><span style='color: #BCBCBC;'>3</span><span> Latitude        6.6 
-#&gt; </span><span style='color: #BCBCBC;'>4</span><span> Gr_Liv_Area     0.7 </div><div class='input'><span class='va'>cb_res</span><span class='op'>$</span><span class='va'>statistic</span><span class='op'>[[</span><span class='fl'>1</span><span class='op'>]</span><span class='op'>]</span>
-</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 1 x 6</span><span>
-#&gt;   num_conditions coverage  mean   min   max  error
-#&gt;            </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>    </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>  </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #BCBCBC;'>1</span><span>              2      154  4.94  4.11  5.31 0.095</span><span style='text-decoration: underline;'>6</span><span></div><div class='input'><span class='co'># }</span>
+</code></pre><p></div></p><pre class='sourceCode r'><code><span class='co'>## # A tibble: 157 × 5</span>
+<span class='co'>##    committee rule_num rule                               estimate    statistic  </span>
+<span class='co'>##        &lt;int&gt;    &lt;int&gt; &lt;chr&gt;                              &lt;list&gt;      &lt;list&gt;     </span>
+<span class='co'>##  1         1        1 ( Central_Air == 'N' ) &amp; ( Gr_Liv… &lt;tibble [4… &lt;tibble [1…</span>
+<span class='co'>##  2         1        2 ( Gr_Liv_Area &lt;= 3.0326188 ) &amp; ( … &lt;tibble [4… &lt;tibble [1…</span>
+<span class='co'>##  3         1        3 ( Neighborhood  %in% c( 'Old_Town… &lt;tibble [3… &lt;tibble [1…</span>
+<span class='co'>##  4         1        4 ( Neighborhood  %in% c( 'Old_Town… &lt;tibble [4… &lt;tibble [1…</span>
+<span class='co'>##  5         1        5 ( Central_Air == 'N' ) &amp; ( Gr_Liv… &lt;tibble [4… &lt;tibble [1…</span>
+<span class='co'>##  6         1        6 ( Longitude &lt;= -93.652023 ) &amp; ( N… &lt;tibble [4… &lt;tibble [1…</span>
+<span class='co'>##  7         1        7 ( Gr_Liv_Area &gt; 3.2284005 ) &amp; ( N… &lt;tibble [4… &lt;tibble [1…</span>
+<span class='co'>##  8         1        8 ( Neighborhood  %in% c( 'North_Am… &lt;tibble [4… &lt;tibble [1…</span>
+<span class='co'>##  9         1        9 ( Latitude &lt;= 42.009399 ) &amp; ( Nei… &lt;tibble [3… &lt;tibble [1…</span>
+<span class='co'>## 10         1       10 ( Neighborhood  %in% c( 'College_… &lt;tibble [4… &lt;tibble [1…</span>
+<span class='co'>## # … with 147 more rows</span>
+</code></pre><p><div class="r"></p><pre class='sourceCode r'><code><span class='va'>cb_res</span><span class='op'>$</span><span class='va'>estimate</span><span class='op'>[[</span><span class='fl'>1</span><span class='op'>]</span><span class='op'>]</span>
+</code></pre><p></div></p><pre class='sourceCode r'><code><span class='co'>## # A tibble: 4 × 2</span>
+<span class='co'>##   term        estimate</span>
+<span class='co'>##   &lt;chr&gt;          &lt;dbl&gt;</span>
+<span class='co'>## 1 (Intercept)  -408.  </span>
+<span class='co'>## 2 Longitude      -1.43</span>
+<span class='co'>## 3 Latitude        6.6 </span>
+<span class='co'>## 4 Gr_Liv_Area     0.7</span>
+</code></pre><p><div class="r"></p><pre class='sourceCode r'><code><span class='va'>cb_res</span><span class='op'>$</span><span class='va'>statistic</span><span class='op'>[[</span><span class='fl'>1</span><span class='op'>]</span><span class='op'>]</span>
+</code></pre><p></div></p><pre class='sourceCode r'><code><span class='co'>## # A tibble: 1 × 6</span>
+<span class='co'>##   num_conditions coverage  mean   min   max  error</span>
+<span class='co'>##            &lt;dbl&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;</span>
+<span class='co'>## 1              2      154  4.94  4.11  5.31 0.0956</span>
+</code></pre><p><div class="r"></p><pre class='sourceCode r'><code><span class='co'># ------------------------------------------------------------------------------</span>
 
-<span class='co'># ------------------------------------------------------------------------------</span>
-
-<span class='co'># \donttest{</span>
 <span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://github.com/tidymodels/recipes'>recipes</a></span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'></span>
-#&gt; <span class='message'>Attaching package: ‘recipes’</span></div><div class='output co'>#&gt; <span class='message'>The following object is masked from ‘package:stats’:</span>
-#&gt; <span class='message'></span>
-#&gt; <span class='message'>    step</span></div><div class='input'>
+
 <span class='va'>xrf_reg_mod</span> <span class='op'>&lt;-</span>
-  <span class='fu'><a href='rule_fit.html'>rule_fit</a></span><span class='op'>(</span>trees <span class='op'>=</span> <span class='fl'>10</span>, penalty <span class='op'>=</span> <span class='fl'>.001</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'>set_engine</span><span class='op'>(</span><span class='st'>"xrf"</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'>set_mode</span><span class='op'>(</span><span class='st'>"regression"</span><span class='op'>)</span>
+  <span class='fu'><a href='rule_fit.html'>rule_fit</a></span><span class='op'>(</span>trees <span class='op'>=</span> <span class='fl'>10</span>, penalty <span class='op'>=</span> <span class='fl'>.001</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span>
+  <span class='fu'><a href='https://parsnip.tidymodels.org/reference/set_engine.html'>set_engine</a></span><span class='op'>(</span><span class='st'>"xrf"</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span>
+  <span class='fu'><a href='https://parsnip.tidymodels.org/reference/set_args.html'>set_mode</a></span><span class='op'>(</span><span class='st'>"regression"</span><span class='op'>)</span>
 
 <span class='co'># Make dummy variables since xgboost will not</span>
 <span class='va'>ames_rec</span> <span class='op'>&lt;-</span>
   <span class='fu'><a href='https://recipes.tidymodels.org/reference/recipe.html'>recipe</a></span><span class='op'>(</span><span class='va'>Sale_Price</span> <span class='op'>~</span> <span class='va'>Neighborhood</span> <span class='op'>+</span> <span class='va'>Longitude</span> <span class='op'>+</span> <span class='va'>Latitude</span> <span class='op'>+</span>
          <span class='va'>Gr_Liv_Area</span> <span class='op'>+</span> <span class='va'>Central_Air</span>,
-         data <span class='op'>=</span> <span class='va'>ames</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='https://recipes.tidymodels.org/reference/step_dummy.html'>step_dummy</a></span><span class='op'>(</span><span class='va'>Neighborhood</span>, <span class='va'>Central_Air</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+         data <span class='op'>=</span> <span class='va'>ames</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span>
+  <span class='fu'><a href='https://recipes.tidymodels.org/reference/step_dummy.html'>step_dummy</a></span><span class='op'>(</span><span class='va'>Neighborhood</span>, <span class='va'>Central_Air</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span>
   <span class='fu'><a href='https://recipes.tidymodels.org/reference/step_zv.html'>step_zv</a></span><span class='op'>(</span><span class='fu'><a href='https://recipes.tidymodels.org/reference/has_role.html'>all_predictors</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>
 
-<span class='va'>ames_processed</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://recipes.tidymodels.org/reference/prep.html'>prep</a></span><span class='op'>(</span><span class='va'>ames_rec</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://recipes.tidymodels.org/reference/bake.html'>bake</a></span><span class='op'>(</span>new_data <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span>
+<span class='va'>ames_processed</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://recipes.tidymodels.org/reference/prep.html'>prep</a></span><span class='op'>(</span><span class='va'>ames_rec</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'><a href='https://recipes.tidymodels.org/reference/bake.html'>bake</a></span><span class='op'>(</span>new_data <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span>
 
 <span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span><span class='op'>(</span><span class='fl'>1</span><span class='op'>)</span>
 <span class='va'>xrf_reg_fit</span> <span class='op'>&lt;-</span>
-  <span class='va'>xrf_reg_mod</span> <span class='op'>%&gt;%</span>
-  <span class='fu'>fit</span><span class='op'>(</span><span class='va'>Sale_Price</span> <span class='op'>~</span> <span class='va'>.</span>, data <span class='op'>=</span> <span class='va'>ames_processed</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [15:40:37] WARNING: amalgamation/../src/objective/regression_obj.cu:170: reg:linear is now deprecated in favor of reg:squarederror.
-#&gt; [15:40:37] WARNING: amalgamation/../src/learner.cc:541: 
-#&gt; Parameters: { nrounds } might not be used.
-#&gt; 
-#&gt;   This may not be accurate due to some parameters are only used in language bindings but
-#&gt;   passed down to XGBoost core.  Or some parameters are not used but slip through this
-#&gt;   verification. Please open an issue if you find above cases.
-#&gt; 
-#&gt; </div><div class='output co'>#&gt; <span class='message'>New names:</span>
-#&gt; <span class='message'>* . -&gt; ....1</span>
-#&gt; <span class='message'>* . -&gt; ....2</span>
-#&gt; <span class='message'>* . -&gt; ....3</span>
-#&gt; <span class='message'>* . -&gt; ....4</span>
-#&gt; <span class='message'>* . -&gt; ....5</span>
-#&gt; <span class='message'>* ...</span></div><div class='input'>
-<span class='va'>xrf_rule_res</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://generics.r-lib.org/reference/tidy.html'>tidy</a></span><span class='op'>(</span><span class='va'>xrf_reg_fit</span><span class='op'>)</span>
-<span class='va'>xrf_rule_res</span><span class='op'>$</span><span class='va'>rule</span><span class='op'>[</span><span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span><span class='op'>(</span><span class='va'>xrf_rule_res</span><span class='op'>)</span><span class='op'>]</span> <span class='op'>%&gt;%</span> <span class='fu'>rlang</span><span class='fu'>::</span><span class='fu'><a href='https://rlang.r-lib.org/reference/parse_expr.html'>parse_expr</a></span><span class='op'>(</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; (Gr_Liv_Area &lt; 3.30210185) &amp; (Gr_Liv_Area &lt; 3.38872266) &amp; (Gr_Liv_Area &gt;= 
-#&gt;     2.94571471) &amp; (Gr_Liv_Area &gt;= 3.24870872) &amp; (Latitude &lt; 42.0271072) &amp; 
-#&gt;     (Neighborhood_Old_Town &gt;= -9.53674316e-07)</div><div class='input'>
-<span class='va'>xrf_col_res</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://generics.r-lib.org/reference/tidy.html'>tidy</a></span><span class='op'>(</span><span class='va'>xrf_reg_fit</span>, unit <span class='op'>=</span> <span class='st'>"columns"</span><span class='op'>)</span>
+  <span class='va'>xrf_reg_mod</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span>
+  <span class='fu'><a href='https://generics.r-lib.org/reference/fit.html'>fit</a></span><span class='op'>(</span><span class='va'>Sale_Price</span> <span class='op'>~</span> <span class='va'>.</span>, data <span class='op'>=</span> <span class='va'>ames_processed</span><span class='op'>)</span>
+</code></pre><p></div></p><pre class='sourceCode r'><code><span class='co'>## [09:26:53] WARNING: amalgamation/../src/objective/regression_obj.cu:171: reg:linear is now deprecated in favor of reg:squarederror.</span>
+<span class='co'>## [09:26:53] WARNING: amalgamation/../src/learner.cc:573: </span>
+<span class='co'>## Parameters: { "nrounds" } might not be used.</span>
+<span class='co'>## </span>
+<span class='co'>##   This may not be accurate due to some parameters are only used in language bindings but</span>
+<span class='co'>##   passed down to XGBoost core.  Or some parameters are not used but slip through this</span>
+<span class='co'>##   verification. Please open an issue if you find above cases.</span>
+
+<span class='co'>## New names:</span>
+<span class='co'>## * . -&gt; ....1</span>
+<span class='co'>## * . -&gt; ....2</span>
+<span class='co'>## * . -&gt; ....3</span>
+<span class='co'>## * . -&gt; ....4</span>
+<span class='co'>## * . -&gt; ....5</span>
+<span class='co'>## * ...</span>
+</code></pre><p><div class="r"></p><pre class='sourceCode r'><code><span class='va'>xrf_rule_res</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://generics.r-lib.org/reference/tidy.html'>tidy</a></span><span class='op'>(</span><span class='va'>xrf_reg_fit</span><span class='op'>)</span>
+<span class='va'>xrf_rule_res</span><span class='op'>$</span><span class='va'>rule</span><span class='op'>[</span><span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span><span class='op'>(</span><span class='va'>xrf_rule_res</span><span class='op'>)</span><span class='op'>]</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'>rlang</span><span class='fu'>::</span><span class='fu'><a href='https://rlang.r-lib.org/reference/parse_expr.html'>parse_expr</a></span><span class='op'>(</span><span class='op'>)</span>
+</code></pre><p></div></p><pre class='sourceCode r'><code><span class='co'>## (Gr_Liv_Area &lt; 3.30210185) &amp; (Gr_Liv_Area &lt; 3.38872266) &amp; (Gr_Liv_Area &gt;= </span>
+<span class='co'>##     2.94571471) &amp; (Gr_Liv_Area &gt;= 3.24870872) &amp; (Latitude &lt; 42.0271072) &amp; </span>
+<span class='co'>##     (Neighborhood_Old_Town &gt;= -9.53674316e-07)</span>
+</code></pre><p><div class="r"></p><pre class='sourceCode r'><code><span class='va'>xrf_col_res</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://generics.r-lib.org/reference/tidy.html'>tidy</a></span><span class='op'>(</span><span class='va'>xrf_reg_fit</span>, unit <span class='op'>=</span> <span class='st'>"columns"</span><span class='op'>)</span>
 <span class='va'>xrf_col_res</span>
-</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 149 x 3</span><span>
-#&gt;    rule_id term           estimate
-#&gt;    </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>             </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #BCBCBC;'> 1</span><span> r0_1    Gr_Liv_Area   -</span><span style='color: #BB0000;'>1.27</span><span style='color: #949494;'>e</span><span style='color: #BB0000;'>- 2</span><span>
-#&gt; </span><span style='color: #BCBCBC;'> 2</span><span> r2_4    Gr_Liv_Area   -</span><span style='color: #BB0000;'>3.70</span><span style='color: #949494;'>e</span><span style='color: #BB0000;'>-10</span><span>
-#&gt; </span><span style='color: #BCBCBC;'> 3</span><span> r2_2    Gr_Liv_Area    7.59</span><span style='color: #949494;'>e</span><span style='color: #BB0000;'>- 3</span><span>
-#&gt; </span><span style='color: #BCBCBC;'> 4</span><span> r2_4    Central_Air_Y -</span><span style='color: #BB0000;'>3.70</span><span style='color: #949494;'>e</span><span style='color: #BB0000;'>-10</span><span>
-#&gt; </span><span style='color: #BCBCBC;'> 5</span><span> r3_5    Longitude      1.06</span><span style='color: #949494;'>e</span><span style='color: #BB0000;'>- 1</span><span>
-#&gt; </span><span style='color: #BCBCBC;'> 6</span><span> r3_6    Longitude      2.65</span><span style='color: #949494;'>e</span><span style='color: #BB0000;'>- 2</span><span>
-#&gt; </span><span style='color: #BCBCBC;'> 7</span><span> r3_5    Latitude       1.06</span><span style='color: #949494;'>e</span><span style='color: #BB0000;'>- 1</span><span>
-#&gt; </span><span style='color: #BCBCBC;'> 8</span><span> r3_6    Latitude       2.65</span><span style='color: #949494;'>e</span><span style='color: #BB0000;'>- 2</span><span>
-#&gt; </span><span style='color: #BCBCBC;'> 9</span><span> r3_5    Longitude      1.06</span><span style='color: #949494;'>e</span><span style='color: #BB0000;'>- 1</span><span>
-#&gt; </span><span style='color: #BCBCBC;'>10</span><span> r3_6    Longitude      2.65</span><span style='color: #949494;'>e</span><span style='color: #BB0000;'>- 2</span><span>
-#&gt; </span><span style='color: #949494;'># … with 139 more rows</span><span></div><div class='input'><span class='co'># }</span>
-</div></span></pre>
+</code></pre><p></div></p><pre class='sourceCode r'><code><span class='co'>## # A tibble: 149 × 3</span>
+<span class='co'>##    rule_id term           estimate</span>
+<span class='co'>##    &lt;chr&gt;   &lt;chr&gt;             &lt;dbl&gt;</span>
+<span class='co'>##  1 r0_1    Gr_Liv_Area   -1.27e- 2</span>
+<span class='co'>##  2 r2_4    Gr_Liv_Area   -3.70e-10</span>
+<span class='co'>##  3 r2_2    Gr_Liv_Area    7.59e- 3</span>
+<span class='co'>##  4 r2_4    Central_Air_Y -3.70e-10</span>
+<span class='co'>##  5 r3_5    Longitude      1.06e- 1</span>
+<span class='co'>##  6 r3_6    Longitude      2.65e- 2</span>
+<span class='co'>##  7 r3_5    Latitude       1.06e- 1</span>
+<span class='co'>##  8 r3_6    Latitude       2.65e- 2</span>
+<span class='co'>##  9 r3_5    Longitude      1.06e- 1</span>
+<span class='co'>## 10 r3_6    Longitude      2.65e- 2</span>
+<span class='co'>## # … with 139 more rows</span>
+</code></pre>
+
+
+
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
