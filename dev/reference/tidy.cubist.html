@@ -207,8 +207,8 @@ conditions. These can be converted to an R expression using
 <span class='va'>cb_res</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://generics.r-lib.org/reference/tidy.html'>tidy</a></span><span class='op'>(</span><span class='va'>cb_fit</span><span class='op'>)</span>
 <span class='va'>cb_res</span>
 </code></pre><p></div></p><pre class='sourceCode r'><code><span class='co'>## # A tibble: 157 × 5</span>
-<span class='co'>##    committee rule_num rule                               estimate    statistic  </span>
-<span class='co'>##        &lt;int&gt;    &lt;int&gt; &lt;chr&gt;                              &lt;list&gt;      &lt;list&gt;     </span>
+<span class='co'>##    committee rule_num rule                               estimate    statistic</span>
+<span class='co'>##        &lt;int&gt;    &lt;int&gt; &lt;chr&gt;                              &lt;list&gt;      &lt;list&gt;</span>
 <span class='co'>##  1         1        1 ( Central_Air == 'N' ) &amp; ( Gr_Liv… &lt;tibble [4… &lt;tibble [1…</span>
 <span class='co'>##  2         1        2 ( Gr_Liv_Area &lt;= 3.0326188 ) &amp; ( … &lt;tibble [4… &lt;tibble [1…</span>
 <span class='co'>##  3         1        3 ( Neighborhood  %in% c( 'Old_Town… &lt;tibble [3… &lt;tibble [1…</span>
@@ -224,42 +224,19 @@ conditions. These can be converted to an R expression using
 </code></pre><p></div></p><pre class='sourceCode r'><code><span class='co'>## # A tibble: 4 × 2</span>
 <span class='co'>##   term        estimate</span>
 <span class='co'>##   &lt;chr&gt;          &lt;dbl&gt;</span>
-<span class='co'>## 1 (Intercept)  -408.  </span>
+<span class='co'>## 1 (Intercept)  -408.</span>
 <span class='co'>## 2 Longitude      -1.43</span>
-<span class='co'>## 3 Latitude        6.6 </span>
+<span class='co'>## 3 Latitude        6.6</span>
 <span class='co'>## 4 Gr_Liv_Area     0.7</span>
 </code></pre><p><div class="r"></p><pre class='sourceCode r'><code><span class='va'>cb_res</span><span class='op'>$</span><span class='va'>statistic</span><span class='op'>[[</span><span class='fl'>1</span><span class='op'>]</span><span class='op'>]</span>
 </code></pre><p></div></p><pre class='sourceCode r'><code><span class='co'>## # A tibble: 1 × 6</span>
 <span class='co'>##   num_conditions coverage  mean   min   max  error</span>
 <span class='co'>##            &lt;dbl&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;</span>
 <span class='co'>## 1              2      154  4.94  4.11  5.31 0.0956</span>
-</code></pre><p><div class="r"></p><pre class='sourceCode r'><code><span class='co'># ------------------------------------------------------------------------------</span>
-
-<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://github.com/tidymodels/recipes'>recipes</a></span><span class='op'>)</span>
-
-<span class='va'>xrf_reg_mod</span> <span class='op'>&lt;-</span>
-  <span class='fu'><a href='rule_fit.html'>rule_fit</a></span><span class='op'>(</span>trees <span class='op'>=</span> <span class='fl'>10</span>, penalty <span class='op'>=</span> <span class='fl'>.001</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span>
-  <span class='fu'><a href='https://parsnip.tidymodels.org/reference/set_engine.html'>set_engine</a></span><span class='op'>(</span><span class='st'>"xrf"</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span>
-  <span class='fu'><a href='https://parsnip.tidymodels.org/reference/set_args.html'>set_mode</a></span><span class='op'>(</span><span class='st'>"regression"</span><span class='op'>)</span>
-
-<span class='co'># Make dummy variables since xgboost will not</span>
-<span class='va'>ames_rec</span> <span class='op'>&lt;-</span>
-  <span class='fu'><a href='https://recipes.tidymodels.org/reference/recipe.html'>recipe</a></span><span class='op'>(</span><span class='va'>Sale_Price</span> <span class='op'>~</span> <span class='va'>Neighborhood</span> <span class='op'>+</span> <span class='va'>Longitude</span> <span class='op'>+</span> <span class='va'>Latitude</span> <span class='op'>+</span>
-         <span class='va'>Gr_Liv_Area</span> <span class='op'>+</span> <span class='va'>Central_Air</span>,
-         data <span class='op'>=</span> <span class='va'>ames</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span>
-  <span class='fu'><a href='https://recipes.tidymodels.org/reference/step_dummy.html'>step_dummy</a></span><span class='op'>(</span><span class='va'>Neighborhood</span>, <span class='va'>Central_Air</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span>
-  <span class='fu'><a href='https://recipes.tidymodels.org/reference/step_zv.html'>step_zv</a></span><span class='op'>(</span><span class='fu'><a href='https://recipes.tidymodels.org/reference/has_role.html'>all_predictors</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>
-
-<span class='va'>ames_processed</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://recipes.tidymodels.org/reference/prep.html'>prep</a></span><span class='op'>(</span><span class='va'>ames_rec</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'><a href='https://recipes.tidymodels.org/reference/bake.html'>bake</a></span><span class='op'>(</span>new_data <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span>
-
-<span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span><span class='op'>(</span><span class='fl'>1</span><span class='op'>)</span>
-<span class='va'>xrf_reg_fit</span> <span class='op'>&lt;-</span>
-  <span class='va'>xrf_reg_mod</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span>
-  <span class='fu'><a href='https://generics.r-lib.org/reference/fit.html'>fit</a></span><span class='op'>(</span><span class='va'>Sale_Price</span> <span class='op'>~</span> <span class='va'>.</span>, data <span class='op'>=</span> <span class='va'>ames_processed</span><span class='op'>)</span>
-</code></pre><p></div><div class="r"></p><pre class='sourceCode r'><code><span class='va'>xrf_rule_res</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://generics.r-lib.org/reference/tidy.html'>tidy</a></span><span class='op'>(</span><span class='va'>xrf_reg_fit</span><span class='op'>)</span>
+</code></pre><p><div class="r"></div></p><p><div class="r"></p><pre class='sourceCode r'><code><span class='va'>xrf_rule_res</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://generics.r-lib.org/reference/tidy.html'>tidy</a></span><span class='op'>(</span><span class='va'>xrf_reg_fit</span><span class='op'>)</span>
 <span class='va'>xrf_rule_res</span><span class='op'>$</span><span class='va'>rule</span><span class='op'>[</span><span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span><span class='op'>(</span><span class='va'>xrf_rule_res</span><span class='op'>)</span><span class='op'>]</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'>rlang</span><span class='fu'>::</span><span class='fu'><a href='https://rlang.r-lib.org/reference/parse_expr.html'>parse_expr</a></span><span class='op'>(</span><span class='op'>)</span>
-</code></pre><p></div></p><pre class='sourceCode r'><code><span class='co'>## (Gr_Liv_Area &lt; 3.30210185) &amp; (Gr_Liv_Area &lt; 3.38872266) &amp; (Gr_Liv_Area &gt;= </span>
-<span class='co'>##     2.94571471) &amp; (Gr_Liv_Area &gt;= 3.24870872) &amp; (Latitude &lt; 42.0271072) &amp; </span>
+</code></pre><p></div></p><pre class='sourceCode r'><code><span class='co'>## (Gr_Liv_Area &lt; 3.30210185) &amp; (Gr_Liv_Area &lt; 3.38872266) &amp; (Gr_Liv_Area &gt;=</span>
+<span class='co'>##     2.94571471) &amp; (Gr_Liv_Area &gt;= 3.24870872) &amp; (Latitude &lt; 42.0271072) &amp;</span>
 <span class='co'>##     (Neighborhood_Old_Town &gt;= -9.53674316e-07)</span>
 </code></pre><p><div class="r"></p><pre class='sourceCode r'><code><span class='va'>xrf_col_res</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://generics.r-lib.org/reference/tidy.html'>tidy</a></span><span class='op'>(</span><span class='va'>xrf_reg_fit</span>, unit <span class='op'>=</span> <span class='st'>"columns"</span><span class='op'>)</span>
 <span class='va'>xrf_col_res</span>
@@ -278,7 +255,6 @@ conditions. These can be converted to an R expression using
 <span class='co'>## 10 r3_6    Longitude      2.65e- 2</span>
 <span class='co'>## # … with 139 more rows</span>
 </code></pre>
-
 
 
   </div>
