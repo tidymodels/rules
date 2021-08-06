@@ -91,7 +91,7 @@ car_rules
 summary(car_rules$fit)
 }
 \references{
-\url{https://www.tidymodels.org}, \href{https://tmwr.org}{\emph{Tidy Models with R}}
+\url{https://www.tidymodels.org}, \href{https://www.tmwr.org/}{\emph{Tidy Models with R}}
 
 Quinlan R (1992). "Learning with Continuous Classes." Proceedings
 of the 5th Australian Joint Conference On Artificial Intelligence, pp.

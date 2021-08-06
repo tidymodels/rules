@@ -149,7 +149,7 @@ The \code{summary()} function shows the details of the rules.\if{html}{\out{<div
 #> cubist.default(x = x, y = y, committees = 2)
 #> 
 #> 
-#> Cubist [Release 2.07 GPL Edition]  Fri Aug  6 17:23:45 2021
+#> Cubist [Release 2.07 GPL Edition]  Fri Aug  6 17:48:52 2021
 #> ---------------------------------
 #> 
 #>     Target attribute `outcome'
@@ -348,7 +348,7 @@ rule_fit_fit <-
 }\if{html}{\out{</div>}}\if{html}{\out{<div class="r">}}\preformatted{rule_fit_fit
 #> parsnip model object
 #> 
-#> Fit time:  1.9s 
+#> Fit time:  2.1s 
 #> An eXtreme RuleFit model of 112 rules.
 #> 
 #> Original Formula:
