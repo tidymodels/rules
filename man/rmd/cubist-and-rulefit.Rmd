@@ -1,12 +1,3 @@
----
-title: "What's the difference between Cubist and RuleFit?"
-output: rmarkdown::html_vignette
-vignette: >
-  %\VignetteIndexEntry{What's the difference between Cubist and RuleFit}
-  %\VignetteEngine{knitr::rmarkdown}
-  %\VignetteEncoding{UTF-8}
----
-
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
@@ -20,7 +11,9 @@ library(recipes)
 ```
 
 
-[Cubist](https://www.rulequest.com/cubist-win.html) and [RuleFit](https://statweb.stanford.edu/~jhf/R_RuleFit.html) are two rule-based regression models. They are similar in some ways but otherwise very different. This vignette is a short description of their approaches. 
+# What's the difference between Cubist and RuleFit?
+
+[Cubist](https://www.rulequest.com/cubist-win.html) and [RuleFit](https://statweb.stanford.edu/~jhf/R_RuleFit.html) are two rule-based regression models. They are similar in some ways but otherwise very different. This is a short description of their approaches. 
 
 Cubist is for numeric outcomes while RuleFit can work with numeric and categorical outcomes. For this document, we'll focus on numeric outcomes (without loss of generality). 
 
@@ -38,7 +31,7 @@ rule_2 <- (A <  a) & (B >= b)
 rule_3 <- (A >= a)
 ```
 
-As is, these paths through the tree are mutually exclusive. For deep trees, these rules can become overly complex and may contain redundancies. Cubist takes the approach of [simplifying rules](https://scholar.google.com/scholar?hl=en&as_sdt=0%2C7&q=%22Simplifying+decision+trees%22&btnG=) whenever possible. For example, 
+As is, these paths through the tree are mutually exclusive. For deep trees, these rules can become overly complex and may contain redundancies. Cubist takes the approach of simplifying rules whenever possible (Quinlan (1987)). For example, 
 
 ```r
 rule_x <- (A <  10)  & (A <  7) & (B >= 1)
@@ -60,7 +53,7 @@ Now let's look at how each model uses the rules.
 
 ## Cubists makes a model for each rule
 
-Before delving into the rules, let's start with the [_model tree_](https://scholar.google.com/scholar?hl=en&as_sdt=0%2C7&q=%22Learning+with+continuous+classes%22&btnG=) initially created by Cubist. An initial tree is created and a regression model is created for _each split in the tree_. Each linear regression is created on the subset of the data covered by the current rule and uses only the predictors in the current rule. In the tree shown above, the first split produces two models with `A` as a predictor. The data for each are filtered either with `A < a` or `A >= a`. The entire set of models are: 
+Before delving into the rules, let's start with the _model tree_ initially created by Cubist (Quinlan (1992)). An initial tree is created and a regression model is created for _each split in the tree_. Each linear regression is created on the subset of the data covered by the current rule and uses only the predictors in the current rule. In the tree shown above, the first split produces two models with `A` as a predictor. The data for each are filtered either with `A < a` or `A >= a`. The entire set of models are: 
 
 ```{r, eval = FALSE}
 split_1_low  <- filter(data, A <  a)
@@ -86,11 +79,11 @@ The models associated with the rules are actually average of many models further
 | 2    | `A <  a & B >= b` | `model_1_low` and `model_2_high` |
 | 2    | `A >= a`          | `model_1_high`                   |
 
-The equations for averaging were first described in [Quinlan (1992)](https://scholar.google.com/scholar?hl=en&as_sdt=0%2C7&q=%22Learning+with+continuous+classes%22&btnG=) but the updated equation for Cubist can be found in Chapter 14 of [_APM_](http://appliedpredictivemodeling.com/). 
+The equations for averaging were first described in Quinlan (1992) but the updated equation for Cubist can be found in Chapter 14 of [_APM_](http://appliedpredictivemodeling.com/). 
 
 There is a model for each committee and rule within committee. When predicting, a new observation is compared to the conditions in the rules to determine which rules are active for this data point. The active linear models predict the new sample and these predictions are averaged to produce the final prediction value. 
 
-Perhaps unrelated to this document, which focuses on how rules are used, Cubist also does a [nearest-neighbor correction](https://scholar.google.com/scholar?hl=en&as_sdt=0%2C7&q=%22Combining+instance-based+and+model-based+learning%22&btnG=) to the predicted values. 
+Perhaps unrelated to this document, which focuses on how rules are used, Cubist also does a nearest-neighbor correction to the predicted values (Quinlan R (1993)). 
 
 Let's look at an example model on the Palmer penguin data: 
 
@@ -246,3 +239,12 @@ rf_variable_res %>%
   mutate(effect = effect / num_rules ) %>% 
   arrange(desc(effect))
 ```
+
+
+## References
+
+- Quinlan R (1987). "Simplifying Decision Trees." _International Journal of Man-Machine Studies_, 27(3), 221-234.
+
+- Quinlan R (1992). "Learning with Continuous Classes." _Proceedings of the 5th Australian Joint Conference On Artificial Intelligence_, pp. 343-348.
+
+- Quinlan R (1993). "Combining Instance-Based and Model-Based Learning." _Proceedings of the Tenth International Conference on Machine Learning_, pp. 236-243. 

@@ -38,8 +38,6 @@ Suggests:
     spelling,
     testthat,
     xrf (>= 0.2.0)
-VignetteBuilder: 
-    knitr
 Encoding: UTF-8
 Language: en-US
 LazyData: true

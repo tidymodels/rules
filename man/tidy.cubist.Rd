@@ -88,13 +88,8 @@ cb_res
 }\if{html}{\out{<div class="r">}}\preformatted{# ------------------------------------------------------------------------------
 
 library(recipes)
-}\if{html}{\out{</div>}}\preformatted{## 
-## Attaching package: 'recipes'
 
-## The following object is masked from 'package:stats':
-## 
-##     step
-}\if{html}{\out{<div class="r">}}\preformatted{xrf_reg_mod <-
+xrf_reg_mod <-
   rule_fit(trees = 10, penalty = .001) \%>\%
   set_engine("xrf") \%>\%
   set_mode("regression")
@@ -113,8 +108,8 @@ set.seed(1)
 xrf_reg_fit <-
   xrf_reg_mod \%>\%
   fit(Sale_Price ~ ., data = ames_processed)
-}\if{html}{\out{</div>}}\preformatted{## [15:33:39] WARNING: amalgamation/../src/objective/regression_obj.cu:171: reg:linear is now deprecated in favor of reg:squarederror.
-## [15:33:39] WARNING: amalgamation/../src/learner.cc:573: 
+}\if{html}{\out{</div>}}\preformatted{## [09:08:03] WARNING: amalgamation/../src/objective/regression_obj.cu:171: reg:linear is now deprecated in favor of reg:squarederror.
+## [09:08:03] WARNING: amalgamation/../src/learner.cc:573: 
 ## Parameters: \{ "nrounds" \} might not be used.
 ## 
 ##   This may not be accurate due to some parameters are only used in language bindings but
