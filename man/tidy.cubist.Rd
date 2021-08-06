@@ -108,22 +108,7 @@ set.seed(1)
 xrf_reg_fit <-
   xrf_reg_mod \%>\%
   fit(Sale_Price ~ ., data = ames_processed)
-}\if{html}{\out{</div>}}\preformatted{## [09:26:53] WARNING: amalgamation/../src/objective/regression_obj.cu:171: reg:linear is now deprecated in favor of reg:squarederror.
-## [09:26:53] WARNING: amalgamation/../src/learner.cc:573: 
-## Parameters: \{ "nrounds" \} might not be used.
-## 
-##   This may not be accurate due to some parameters are only used in language bindings but
-##   passed down to XGBoost core.  Or some parameters are not used but slip through this
-##   verification. Please open an issue if you find above cases.
-
-## New names:
-## * . -> ....1
-## * . -> ....2
-## * . -> ....3
-## * . -> ....4
-## * . -> ....5
-## * ...
-}\if{html}{\out{<div class="r">}}\preformatted{xrf_rule_res <- tidy(xrf_reg_fit)
+}\if{html}{\out{</div>}}\if{html}{\out{<div class="r">}}\preformatted{xrf_rule_res <- tidy(xrf_reg_fit)
 xrf_rule_res$rule[nrow(xrf_rule_res)] \%>\% rlang::parse_expr()
 }\if{html}{\out{</div>}}\preformatted{## (Gr_Liv_Area < 3.30210185) & (Gr_Liv_Area < 3.38872266) & (Gr_Liv_Area >= 
 ##     2.94571471) & (Gr_Liv_Area >= 3.24870872) & (Latitude < 42.0271072) & 

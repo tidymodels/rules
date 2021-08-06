@@ -19,16 +19,22 @@ categorical outcomes. For this document, we’ll focus on numeric outcomes
 \subsection{Both start by making rules from trees}{
 
 For each model, an an initial tree-based model is created. Let’s look at
-a really simple example tree:
+a really simple example tree:\if{html}{\out{<div class="r">}}\preformatted{if (A < a) \{
+  if (B < b) \{
+    node <- 1
+  \} else \{
+    node <- 2
+  \}
+\} else
+  node <- 3
+\}
+}\if{html}{\out{</div>}}
 
-\href{https://raw.githubusercontent.com/tidymodels/rules/gh-pages/reference/figures/rules-from-trees.svg}{}
-
-In this case, two predictors are used in splits: \code{A} and \code{B}. On this
-graph, the split to the left is the “<” condition. There are three
-terminal nodes shown as diamonds. This tree-based structure can be
-converted to a set of distinct rules. Each rule is a collection of
-\verb{if/then} statements that define the path to the terminal nodes. In this
-example:\if{html}{\out{<div class="r">}}\preformatted{rule_1 <- (A <  a) & (B <  b)
+In this case, two predictors are used in splits: \code{A} and \code{B}. With this
+model, the split to the left is the “<” condition. There are three
+terminal nodes. This tree-based structure can be converted to a set of
+distinct rules. Each rule is a collection of \verb{if/then} statements that
+define the path to the terminal nodes. In this example:\if{html}{\out{<div class="r">}}\preformatted{rule_1 <- (A <  a) & (B <  b)
 rule_2 <- (A <  a) & (B >= b)
 rule_3 <- (A >= a)
 }\if{html}{\out{</div>}}
@@ -125,7 +131,7 @@ cubist_fit <-
 cubist_fit
 #> parsnip model object
 #> 
-#> Fit time:  32ms 
+#> Fit time:  35ms 
 #> 
 #> Call:
 #> cubist.default(x = x, y = y, committees = 2)
@@ -143,7 +149,7 @@ The \code{summary()} function shows the details of the rules.\if{html}{\out{<div
 #> cubist.default(x = x, y = y, committees = 2)
 #> 
 #> 
-#> Cubist [Release 2.07 GPL Edition]  Fri Aug  6 09:26:48 2021
+#> Cubist [Release 2.07 GPL Edition]  Fri Aug  6 17:23:45 2021
 #> ---------------------------------
 #> 
 #>     Target attribute `outcome'
@@ -342,7 +348,7 @@ rule_fit_fit <-
 }\if{html}{\out{</div>}}\if{html}{\out{<div class="r">}}\preformatted{rule_fit_fit
 #> parsnip model object
 #> 
-#> Fit time:  2s 
+#> Fit time:  1.9s 
 #> An eXtreme RuleFit model of 112 rules.
 #> 
 #> Original Formula:

@@ -85,7 +85,7 @@ These differences will create a difference in the values of the `penalty` argume
 
 ## Preprocessing requirements
 
-```{r child = "template-tree-split-factors.Rmd"}
+```{r child = "template-makes-dummies.Rmd"}
 ```
 
 ## References

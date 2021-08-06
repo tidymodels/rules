@@ -120,10 +120,11 @@ default).
 
 \subsection{Preprocessing requirements}{
 
-This engine does not require any special encoding of the predictors.
-Categorical predictors can be partitioned into groups of factor levels
-(e.g. \verb{\{a, c\}} vs \verb{\{b, d\}}) when splitting at a node. Dummy variables
-are not required for this model.
+Factor/categorical predictors need to be converted to numeric values
+(e.g., dummy or indicator variables) for this engine. When using the
+formula method via
+\code{\link[=fit.model_spec]{fit.model_spec()}}, parsnip will
+convert factor columns to indicators.
 }
 
 \subsection{References}{
