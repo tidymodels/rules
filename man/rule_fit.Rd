@@ -2,8 +2,7 @@
 % Please edit documentation in R/rule_fit.R
 \name{rule_fit}
 \alias{rule_fit}
-\alias{update.rule_fit}
-\title{General Interface for RuleFit Models}
+\title{RuleFit models}
 \usage{
 rule_fit(
   mode = "unknown",
@@ -14,22 +13,8 @@ rule_fit(
   learn_rate = NULL,
   loss_reduction = NULL,
   sample_size = NULL,
-  penalty = NULL
-)
-
-\method{update}{rule_fit}(
-  object,
-  parameters = NULL,
-  mtry = NULL,
-  trees = NULL,
-  min_n = NULL,
-  tree_depth = NULL,
-  learn_rate = NULL,
-  loss_reduction = NULL,
-  sample_size = NULL,
   penalty = NULL,
-  fresh = FALSE,
-  ...
+  engine = "xrf"
 )
 }
 \arguments{
@@ -60,45 +45,19 @@ exposed to the fitting routine.}
 
 \item{penalty}{L1 regularization parameter.}
 
-\item{object}{A \code{rule_fit} model specification.}
-
-\item{parameters}{A 1-row tibble or named list with \emph{main} parameters to update.
-If the individual arguments are used, these will supersede the values in
-parameters. Also, using engine arguments in this object will result in an
-error.}
-
-\item{fresh}{A logical for whether the arguments should be modified in-place
-or replaced wholesale.}
-
-\item{...}{Not used for \code{update()}.}
-}
-\value{
-An updated \code{parsnip} model specification.
+\item{engine}{A single character string specifying what computational engine
+to use for fitting.}
 }
 \description{
-\code{\link[=rule_fit]{rule_fit()}} is a way to generate a \emph{specification} of a model
-before fitting. The main arguments for the model are:
-\itemize{
-\item \code{mtry}: The number of predictors that will be
-randomly sampled at each split when creating the tree models.
-\item \code{trees}: The number of trees contained in the ensemble.
-\item \code{min_n}: The minimum number of data points in a node
-that are required for the node to be split further.
-\item \code{tree_depth}: The maximum depth of the tree (i.e. number of
-splits).
-\item \code{learn_rate}: The rate at which the boosting algorithm adapts
-from iteration-to-iteration.
-\item \code{loss_reduction}: The reduction in the loss function required
-to split further.
-\item \code{sample_size}: The amount of data exposed to the fitting routine.
-\item \code{penalty}: The amount of regularization in the glmnet model.
-}
-These arguments are converted to their specific names at the
-time that the model is fit. Other options and argument can be
-set using \code{\link[parsnip:set_engine]{parsnip::set_engine()}}. If left to their defaults
-here (\code{NULL}), the values are taken from the underlying model
-functions. If parameters need to be modified, \code{update()} can be used
-in lieu of recreating the object from scratch.
+\code{rule_fit()} defines a model that derives simple feature rules from a tree
+ensemble and uses them as features to a regularized model.
+
+The engine for this model is:
+
+\Sexpr[stage=render,results=rd]{parsnip:::make_engine_list("rule_fit", pkg = "rules")}
+
+More information on how \pkg{parsnip} is used for modeling is at
+\url{https://www.tidymodels.org/}.
 }
 \details{
 The RuleFit model creates a regression model of rules in two stages. The
@@ -107,53 +66,24 @@ that can be filtered, modified, and simplified. These rules are then added
 as predictors to a regularized generalized linear model that can also
 conduct feature selection during model training.
 
-For the \code{xrf} engine, the \code{xgboost} package is used to create the rule set
-that is then added to a \code{glmnet} model. The only available engine is \code{"xrf"}.
-\subsection{Differences from the xrf package}{
+This function only defines what \emph{type} of model is being fit. Once an engine
+is specified, the \emph{method} to fit the model is also defined.
 
-Note that, per the documentation in
-\code{?xrf}, transformations of the response variable are not supported. To
-use these with \code{rule_fit()}, we recommend using a recipe instead of the
-formula method.
-
-Also, there are several configuration differences in how \code{xrf()} is fit
-between that package and the wrapper used in \code{rules}. Some differences in
-default values are:
-
-\itemize{
-\item \code{trees} (xrf: 100, rules: 15)
-\item \code{max_depth} (xrf: 3, rules: 6)
-}
-
-These differences will create a difference in the values of the \code{penalty}
-argument that \code{glmnet} uses. Also, \code{rules} can also set \code{penalty} whereas
-\code{xrf} uses an internal 5-fold cross-validation to determine it (by default).
-}
+The model is not trained or fit until the \code{\link[=fit.model_spec]{fit.model_spec()}} function is used
+with the data.
 }
 \examples{
+show_engines("rule_fit")
+
 rule_fit()
-# Parameters can be represented by a placeholder:
-rule_fit(trees = 7)
 
-# ------------------------------------------------------------------------------
-
-set.seed(6907)
-rule_fit_rules <-
-  rule_fit(trees = 3, penalty = 0.1) \%>\%
-  set_mode("classification") \%>\%
-  fit(Species ~ ., data = iris)
-
-# ------------------------------------------------------------------------------
-
-model <- rule_fit(trees = 10, min_n = 2)
-model
-update(model, trees = 1)
-update(model, trees = 1, fresh = TRUE)
 }
 \references{
 Friedman, J. H., and Popescu, B. E. (2008). "Predictive learning
 via rule ensembles." \emph{The Annals of Applied Statistics}, 2(3), 916-954.
+
+\url{https://www.tidymodels.org}, \href{https://tmwr.org}{\emph{Tidy Models with R}}
 }
 \seealso{
-\code{\link[parsnip:reexports]{parsnip::fit()}}, \code{\link[parsnip:reexports]{parsnip::fit_xy()}}, \code{\link[xrf:xrf.formula]{xrf::xrf.formula()}}
+\code{\link[xrf:xrf.formula]{xrf::xrf.formula()}}, \Sexpr[stage=render,results=rd]{parsnip:::make_seealso_list("rule_fit", "rules")}
 }

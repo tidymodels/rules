@@ -1,19 +1,17 @@
-#' General Interface for Cubist Rule-Based Regression Models
+#' Cubist rule-based regression models
 #'
-#' [cubist_rules()] is a way to generate a _specification_ of a model
-#'  before fitting. The main arguments for the model are:
-#' \itemize{
-#'   \item \code{committees}: The number of sequential models included in the
-#'   ensemble (similar to the number of trees in boosting).
-#'   \item \code{neighbors}: The number of neighbors in the post-model
-#'   instance-based adjustment.
-#' }
-#' These arguments are converted to their specific names at the
-#'  time that the model is fit. Other options and argument can be
-#'  set using [parsnip::set_engine()]. If left to their defaults
-#'  here (`NULL`), the values are taken from the underlying model
-#'  functions. If parameters need to be modified, `update()` can be used
-#'  in lieu of recreating the object from scratch.
+#' @description
+#' `cubist_rules()` defines a model that derives simple feature rules from a tree
+#' ensemble and uses creates regression models within each rule.
+#'
+#' The engine for this model is:
+#'
+#' \Sexpr[stage=render,results=rd]{parsnip:::make_engine_list("cubist_rules", pkg = "rules")}
+#'
+#' More information on how \pkg{parsnip} is used for modeling is at
+#' \url{https://www.tidymodels.org/}.
+#' @param engine A single character string specifying what computational engine
+#'  to use for fitting.
 #' @param mode A single character string for the type of model.
 #'  The only possible value for this model is "regression".
 #' @param committees A non-negative integer (no greater than 100 for the number
@@ -53,19 +51,12 @@
 #' where `t` is the training set prediction and `w` is a weight that is inverse
 #'  to the distance to the neighbor.
 #'
-#' Note that `cubist_rules()` does not require that categorical predictors be
-#'  converted to numeric indicator values. Note that using [parsnip::fit()] will
-#'  _always_ create dummy variables so, if there is interest in keeping the
-#'  categorical predictors in their original format, [parsnip::fit_xy()] would
-#'  be a better choice. When using the `tune` package, using a recipe for
-#'  pre-processing enables more control over how such predictors are encoded
-#'  since recipes do not automatically create dummy variables.
+#' @template spec-details
 #'
-#' The only available engine is `"Cubist"`.
+#' @template spec-references
 #'
-#' @return An updated `parsnip` model specification.
-#' @seealso [parsnip::fit()], [parsnip::fit_xy()], [Cubist::cubist()],
-#' [Cubist::cubistControl()]
+#' @seealso [Cubist::cubist()], [Cubist::cubistControl()], \Sexpr[stage=render,results=rd]{parsnip:::make_seealso_list("cubist_rules", "rules")}
+#'
 #' @references Quinlan R (1992). "Learning with Continuous Classes." Proceedings
 #' of the 5th Australian Joint Conference On Artificial Intelligence, pp.
 #' 343-348.
@@ -77,8 +68,6 @@
 #' Kuhn M and Johnson K (2013). _Applied Predictive Modeling_. Springer.
 #' @examples
 #' cubist_rules()
-#' # Parameters can be represented by a placeholder:
-#' cubist_rules(committees = 7)
 #'
 #' # ------------------------------------------------------------------------------
 #'
@@ -95,7 +84,8 @@ cubist_rules <-
   function(mode = "regression",
            committees = NULL,
            neighbors = NULL,
-           max_rules = NULL) {
+           max_rules = NULL,
+           engine = "Cubist") {
 
     args <- list(
       committees = enquo(committees),
@@ -109,7 +99,7 @@ cubist_rules <-
       eng_args = NULL,
       mode = mode,
       method = NULL,
-      engine = "Cubist"
+      engine = engine
     )
   }
 
@@ -139,8 +129,9 @@ print.cubist_rules <- function(x, ...) {
 #' update(model, committees = 1)
 #' update(model, committees = 1, fresh = TRUE)
 #' @method update cubist_rules
-#' @rdname cubist_rules
-#' @inheritParams update.C5_rules
+#' @rdname rules_update
+#' @inheritParams rules_update
+#' @inheritParams cubist_rules
 #' @export
 update.cubist_rules <-
   function(object,
