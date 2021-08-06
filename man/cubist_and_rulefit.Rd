@@ -10,7 +10,7 @@ Comparing Cubist and RuleFit
 \href{https://www.rulequest.com/cubist-win.html}{Cubist} and
 \href{https://statweb.stanford.edu/~jhf/R_RuleFit.html}{RuleFit} are two
 rule-based regression models. They are similar in some ways but
-otherwise very different. This vignette is a short description of their
+otherwise very different. This is a short description of their
 approaches.
 
 Cubist is for numeric outcomes while RuleFit can work with numeric and
@@ -125,7 +125,7 @@ cubist_fit <-
 cubist_fit
 #> parsnip model object
 #> 
-#> Fit time:  36ms 
+#> Fit time:  32ms 
 #> 
 #> Call:
 #> cubist.default(x = x, y = y, committees = 2)
@@ -143,7 +143,7 @@ The \code{summary()} function shows the details of the rules.\if{html}{\out{<div
 #> cubist.default(x = x, y = y, committees = 2)
 #> 
 #> 
-#> Cubist [Release 2.07 GPL Edition]  Fri Aug  6 09:07:58 2021
+#> Cubist [Release 2.07 GPL Edition]  Fri Aug  6 09:26:48 2021
 #> ---------------------------------
 #> 
 #>     Target attribute `outcome'
@@ -229,7 +229,7 @@ intercept.
 
 The \code{tidy()} function can extract the rule and model data:\if{html}{\out{<div class="r">}}\preformatted{cb_res <- tidy(cubist_fit)
 cb_res
-#> # A tibble: 6 x 5
+#> # A tibble: 6 × 5
 #>   committee rule_num rule                             estimate      statistic   
 #>       <int>    <int> <chr>                            <list>        <list>      
 #> 1         1        1 ( sex == 'female' ) & ( flipper… <tibble [4 ×… <tibble [1 …
@@ -246,7 +246,7 @@ using \code{unnest()}:\if{html}{\out{<div class="r">}}\preformatted{library(tidy
 cb_res \%>\% 
   dplyr::select(committee, rule_num, statistic) \%>\% 
   unnest(cols = c(statistic))
-#> # A tibble: 6 x 8
+#> # A tibble: 6 × 8
 #>   committee rule_num num_conditions coverage  mean   min   max error
 #>       <int>    <int>          <dbl>    <dbl> <dbl> <dbl> <dbl> <dbl>
 #> 1         1        1              2      107 3419.  2700  4150  208.
@@ -273,7 +273,7 @@ rule_4_filter <-
 
 penguins \%>\% 
   dplyr::slice(which(rule_4_filter))
-#> # A tibble: 23 x 7
+#> # A tibble: 23 × 7
 #>    species island    bill_length_mm bill_depth_mm flipper_length_mm body_mass_g
 #>    <fct>   <fct>              <dbl>         <dbl>             <int>       <int>
 #>  1 Adelie  Dream               41.1          18.1               205        4300
@@ -342,7 +342,7 @@ rule_fit_fit <-
 }\if{html}{\out{</div>}}\if{html}{\out{<div class="r">}}\preformatted{rule_fit_fit
 #> parsnip model object
 #> 
-#> Fit time:  1.9s 
+#> Fit time:  2s 
 #> An eXtreme RuleFit model of 112 rules.
 #> 
 #> Original Formula:
@@ -353,19 +353,19 @@ rule_fit_fit <-
 To get the rules and their associated coefficients, the \code{tidy()} method
 can be used again:\if{html}{\out{<div class="r">}}\preformatted{rf_res <- tidy(rule_fit_fit)
 rf_res
-#> # A tibble: 110 x 3
-#>    rule_id          rule                                                estimate
-#>    <chr>            <chr>                                                  <dbl>
-#>  1 (Intercept)      ( TRUE )                                             5753.  
-#>  2 bill_depth_mm    ( bill_depth_mm )                                     -15.9 
-#>  3 bill_length_mm   ( bill_length_mm )                                      1.10
-#>  4 flipper_length_… ( flipper_length_mm )                                  -7.67
-#>  5 islandDream      ( island == 'Dream' )                                 -29.2 
-#>  6 islandTorgersen  ( island == 'Torgersen' )                             -16.8 
-#>  7 r0_2             ( species == 'Gentoo' )                               472.  
-#>  8 r0_3             ( sex != 'male' ) & ( species != 'Gentoo' )           -78.8 
-#>  9 r1_2             ( flipper_length_mm >= 211.5 )                        219.  
-#> 10 r1_3             ( flipper_length_mm <  194.5 ) & ( flipper_length_…  -142.  
+#> # A tibble: 110 × 3
+#>    rule_id           rule                                               estimate
+#>    <chr>             <chr>                                                 <dbl>
+#>  1 (Intercept)       ( TRUE )                                            5753.  
+#>  2 bill_depth_mm     ( bill_depth_mm )                                    -15.9 
+#>  3 bill_length_mm    ( bill_length_mm )                                     1.10
+#>  4 flipper_length_mm ( flipper_length_mm )                                 -7.67
+#>  5 islandDream       ( island == 'Dream' )                                -29.2 
+#>  6 islandTorgersen   ( island == 'Torgersen' )                            -16.8 
+#>  7 r0_2              ( species == 'Gentoo' )                              472.  
+#>  8 r0_3              ( sex != 'male' ) & ( species != 'Gentoo' )          -78.8 
+#>  9 r1_2              ( flipper_length_mm >= 211.5 )                       219.  
+#> 10 r1_3              ( flipper_length_mm <  194.5 ) & ( flipper_length…  -142.  
 #> # … with 100 more rows
 }\if{html}{\out{</div>}}
 
@@ -387,7 +387,7 @@ which can be simplified to have fewer conditions:\if{html}{\out{<div class="r">}
 Also, the \code{tidy()} function can extract the same information but use the
 original predictors as the unit:\if{html}{\out{<div class="r">}}\preformatted{rf_variable_res <- tidy(rule_fit_fit, unit = "columns")
 rf_variable_res
-#> # A tibble: 452 x 3
+#> # A tibble: 452 × 3
 #>    rule_id term              estimate
 #>    <chr>   <chr>                <dbl>
 #>  1 r0_3    species             -78.8 
@@ -415,7 +415,7 @@ rf_variable_res \%>\%
   # normalize by number of possible occurrences
   mutate(effect = effect / num_rules ) \%>\% 
   arrange(desc(effect))
-#> # A tibble: 6 x 2
+#> # A tibble: 6 × 2
 #>   term              effect
 #>   <chr>              <dbl>
 #> 1 flipper_length_mm 219.  

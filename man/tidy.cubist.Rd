@@ -58,7 +58,7 @@ cb_fit <-
 
 cb_res <- tidy(cb_fit)
 cb_res
-}\if{html}{\out{</div>}}\preformatted{## # A tibble: 157 x 5
+}\if{html}{\out{</div>}}\preformatted{## # A tibble: 157 × 5
 ##    committee rule_num rule                               estimate    statistic  
 ##        <int>    <int> <chr>                              <list>      <list>     
 ##  1         1        1 ( Central_Air == 'N' ) & ( Gr_Liv… <tibble [4… <tibble [1…
@@ -73,7 +73,7 @@ cb_res
 ## 10         1       10 ( Neighborhood  \%in\% c( 'College_… <tibble [4… <tibble [1…
 ## # … with 147 more rows
 }\if{html}{\out{<div class="r">}}\preformatted{cb_res$estimate[[1]]
-}\if{html}{\out{</div>}}\preformatted{## # A tibble: 4 x 2
+}\if{html}{\out{</div>}}\preformatted{## # A tibble: 4 × 2
 ##   term        estimate
 ##   <chr>          <dbl>
 ## 1 (Intercept)  -408.  
@@ -81,7 +81,7 @@ cb_res
 ## 3 Latitude        6.6 
 ## 4 Gr_Liv_Area     0.7
 }\if{html}{\out{<div class="r">}}\preformatted{cb_res$statistic[[1]]
-}\if{html}{\out{</div>}}\preformatted{## # A tibble: 1 x 6
+}\if{html}{\out{</div>}}\preformatted{## # A tibble: 1 × 6
 ##   num_conditions coverage  mean   min   max  error
 ##            <dbl>    <dbl> <dbl> <dbl> <dbl>  <dbl>
 ## 1              2      154  4.94  4.11  5.31 0.0956
@@ -108,8 +108,8 @@ set.seed(1)
 xrf_reg_fit <-
   xrf_reg_mod \%>\%
   fit(Sale_Price ~ ., data = ames_processed)
-}\if{html}{\out{</div>}}\preformatted{## [09:08:03] WARNING: amalgamation/../src/objective/regression_obj.cu:171: reg:linear is now deprecated in favor of reg:squarederror.
-## [09:08:03] WARNING: amalgamation/../src/learner.cc:573: 
+}\if{html}{\out{</div>}}\preformatted{## [09:26:53] WARNING: amalgamation/../src/objective/regression_obj.cu:171: reg:linear is now deprecated in favor of reg:squarederror.
+## [09:26:53] WARNING: amalgamation/../src/learner.cc:573: 
 ## Parameters: \{ "nrounds" \} might not be used.
 ## 
 ##   This may not be accurate due to some parameters are only used in language bindings but
@@ -130,7 +130,7 @@ xrf_rule_res$rule[nrow(xrf_rule_res)] \%>\% rlang::parse_expr()
 ##     (Neighborhood_Old_Town >= -9.53674316e-07)
 }\if{html}{\out{<div class="r">}}\preformatted{xrf_col_res <- tidy(xrf_reg_fit, unit = "columns")
 xrf_col_res
-}\if{html}{\out{</div>}}\preformatted{## # A tibble: 149 x 3
+}\if{html}{\out{</div>}}\preformatted{## # A tibble: 149 × 3
 ##    rule_id term           estimate
 ##    <chr>   <chr>             <dbl>
 ##  1 r0_1    Gr_Liv_Area   -1.27e- 2

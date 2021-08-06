@@ -129,8 +129,9 @@ print.cubist_rules <- function(x, ...) {
 #' update(model, committees = 1)
 #' update(model, committees = 1, fresh = TRUE)
 #' @method update cubist_rules
-#' @rdname cubist_rules
-#' @inheritParams update.C5_rules
+#' @rdname rules_update
+#' @inheritParams rules_update
+#' @inheritParams cubist_rules
 #' @export
 update.cubist_rules <-
   function(object,

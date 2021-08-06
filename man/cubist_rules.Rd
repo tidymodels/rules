@@ -2,7 +2,6 @@
 % Please edit documentation in R/cubist_rules.R
 \name{cubist_rules}
 \alias{cubist_rules}
-\alias{update.cubist_rules}
 \title{Cubist rule-based regression models}
 \usage{
 cubist_rules(
@@ -11,16 +10,6 @@ cubist_rules(
   neighbors = NULL,
   max_rules = NULL,
   engine = "Cubist"
-)
-
-\method{update}{cubist_rules}(
-  object,
-  parameters = NULL,
-  committees = NULL,
-  neighbors = NULL,
-  max_rules = NULL,
-  fresh = FALSE,
-  ...
 )
 }
 \arguments{
@@ -37,18 +26,6 @@ set instances that are used to adjust the model-based prediction.}
 
 \item{engine}{A single character string specifying what computational engine
 to use for fitting.}
-
-\item{object}{A Cubist model specification.}
-
-\item{parameters}{A 1-row tibble or named list with \emph{main} parameters to update.
-If the individual arguments are used, these will supersede the values in
-parameters. Also, using engine arguments in this object will result in an
-error.}
-
-\item{fresh}{A logical for whether the arguments should be modified in-place
-or replaced wholesale.}
-
-\item{...}{Not used for \code{update()}.}
 }
 \description{
 \code{cubist_rules()} defines a model that derives simple feature rules from a tree
@@ -112,13 +89,6 @@ car_rules <-
 car_rules
 
 summary(car_rules$fit)
-
-# ------------------------------------------------------------------------------
-
-model <- cubist_rules(committees = 10, neighbors = 2)
-model
-update(model, committees = 1)
-update(model, committees = 1, fresh = TRUE)
 }
 \references{
 \url{https://www.tidymodels.org}, \href{https://tmwr.org}{\emph{Tidy Models with R}}

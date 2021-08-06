@@ -2,19 +2,9 @@
 % Please edit documentation in R/C5_rules.R
 \name{C5_rules}
 \alias{C5_rules}
-\alias{update.C5_rules}
 \title{C5.0 rule-based classification models}
 \usage{
 C5_rules(mode = "classification", trees = NULL, min_n = NULL, engine = "C5.0")
-
-\method{update}{C5_rules}(
-  object,
-  parameters = NULL,
-  trees = NULL,
-  min_n = NULL,
-  fresh = FALSE,
-  ...
-)
 }
 \arguments{
 \item{mode}{A single character string for the type of model.
@@ -28,18 +18,6 @@ of data points in a node that are required for the node to be split further.}
 
 \item{engine}{A single character string specifying what computational engine
 to use for fitting.}
-
-\item{object}{A \code{C5_rules} model specification.}
-
-\item{parameters}{A 1-row tibble or named list with \emph{main} parameters to update.
-If the individual arguments are used, these will supersede the values in
-parameters. Also, using engine arguments in this object will result in an
-error.}
-
-\item{fresh}{A logical for whether the arguments should be modified in-place
-or replaced wholesale.}
-
-\item{...}{Not used for \code{update()}.}
 }
 \description{
 \code{C5_rules()} defines a model that derives feature rules from a tree for
@@ -71,13 +49,6 @@ with the data.
 show_engines("C5_rules")
 
 C5_rules()
-
-# ------------------------------------------------------------------------------
-
-model <- C5_rules(trees = 10, min_n = 2)
-model
-update(model, trees = 1)
-update(model, trees = 1, fresh = TRUE)
 }
 \references{
 Quinlan R (1993). \emph{C4.5: Programs for Machine Learning}. Morgan

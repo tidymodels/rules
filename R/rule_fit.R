@@ -110,8 +110,9 @@ print.rule_fit <- function(x, ...) {
 #' update(model, trees = 1)
 #' update(model, trees = 1, fresh = TRUE)
 #' @method update rule_fit
-#' @rdname rule_fit
-#' @inheritParams update.C5_rules
+#' @rdname rules_update
+#' @inheritParams rules_update
+#' @inheritParams rule_fit
 #' @export
 update.rule_fit <-
   function(object,

@@ -79,6 +79,8 @@ print.C5_rules <- function(x, ...) {
 
 # ------------------------------------------------------------------------------
 
+#' Updating a model specification
+#'
 #' @param object A `C5_rules` model specification.
 #' @param parameters	A 1-row tibble or named list with _main_ parameters to update.
 #' If the individual arguments are used, these will supersede the values in
@@ -96,7 +98,8 @@ print.C5_rules <- function(x, ...) {
 #' update(model, trees = 1)
 #' update(model, trees = 1, fresh = TRUE)
 #' @method update C5_rules
-#' @rdname C5_rules
+#' @name rules_update
+#' @inheritParams C5_rules
 #' @export
 update.C5_rules <-
   function(object,

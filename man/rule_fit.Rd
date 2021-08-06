@@ -2,7 +2,6 @@
 % Please edit documentation in R/rule_fit.R
 \name{rule_fit}
 \alias{rule_fit}
-\alias{update.rule_fit}
 \title{RuleFit models}
 \usage{
 rule_fit(
@@ -16,21 +15,6 @@ rule_fit(
   sample_size = NULL,
   penalty = NULL,
   engine = "xrf"
-)
-
-\method{update}{rule_fit}(
-  object,
-  parameters = NULL,
-  mtry = NULL,
-  trees = NULL,
-  min_n = NULL,
-  tree_depth = NULL,
-  learn_rate = NULL,
-  loss_reduction = NULL,
-  sample_size = NULL,
-  penalty = NULL,
-  fresh = FALSE,
-  ...
 )
 }
 \arguments{
@@ -63,18 +47,6 @@ exposed to the fitting routine.}
 
 \item{engine}{A single character string specifying what computational engine
 to use for fitting.}
-
-\item{object}{A \code{rule_fit} model specification.}
-
-\item{parameters}{A 1-row tibble or named list with \emph{main} parameters to update.
-If the individual arguments are used, these will supersede the values in
-parameters. Also, using engine arguments in this object will result in an
-error.}
-
-\item{fresh}{A logical for whether the arguments should be modified in-place
-or replaced wholesale.}
-
-\item{...}{Not used for \code{update()}.}
 }
 \description{
 \code{rule_fit()} defines a model that derives simple feature rules from a tree
@@ -105,12 +77,6 @@ show_engines("rule_fit")
 
 rule_fit()
 
-# ------------------------------------------------------------------------------
-
-model <- rule_fit(trees = 10, min_n = 2)
-model
-update(model, trees = 1)
-update(model, trees = 1, fresh = TRUE)
 }
 \references{
 Friedman, J. H., and Popescu, B. E. (2008). "Predictive learning
