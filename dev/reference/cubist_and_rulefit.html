@@ -156,14 +156,21 @@ categorical outcomes. For this document, we’ll focus on numeric outcomes
 
 
 <p>For each model, an an initial tree-based model is created. Let’s look at
-a really simple example tree:</p>
-<p><a href='https://raw.githubusercontent.com/tidymodels/rules/gh-pages/reference/figures/rules-from-trees.svg'></a></p>
-<p>In this case, two predictors are used in splits: <code>A</code> and <code>B</code>. On this
-graph, the split to the left is the “&lt;” condition. There are three
-terminal nodes shown as diamonds. This tree-based structure can be
-converted to a set of distinct rules. Each rule is a collection of
-<code>if/then</code> statements that define the path to the terminal nodes. In this
-example:<div class="r"></p><pre class='sourceCode r'><code><span class='va'>rule_1</span> <span class='op'>&lt;-</span> <span class='op'>(</span><span class='va'>A</span> <span class='op'>&lt;</span>  <span class='va'>a</span><span class='op'>)</span> <span class='op'>&amp;</span> <span class='op'>(</span><span class='va'>B</span> <span class='op'>&lt;</span>  <span class='va'>b</span><span class='op'>)</span>
+a really simple example tree:<div class="r"></p><pre><code>if (A &lt; a) {
+  if (B &lt; b) {
+    node &lt;- 1
+  } else {
+    node &lt;- 2
+  }
+} else
+  node &lt;- 3
+}
+</code></pre><p></div></p>
+<p>In this case, two predictors are used in splits: <code>A</code> and <code>B</code>. With this
+model, the split to the left is the “&lt;” condition. There are three
+terminal nodes. This tree-based structure can be converted to a set of
+distinct rules. Each rule is a collection of <code>if/then</code> statements that
+define the path to the terminal nodes. In this example:<div class="r"></p><pre class='sourceCode r'><code><span class='va'>rule_1</span> <span class='op'>&lt;-</span> <span class='op'>(</span><span class='va'>A</span> <span class='op'>&lt;</span>  <span class='va'>a</span><span class='op'>)</span> <span class='op'>&amp;</span> <span class='op'>(</span><span class='va'>B</span> <span class='op'>&lt;</span>  <span class='va'>b</span><span class='op'>)</span>
 <span class='va'>rule_2</span> <span class='op'>&lt;-</span> <span class='op'>(</span><span class='va'>A</span> <span class='op'>&lt;</span>  <span class='va'>a</span><span class='op'>)</span> <span class='op'>&amp;</span> <span class='op'>(</span><span class='va'>B</span> <span class='op'>&gt;=</span> <span class='va'>b</span><span class='op'>)</span>
 <span class='va'>rule_3</span> <span class='op'>&lt;-</span> <span class='op'>(</span><span class='va'>A</span> <span class='op'>&gt;=</span> <span class='va'>a</span><span class='op'>)</span>
 </code></pre><p></div></p>
@@ -250,7 +257,7 @@ Cubist also does a nearest-neighbor correction to the predicted values
 <span class='va'>cubist_fit</span>
 <span class='co'>#&gt; parsnip model object</span>
 <span class='co'>#&gt; </span>
-<span class='co'>#&gt; Fit time:  32ms </span>
+<span class='co'>#&gt; Fit time:  35ms </span>
 <span class='co'>#&gt; </span>
 <span class='co'>#&gt; Call:</span>
 <span class='co'>#&gt; cubist.default(x = x, y = y, committees = 2)</span>
@@ -267,7 +274,7 @@ Cubist also does a nearest-neighbor correction to the predicted values
 <span class='co'>#&gt; cubist.default(x = x, y = y, committees = 2)</span>
 <span class='co'>#&gt; </span>
 <span class='co'>#&gt; </span>
-<span class='co'>#&gt; Cubist [Release 2.07 GPL Edition]  Fri Aug  6 09:26:48 2021</span>
+<span class='co'>#&gt; Cubist [Release 2.07 GPL Edition]  Fri Aug  6 17:23:45 2021</span>
 <span class='co'>#&gt; ---------------------------------</span>
 <span class='co'>#&gt; </span>
 <span class='co'>#&gt;     Target attribute `outcome'</span>
@@ -457,7 +464,7 @@ mass is encoded as integer and <code>xrf</code> requires a double, so:<div class
 </code></pre><p></div><div class="r"></p><pre class='sourceCode r'><code><span class='va'>rule_fit_fit</span>
 <span class='co'>#&gt; parsnip model object</span>
 <span class='co'>#&gt; </span>
-<span class='co'>#&gt; Fit time:  2s </span>
+<span class='co'>#&gt; Fit time:  1.9s </span>
 <span class='co'>#&gt; An eXtreme RuleFit model of 112 rules.</span>
 <span class='co'>#&gt; </span>
 <span class='co'>#&gt; Original Formula:</span>

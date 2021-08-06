@@ -256,22 +256,7 @@ conditions. These can be converted to an R expression using
 <span class='va'>xrf_reg_fit</span> <span class='op'>&lt;-</span>
   <span class='va'>xrf_reg_mod</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span>
   <span class='fu'><a href='https://generics.r-lib.org/reference/fit.html'>fit</a></span><span class='op'>(</span><span class='va'>Sale_Price</span> <span class='op'>~</span> <span class='va'>.</span>, data <span class='op'>=</span> <span class='va'>ames_processed</span><span class='op'>)</span>
-</code></pre><p></div></p><pre class='sourceCode r'><code><span class='co'>## [09:26:53] WARNING: amalgamation/../src/objective/regression_obj.cu:171: reg:linear is now deprecated in favor of reg:squarederror.</span>
-<span class='co'>## [09:26:53] WARNING: amalgamation/../src/learner.cc:573: </span>
-<span class='co'>## Parameters: { "nrounds" } might not be used.</span>
-<span class='co'>## </span>
-<span class='co'>##   This may not be accurate due to some parameters are only used in language bindings but</span>
-<span class='co'>##   passed down to XGBoost core.  Or some parameters are not used but slip through this</span>
-<span class='co'>##   verification. Please open an issue if you find above cases.</span>
-
-<span class='co'>## New names:</span>
-<span class='co'>## * . -&gt; ....1</span>
-<span class='co'>## * . -&gt; ....2</span>
-<span class='co'>## * . -&gt; ....3</span>
-<span class='co'>## * . -&gt; ....4</span>
-<span class='co'>## * . -&gt; ....5</span>
-<span class='co'>## * ...</span>
-</code></pre><p><div class="r"></p><pre class='sourceCode r'><code><span class='va'>xrf_rule_res</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://generics.r-lib.org/reference/tidy.html'>tidy</a></span><span class='op'>(</span><span class='va'>xrf_reg_fit</span><span class='op'>)</span>
+</code></pre><p></div><div class="r"></p><pre class='sourceCode r'><code><span class='va'>xrf_rule_res</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://generics.r-lib.org/reference/tidy.html'>tidy</a></span><span class='op'>(</span><span class='va'>xrf_reg_fit</span><span class='op'>)</span>
 <span class='va'>xrf_rule_res</span><span class='op'>$</span><span class='va'>rule</span><span class='op'>[</span><span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span><span class='op'>(</span><span class='va'>xrf_rule_res</span><span class='op'>)</span><span class='op'>]</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'>rlang</span><span class='fu'>::</span><span class='fu'><a href='https://rlang.r-lib.org/reference/parse_expr.html'>parse_expr</a></span><span class='op'>(</span><span class='op'>)</span>
 </code></pre><p></div></p><pre class='sourceCode r'><code><span class='co'>## (Gr_Liv_Area &lt; 3.30210185) &amp; (Gr_Liv_Area &lt; 3.38872266) &amp; (Gr_Liv_Area &gt;= </span>
 <span class='co'>##     2.94571471) &amp; (Gr_Liv_Area &gt;= 3.24870872) &amp; (Latitude &lt; 42.0271072) &amp; </span>

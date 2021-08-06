@@ -260,10 +260,11 @@ default).</p>
 <h3 class='hasAnchor' id='preprocessing-requirements'><a class='anchor' aria-hidden='true' href='#preprocessing-requirements'></a>Preprocessing requirements</h3>
 
 
-<p>This engine does not require any special encoding of the predictors.
-Categorical predictors can be partitioned into groups of factor levels
-(e.g. <code>{a, c}</code> vs <code>{b, d}</code>) when splitting at a node. Dummy variables
-are not required for this model.</p>
+<p>Factor/categorical predictors need to be converted to numeric values
+(e.g., dummy or indicator variables) for this engine. When using the
+formula method via
+<code><a href='https://parsnip.tidymodels.org/reference/fit.html'>fit.model_spec()</a></code>, parsnip will
+convert factor columns to indicators.</p>
 
 <h3 class='hasAnchor' id='references'><a class='anchor' aria-hidden='true' href='#references'></a>References</h3>
 
