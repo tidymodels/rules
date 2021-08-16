@@ -1,3 +1,5 @@
+# rules (development version)
+
 # rules 0.1.2
 
 * Maintenance release demanded by CRAN.
