@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>General Interface for C5.0 Rule-Based Classification Models — C5_rules • rules</title>
+<title>C5.0 rule-based classification models — C5_rules • rules</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -49,19 +49,15 @@
 
 
 
-<meta property="og:title" content="General Interface for C5.0 Rule-Based Classification Models — C5_rules" />
-<meta property="og:description" content="C5_rules() is a way to generate a specification of a model
-before fitting. The main arguments for the model are:
-trees: The number of sequential models included in the
-ensemble (rules are derived from an initial set of boosted trees).
-min_n: The minimum number of data points in a node that are
-required for the node to be split further.
-These arguments are converted to their specific names at the
-time that the model is fit. Other options and argument can be
-set using parsnip::set_engine(). If left to their defaults
-here (NULL), the values are taken from the underlying model
-functions. If parameters need to be modified, update() can be used
-in lieu of recreating the object from scratch." />
+<meta property="og:title" content="C5.0 rule-based classification models — C5_rules" />
+<meta property="og:description" content="C5_rules() defines a model that derives feature rules from a tree for
+prediction. A single tree or boosted ensemble can be used.
+The engine for this model is:
+
+C5.0  (default) 
+
+More information on how parsnip is used for modeling is at
+https://www.tidymodels.org/." />
 <meta property="og:image" content="https://rules.tidymodels.org/logo.png" />
 <meta name="twitter:card" content="summary" />
 
@@ -87,9 +83,15 @@ in lieu of recreating the object from scratch." />
   gtag('config', 'UA-115082821-1');
 </script>
 
+  
+
+  
+
   </head>
 
   <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -106,29 +108,20 @@ in lieu of recreating the object from scratch." />
         <a class="navbar-brand" href="../index.html">rules</a>
         <div class="info hidden-xs hidden-sm">
           <span class="partof">part of <a href="https://tidymodels.orgs">tidymodels</a></span>
-          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.1</span>
+          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.2</span>
         </div>
       </div>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="../reference/index.html">Reference</a>
-</li>
-<li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-    Articles
-     
-    <span class="caret"></span>
-  </a>
-  <ul class="dropdown-menu" role="menu">
-    <li>
-      <a href="../articles/Cubist-and-RuleFit.html">What's the difference between Cubist and RuleFit?</a>
-    </li>
-  </ul>
+  <a href="../articles/Cubist-and-RuleFit.html">What's the difference between Cubist and RuleFit?</a>
 </li>
 <li>
-  <a href="../news/index.html">Changelog</a>
+  <a href="../news/index.html">News</a>
+</li>
+<li>
+  <a href="../reference/index.html">Reference</a>
 </li>
         <li>
   <a href="https://github.com/tidymodels/rules/">
@@ -149,37 +142,23 @@ in lieu of recreating the object from scratch." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>General Interface for C5.0 Rule-Based Classification Models</h1>
+    <h1>C5.0 rule-based classification models</h1>
     <small class="dont-index">Source: <a href='https://github.com/tidymodels/rules/blob/master/R/C5_rules.R'><code>R/C5_rules.R</code></a></small>
     <div class="hidden name"><code>C5_rules.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p><code>C5_rules()</code> is a way to generate a <em>specification</em> of a model
-before fitting. The main arguments for the model are:</p><ul>
-<li><p><code>trees</code>: The number of sequential models included in the
-ensemble (rules are derived from an initial set of boosted trees).</p></li>
-<li><p><code>min_n</code>: The minimum number of data points in a node that are
-required for the node to be split further.</p></li>
-</ul><p>These arguments are converted to their specific names at the
-time that the model is fit. Other options and argument can be
-set using <code><a href='https://parsnip.tidymodels.org/reference/set_engine.html'>parsnip::set_engine()</a></code>. If left to their defaults
-here (<code>NULL</code>), the values are taken from the underlying model
-functions. If parameters need to be modified, <code><a href='https://rdrr.io/r/stats/update.html'>update()</a></code> can be used
-in lieu of recreating the object from scratch.</p>
+    <p><code>C5_rules()</code> defines a model that derives feature rules from a tree for
+prediction. A single tree or boosted ensemble can be used.</p>
+<p>The engine for this model is:</p>
+<p><ul>
+<li><p><code><a href='details_C5_rules_C5.0.html'>C5.0</a>  (default) </code></p></li>
+</ul></p>
+<p>More information on how <span class="pkg">parsnip</span> is used for modeling is at
+<a href='https://www.tidymodels.org/'>https://www.tidymodels.org/</a>.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>C5_rules</span><span class='op'>(</span>mode <span class='op'>=</span> <span class='st'>"classification"</span>, trees <span class='op'>=</span> <span class='cn'>NULL</span>, min_n <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span>
-
-<span class='co'># S3 method for C5_rules</span>
-<span class='fu'><a href='https://rdrr.io/r/stats/update.html'>update</a></span><span class='op'>(</span>
-  <span class='va'>object</span>,
-  parameters <span class='op'>=</span> <span class='cn'>NULL</span>,
-  trees <span class='op'>=</span> <span class='cn'>NULL</span>,
-  min_n <span class='op'>=</span> <span class='cn'>NULL</span>,
-  fresh <span class='op'>=</span> <span class='cn'>FALSE</span>,
-  <span class='va'>...</span>
-<span class='op'>)</span></pre>
+    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>C5_rules</span><span class='op'>(</span>mode <span class='op'>=</span> <span class='st'>"classification"</span>, trees <span class='op'>=</span> <span class='cn'>NULL</span>, min_n <span class='op'>=</span> <span class='cn'>NULL</span>, engine <span class='op'>=</span> <span class='st'>"C5.0"</span><span class='op'>)</span></code></pre></div>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -200,30 +179,12 @@ of members of the ensemble.</p></td>
 of data points in a node that are required for the node to be split further.</p></td>
     </tr>
     <tr>
-      <th>object</th>
-      <td><p>A <code>C5_rules</code> model specification.</p></td>
-    </tr>
-    <tr>
-      <th>parameters</th>
-      <td><p>A 1-row tibble or named list with <em>main</em> parameters to update.
-If the individual arguments are used, these will supersede the values in
-parameters. Also, using engine arguments in this object will result in an
-error.</p></td>
-    </tr>
-    <tr>
-      <th>fresh</th>
-      <td><p>A logical for whether the arguments should be modified in-place
-or replaced wholesale.</p></td>
-    </tr>
-    <tr>
-      <th>...</th>
-      <td><p>Not used for <code><a href='https://rdrr.io/r/stats/update.html'>update()</a></code>.</p></td>
+      <th>engine</th>
+      <td><p>A single character string specifying what computational engine
+to use for fitting.</p></td>
     </tr>
     </table>
 
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
-
-    <p>An updated <code>parsnip</code> model specification.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>C5.0 is a classification model that is an extension of the C4.5
@@ -233,155 +194,33 @@ that uses a series of rules (see the examples below). To make a set of
 rules, an initial C5.0 tree is created and flattened into rules. The rules
 are pruned, simplified, and ordered. Rule sets are created within each
 iteration of boosting.</p>
-<p>The two main tuning parameters are the number of trees in the boosting
-ensemble (<code>trees</code>) and the number of samples required to continue splitting
-when creating a tree (<code>min_n</code>). There are no arguments to control the total
-number of rules in the ensemble.</p>
-<p>Note that <code>C5_rules()</code> does not require that categorical predictors be
-converted to numeric indicator values. Note that using <code><a href='https://generics.r-lib.org/reference/fit.html'>parsnip::fit()</a></code> will
-<em>always</em> create dummy variables so, if there is interest in keeping the
-categorical predictors in their original format, <code><a href='https://generics.r-lib.org/reference/fit_xy.html'>parsnip::fit_xy()</a></code> would
-be a better choice. When using the <code>tune</code> package, using a recipe for
-pre-processing enables more control over how such predictors are encoded
-since recipes do not automatically create dummy variables.</p>
-<p>Note that C5.0 has a tool for <em>early stopping</em> during boosting where less
-iterations of boosting are performed than the number requested. <code>C5_rules()</code>
-turns this feature off (although it can be re-enabled using
-<code><a href='https://topepo.github.io/C5.0/reference/C5.0Control.html'>C50::C5.0Control()</a></code>).</p>
+<p>This function only defines what <em>type</em> of model is being fit. Once an engine
+is specified, the <em>method</em> to fit the model is also defined.</p>
+<p>The model is not trained or fit until the <code>fit.model_spec()</code> function is used
+with the data.</p>
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
     <p>Quinlan R (1993). <em>C4.5: Programs for Machine Learning</em>. Morgan
 Kaufmann Publishers.</p>
+<p><a href='https://www.tidymodels.org'>https://www.tidymodels.org</a>, <a href='https://www.tmwr.org/'><em>Tidy Models with R</em></a></p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><code><a href='https://generics.r-lib.org/reference/fit.html'>parsnip::fit()</a></code>, <code><a href='https://generics.r-lib.org/reference/fit_xy.html'>parsnip::fit_xy()</a></code>, <code><a href='https://topepo.github.io/C5.0/reference/C5.0.html'>C50::C5.0()</a></code>,
-<code><a href='https://topepo.github.io/C5.0/reference/C5.0Control.html'>C50::C5.0Control()</a></code></p></div>
+    <div class='dont-index'><p><code><a href='https://topepo.github.io/C5.0/reference/C5.0.html'>C50::C5.0()</a></code>, <code><a href='https://topepo.github.io/C5.0/reference/C5.0Control.html'>C50::C5.0Control()</a></code>,
+<code><a href='details_C5_rules_C5.0.html'>C5.0 engine details</a></code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>C5_rules</span><span class='op'>(</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; C5.0 Model Specification (classification)
-#&gt; 
-#&gt; Computational engine: C5.0 
-#&gt; </div><div class='input'><span class='co'># Parameters can be represented by a placeholder:</span>
-<span class='fu'>C5_rules</span><span class='op'>(</span>trees <span class='op'>=</span> <span class='fl'>7</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; C5.0 Model Specification (classification)
-#&gt; 
-#&gt; Main Arguments:
-#&gt;   trees = 7
-#&gt; 
-#&gt; Computational engine: C5.0 
-#&gt; </div><div class='input'>
-<span class='co'># ------------------------------------------------------------------------------</span>
-
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>ad_data</span>, package <span class='op'>=</span> <span class='st'>"modeldata"</span><span class='op'>)</span>
-
-<span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span><span class='op'>(</span><span class='fl'>282782</span><span class='op'>)</span>
-<span class='va'>class_rules</span> <span class='op'>&lt;-</span>
-  <span class='fu'>C5_rules</span><span class='op'>(</span>trees <span class='op'>=</span> <span class='fl'>1</span>, min_n  <span class='op'>=</span> <span class='fl'>10</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'>fit</span><span class='op'>(</span><span class='va'>Class</span> <span class='op'>~</span> <span class='va'>.</span>, data <span class='op'>=</span> <span class='va'>ad_data</span><span class='op'>)</span>
-
-<span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span><span class='op'>(</span><span class='va'>class_rules</span><span class='op'>$</span><span class='va'>fit</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; 
-#&gt; Call:
-#&gt; C5.0.default(x = x, y = y, trials = trials, rules = TRUE, control
-#&gt;  = C50::C5.0Control(minCases = minCases, seed = sample.int(10^5,
-#&gt;  1), earlyStopping = FALSE))
-#&gt; 
-#&gt; 
-#&gt; C5.0 [Release 2.07 GPL Edition]  	Thu Jan 21 16:18:36 2021
-#&gt; -------------------------------
-#&gt; 
-#&gt; Class specified by attribute `outcome'
-#&gt; 
-#&gt; Read 333 cases (131 attributes) from undefined.data
-#&gt; 
-#&gt; Rules:
-#&gt; 
-#&gt; Rule 1: (17, lift 3.5)
-#&gt; 	Creatine_Kinase_MB &lt;= -1.610128
-#&gt; 	Fas_Ligand &lt;= 2.407182
-#&gt; 	Ab_42 &lt;= 11.28649
-#&gt; 	-&gt;  class Impaired  [0.947]
-#&gt; 
-#&gt; Rule 2: (45/6, lift 3.1)
-#&gt; 	Creatine_Kinase_MB &lt;= -1.610128
-#&gt; 	Eotaxin_3 &gt; 54
-#&gt; 	Ab_42 &lt;= 11.28649
-#&gt; 	-&gt;  class Impaired  [0.851]
-#&gt; 
-#&gt; Rule 3: (31/9, lift 2.6)
-#&gt; 	PAI_1 &gt; 0.58384
-#&gt; 	-&gt;  class Impaired  [0.697]
-#&gt; 
-#&gt; Rule 4: (87/8, lift 1.2)
-#&gt; 	Creatine_Kinase_MB &gt; -1.610128
-#&gt; 	-&gt;  class Control  [0.899]
-#&gt; 
-#&gt; Rule 5: (219/23, lift 1.2)
-#&gt; 	PAI_1 &lt;= 0.58384
-#&gt; 	Ab_42 &gt; 11.28649
-#&gt; 	-&gt;  class Control  [0.891]
-#&gt; 
-#&gt; Rule 6: (164/24, lift 1.2)
-#&gt; 	Eotaxin_3 &lt;= 54
-#&gt; 	-&gt;  class Control  [0.849]
-#&gt; 
-#&gt; Default class: Control
-#&gt; 
-#&gt; 
-#&gt; Evaluation on training data (333 cases):
-#&gt; 
-#&gt; 	        Rules     
-#&gt; 	  ----------------
-#&gt; 	    No      Errors
-#&gt; 
-#&gt; 	     6   47(14.1%)   &lt;&lt;
-#&gt; 
-#&gt; 
-#&gt; 	   (a)   (b)    &lt;-classified as
-#&gt; 	  ----  ----
-#&gt; 	    52    39    (a): class Impaired
-#&gt; 	     8   234    (b): class Control
-#&gt; 
-#&gt; 
-#&gt; 	Attribute usage:
-#&gt; 
-#&gt; 	 81.08%	Ab_42
-#&gt; 	 75.08%	PAI_1
-#&gt; 	 62.76%	Eotaxin_3
-#&gt; 	 41.44%	Creatine_Kinase_MB
-#&gt; 	  5.11%	Fas_Ligand
-#&gt; 
-#&gt; 
-#&gt; Time: 0.0 secs
-#&gt; </div><div class='input'>
-<span class='co'># ------------------------------------------------------------------------------</span>
-
-<span class='va'>model</span> <span class='op'>&lt;-</span> <span class='fu'>C5_rules</span><span class='op'>(</span>trees <span class='op'>=</span> <span class='fl'>10</span>, min_n <span class='op'>=</span> <span class='fl'>2</span><span class='op'>)</span>
-<span class='va'>model</span>
-</div><div class='output co'>#&gt; C5.0 Model Specification (classification)
-#&gt; 
-#&gt; Main Arguments:
-#&gt;   trees = 10
-#&gt;   min_n = 2
-#&gt; 
-#&gt; Computational engine: C5.0 
-#&gt; </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/stats/update.html'>update</a></span><span class='op'>(</span><span class='va'>model</span>, trees <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; C5.0 Model Specification (classification)
-#&gt; 
-#&gt; Main Arguments:
-#&gt;   trees = 1
-#&gt;   min_n = 2
-#&gt; 
-#&gt; Computational engine: C5.0 
-#&gt; </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/stats/update.html'>update</a></span><span class='op'>(</span><span class='va'>model</span>, trees <span class='op'>=</span> <span class='fl'>1</span>, fresh <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; C5.0 Model Specification (classification)
-#&gt; 
-#&gt; Main Arguments:
-#&gt;   trees = 1
-#&gt; 
-#&gt; Computational engine: C5.0 
-#&gt; </div></pre>
+    <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'><span class='fu'>show_engines</span><span class='op'>(</span><span class='st'>"C5_rules"</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># A tibble: 1 × 2</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   engine mode          </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>         </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>1</span> C5.0   classification</span>
+<span class='r-in'></span>
+<span class='r-in'><span class='fu'>C5_rules</span><span class='op'>(</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> C5.0 Model Specification (classification)</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Computational engine: C5.0 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+</code></pre></div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -408,6 +247,8 @@ Kaufmann Publishers.</p>
 
   
 
+
+  
 
   </body>
 </html>
