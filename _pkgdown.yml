@@ -16,3 +16,12 @@ home:
 figures:
   fig.width: 8
   fig.height: 5.75
+
+navbar:
+  left:
+  - text: What's the difference between Cubist and RuleFit?
+    href: articles/Cubist-and-RuleFit.html
+  - text: News
+    href: news/index.html
+  - text: Reference
+    href: reference/index.html
