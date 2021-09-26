@@ -28,7 +28,7 @@ default: 1.0)
 }
 }
 
-\subsection{Translation from parsnip to the underlying model call (regression)}{\if{html}{\out{<div class="r">}}\preformatted{rule_fit(
+\subsection{Translation from parsnip to the underlying model call (regression)}{\if{html}{\out{<div class="sourceCode r">}}\preformatted{rule_fit(
   mtry = numeric(1),
   trees = integer(1),
   min_n = integer(1),
@@ -63,7 +63,7 @@ default: 1.0)
 }
 }
 
-\subsection{Translation from parsnip to the underlying model call (classification)}{\if{html}{\out{<div class="r">}}\preformatted{rule_fit(
+\subsection{Translation from parsnip to the underlying model call (classification)}{\if{html}{\out{<div class="sourceCode r">}}\preformatted{rule_fit(
   mtry = numeric(1),
   trees = integer(1),
   min_n = integer(1),

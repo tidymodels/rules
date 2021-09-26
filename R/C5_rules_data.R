@@ -1,12 +1,5 @@
 
 make_c5 <- function() {
-
-  parsnip::set_new_model("C5_rules")
-
-  parsnip::set_model_mode("C5_rules", "classification")
-
-  # ------------------------------------------------------------------------------
-
   parsnip::set_model_engine("C5_rules", "classification", "C5.0")
   parsnip::set_dependency("C5_rules", "C5.0", "C50")
   parsnip::set_dependency("C5_rules", "C5.0", "rules")
@@ -64,8 +57,8 @@ make_c5 <- function() {
       func = c(fun = "predict"),
       args =
         list(
-          object = expr(object$fit),
-          newdata = expr(new_data),
+          object = rlang::expr(object$fit),
+          newdata = rlang::expr(new_data),
           type = "class"
         )
     )
@@ -82,8 +75,8 @@ make_c5 <- function() {
       func = c(fun = "predict"),
       args =
         list(
-          object = expr(object$fit),
-          newdata = expr(new_data),
+          object = rlang::expr(object$fit),
+          newdata = rlang::expr(new_data),
           type = "prob"
         )
     )

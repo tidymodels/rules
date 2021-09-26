@@ -1,13 +1,6 @@
 
 
 make_cubist <- function() {
-
-  parsnip::set_new_model("cubist_rules")
-
-  parsnip::set_model_mode("cubist_rules", "regression")
-
-  # ------------------------------------------------------------------------------
-
   parsnip::set_model_engine("cubist_rules", "regression", "Cubist")
   parsnip::set_dependency("cubist_rules", "Cubist", "Cubist")
   parsnip::set_dependency("cubist_rules", "Cubist", "rules")
@@ -73,9 +66,9 @@ make_cubist <- function() {
       func = c(fun = "predict"),
       args =
         list(
-          object = expr(object$fit),
-          newdata = expr(new_data),
-          neighbors = expr(rules::get_neighbors(object$spec$args))
+          object = rlang::expr(object$fit),
+          newdata = rlang::expr(new_data),
+          neighbors = rlang::expr(rules::get_neighbors(object$spec$args))
         )
     )
   )
@@ -91,9 +84,9 @@ make_cubist <- function() {
       func = c(fun = "predict"),
       args =
         list(
-          object = expr(object$fit),
-          newdata = expr(new_data),
-          neighbors = expr(rules::get_neighbors(object$spec$args))
+          object = rlang::expr(object$fit),
+          newdata = rlang::expr(new_data),
+          neighbors = rlang::expr(rules::get_neighbors(object$spec$args))
         )
     )
   )

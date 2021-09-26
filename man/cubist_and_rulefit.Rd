@@ -19,7 +19,7 @@ categorical outcomes. For this document, we’ll focus on numeric outcomes
 \subsection{Both start by making rules from trees}{
 
 For each model, an an initial tree-based model is created. Let’s look at
-a really simple example tree:\if{html}{\out{<div class="r">}}\preformatted{if (A < a) \{
+a really simple example tree:\if{html}{\out{<div class="sourceCode r">}}\preformatted{if (A < a) \{
   if (B < b) \{
     node <- 1
   \} else \{
@@ -34,7 +34,7 @@ In this case, two predictors are used in splits: \code{A} and \code{B}. With thi
 model, the split to the left is the “<” condition. There are three
 terminal nodes. This tree-based structure can be converted to a set of
 distinct rules. Each rule is a collection of \verb{if/then} statements that
-define the path to the terminal nodes. In this example:\if{html}{\out{<div class="r">}}\preformatted{rule_1 <- (A <  a) & (B <  b)
+define the path to the terminal nodes. In this example:\if{html}{\out{<div class="sourceCode r">}}\preformatted{rule_1 <- (A <  a) & (B <  b)
 rule_2 <- (A <  a) & (B >= b)
 rule_3 <- (A >= a)
 }\if{html}{\out{</div>}}
@@ -42,10 +42,10 @@ rule_3 <- (A >= a)
 As is, these paths through the tree are mutually exclusive. For deep
 trees, these rules can become overly complex and may contain
 redundancies. Cubist takes the approach of simplifying rules whenever
-possible (Quinlan (1987)). For example,\if{html}{\out{<div class="r">}}\preformatted{rule_x <- (A <  10)  & (A <  7) & (B >= 1)
+possible (Quinlan (1987)). For example,\if{html}{\out{<div class="sourceCode r">}}\preformatted{rule_x <- (A <  10)  & (A <  7) & (B >= 1)
 }\if{html}{\out{</div>}}
 
-becomes\if{html}{\out{<div class="r">}}\preformatted{rule_y <- (A < 7) & (B >= 1)
+becomes\if{html}{\out{<div class="sourceCode r">}}\preformatted{rule_y <- (A < 7) & (B >= 1)
 }\if{html}{\out{</div>}}
 
 Cubist also has an approach that can \emph{prune} conditions inside of the
@@ -79,7 +79,7 @@ linear regression is created on the subset of the data covered by the
 current rule and uses only the predictors in the current rule. In the
 tree shown above, the first split produces two models with \code{A} as a
 predictor. The data for each are filtered either with \code{A < a} or
-\code{A >= a}. The entire set of models are:\if{html}{\out{<div class="r">}}\preformatted{split_1_low  <- filter(data, A <  a)
+\code{A >= a}. The entire set of models are:\if{html}{\out{<div class="sourceCode r">}}\preformatted{split_1_low  <- filter(data, A <  a)
 model_1_low  <- lm(y ~ A, data = split_1_low)
 
 split_1_high <- filter(data, A >= a)
@@ -121,7 +121,7 @@ Perhaps unrelated to this document, which focuses on how rules are used,
 Cubist also does a nearest-neighbor correction to the predicted values
 (Quinlan R (1993)).
 
-Let’s look at an example model on the Palmer penguin data:\if{html}{\out{<div class="r">}}\preformatted{library(rules)
+Let’s look at an example model on the Palmer penguin data:\if{html}{\out{<div class="sourceCode r">}}\preformatted{library(rules)
 data(penguins, package = "modeldata")
 
 cubist_fit <- 
@@ -131,7 +131,7 @@ cubist_fit <-
 cubist_fit
 #> parsnip model object
 #> 
-#> Fit time:  35ms 
+#> Fit time:  25ms 
 #> 
 #> Call:
 #> cubist.default(x = x, y = y, committees = 2)
@@ -143,13 +143,13 @@ cubist_fit
 #> Number of rules per committee: 5, 1
 }\if{html}{\out{</div>}}
 
-The \code{summary()} function shows the details of the rules.\if{html}{\out{<div class="r">}}\preformatted{summary(cubist_fit$fit)
+The \code{summary()} function shows the details of the rules.\if{html}{\out{<div class="sourceCode r">}}\preformatted{summary(cubist_fit$fit)
 #> 
 #> Call:
 #> cubist.default(x = x, y = y, committees = 2)
 #> 
 #> 
-#> Cubist [Release 2.07 GPL Edition]  Fri Aug  6 17:48:52 2021
+#> Cubist [Release 2.07 GPL Edition]  Sat Sep 25 20:12:37 2021
 #> ---------------------------------
 #> 
 #>     Target attribute `outcome'
@@ -233,7 +233,7 @@ data points being predicted are affected by that rule. Also, it is
 possible for the linear model within a rule to only contain an
 intercept.
 
-The \code{tidy()} function can extract the rule and model data:\if{html}{\out{<div class="r">}}\preformatted{cb_res <- tidy(cubist_fit)
+The \code{tidy()} function can extract the rule and model data:\if{html}{\out{<div class="sourceCode r">}}\preformatted{cb_res <- tidy(cubist_fit)
 cb_res
 #> # A tibble: 6 × 5
 #>   committee rule_num rule                             estimate      statistic   
@@ -248,7 +248,7 @@ cb_res
 
 The \code{estimate} and \code{statistic} columns contain tibbles with parameter
 estimates and rule statistics, respectively. They can be easily expanded
-using \code{unnest()}:\if{html}{\out{<div class="r">}}\preformatted{library(tidyr)
+using \code{unnest()}:\if{html}{\out{<div class="sourceCode r">}}\preformatted{library(tidyr)
 cb_res \%>\% 
   dplyr::select(committee, rule_num, statistic) \%>\% 
   unnest(cols = c(statistic))
@@ -266,7 +266,7 @@ cb_res \%>\%
 For the first committee, rule four contains two conditions and covers 23
 data points from the original data set. We can find these data points by
 converting the character string for the rule to an R expression, then
-evaluate the expression on the data set:\if{html}{\out{<div class="r">}}\preformatted{library(dplyr)
+evaluate the expression on the data set:\if{html}{\out{<div class="sourceCode r">}}\preformatted{library(dplyr)
 library(purrr)
 library(rlang)
 
@@ -302,7 +302,7 @@ RuleFit uses rules in a more straightforward way. It creates an initial
 tree (or ensemble of trees) from the data. Rules are extracted from this
 initial model and converted to a set of binary features. These features
 are then added to a regularized regression model (along with the
-original columns). For example:\if{html}{\out{<div class="r">}}\preformatted{data_with_rules <- 
+original columns). For example:\if{html}{\out{<div class="sourceCode r">}}\preformatted{data_with_rules <- 
   data \%>\% 
   mutate(
     rule_1 = ifelse(A <  a & B <  b, 0, 1),
@@ -331,13 +331,13 @@ be primarily determined by the number of boosting iterations.
 
 RuleFit, as implemented by the \code{xrf} package, required all of the data
 to be complete (i.e, non-missing). In the original data set, the body
-mass is encoded as integer and \code{xrf} requires a double, so:\if{html}{\out{<div class="r">}}\preformatted{penguins <- 
+mass is encoded as integer and \code{xrf} requires a double, so:\if{html}{\out{<div class="sourceCode r">}}\preformatted{penguins <- 
   penguins \%>\% 
   mutate(body_mass_g = body_mass_g + 0.0) \%>\% 
   na.omit()
 }\if{html}{\out{</div>}}
 
-Fitting the model:\if{html}{\out{<div class="r">}}\preformatted{rule_fit_spec <- 
+Fitting the model:\if{html}{\out{<div class="sourceCode r">}}\preformatted{rule_fit_spec <- 
   rule_fit(trees = 10, tree_depth = 5, penalty = 0.01) \%>\% 
   set_engine("xrf") \%>\%
   set_mode("regression") 
@@ -345,10 +345,10 @@ Fitting the model:\if{html}{\out{<div class="r">}}\preformatted{rule_fit_spec <-
 rule_fit_fit <- 
   rule_fit_spec \%>\% 
   fit(body_mass_g ~ ., data = penguins)
-}\if{html}{\out{</div>}}\if{html}{\out{<div class="r">}}\preformatted{rule_fit_fit
+}\if{html}{\out{</div>}}\if{html}{\out{<div class="sourceCode r">}}\preformatted{rule_fit_fit
 #> parsnip model object
 #> 
-#> Fit time:  2.1s 
+#> Fit time:  2s 
 #> An eXtreme RuleFit model of 112 rules.
 #> 
 #> Original Formula:
@@ -357,7 +357,7 @@ rule_fit_fit <-
 }\if{html}{\out{</div>}}
 
 To get the rules and their associated coefficients, the \code{tidy()} method
-can be used again:\if{html}{\out{<div class="r">}}\preformatted{rf_res <- tidy(rule_fit_fit)
+can be used again:\if{html}{\out{<div class="sourceCode r">}}\preformatted{rf_res <- tidy(rule_fit_fit)
 rf_res
 #> # A tibble: 110 × 3
 #>    rule_id           rule                                               estimate
@@ -378,20 +378,20 @@ rf_res
 Note that the units of each predictor have been scaled to be between
 zero and one.
 
-Looking at the rules, there are examples of some rules, such as:\if{html}{\out{<div class="r">}}\preformatted{( bill_depth_mm >= 14.1499996 ) & 
+Looking at the rules, there are examples of some rules, such as:\if{html}{\out{<div class="sourceCode r">}}\preformatted{( bill_depth_mm >= 14.1499996 ) & 
 ( flipper_length_mm <  227 ) & 
 ( flipper_length_mm <  228.5 ) & 
 ( flipper_length_mm >= 197.5 ) & 
 ( flipper_length_mm >= 224.5 )"
 }\if{html}{\out{</div>}}
 
-which can be simplified to have fewer conditions:\if{html}{\out{<div class="r">}}\preformatted{( bill_depth_mm >= 14.1499996 ) & 
+which can be simplified to have fewer conditions:\if{html}{\out{<div class="sourceCode r">}}\preformatted{( bill_depth_mm >= 14.1499996 ) & 
 ( flipper_length_mm <  227 ) & 
 ( flipper_length_mm >= 197.5 ) & 
 }\if{html}{\out{</div>}}
 
 Also, the \code{tidy()} function can extract the same information but use the
-original predictors as the unit:\if{html}{\out{<div class="r">}}\preformatted{rf_variable_res <- tidy(rule_fit_fit, unit = "columns")
+original predictors as the unit:\if{html}{\out{<div class="sourceCode r">}}\preformatted{rf_variable_res <- tidy(rule_fit_fit, unit = "columns")
 rf_variable_res
 #> # A tibble: 452 × 3
 #>    rule_id term              estimate
@@ -411,7 +411,7 @@ rf_variable_res
 
 A single rule might be represented with multiple rows of this version of
 the data. These results can also be used to compute a rough estimate or
-variable importance using the absolute value of the coefficients:\if{html}{\out{<div class="r">}}\preformatted{num_rules <- sum(grepl("^r[0-9]*_", unique(rf_res$rule_id))) + 1
+variable importance using the absolute value of the coefficients:\if{html}{\out{<div class="sourceCode r">}}\preformatted{num_rules <- sum(grepl("^r[0-9]*_", unique(rf_res$rule_id))) + 1
 
 rf_variable_res \%>\% 
   dplyr::filter(term != "(Intercept)") \%>\% 

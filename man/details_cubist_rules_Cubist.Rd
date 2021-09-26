@@ -21,7 +21,7 @@ NA_integer)
 }
 }
 
-\subsection{Translation from parsnip to the underlying model call (regression)}{\if{html}{\out{<div class="r">}}\preformatted{cubist_rules(
+\subsection{Translation from parsnip to the underlying model call (regression)}{\if{html}{\out{<div class="sourceCode r">}}\preformatted{cubist_rules(
   committees = integer(1),
   neighbors = integer(1),
   max_rules = integer(1)

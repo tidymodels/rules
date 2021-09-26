@@ -9,10 +9,6 @@
   make_c5()
   make_rule_fit()
 
-  s3_register("stats::update", "rule_fit")
-  s3_register("stats::update", "cubist_rules")
-  s3_register("stats::update", "C5_rules")
-
   s3_register("generics::tunable", "cubist_rules")
   s3_register("generics::tunable", "rule_fit")
   s3_register("generics::tunable", "C5_rules")
