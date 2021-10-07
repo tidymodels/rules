@@ -1,43 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://rules.tidymodels.org/CODE_OF_CONDUCT.html</loc>
-  </url>
-  <url>
-    <loc>https://rules.tidymodels.org/CONTRIBUTING.html</loc>
-  </url>
-  <url>
-    <loc>https://rules.tidymodels.org/ISSUE_TEMPLATE.html</loc>
-  </url>
-  <url>
-    <loc>https://rules.tidymodels.org/LICENSE-text.html</loc>
-  </url>
-  <url>
-    <loc>https://rules.tidymodels.org/LICENSE.html</loc>
-  </url>
-  <url>
-    <loc>https://rules.tidymodels.org/SUPPORT.html</loc>
-  </url>
-  <url>
-    <loc>https://rules.tidymodels.org/authors.html</loc>
-  </url>
-  <url>
     <loc>https://rules.tidymodels.org/index.html</loc>
-  </url>
-  <url>
-    <loc>https://rules.tidymodels.org/news/index.html</loc>
-  </url>
-  <url>
-    <loc>https://rules.tidymodels.org/reference/C5_rules.html</loc>
   </url>
   <url>
     <loc>https://rules.tidymodels.org/reference/committees.html</loc>
   </url>
   <url>
     <loc>https://rules.tidymodels.org/reference/cubist_and_rulefit.html</loc>
-  </url>
-  <url>
-    <loc>https://rules.tidymodels.org/reference/cubist_rules.html</loc>
   </url>
   <url>
     <loc>https://rules.tidymodels.org/reference/details_C5_rules_C5.0.html</loc>
@@ -49,9 +19,6 @@
     <loc>https://rules.tidymodels.org/reference/details_rule_fit_xrf.html</loc>
   </url>
   <url>
-    <loc>https://rules.tidymodels.org/reference/index.html</loc>
-  </url>
-  <url>
     <loc>https://rules.tidymodels.org/reference/mtry_prop.html</loc>
   </url>
   <url>
@@ -61,13 +28,7 @@
     <loc>https://rules.tidymodels.org/reference/reexports.html</loc>
   </url>
   <url>
-    <loc>https://rules.tidymodels.org/reference/rule_fit.html</loc>
-  </url>
-  <url>
     <loc>https://rules.tidymodels.org/reference/rules-internal.html</loc>
-  </url>
-  <url>
-    <loc>https://rules.tidymodels.org/reference/rules_update.html</loc>
   </url>
   <url>
     <loc>https://rules.tidymodels.org/reference/tidy.cubist.html</loc>
