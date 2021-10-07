@@ -480,7 +480,7 @@ test_that('tidy method for cubist - many committees', {
 
 test_that('tunable', {
   cubist_rules_Cubist <-
-    rules::cubist_rules(committees = tune(), neighbors = tune(), max_rules = tune()) %>%
+    cubist_rules(committees = tune(), neighbors = tune(), max_rules = tune()) %>%
     set_engine('Cubist') %>%
     tunable()
 

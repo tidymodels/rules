@@ -24,7 +24,7 @@ less iterations of boosting are performed than the number requested.
 \code{\link[C50:C5.0Control]{C50::C5.0Control()}}).
 }
 
-\subsection{Translation from parsnip to the underlying model call (regression)}{\if{html}{\out{<div class="r">}}\preformatted{C5_rules(
+\subsection{Translation from parsnip to the underlying model call (regression)}{\if{html}{\out{<div class="sourceCode r">}}\preformatted{C5_rules(
   trees = integer(1),
   min_n = integer(1)
 ) \%>\%

@@ -194,7 +194,7 @@ test_that('mulit-predict', {
 
 test_that('tunable', {
   C5_rules_C5.0 <-
-    rules::C5_rules(trees = tune(), min_n = tune()) %>%
+    C5_rules(trees = tune(), min_n = tune()) %>%
     set_engine('C5.0') %>%
     tunable()
 
