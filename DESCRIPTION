@@ -39,7 +39,7 @@ Suggests:
     testthat,
     xrf (>= 0.2.0)
 Remotes:
-    tidymodels/parsnip@model-migration
+    tidymodels/parsnip
 Config/Needs/website: tidyverse/tidytemplate
 Encoding: UTF-8
 Language: en-US
