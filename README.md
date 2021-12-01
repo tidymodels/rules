@@ -9,7 +9,7 @@
 experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html)
 [![R-CMD-check](https://github.com/tidymodels/rules/workflows/R-CMD-check/badge.svg)](https://github.com/tidymodels/rules/actions)
 [![Codecov test
-coverage](https://codecov.io/gh/tidymodels/rules/branch/master/graph/badge.svg)](https://codecov.io/gh/tidymodels/rules?branch=master)
+coverage](https://codecov.io/gh/tidymodels/rules/branch/main/graph/badge.svg)](https://codecov.io/gh/tidymodels/rules?branch=main)
 [![CRAN
 status](https://www.r-pkg.org/badges/version/rules)](https://cran.r-project.org/package=rules)
 <!-- badges: end -->

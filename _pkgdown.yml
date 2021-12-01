@@ -1,22 +1,16 @@
 url: https://rules.tidymodels.org
 
 template:
+  bootstrap: 5
+  bslib:
+    danger: "#CA225E"
+    primary: "#CA225E"
   package: tidytemplate
-  params:
-    theme: tidymodels
-    part_of: <a href="https://tidymodels.orgs">tidymodels</a>
-    footer: rules is a part of the <strong>tidymodels</strong> ecosystem, a collection of modeling packages designed with common APIs and a shared philosophy.
-
-development:
-  mode: auto
-
-home:
-  strip_header: true
 
 figures:
   fig.width: 8
   fig.height: 5.75
-
+  
 navbar:
   left:
   - text: What's the difference between Cubist and RuleFit?
