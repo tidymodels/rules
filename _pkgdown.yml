@@ -10,11 +10,11 @@ template:
 figures:
   fig.width: 8
   fig.height: 5.75
-  
+
 navbar:
   left:
   - text: What's the difference between Cubist and RuleFit?
-    href: extras/cubist-and-rulefit.html
+    href: articles/extras/cubist-and-rulefit.html
   - text: News
     href: news/index.html
   - text: Reference
