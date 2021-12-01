@@ -20,7 +20,7 @@ figures:
 navbar:
   left:
   - text: What's the difference between Cubist and RuleFit?
-    href: articles/Cubist-and-RuleFit.html
+    href: extras/cubist-and-rulefit.html
   - text: News
     href: news/index.html
   - text: Reference
