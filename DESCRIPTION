@@ -35,10 +35,15 @@ Suggests:
     spelling,
     testthat,
     xrf (>= 0.2.0)
+VignetteBuilder: 
+    knitr
 Remotes:
     tidymodels/parsnip
-Config/Needs/website: 
-    tidyverse/tidytemplate
+Config/Needs/website:
+    tidyr, 
+    tidyverse/tidytemplate, 
+    recipes, 
+    xrf
 Encoding: UTF-8
 Language: en-US
 Roxygen: list(markdown = TRUE)
