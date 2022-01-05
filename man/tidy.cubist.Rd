@@ -108,13 +108,13 @@ set.seed(1)
 xrf_reg_fit <-
   xrf_reg_mod \%>\%
   fit(Sale_Price ~ ., data = ames_processed)
-}\if{html}{\out{</div>}}\preformatted{## [20:12:42] WARNING: amalgamation/../src/objective/regression_obj.cu:171: reg:linear is now deprecated in favor of reg:squarederror.
-## [20:12:42] WARNING: amalgamation/../src/learner.cc:573: 
+}\if{html}{\out{</div>}}\preformatted{## [19:39:29] WARNING: amalgamation/../src/objective/regression_obj.cu:188: reg:linear is now deprecated in favor of reg:squarederror.
+## [19:39:29] WARNING: amalgamation/../src/learner.cc:576: 
 ## Parameters: \{ "nrounds" \} might not be used.
 ## 
-##   This may not be accurate due to some parameters are only used in language bindings but
-##   passed down to XGBoost core.  Or some parameters are not used but slip through this
-##   verification. Please open an issue if you find above cases.
+##   This could be a false alarm, with some parameters getting used by language bindings but
+##   then being mistakenly passed down to XGBoost core, or some parameter actually being used
+##   but getting flagged wrongly here. Please open an issue if you find any such cases.
 
 ## New names:
 ## * . -> ....1
@@ -134,9 +134,9 @@ xrf_col_res
 ##    rule_id term           estimate
 ##    <chr>   <chr>             <dbl>
 ##  1 r0_1    Gr_Liv_Area   -1.27e- 2
-##  2 r2_4    Gr_Liv_Area   -3.70e-10
+##  2 r2_4    Gr_Liv_Area   -3.92e-10
 ##  3 r2_2    Gr_Liv_Area    7.59e- 3
-##  4 r2_4    Central_Air_Y -3.70e-10
+##  4 r2_4    Central_Air_Y -3.92e-10
 ##  5 r3_5    Longitude      1.06e- 1
 ##  6 r3_6    Longitude      2.65e- 2
 ##  7 r3_5    Latitude       1.06e- 1
