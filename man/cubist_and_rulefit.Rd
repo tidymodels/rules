@@ -131,7 +131,6 @@ cubist_fit <-
 cubist_fit
 #> parsnip model object
 #> 
-#> Fit time:  25ms 
 #> 
 #> Call:
 #> cubist.default(x = x, y = y, committees = 2)
@@ -149,7 +148,7 @@ The \code{summary()} function shows the details of the rules.\if{html}{\out{<div
 #> cubist.default(x = x, y = y, committees = 2)
 #> 
 #> 
-#> Cubist [Release 2.07 GPL Edition]  Sat Sep 25 20:12:37 2021
+#> Cubist [Release 2.07 GPL Edition]  Tue Jan  4 19:39:26 2022
 #> ---------------------------------
 #> 
 #>     Target attribute `outcome'
@@ -348,7 +347,6 @@ rule_fit_fit <-
 }\if{html}{\out{</div>}}\if{html}{\out{<div class="sourceCode r">}}\preformatted{rule_fit_fit
 #> parsnip model object
 #> 
-#> Fit time:  2s 
 #> An eXtreme RuleFit model of 112 rules.
 #> 
 #> Original Formula:

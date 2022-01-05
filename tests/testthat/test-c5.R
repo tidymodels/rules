@@ -204,3 +204,19 @@ test_that('tunable', {
   )
 
 })
+
+test_that('mode specific package dependencies', {
+  expect_identical(
+    get_from_env(paste0("C5_rules", "_pkgs")) %>%
+      dplyr::filter(engine == "C5.0", mode == "classification") %>%
+      dplyr::pull(pkg),
+    list(c("C50", "rules"))
+  )
+
+  expect_identical(
+    get_from_env(paste0("C5_rules", "_pkgs")) %>%
+      dplyr::filter(engine == "C5.0", mode == "regression") %>%
+      dplyr::pull(pkg),
+    list()
+  )
+})

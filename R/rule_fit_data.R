@@ -1,8 +1,10 @@
 make_rule_fit <- function() {
   parsnip::set_model_engine("rule_fit", "classification", "xrf")
   parsnip::set_model_engine("rule_fit", "regression", "xrf")
-  parsnip::set_dependency("rule_fit", "xrf", "xrf")
-  parsnip::set_dependency("rule_fit", "xrf", "rules")
+  parsnip::set_dependency("rule_fit", "xrf", "xrf", "classification")
+  parsnip::set_dependency("rule_fit", "xrf", "xrf", "regression")
+  parsnip::set_dependency("rule_fit", "xrf", "rules", "classification")
+  parsnip::set_dependency("rule_fit", "xrf", "rules", "regression")
 
   parsnip::set_model_arg(
     model = "rule_fit",

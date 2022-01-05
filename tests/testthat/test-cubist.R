@@ -496,3 +496,18 @@ test_that('tunable', {
 
 })
 
+test_that('mode specific package dependencies', {
+  expect_identical(
+    get_from_env(paste0("cubist_rules", "_pkgs")) %>%
+      dplyr::filter(engine == "Cubist", mode == "classification") %>%
+      dplyr::pull(pkg),
+    list()
+  )
+
+  expect_identical(
+    get_from_env(paste0("cubist_rules", "_pkgs")) %>%
+      dplyr::filter(engine == "Cubist", mode == "regression") %>%
+      dplyr::pull(pkg),
+    list(c("Cubist", "rules"))
+  )
+})
