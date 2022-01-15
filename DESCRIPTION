@@ -38,7 +38,7 @@ Suggests:
 VignetteBuilder: 
     knitr
 Remotes:
-    tidymodels/parsnip
+    tidymodels/parsnip#631
 Config/Needs/website:
     tidyr, 
     tidyverse/tidytemplate, 
