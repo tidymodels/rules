@@ -148,7 +148,7 @@ The \code{summary()} function shows the details of the rules.\if{html}{\out{<div
 #> cubist.default(x = x, y = y, committees = 2)
 #> 
 #> 
-#> Cubist [Release 2.07 GPL Edition]  Tue Jan  4 19:39:26 2022
+#> Cubist [Release 2.07 GPL Edition]  Fri Jan 14 16:42:42 2022
 #> ---------------------------------
 #> 
 #>     Target attribute `outcome'
