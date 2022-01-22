@@ -12,7 +12,9 @@ Description: Bindings for additional models for use with the 'parsnip'
     ISBN: 1558602380), and Cubist (Kuhn and Johnson, 2013)
     <doi:10.1007/978-1-4614-6849-3>.
 License: MIT + file LICENSE
-URL: https://github.com/tidymodels/rules, https://rules.tidymodels.org
+URL: https://github.com/tidymodels/rules,
+    https://rules.tidymodels.org,
+    https://rules.tidymodels.org/
 Depends: 
     modeldata,
     parsnip (>= 0.1.7.9000)

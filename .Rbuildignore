@@ -13,3 +13,4 @@
 ^\.covrignore$
 ^man-roxygen$
 ^vignettes
+^pkgdown$
