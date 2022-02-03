@@ -1,8 +1,8 @@
 ---
-title: "cubist-and-rulefit"
+title: "What's the difference between Cubist and RuleFit?"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{cubist-and-rulefit}
+  %\VignetteIndexEntry{What's the difference between Cubist and RuleFit?}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -18,9 +18,6 @@ library(rlang)
 library(tidyr)
 library(recipes)
 ```
-
-
-# What's the difference between Cubist and RuleFit?
 
 [Cubist](https://www.rulequest.com/cubist-win.html) and [RuleFit](https://statweb.stanford.edu/~jhf/R_RuleFit.html) are two rule-based regression models. They are similar in some ways but otherwise very different. This is a short description of their approaches. 
 

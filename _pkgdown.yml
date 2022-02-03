@@ -1,21 +1,14 @@
-url: https://rules.tidymodels.org
+url: https://rules.tidymodels.org/
 
 template:
+  package: tidytemplate
   bootstrap: 5
   bslib:
-    danger: "#CA225E"
     primary: "#CA225E"
-  package: tidytemplate
+  includes:
+      in_header: |
+        <script defer data-domain="rules.tidymodels.org,all.tidymodels.org" src="https://plausible.io/js/plausible.js"></script>
 
 figures:
   fig.width: 8
   fig.height: 5.75
-
-navbar:
-  left:
-  - text: What's the difference between Cubist and RuleFit?
-    href: articles/extras/cubist-and-rulefit.html
-  - text: News
-    href: news/index.html
-  - text: Reference
-    href: reference/index.html
