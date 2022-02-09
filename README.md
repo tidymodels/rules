@@ -19,11 +19,11 @@ status](https://www.r-pkg.org/badges/version/rules)](https://cran.r-project.org/
 rules is a “[parsnip](https://parsnip.tidymodels.org/)-adjacent” package
 with model definitions for different rule-based models, including:
 
-  - cubist models that have discrete rule sets that contain linear
+-   cubist models that have discrete rule sets that contain linear
     models with an ensemble method similar to boosting
-  - classification rules where a ruleset is derived from an initial tree
+-   classification rules where a ruleset is derived from an initial tree
     fit
-  - *rule-fit* models that begin with rules extracted from a tree
+-   *rule-fit* models that begin with rules extracted from a tree
     ensemble which are then added to a regularized linear or logistic
     regression.
 
@@ -43,24 +43,36 @@ Install the development version from GitHub with:
 devtools::install_github("tidymodels/rules")
 ```
 
+## Avaliable Engines
+
+The rules package provides engines for the models in the following
+table.
+
+| model        | engine | mode           |
+|:-------------|:-------|:---------------|
+| C5_rules     | C5.0   | classification |
+| cubist_rules | Cubist | regression     |
+| rule_fit     | xrf    | classification |
+| rule_fit     | xrf    | regression     |
+
 ## Contributing
 
 This project is released with a [Contributor Code of
 Conduct](https://contributor-covenant.org/version/2/0/CODE_OF_CONDUCT.html).
 By contributing to this project, you agree to abide by its terms.
 
-  - For questions and discussions about tidymodels packages, modeling,
+-   For questions and discussions about tidymodels packages, modeling,
     and machine learning, please [post on RStudio
     Community](https://community.rstudio.com/new-topic?category_id=15&tags=tidymodels,question).
 
-  - If you think you have encountered a bug, please [submit an
+-   If you think you have encountered a bug, please [submit an
     issue](https://github.com/tidymodels/rules/issues).
 
-  - Either way, learn how to create and share a
+-   Either way, learn how to create and share a
     [reprex](https://reprex.tidyverse.org/articles/articles/learn-reprex.html)
     (a minimal, reproducible example), to clearly communicate about your
     code.
 
-  - Check out further details on [contributing guidelines for tidymodels
+-   Check out further details on [contributing guidelines for tidymodels
     packages](https://www.tidymodels.org/contribute/) and [how to get
     help](https://www.tidymodels.org/help/).
