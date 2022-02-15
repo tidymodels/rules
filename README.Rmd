@@ -45,6 +45,30 @@ Install the development version from GitHub with:
 devtools::install_github("tidymodels/rules")
 ```
 
+## Avaliable Engines
+
+The rules package provides engines for the models in the following table.
+
+```{r, echo=FALSE, message=FALSE}
+library(parsnip)
+
+parsnip_models <- get_from_env("models") %>%
+  setNames(., .) %>%
+  purrr::map_dfr(get_from_env, .id = "model")
+
+library(rules)
+
+rules_models <- get_from_env("models") %>%
+  setNames(., .) %>%
+  purrr::map_dfr(get_from_env, .id = "model")
+
+dplyr::anti_join(
+  rules_models, parsnip_models, 
+  by = c("model", "engine", "mode")
+) %>%
+  knitr::kable()
+```
+
 ## Contributing
 
 This project is released with a [Contributor Code of Conduct](https://contributor-covenant.org/version/2/0/CODE_OF_CONDUCT.html). By contributing to this project, you agree to abide by its terms.
