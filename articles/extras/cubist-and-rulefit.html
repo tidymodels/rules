@@ -77,7 +77,8 @@
 
 
 
-<script src="cubist-and-rulefit_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
+
+<div class="row">
   <main id="main"><div class="page-header">
       <img src="../../logo.png" class="logo" alt=""><h1>What's the difference between Cubist and RuleFit?</h1>
             
@@ -94,15 +95,15 @@
 <h2 id="both-start-by-making-rules-from-trees">Both start by making rules from trees<a class="anchor" aria-label="anchor" href="#both-start-by-making-rules-from-trees"></a>
 </h2>
 <p>For each model, an an initial tree-based model is created. Let’s look at a really simple example tree:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="cf">if</span> (A <span class="op">&lt;</span><span class="st"> </span>a) {</span>
-<span id="cb1-2"><a href="#cb1-2"></a>  <span class="cf">if</span> (B <span class="op">&lt;</span><span class="st"> </span>b) {</span>
-<span id="cb1-3"><a href="#cb1-3"></a>    node &lt;-<span class="st"> </span><span class="dv">1</span></span>
-<span id="cb1-4"><a href="#cb1-4"></a>  } <span class="cf">else</span> {</span>
-<span id="cb1-5"><a href="#cb1-5"></a>    node &lt;-<span class="st"> </span><span class="dv">2</span></span>
-<span id="cb1-6"><a href="#cb1-6"></a>  }</span>
-<span id="cb1-7"><a href="#cb1-7"></a>} <span class="cf">else</span></span>
-<span id="cb1-8"><a href="#cb1-8"></a>  node &lt;-<span class="st"> </span><span class="dv">3</span></span>
-<span id="cb1-9"><a href="#cb1-9"></a><span class="er">}</span></span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (A <span class="sc">&lt;</span> a) {</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (B <span class="sc">&lt;</span> b) {</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    node <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  } <span class="cf">else</span> {</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    node <span class="ot">&lt;-</span> <span class="dv">2</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>} <span class="cf">else</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  node <span class="ot">&lt;-</span> <span class="dv">3</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="er">}</span></span></code></pre></div>
 <p>In this case, two predictors are used in splits: <code>A</code> and <code>B</code>. With this model, the split to the left is the “&lt;” condition. There are three terminal nodes. This tree-based structure can be converted to a set of distinct rules. Each rule is a collection of <code>if/then</code> statements that define the path to the terminal nodes. In this example:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">rule_1</span> <span class="op">&lt;-</span> <span class="op">(</span><span class="va">A</span> <span class="op">&lt;</span>  <span class="va">a</span><span class="op">)</span> <span class="op">&amp;</span> <span class="op">(</span><span class="va">B</span> <span class="op">&lt;</span>  <span class="va">b</span><span class="op">)</span>
@@ -199,7 +200,7 @@
 <span class="co">#&gt; cubist.default(x = x, y = y, committees = 2)</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; </span>
-<span class="co">#&gt; Cubist [Release 2.07 GPL Edition]  Tue Feb 15 22:47:01 2022</span>
+<span class="co">#&gt; Cubist [Release 2.07 GPL Edition]  Thu Feb 17 19:29:21 2022</span>
 <span class="co">#&gt; ---------------------------------</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt;     Target attribute `outcome'</span>
@@ -339,18 +340,18 @@
 <h2 id="rulefit-makes-one-model-with-rule-predictors">RuleFit makes one model with rule predictors<a class="anchor" aria-label="anchor" href="#rulefit-makes-one-model-with-rule-predictors"></a>
 </h2>
 <p>RuleFit uses rules in a more straightforward way. It creates an initial tree (or ensemble of trees) from the data. Rules are extracted from this initial model and converted to a set of binary features. These features are then added to a regularized regression model (along with the original columns). For example:</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1"></a>data_with_rules &lt;-<span class="st"> </span></span>
-<span id="cb11-2"><a href="#cb11-2"></a><span class="st">  </span>data <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb11-3"><a href="#cb11-3"></a><span class="st">  </span><span class="kw">mutate</span>(</span>
-<span id="cb11-4"><a href="#cb11-4"></a>    <span class="dt">rule_1 =</span> <span class="kw">ifelse</span>(A <span class="op">&lt;</span><span class="st">  </span>a <span class="op">&amp;</span><span class="st"> </span>B <span class="op">&lt;</span><span class="st">  </span>b, <span class="dv">0</span>, <span class="dv">1</span>),</span>
-<span id="cb11-5"><a href="#cb11-5"></a>    <span class="dt">rule_2 =</span> <span class="kw">ifelse</span>(A <span class="op">&lt;</span><span class="st">  </span>a <span class="op">&amp;</span><span class="st"> </span>B <span class="op">&gt;=</span><span class="st"> </span>b, <span class="dv">0</span>, <span class="dv">1</span>),</span>
-<span id="cb11-6"><a href="#cb11-6"></a>    <span class="dt">rule_2 =</span> <span class="kw">ifelse</span>(A <span class="op">&gt;=</span><span class="st"> </span>a,          <span class="dv">0</span>, <span class="dv">1</span>)</span>
-<span id="cb11-7"><a href="#cb11-7"></a>  )</span>
-<span id="cb11-8"><a href="#cb11-8"></a></span>
-<span id="cb11-9"><a href="#cb11-9"></a>rule_fit_model &lt;-<span class="st"> </span></span>
-<span id="cb11-10"><a href="#cb11-10"></a><span class="st">  </span><span class="kw">glmnet</span>(<span class="dt">x =</span> data_with_rules <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">select</span>(A, B, <span class="kw">starts_with</span>(<span class="st">"rule_"</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">as.matrix</span>(),</span>
-<span id="cb11-11"><a href="#cb11-11"></a>         <span class="dt">y =</span> data_with_rules<span class="op">$</span>y,</span>
-<span id="cb11-12"><a href="#cb11-12"></a>         <span class="dt">alpha =</span> <span class="dv">1</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>data_with_rules <span class="ot">&lt;-</span> </span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  data <span class="sc">%&gt;%</span> </span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">rule_1 =</span> <span class="fu">ifelse</span>(A <span class="sc">&lt;</span>  a <span class="sc">&amp;</span> B <span class="sc">&lt;</span>  b, <span class="dv">0</span>, <span class="dv">1</span>),</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">rule_2 =</span> <span class="fu">ifelse</span>(A <span class="sc">&lt;</span>  a <span class="sc">&amp;</span> B <span class="sc">&gt;=</span> b, <span class="dv">0</span>, <span class="dv">1</span>),</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">rule_2 =</span> <span class="fu">ifelse</span>(A <span class="sc">&gt;=</span> a,          <span class="dv">0</span>, <span class="dv">1</span>)</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>rule_fit_model <span class="ot">&lt;-</span> </span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">glmnet</span>(<span class="at">x =</span> data_with_rules <span class="sc">%&gt;%</span> <span class="fu">select</span>(A, B, <span class="fu">starts_with</span>(<span class="st">"rule_"</span>) <span class="sc">%&gt;%</span> <span class="fu">as.matrix</span>(),</span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>         <span class="at">y =</span> data_with_rules<span class="sc">$</span>y,</span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>         <span class="at">alpha =</span> <span class="dv">1</span>)</span></code></pre></div>
 <p>It is common to use a lasso model to regularize the model and eliminate non-informative features.</p>
 <p>While the details can depend on the implementation, the rules do not appear to be pruned or simplified.</p>
 <p>The tuning parameters for this model inherits the parameter of the tree-based model as well as the amount of regularization used in the <code>glmnet</code> model. The complexity of the rules is determined by the allowed depth of the tree. For example, using a depth of four means that each rule may have up to four terms that define it. The number of rules would be primarily determined by the number of boosting iterations.</p>
@@ -399,15 +400,15 @@
 <span class="co">#&gt; <span style="color: #949494;"># … with 100 more rows</span></span></code></pre></div>
 <p>Note that the units of each predictor have been scaled to be between zero and one.</p>
 <p>Looking at the rules, there are examples of some rules, such as:</p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1"></a>( bill_depth_mm <span class="op">&gt;=</span><span class="st"> </span><span class="fl">14.1499996</span> ) <span class="op">&amp;</span><span class="st"> </span></span>
-<span id="cb16-2"><a href="#cb16-2"></a>( flipper_length_mm <span class="op">&lt;</span><span class="st">  </span><span class="dv">227</span> ) <span class="op">&amp;</span><span class="st"> </span></span>
-<span id="cb16-3"><a href="#cb16-3"></a>( flipper_length_mm <span class="op">&lt;</span><span class="st">  </span><span class="fl">228.5</span> ) <span class="op">&amp;</span><span class="st"> </span></span>
-<span id="cb16-4"><a href="#cb16-4"></a>( flipper_length_mm <span class="op">&gt;=</span><span class="st"> </span><span class="fl">197.5</span> ) <span class="op">&amp;</span><span class="st"> </span></span>
-<span id="cb16-5"><a href="#cb16-5"></a>( flipper_length_mm <span class="op">&gt;=</span><span class="st"> </span><span class="fl">224.5</span> )<span class="st">"</span></span></code></pre></div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>( bill_depth_mm <span class="sc">&gt;=</span> <span class="fl">14.1499996</span> ) <span class="sc">&amp;</span> </span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>( flipper_length_mm <span class="sc">&lt;</span>  <span class="dv">227</span> ) <span class="sc">&amp;</span> </span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>( flipper_length_mm <span class="sc">&lt;</span>  <span class="fl">228.5</span> ) <span class="sc">&amp;</span> </span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>( flipper_length_mm <span class="sc">&gt;=</span> <span class="fl">197.5</span> ) <span class="sc">&amp;</span> </span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>( flipper_length_mm <span class="sc">&gt;=</span> <span class="fl">224.5</span> )<span class="st">"</span></span></code></pre></div>
 <p>which can be simplified to have fewer conditions:</p>
-<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1"></a>( bill_depth_mm <span class="op">&gt;=</span><span class="st"> </span><span class="fl">14.1499996</span> ) <span class="op">&amp;</span><span class="st"> </span></span>
-<span id="cb17-2"><a href="#cb17-2"></a>( flipper_length_mm <span class="op">&lt;</span><span class="st">  </span><span class="dv">227</span> ) <span class="op">&amp;</span><span class="st"> </span></span>
-<span id="cb17-3"><a href="#cb17-3"></a>( flipper_length_mm <span class="op">&gt;=</span><span class="st"> </span><span class="fl">197.5</span> ) <span class="op">&amp;</span><span class="st"> </span></span></code></pre></div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>( bill_depth_mm <span class="sc">&gt;=</span> <span class="fl">14.1499996</span> ) <span class="sc">&amp;</span> </span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>( flipper_length_mm <span class="sc">&lt;</span>  <span class="dv">227</span> ) <span class="sc">&amp;</span> </span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>( flipper_length_mm <span class="sc">&gt;=</span> <span class="fl">197.5</span> ) <span class="sc">&amp;</span> </span></code></pre></div>
 <p>Also, the <code><a href="https://generics.r-lib.org/reference/tidy.html" class="external-link">tidy()</a></code> function can extract the same information but use the original predictors as the unit:</p>
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">rf_variable_res</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://generics.r-lib.org/reference/tidy.html" class="external-link">tidy</a></span><span class="op">(</span><span class="va">rule_fit_fit</span>, unit <span class="op">=</span> <span class="st">"columns"</span><span class="op">)</span>
@@ -472,7 +473,7 @@
 
 <div class="pkgdown-footer-right">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.9000.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
 </div>
 
   </div></footer>
