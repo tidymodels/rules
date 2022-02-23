@@ -8,7 +8,7 @@ Comparing Cubist and RuleFit
 }
 \section{What’s the difference between Cubist and RuleFit?}{
 \href{https://www.rulequest.com/cubist-win.html}{Cubist} and
-\href{https://statweb.stanford.edu/~jhf/R_RuleFit.html}{RuleFit} are two
+\href{https://jerryfriedman.su.domains/R_RuleFit.html}{RuleFit} are two
 rule-based regression models. They are similar in some ways but
 otherwise very different. This is a short description of their
 approaches.
@@ -148,7 +148,7 @@ The \code{summary()} function shows the details of the rules.\if{html}{\out{<div
 #> cubist.default(x = x, y = y, committees = 2)
 #> 
 #> 
-#> Cubist [Release 2.07 GPL Edition]  Fri Jan 14 16:42:42 2022
+#> Cubist [Release 2.07 GPL Edition]  Wed Feb 23 13:53:42 2022
 #> ---------------------------------
 #> 
 #>     Target attribute `outcome'
@@ -235,14 +235,14 @@ intercept.
 The \code{tidy()} function can extract the rule and model data:\if{html}{\out{<div class="sourceCode r">}}\preformatted{cb_res <- tidy(cubist_fit)
 cb_res
 #> # A tibble: 6 × 5
-#>   committee rule_num rule                             estimate      statistic   
-#>       <int>    <int> <chr>                            <list>        <list>      
-#> 1         1        1 ( sex == 'female' ) & ( flipper… <tibble [4 ×… <tibble [1 …
-#> 2         1        2 ( sex == 'male' ) & ( flipper_l… <tibble [4 ×… <tibble [1 …
-#> 3         1        3 ( flipper_length_mm > 202 ) & (… <tibble [4 ×… <tibble [1 …
-#> 4         1        4 ( flipper_length_mm > 202 ) & (… <tibble [2 ×… <tibble [1 …
-#> 5         1        5 ( bill_depth_mm <= 16.4 ) & ( s… <tibble [4 ×… <tibble [1 …
-#> 6         2        1 <no conditions>                  <tibble [2 ×… <tibble [1 …
+#>   committee rule_num rule                                     estimate statistic
+#>       <int>    <int> <chr>                                    <list>   <list>   
+#> 1         1        1 ( sex == 'female' ) & ( flipper_length_… <tibble> <tibble> 
+#> 2         1        2 ( sex == 'male' ) & ( flipper_length_mm… <tibble> <tibble> 
+#> 3         1        3 ( flipper_length_mm > 202 ) & ( sex == … <tibble> <tibble> 
+#> 4         1        4 ( flipper_length_mm > 202 ) & ( bill_de… <tibble> <tibble> 
+#> 5         1        5 ( bill_depth_mm <= 16.4 ) & ( sex == 'm… <tibble> <tibble> 
+#> 6         2        1 <no conditions>                          <tibble> <tibble>
 }\if{html}{\out{</div>}}
 
 The \code{estimate} and \code{statistic} columns contain tibbles with parameter

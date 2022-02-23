@@ -59,18 +59,18 @@ cb_fit <-
 cb_res <- tidy(cb_fit)
 cb_res
 }\if{html}{\out{</div>}}\preformatted{## # A tibble: 157 × 5
-##    committee rule_num rule                               estimate    statistic  
-##        <int>    <int> <chr>                              <list>      <list>     
-##  1         1        1 ( Central_Air == 'N' ) & ( Gr_Liv… <tibble [4… <tibble [1…
-##  2         1        2 ( Gr_Liv_Area <= 3.0326188 ) & ( … <tibble [4… <tibble [1…
-##  3         1        3 ( Neighborhood  \%in\% c( 'Old_Town… <tibble [3… <tibble [1…
-##  4         1        4 ( Neighborhood  \%in\% c( 'Old_Town… <tibble [4… <tibble [1…
-##  5         1        5 ( Central_Air == 'N' ) & ( Gr_Liv… <tibble [4… <tibble [1…
-##  6         1        6 ( Longitude <= -93.652023 ) & ( N… <tibble [4… <tibble [1…
-##  7         1        7 ( Gr_Liv_Area > 3.2284005 ) & ( N… <tibble [4… <tibble [1…
-##  8         1        8 ( Neighborhood  \%in\% c( 'North_Am… <tibble [4… <tibble [1…
-##  9         1        9 ( Latitude <= 42.009399 ) & ( Nei… <tibble [3… <tibble [1…
-## 10         1       10 ( Neighborhood  \%in\% c( 'College_… <tibble [4… <tibble [1…
+##    committee rule_num rule                                    estimate statistic
+##        <int>    <int> <chr>                                   <list>   <list>   
+##  1         1        1 ( Central_Air == 'N' ) & ( Gr_Liv_Area… <tibble> <tibble> 
+##  2         1        2 ( Gr_Liv_Area <= 3.0326188 ) & ( Neigh… <tibble> <tibble> 
+##  3         1        3 ( Neighborhood  \%in\% c( 'Old_Town','Ed… <tibble> <tibble> 
+##  4         1        4 ( Neighborhood  \%in\% c( 'Old_Town','Ed… <tibble> <tibble> 
+##  5         1        5 ( Central_Air == 'N' ) & ( Gr_Liv_Area… <tibble> <tibble> 
+##  6         1        6 ( Longitude <= -93.652023 ) & ( Neighb… <tibble> <tibble> 
+##  7         1        7 ( Gr_Liv_Area > 3.2284005 ) & ( Neighb… <tibble> <tibble> 
+##  8         1        8 ( Neighborhood  \%in\% c( 'North_Ames','… <tibble> <tibble> 
+##  9         1        9 ( Latitude <= 42.009399 ) & ( Neighbor… <tibble> <tibble> 
+## 10         1       10 ( Neighborhood  \%in\% c( 'College_Creek… <tibble> <tibble> 
 ## # … with 147 more rows
 }\if{html}{\out{<div class="sourceCode r">}}\preformatted{cb_res$estimate[[1]]
 }\if{html}{\out{</div>}}\preformatted{## # A tibble: 4 × 2
@@ -108,8 +108,8 @@ set.seed(1)
 xrf_reg_fit <-
   xrf_reg_mod \%>\%
   fit(Sale_Price ~ ., data = ames_processed)
-}\if{html}{\out{</div>}}\preformatted{## [16:42:45] WARNING: amalgamation/../src/objective/regression_obj.cu:188: reg:linear is now deprecated in favor of reg:squarederror.
-## [16:42:45] WARNING: amalgamation/../src/learner.cc:576: 
+}\if{html}{\out{</div>}}\preformatted{## [13:54:00] WARNING: amalgamation/../src/objective/regression_obj.cu:188: reg:linear is now deprecated in favor of reg:squarederror.
+## [13:54:00] WARNING: amalgamation/../src/learner.cc:576: 
 ## Parameters: \{ "nrounds" \} might not be used.
 ## 
 ##   This could be a false alarm, with some parameters getting used by language bindings but
