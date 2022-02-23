@@ -148,7 +148,7 @@ The \code{summary()} function shows the details of the rules.\if{html}{\out{<div
 #> cubist.default(x = x, y = y, committees = 2)
 #> 
 #> 
-#> Cubist [Release 2.07 GPL Edition]  Wed Feb 23 13:53:42 2022
+#> Cubist [Release 2.07 GPL Edition]  Wed Feb 23 14:31:09 2022
 #> ---------------------------------
 #> 
 #>     Target attribute `outcome'
@@ -235,14 +235,14 @@ intercept.
 The \code{tidy()} function can extract the rule and model data:\if{html}{\out{<div class="sourceCode r">}}\preformatted{cb_res <- tidy(cubist_fit)
 cb_res
 #> # A tibble: 6 × 5
-#>   committee rule_num rule                                     estimate statistic
-#>       <int>    <int> <chr>                                    <list>   <list>   
-#> 1         1        1 ( sex == 'female' ) & ( flipper_length_… <tibble> <tibble> 
-#> 2         1        2 ( sex == 'male' ) & ( flipper_length_mm… <tibble> <tibble> 
-#> 3         1        3 ( flipper_length_mm > 202 ) & ( sex == … <tibble> <tibble> 
-#> 4         1        4 ( flipper_length_mm > 202 ) & ( bill_de… <tibble> <tibble> 
-#> 5         1        5 ( bill_depth_mm <= 16.4 ) & ( sex == 'm… <tibble> <tibble> 
-#> 6         2        1 <no conditions>                          <tibble> <tibble>
+#>   committee rule_num rule                                   estimate statistic
+#>       <int>    <int> <chr>                                  <list>   <list>   
+#> 1         1        1 ( sex == 'female' ) & ( flipper_lengt… <tibble> <tibble> 
+#> 2         1        2 ( sex == 'male' ) & ( flipper_length_… <tibble> <tibble> 
+#> 3         1        3 ( flipper_length_mm > 202 ) & ( sex =… <tibble> <tibble> 
+#> 4         1        4 ( flipper_length_mm > 202 ) & ( bill_… <tibble> <tibble> 
+#> 5         1        5 ( bill_depth_mm <= 16.4 ) & ( sex == … <tibble> <tibble> 
+#> 6         2        1 <no conditions>                        <tibble> <tibble>
 }\if{html}{\out{</div>}}
 
 The \code{estimate} and \code{statistic} columns contain tibbles with parameter
@@ -279,18 +279,18 @@ rule_4_filter <-
 penguins \%>\% 
   dplyr::slice(which(rule_4_filter))
 #> # A tibble: 23 × 7
-#>    species island    bill_length_mm bill_depth_mm flipper_length_mm body_mass_g
-#>    <fct>   <fct>              <dbl>         <dbl>             <int>       <int>
-#>  1 Adelie  Dream               41.1          18.1               205        4300
-#>  2 Adelie  Dream               40.8          18.9               208        4300
-#>  3 Adelie  Biscoe              41            20                 203        4725
-#>  4 Adelie  Torgersen           44.1          18                 210        4000
-#>  5 Gentoo  Biscoe              59.6          17                 230        6050
-#>  6 Gentoo  Biscoe              44.4          17.3               219        5250
-#>  7 Gentoo  Biscoe              49.8          16.8               230        5700
-#>  8 Gentoo  Biscoe              50.8          17.3               228        5600
-#>  9 Gentoo  Biscoe              52.1          17                 230        5550
-#> 10 Gentoo  Biscoe              52.2          17.1               228        5400
+#>    species island    bill_length_mm bill_depth_mm flipper_length_… body_mass_g
+#>    <fct>   <fct>              <dbl>         <dbl>            <int>       <int>
+#>  1 Adelie  Dream               41.1          18.1              205        4300
+#>  2 Adelie  Dream               40.8          18.9              208        4300
+#>  3 Adelie  Biscoe              41            20                203        4725
+#>  4 Adelie  Torgersen           44.1          18                210        4000
+#>  5 Gentoo  Biscoe              59.6          17                230        6050
+#>  6 Gentoo  Biscoe              44.4          17.3              219        5250
+#>  7 Gentoo  Biscoe              49.8          16.8              230        5700
+#>  8 Gentoo  Biscoe              50.8          17.3              228        5600
+#>  9 Gentoo  Biscoe              52.1          17                230        5550
+#> 10 Gentoo  Biscoe              52.2          17.1              228        5400
 #> # … with 13 more rows, and 1 more variable: sex <fct>
 }\if{html}{\out{</div>}}
 }
@@ -358,18 +358,18 @@ To get the rules and their associated coefficients, the \code{tidy()} method
 can be used again:\if{html}{\out{<div class="sourceCode r">}}\preformatted{rf_res <- tidy(rule_fit_fit)
 rf_res
 #> # A tibble: 110 × 3
-#>    rule_id           rule                                               estimate
-#>    <chr>             <chr>                                                 <dbl>
-#>  1 (Intercept)       ( TRUE )                                            5753.  
-#>  2 bill_depth_mm     ( bill_depth_mm )                                    -15.9 
-#>  3 bill_length_mm    ( bill_length_mm )                                     1.10
-#>  4 flipper_length_mm ( flipper_length_mm )                                 -7.67
-#>  5 islandDream       ( island == 'Dream' )                                -29.2 
-#>  6 islandTorgersen   ( island == 'Torgersen' )                            -16.8 
-#>  7 r0_2              ( species == 'Gentoo' )                              472.  
-#>  8 r0_3              ( sex != 'male' ) & ( species != 'Gentoo' )          -78.8 
-#>  9 r1_2              ( flipper_length_mm >= 211.5 )                       219.  
-#> 10 r1_3              ( flipper_length_mm <  194.5 ) & ( flipper_length…  -142.  
+#>    rule_id           rule                                             estimate
+#>    <chr>             <chr>                                               <dbl>
+#>  1 (Intercept)       ( TRUE )                                          5753.  
+#>  2 bill_depth_mm     ( bill_depth_mm )                                  -15.9 
+#>  3 bill_length_mm    ( bill_length_mm )                                   1.10
+#>  4 flipper_length_mm ( flipper_length_mm )                               -7.67
+#>  5 islandDream       ( island == 'Dream' )                              -29.2 
+#>  6 islandTorgersen   ( island == 'Torgersen' )                          -16.8 
+#>  7 r0_2              ( species == 'Gentoo' )                            472.  
+#>  8 r0_3              ( sex != 'male' ) & ( species != 'Gentoo' )        -78.8 
+#>  9 r1_2              ( flipper_length_mm >= 211.5 )                     219.  
+#> 10 r1_3              ( flipper_length_mm <  194.5 ) & ( flipper_leng…  -142.  
 #> # … with 100 more rows
 }\if{html}{\out{</div>}}
 

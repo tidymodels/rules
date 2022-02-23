@@ -1,10 +1,5 @@
 ---
 title: "What's the difference between Cubist and RuleFit?"
-output: rmarkdown::html_vignette
-vignette: >
-  %\VignetteIndexEntry{What's the difference between Cubist and RuleFit?}
-  %\VignetteEngine{knitr::rmarkdown}
-  %\VignetteEncoding{UTF-8}
 ---
 
 ```{r, include = FALSE}

@@ -36,10 +36,6 @@ Suggests:
     spelling,
     testthat,
     xrf (>= 0.2.0)
-VignetteBuilder: 
-    knitr
-Remotes:
-    tidymodels/parsnip
 Config/Needs/website:
     tidyr, 
     tidyverse/tidytemplate, 

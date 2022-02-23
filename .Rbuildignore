@@ -12,5 +12,5 @@
 ^codecov\.yml$
 ^\.covrignore$
 ^man-roxygen$
-^vignettes
 ^pkgdown$
+^vignettes/articles$
