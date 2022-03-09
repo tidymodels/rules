@@ -59,26 +59,26 @@ cb_fit <-
 cb_res <- tidy(cb_fit)
 cb_res
 }\if{html}{\out{</div>}}\preformatted{## # A tibble: 157 × 5
-##    committee rule_num rule                                  estimate statistic
-##        <int>    <int> <chr>                                 <list>   <list>   
-##  1         1        1 ( Central_Air == 'N' ) & ( Gr_Liv_Ar… <tibble> <tibble> 
-##  2         1        2 ( Gr_Liv_Area <= 3.0326188 ) & ( Nei… <tibble> <tibble> 
-##  3         1        3 ( Neighborhood  \%in\% c( 'Old_Town','… <tibble> <tibble> 
-##  4         1        4 ( Neighborhood  \%in\% c( 'Old_Town','… <tibble> <tibble> 
-##  5         1        5 ( Central_Air == 'N' ) & ( Gr_Liv_Ar… <tibble> <tibble> 
-##  6         1        6 ( Longitude <= -93.652023 ) & ( Neig… <tibble> <tibble> 
-##  7         1        7 ( Gr_Liv_Area > 3.2284005 ) & ( Neig… <tibble> <tibble> 
-##  8         1        8 ( Neighborhood  \%in\% c( 'North_Ames'… <tibble> <tibble> 
-##  9         1        9 ( Latitude <= 42.009399 ) & ( Neighb… <tibble> <tibble> 
-## 10         1       10 ( Neighborhood  \%in\% c( 'College_Cre… <tibble> <tibble> 
+##    committee rule_num rule                                    estimate statistic
+##        <int>    <int> <chr>                                   <list>   <list>
+##  1         1        1 ( Central_Air == 'N' ) & ( Gr_Liv_Area… <tibble> <tibble>
+##  2         1        2 ( Gr_Liv_Area <= 3.0326188 ) & ( Neigh… <tibble> <tibble>
+##  3         1        3 ( Neighborhood  \%in\% c( 'Old_Town','Ed… <tibble> <tibble>
+##  4         1        4 ( Neighborhood  \%in\% c( 'Old_Town','Ed… <tibble> <tibble>
+##  5         1        5 ( Central_Air == 'N' ) & ( Gr_Liv_Area… <tibble> <tibble>
+##  6         1        6 ( Longitude <= -93.652023 ) & ( Neighb… <tibble> <tibble>
+##  7         1        7 ( Gr_Liv_Area > 3.2284005 ) & ( Neighb… <tibble> <tibble>
+##  8         1        8 ( Neighborhood  \%in\% c( 'North_Ames','… <tibble> <tibble>
+##  9         1        9 ( Latitude <= 42.009399 ) & ( Neighbor… <tibble> <tibble>
+## 10         1       10 ( Neighborhood  \%in\% c( 'College_Creek… <tibble> <tibble>
 ## # … with 147 more rows
 }\if{html}{\out{<div class="sourceCode r">}}\preformatted{cb_res$estimate[[1]]
 }\if{html}{\out{</div>}}\preformatted{## # A tibble: 4 × 2
 ##   term        estimate
 ##   <chr>          <dbl>
-## 1 (Intercept)  -408.  
+## 1 (Intercept)  -408.
 ## 2 Longitude      -1.43
-## 3 Latitude        6.6 
+## 3 Latitude        6.6
 ## 4 Gr_Liv_Area     0.7
 }\if{html}{\out{<div class="sourceCode r">}}\preformatted{cb_res$statistic[[1]]
 }\if{html}{\out{</div>}}\preformatted{## # A tibble: 1 × 6
@@ -108,25 +108,10 @@ set.seed(1)
 xrf_reg_fit <-
   xrf_reg_mod \%>\%
   fit(Sale_Price ~ ., data = ames_processed)
-}\if{html}{\out{</div>}}\preformatted{## [14:31:17] WARNING: amalgamation/../src/objective/regression_obj.cu:188: reg:linear is now deprecated in favor of reg:squarederror.
-## [14:31:17] WARNING: amalgamation/../src/learner.cc:576: 
-## Parameters: \{ "nrounds" \} might not be used.
-## 
-##   This could be a false alarm, with some parameters getting used by language bindings but
-##   then being mistakenly passed down to XGBoost core, or some parameter actually being used
-##   but getting flagged wrongly here. Please open an issue if you find any such cases.
-
-## New names:
-## * . -> ....1
-## * . -> ....2
-## * . -> ....3
-## * . -> ....4
-## * . -> ....5
-## * ...
-}\if{html}{\out{<div class="sourceCode r">}}\preformatted{xrf_rule_res <- tidy(xrf_reg_fit)
+}\preformatted{xrf_rule_res <- tidy(xrf_reg_fit)
 xrf_rule_res$rule[nrow(xrf_rule_res)] \%>\% rlang::parse_expr()
-}\if{html}{\out{</div>}}\preformatted{## (Gr_Liv_Area < 3.30210185) & (Gr_Liv_Area < 3.38872266) & (Gr_Liv_Area >= 
-##     2.94571471) & (Gr_Liv_Area >= 3.24870872) & (Latitude < 42.0271072) & 
+}\if{html}{\out{</div>}}\preformatted{## (Gr_Liv_Area < 3.30210185) & (Gr_Liv_Area < 3.38872266) & (Gr_Liv_Area >=
+##     2.94571471) & (Gr_Liv_Area >= 3.24870872) & (Latitude < 42.0271072) &
 ##     (Neighborhood_Old_Town >= -9.53674316e-07)
 }\if{html}{\out{<div class="sourceCode r">}}\preformatted{xrf_col_res <- tidy(xrf_reg_fit, unit = "columns")
 xrf_col_res
@@ -134,9 +119,9 @@ xrf_col_res
 ##    rule_id term           estimate
 ##    <chr>   <chr>             <dbl>
 ##  1 r0_1    Gr_Liv_Area   -1.27e- 2
-##  2 r2_4    Gr_Liv_Area   -3.92e-10
+##  2 r2_4    Gr_Liv_Area   -3.70e-10
 ##  3 r2_2    Gr_Liv_Area    7.59e- 3
-##  4 r2_4    Central_Air_Y -3.92e-10
+##  4 r2_4    Central_Air_Y -3.70e-10
 ##  5 r3_5    Longitude      1.06e- 1
 ##  6 r3_6    Longitude      2.65e- 2
 ##  7 r3_5    Latitude       1.06e- 1
