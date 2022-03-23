@@ -1,3 +1,7 @@
+---
+title: "What's the difference between Cubist and RuleFit?"
+---
+
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
@@ -9,9 +13,6 @@ library(rlang)
 library(tidyr)
 library(recipes)
 ```
-
-
-# What's the difference between Cubist and RuleFit?
 
 [Cubist](https://www.rulequest.com/cubist-win.html) and [RuleFit](https://statweb.stanford.edu/~jhf/R_RuleFit.html) are two rule-based regression models. They are similar in some ways but otherwise very different. This is a short description of their approaches. 
 

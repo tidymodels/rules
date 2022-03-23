@@ -2,11 +2,14 @@ context("cubist fits")
 
 source(file.path(test_path(), "test-helpers.R"))
 
-ctrl <- Cubist::cubistControl(unbiased = TRUE, seed = 2)
-
 # ------------------------------------------------------------------------------
 
 test_that('argument/call assembly', {
+  skip_on_cran()
+  skip_if_not_installed("Cubist")
+
+  ctrl <- Cubist::cubistControl(unbiased = TRUE, seed = 2)
+
   ctrl_1 <- Cubist::cubistControl(unbiased = TRUE, seed = 2)
   ctrl_2 <- Cubist::cubistControl(unbiased = TRUE, seed = 2, rules = 13)
 
@@ -54,6 +57,9 @@ test_that('argument/call assembly', {
 
 test_that('formula method', {
   skip_on_cran()
+  skip_if_not_installed("Cubist")
+
+  ctrl <- Cubist::cubistControl(unbiased = TRUE, seed = 2)
 
   cb_fit_exp <-
     Cubist::cubist(
@@ -109,6 +115,9 @@ test_that('formula method', {
 
 test_that('formula method - limited rules', {
   skip_on_cran()
+  skip_if_not_installed("Cubist")
+
+  ctrl <- Cubist::cubistControl(unbiased = TRUE, seed = 2)
 
   cb_fit_exp <-
     Cubist::cubist(
@@ -142,6 +151,9 @@ test_that('formula method - limited rules', {
 
 test_that('formula method - limited rules and control', {
   skip_on_cran()
+  skip_if_not_installed("Cubist")
+
+  ctrl <- Cubist::cubistControl(unbiased = TRUE, seed = 2)
 
   cb_fit_exp <-
     Cubist::cubist(
@@ -176,6 +188,9 @@ test_that('formula method - limited rules and control', {
 
 test_that('formula method - control', {
   skip_on_cran()
+  skip_if_not_installed("Cubist")
+
+  ctrl <- Cubist::cubistControl(unbiased = TRUE, seed = 2)
 
   cb_fit_exp <-
     Cubist::cubist(
@@ -209,6 +224,9 @@ test_that('formula method - control', {
 
 test_that('non-formula method', {
   skip_on_cran()
+  skip_if_not_installed("Cubist")
+
+  ctrl <- Cubist::cubistControl(unbiased = TRUE, seed = 2)
 
   cb_fit_exp <-
     Cubist::cubist(
@@ -262,6 +280,9 @@ test_that('non-formula method', {
 
 test_that('non-formula method - limited rules', {
   skip_on_cran()
+  skip_if_not_installed("Cubist")
+
+  ctrl <- Cubist::cubistControl(unbiased = TRUE, seed = 2)
 
   cb_fit_exp <-
     Cubist::cubist(
@@ -297,6 +318,9 @@ test_that('non-formula method - limited rules', {
 
 test_that('non-formula method - limited rules and control', {
   skip_on_cran()
+  skip_if_not_installed("Cubist")
+
+  ctrl <- Cubist::cubistControl(unbiased = TRUE, seed = 2)
 
   cb_fit_exp <-
     Cubist::cubist(
@@ -331,6 +355,9 @@ test_that('non-formula method - limited rules and control', {
 
 test_that('non-formula method - control', {
   skip_on_cran()
+  skip_if_not_installed("Cubist")
+
+  ctrl <- Cubist::cubistControl(unbiased = TRUE, seed = 2)
 
   cb_fit_exp <-
     Cubist::cubist(
@@ -370,6 +397,11 @@ test_that('cubist parameters', {
 # ------------------------------------------------------------------------------
 
 test_that('tidy method for cubist - one committee', {
+  skip_on_cran()
+  skip_if_not_installed("Cubist")
+
+  ctrl <- Cubist::cubistControl(unbiased = TRUE, seed = 2)
+
   cb_single <- cubist_rules(committees = 1) %>% set_engine("Cubist")
 
   set.seed(1)
@@ -400,6 +432,11 @@ test_that('tidy method for cubist - one committee', {
 })
 
 test_that('tidy method for cubist - one committee - only intercepts', {
+  skip_on_cran()
+  skip_if_not_installed("Cubist")
+
+  ctrl <- Cubist::cubistControl(unbiased = TRUE, seed = 2)
+
   cb_single <- cubist_rules(committees = 1) %>% set_engine("Cubist")
 
   set.seed(1)
@@ -426,6 +463,11 @@ test_that('tidy method for cubist - one committee - only intercepts', {
 
 
 test_that('tidy method for cubist - many committees', {
+  skip_on_cran()
+  skip_if_not_installed("Cubist")
+
+  ctrl <- Cubist::cubistControl(unbiased = TRUE, seed = 2)
+
   cb_mult <- cubist_rules(committees = 10) %>% set_engine("Cubist")
 
   set.seed(1)
