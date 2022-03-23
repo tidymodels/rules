@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">rules</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.2.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.0</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -24,7 +24,7 @@
 <li class="nav-item dropdown">
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
-    <a class="dropdown-item" href="../articles/extras/cubist-and-rulefit.html">What's the difference between Cubist and RuleFit?</a>
+    <a class="dropdown-item" href="../articles/cubist-and-rulefit.html">What's the difference between Cubist and RuleFit?</a>
   </div>
 </li>
 <li class="nav-item">
@@ -59,7 +59,7 @@
     <div class="section level2">
     <h2 id="what-s-the-difference-between-cubist-and-rulefit-">What’s the difference between Cubist and RuleFit?<a class="anchor" aria-label="anchor" href="#what-s-the-difference-between-cubist-and-rulefit-"></a></h2>
     <p><a href="https://www.rulequest.com/cubist-win.html" class="external-link">Cubist</a> and
-<a href="https://statweb.stanford.edu/~jhf/R_RuleFit.html" class="external-link">RuleFit</a> are two
+<a href="https://jerryfriedman.su.domains/R_RuleFit.html" class="external-link">RuleFit</a> are two
 rule-based regression models. They are similar in some ways but
 otherwise very different. This is a short description of their
 approaches.</p>
@@ -175,7 +175,7 @@ Cubist also does a nearest-neighbor correction to the predicted values
 <span class="co">#&gt; cubist.default(x = x, y = y, committees = 2)</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; </span>
-<span class="co">#&gt; Cubist [Release 2.07 GPL Edition]  Fri Jan 14 16:42:42 2022</span>
+<span class="co">#&gt; Cubist [Release 2.07 GPL Edition]  Wed Mar  9 08:08:51 2022</span>
 <span class="co">#&gt; ---------------------------------</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt;     Target attribute `outcome'</span>
@@ -259,14 +259,14 @@ intercept.</p>
 <p>The <code><a href="https://generics.r-lib.org/reference/tidy.html" class="external-link">tidy()</a></code> function can extract the rule and model data:</p><div class="sourceCode r"><pre><code><span class="va">cb_res</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://generics.r-lib.org/reference/tidy.html" class="external-link">tidy</a></span><span class="op">(</span><span class="va">cubist_fit</span><span class="op">)</span>
 <span class="va">cb_res</span>
 <span class="co">#&gt; # A tibble: 6 × 5</span>
-<span class="co">#&gt;   committee rule_num rule                             estimate      statistic   </span>
-<span class="co">#&gt;       &lt;int&gt;    &lt;int&gt; &lt;chr&gt;                            &lt;list&gt;        &lt;list&gt;      </span>
-<span class="co">#&gt; 1         1        1 ( sex == 'female' ) &amp; ( flipper… &lt;tibble [4 ×… &lt;tibble [1 …</span>
-<span class="co">#&gt; 2         1        2 ( sex == 'male' ) &amp; ( flipper_l… &lt;tibble [4 ×… &lt;tibble [1 …</span>
-<span class="co">#&gt; 3         1        3 ( flipper_length_mm &gt; 202 ) &amp; (… &lt;tibble [4 ×… &lt;tibble [1 …</span>
-<span class="co">#&gt; 4         1        4 ( flipper_length_mm &gt; 202 ) &amp; (… &lt;tibble [2 ×… &lt;tibble [1 …</span>
-<span class="co">#&gt; 5         1        5 ( bill_depth_mm &lt;= 16.4 ) &amp; ( s… &lt;tibble [4 ×… &lt;tibble [1 …</span>
-<span class="co">#&gt; 6         2        1 &lt;no conditions&gt;                  &lt;tibble [2 ×… &lt;tibble [1 …</span></code></pre><p></p></div>
+<span class="co">#&gt;   committee rule_num rule                                     estimate statistic</span>
+<span class="co">#&gt;       &lt;int&gt;    &lt;int&gt; &lt;chr&gt;                                    &lt;list&gt;   &lt;list&gt;   </span>
+<span class="co">#&gt; 1         1        1 ( sex == 'female' ) &amp; ( flipper_length_… &lt;tibble&gt; &lt;tibble&gt; </span>
+<span class="co">#&gt; 2         1        2 ( sex == 'male' ) &amp; ( flipper_length_mm… &lt;tibble&gt; &lt;tibble&gt; </span>
+<span class="co">#&gt; 3         1        3 ( flipper_length_mm &gt; 202 ) &amp; ( sex == … &lt;tibble&gt; &lt;tibble&gt; </span>
+<span class="co">#&gt; 4         1        4 ( flipper_length_mm &gt; 202 ) &amp; ( bill_de… &lt;tibble&gt; &lt;tibble&gt; </span>
+<span class="co">#&gt; 5         1        5 ( bill_depth_mm &lt;= 16.4 ) &amp; ( sex == 'm… &lt;tibble&gt; &lt;tibble&gt; </span>
+<span class="co">#&gt; 6         2        1 &lt;no conditions&gt;                          &lt;tibble&gt; &lt;tibble&gt;</span></code></pre><p></p></div>
 <p>The <code>estimate</code> and <code>statistic</code> columns contain tibbles with parameter
 estimates and rule statistics, respectively. They can be easily expanded
 using <code>unnest()</code>:</p><div class="sourceCode r"><pre><code><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyr.tidyverse.org" class="external-link">tidyr</a></span><span class="op">)</span>
