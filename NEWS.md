@@ -1,3 +1,5 @@
+# rules (development version)
+
 # rules 0.2.0
 
 * Model definition functions (e.g. `cubist_rules()`) were moved to the parsnip package.
