@@ -15,8 +15,8 @@ License: MIT + file LICENSE
 URL: https://github.com/tidymodels/rules, https://rules.tidymodels.org/
 BugReports: https://github.com/tidymodels/rules/issues
 Depends:
-    R (>= 3.4),
-    parsnip (>= 0.2.0)
+    parsnip (>= 0.2.0),
+    R (>= 3.4)
 Imports: 
     dials,
     dplyr,
@@ -37,7 +37,11 @@ Suggests:
     spelling,
     testthat,
     xrf (>= 0.2.0)
-Config/Needs/website: tidyr, tidyverse/tidytemplate, recipes, xrf
+Config/Needs/website: 
+    tidyr, 
+    tidyverse/tidytemplate, 
+    recipes, 
+    xrf
 Encoding: UTF-8
 Language: en-US
 Roxygen: list(markdown = TRUE)
