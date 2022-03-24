@@ -15,7 +15,6 @@
 #' @importFrom tidyr nest
 #' @importFrom utils head globalVariables
 #' @importFrom dplyr %>% bind_rows bind_cols
-#' @import modeldata
 #'
 #' @export
 parsnip::multi_predict
