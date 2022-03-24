@@ -15,7 +15,6 @@
 
   s3_register("generics::tidy", "cubist")
   s3_register("generics::tidy", "xrf")
-
 }
 
 # vctrs:::s3_register()

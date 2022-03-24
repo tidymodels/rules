@@ -4,8 +4,7 @@
 #' @export
 #' @keywords internal
 #' @rdname rules-internal
-c5_fit <- function(x, y, trials = 1, minCases = 2, cost =  NULL, ...) {
-
+c5_fit <- function(x, y, trials = 1, minCases = 2, cost = NULL, ...) {
   args <- list(
     x = rlang::expr(x),
     y = rlang::expr(y),
@@ -17,7 +16,7 @@ c5_fit <- function(x, y, trials = 1, minCases = 2, cost =  NULL, ...) {
     if (any(names(dots) == "control")) {
       dots$control$minCases <- minCases
       if (!any(names(dots$control) == "seed")) {
-        dots$control$seed <- sample.int(10 ^ 5, 1)
+        dots$control$seed <- sample.int(10^5, 1)
       }
       if (!any(names(dots$control) == "earlyStopping")) {
         dots$control$earlyStopping <- FALSE
@@ -26,9 +25,12 @@ c5_fit <- function(x, y, trials = 1, minCases = 2, cost =  NULL, ...) {
     args <- c(args, dots)
   } else {
     args <-
-      c(args,
-        list(control =
-               rlang::expr(C50::C5.0Control(minCases = minCases, seed = sample.int(10 ^ 5, 1), earlyStopping = FALSE)))
+      c(
+        args,
+        list(
+          control =
+            rlang::expr(C50::C5.0Control(minCases = minCases, seed = sample.int(10^5, 1), earlyStopping = FALSE))
+        )
       )
   }
   args$rules <- TRUE
@@ -70,7 +72,7 @@ c5_pred_wrap <- function(trials = 1, object, new_data, type = "class", ...) {
     args <- c(args, dots)
   }
   cl <- rlang::call2(.fn = "predict", !!!args)
-  tbl_trial <- tibble::tibble(trees  = rep(trials, nrow(new_data)))
+  tbl_trial <- tibble::tibble(trees = rep(trials, nrow(new_data)))
   res <- dplyr::bind_cols(tbl_trial, rlang::eval_tidy(cl))
   res
 }
@@ -79,12 +81,13 @@ c5_pred_wrap <- function(trials = 1, object, new_data, type = "class", ...) {
 #' @keywords internal
 #' @rdname rules-internal
 c5_pred <- function(object, new_data, trials = object$fit$trials["Actual"], ...) {
-
-  res <- purrr::map_dfr(trials,
-                        c5_pred_wrap,
-                        object = object,
-                        new_data = new_data,
-                        ...)
+  res <- purrr::map_dfr(
+    trials,
+    c5_pred_wrap,
+    object = object,
+    new_data = new_data,
+    ...
+  )
   if (length(trials) == 1) {
     res <- res %>% dplyr::select(-trials)
   }
@@ -154,13 +157,12 @@ prob_matrix_to_tibble <- function(x, object) {
 #' @rdname rules-internal
 tunable.C5_rules <- function(x, ...) {
   tibble::tibble(
-    name = c('trees'),
+    name = c("trees"),
     call_info = list(
       list(pkg = "dials", fun = "trees", range = c(1L, 100L))
     ),
     source = "model_spec",
     component = class(x)[class(x) != "model_spec"][1],
-    component_id =  "main"
+    component_id = "main"
   )
 }
-

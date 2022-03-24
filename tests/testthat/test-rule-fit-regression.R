@@ -2,7 +2,7 @@ vals <- c(0.01, .1, 1)
 
 # ------------------------------------------------------------------------------
 
-test_that('formula method', {
+test_that("formula method", {
   skip_on_cran()
   skip_if_not_installed("xrf")
 
@@ -15,7 +15,7 @@ test_that('formula method', {
       xgb_control = list(nrounds = 3, min_child_weight = 3, penalty = 1),
       verbose = 0
     )
-  rf_pred_exp <- predict(rf_fit_exp, chi_pred, lambda = 1)[,1]
+  rf_pred_exp <- predict(rf_fit_exp, chi_pred, lambda = 1)[, 1]
 
   expect_error(
     rf_mod <-
@@ -48,7 +48,7 @@ test_that('formula method', {
     arrange(penalty, .row_number)
 
   for (i in vals) {
-    exp_pred <- predict(rf_fit_exp, chi_pred, lambda = i)[,1]
+    exp_pred <- predict(rf_fit_exp, chi_pred, lambda = i)[, 1]
     obs_pred <- rf_m_pred %>% dplyr::filter(penalty == i) %>% pull(.pred)
     expect_equal(unname(exp_pred), obs_pred)
   }
@@ -56,7 +56,7 @@ test_that('formula method', {
 
 # ------------------------------------------------------------------------------
 
-test_that('non-formula method', {
+test_that("non-formula method", {
   skip_on_cran()
   skip_if_not_installed("xrf")
 
@@ -69,7 +69,7 @@ test_that('non-formula method', {
       xgb_control = list(nrounds = 3, min_child_weight = 3, penalty = 1),
       verbose = 0
     )
-  rf_pred_exp <- predict(rf_fit_exp, chi_pred, lambda = 1)[,1]
+  rf_pred_exp <- predict(rf_fit_exp, chi_pred, lambda = 1)[, 1]
 
   expect_error(
     rf_mod <-
@@ -102,7 +102,7 @@ test_that('non-formula method', {
     arrange(penalty, .row_number)
 
   for (i in vals) {
-    exp_pred <- predict(rf_fit_exp, chi_pred, lambda = i)[,1]
+    exp_pred <- predict(rf_fit_exp, chi_pred, lambda = i)[, 1]
     obs_pred <- rf_m_pred %>% dplyr::filter(penalty == i) %>% pull(.pred)
     expect_equal(unname(exp_pred), obs_pred)
   }
@@ -110,7 +110,7 @@ test_that('non-formula method', {
 
 # ------------------------------------------------------------------------------
 
-test_that('tidy method - regression', {
+test_that("tidy method - regression", {
   skip_on_cran()
   skip_if_not_installed("xrf")
 
@@ -124,12 +124,15 @@ test_that('tidy method - regression', {
   set.seed(1)
   xrf_reg_fit <-
     xrf_reg_mod %>%
-    fit(Sale_Price ~ Neighborhood + Longitude + Latitude +
-          Gr_Liv_Area + Central_Air, data = ames)
+    fit(
+      Sale_Price ~ Neighborhood + Longitude + Latitude +
+        Gr_Liv_Area + Central_Air,
+      data = ames
+    )
 
   xrf_rule_res <- tidy(xrf_reg_fit)
   raw_coef <- coef(xrf_reg_fit$fit, lambda = 0.001)
-  raw_coef <- raw_coef[raw_coef[,1] != 0, ]
+  raw_coef <- raw_coef[raw_coef[, 1] != 0, ]
   expect_true(nrow(raw_coef) == nrow(xrf_rule_res))
   expect_true(all(raw_coef$term %in% xrf_rule_res$rule_id))
 
@@ -137,12 +140,13 @@ test_that('tidy method - regression', {
   xrf_col_res <- tidy(xrf_reg_fit, unit = "column")
   expect_equal(
     sort(unique(xrf_col_res$term)),
-    c("(Intercept)", "Central_Air", "Gr_Liv_Area", "Latitude", "Longitude",
-      "Neighborhood")
+    c(
+      "(Intercept)", "Central_Air", "Gr_Liv_Area", "Latitude", "Longitude",
+      "Neighborhood"
+    )
   )
   expect_equal(
     sort(unique(raw_coef$term)),
     sort(unique(xrf_col_res$rule_id))
   )
-
 })

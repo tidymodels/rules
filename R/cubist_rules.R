@@ -1,5 +1,5 @@
 cubist_args <- function(x) {
-  ctrl_args <- c('unbiased', 'rules', 'extrapolation', 'sample', 'seed', 'label')
+  ctrl_args <- c("unbiased", "rules", "extrapolation", "sample", "seed", "label")
 
   # translate name
   names(x) <- ifelse(names(x) == "max_rules", "rules", names(x))
@@ -51,13 +51,13 @@ cubist_fit <- function(x, y, committees = 1, neighbors = 0, max_rules = NA, ...)
 
   res <- rlang::eval_tidy(cl)
 
- # Fix used args
- used <- res$coefficients %>% dplyr::select(-`(Intercept)`, -committee, -rule)
- used <- purrr::map_lgl(used, ~ any(!is.na(.x)))
- res$vars$used <- names(used)[used]
+  # Fix used args
+  used <- res$coefficients %>% dplyr::select(-`(Intercept)`, -committee, -rule)
+  used <- purrr::map_lgl(used, ~ any(!is.na(.x)))
+  res$vars$used <- names(used)[used]
 
- res$.neighbors <- rlang::eval_tidy(neighbors)
- res
+  res$.neighbors <- rlang::eval_tidy(neighbors)
+  res
 }
 
 #' @export
@@ -101,11 +101,13 @@ cubist_pred <- function(object, new_data, neighbors = NULL, ...) {
 
   new_data <- as.data.frame(new_data)
 
-  purrr::map_dfr(neighbors,
-                 cubist_pred_wrap,
-                 object = object,
-                 new_data = new_data,
-                 ...)
+  purrr::map_dfr(
+    neighbors,
+    cubist_pred_wrap,
+    object = object,
+    new_data = new_data,
+    ...
+  )
 }
 
 #' Parameter functions for Cubist models
@@ -129,7 +131,7 @@ cubist_pred <- function(object, new_data, neighbors = NULL, ...) {
 #'
 #' max_rules()
 #' @export
-committees <- function(range = c(1L, 100L), trans = NULL)  {
+committees <- function(range = c(1L, 100L), trans = NULL) {
   range[range < 1] <- 1L
   range[range > 100] <- 100L
 
@@ -145,7 +147,7 @@ committees <- function(range = c(1L, 100L), trans = NULL)  {
 
 #' @export
 #' @rdname committees
-max_rules <- function(range = c(1L, 500L), trans = NULL)  {
+max_rules <- function(range = c(1L, 500L), trans = NULL) {
   range[range < 1] <- 1L
 
   dials::new_quant_param(
@@ -164,15 +166,15 @@ max_rules <- function(range = c(1L, 500L), trans = NULL)  {
 #' @rdname rules-internal
 tunable.cubist_rules <- function(x, ...) {
   tibble::tibble(
-    name = c('committees', 'neighbors', 'max_rules'),
+    name = c("committees", "neighbors", "max_rules"),
     call_info = list(
       list(pkg = "rules", fun = "committees", range = c(1L, 100L)),
-      list(pkg = "dials", fun = "neighbors",  range = c(0L,   9L)),
+      list(pkg = "dials", fun = "neighbors", range = c(0L, 9L)),
       list(pkg = "rules", fun = "max_rules")
     ),
     source = "model_spec",
     component = class(x)[class(x) != "model_spec"][1],
-    component_id =  "main"
+    component_id = "main"
   )
 }
 

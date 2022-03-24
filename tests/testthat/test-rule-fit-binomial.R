@@ -3,7 +3,7 @@ lvls <- levels(ad_mod$Class)
 
 # ------------------------------------------------------------------------------
 
-test_that('formula method', {
+test_that("formula method", {
   skip_on_cran()
   skip_if_not_installed("xrf")
 
@@ -16,10 +16,10 @@ test_that('formula method', {
       xgb_control = list(nrounds = 3, min_child_weight = 3, penalty = 1),
       verbose = 0
     )
-  rf_pred_exp <- predict(rf_fit_exp, ad_pred, lambda = 1)[,1]
+  rf_pred_exp <- predict(rf_fit_exp, ad_pred, lambda = 1)[, 1]
   rf_pred_exp <- factor(ifelse(rf_pred_exp >= 0.5, lvls[2], lvls[1]), levels = lvls)
   rf_pred_exp <- unname(rf_pred_exp)
-  rf_prob_exp <- predict(rf_fit_exp, ad_pred, lambda = 1, type = "response")[,1]
+  rf_prob_exp <- predict(rf_fit_exp, ad_pred, lambda = 1, type = "response")[, 1]
 
   expect_error(
     rf_mod <-
@@ -63,7 +63,7 @@ test_that('formula method', {
     arrange(penalty, .row_number)
 
   for (i in vals) {
-    exp_pred <- predict(rf_fit_exp, ad_pred, lambda = i)[,1]
+    exp_pred <- predict(rf_fit_exp, ad_pred, lambda = i)[, 1]
     exp_pred <- factor(ifelse(exp_pred >= 0.5, lvls[2], lvls[1]), levels = lvls)
     exp_pred <- unname(exp_pred)
     obs_pred <- rf_m_pred %>% dplyr::filter(penalty == i) %>% pull(.pred_class)
@@ -77,7 +77,7 @@ test_that('formula method', {
     arrange(penalty, .row_number)
 
   for (i in vals) {
-    exp_pred <- predict(rf_fit_exp, ad_pred, lambda = i, type = "response")[,1]
+    exp_pred <- predict(rf_fit_exp, ad_pred, lambda = i, type = "response")[, 1]
     obs_pred <- rf_m_prob %>% dplyr::filter(penalty == i) %>% pull(.pred_Control)
     expect_equal(unname(exp_pred), obs_pred)
   }
@@ -85,7 +85,7 @@ test_that('formula method', {
 
 # ------------------------------------------------------------------------------
 
-test_that('non-formula method', {
+test_that("non-formula method", {
   skip_on_cran()
   skip_if_not_installed("xrf")
 
@@ -98,10 +98,10 @@ test_that('non-formula method', {
       xgb_control = list(nrounds = 3, min_child_weight = 3, penalty = 1),
       verbose = 0
     )
-  rf_pred_exp <- predict(rf_fit_exp, ad_pred, lambda = 1)[,1]
+  rf_pred_exp <- predict(rf_fit_exp, ad_pred, lambda = 1)[, 1]
   rf_pred_exp <- factor(ifelse(rf_pred_exp >= 0.5, lvls[2], lvls[1]), levels = lvls)
   rf_pred_exp <- unname(rf_pred_exp)
-  rf_prob_exp <- predict(rf_fit_exp, ad_pred, lambda = 1, type = "response")[,1]
+  rf_prob_exp <- predict(rf_fit_exp, ad_pred, lambda = 1, type = "response")[, 1]
 
   expect_error(
     rf_mod <-
@@ -144,7 +144,7 @@ test_that('non-formula method', {
     arrange(penalty, .row_number)
 
   for (i in vals) {
-    exp_pred <- predict(rf_fit_exp, ad_pred, lambda = i)[,1]
+    exp_pred <- predict(rf_fit_exp, ad_pred, lambda = i)[, 1]
     exp_pred <- factor(ifelse(exp_pred >= 0.5, lvls[2], lvls[1]), levels = lvls)
     exp_pred <- unname(exp_pred)
     obs_pred <- rf_m_pred %>% dplyr::filter(penalty == i) %>% pull(.pred_class)
@@ -158,16 +158,15 @@ test_that('non-formula method', {
     arrange(penalty, .row_number)
 
   for (i in vals) {
-    exp_pred <- predict(rf_fit_exp, ad_pred, lambda = i, type = "response")[,1]
+    exp_pred <- predict(rf_fit_exp, ad_pred, lambda = i, type = "response")[, 1]
     obs_pred <- rf_m_prob %>% dplyr::filter(penalty == i) %>% pull(.pred_Control)
     expect_equal(unname(exp_pred), obs_pred)
   }
-
 })
 
 # ------------------------------------------------------------------------------
 
-test_that('tidy method - two classes', {
+test_that("tidy method - two classes", {
   skip_on_cran()
   skip_if_not_installed("xrf")
 
@@ -184,7 +183,7 @@ test_that('tidy method - two classes', {
     fit(Class ~ ., data = ad_mod)
   xrf_rule_res <- tidy(xrf_cls_fit)
   raw_coef <- coef(xrf_cls_fit$fit, lambda = 0.001)
-  raw_coef <- raw_coef[raw_coef[,1] != 0, ]
+  raw_coef <- raw_coef[raw_coef[, 1] != 0, ]
   expect_true(nrow(raw_coef) == nrow(xrf_rule_res))
   expect_true(all(raw_coef$term %in% xrf_rule_res$rule_id))
 
@@ -200,7 +199,7 @@ test_that('tidy method - two classes', {
 })
 
 
-test_that('tunable', {
+test_that("tunable", {
   skip_if_not_installed("xrf")
   rule_fit_xrf <-
     rule_fit(
@@ -213,33 +212,32 @@ test_that('tunable', {
       sample_size = tune(),
       penalty = tune()
     ) %>%
-    set_engine('xrf') %>%
-    set_mode('classification') %>%
+    set_engine("xrf") %>%
+    set_mode("classification") %>%
     tunable()
 
   expect_equal(
-    rule_fit_xrf$call_info[rule_fit_xrf$name=="trees"][[1]]$range,
+    rule_fit_xrf$call_info[rule_fit_xrf$name == "trees"][[1]]$range,
     c(5L, 100L)
   )
 
   expect_equal(
-    rule_fit_xrf$call_info[rule_fit_xrf$name=="tree_depth"][[1]]$range,
+    rule_fit_xrf$call_info[rule_fit_xrf$name == "tree_depth"][[1]]$range,
     c(1L, 10L)
   )
 
   expect_equal(
-    rule_fit_xrf$call_info[rule_fit_xrf$name=="learn_rate"][[1]]$range,
+    rule_fit_xrf$call_info[rule_fit_xrf$name == "learn_rate"][[1]]$range,
     c(-10, 0)
   )
 
   expect_equal(
-    rule_fit_xrf$call_info[rule_fit_xrf$name=="sample_size"][[1]]$range,
+    rule_fit_xrf$call_info[rule_fit_xrf$name == "sample_size"][[1]]$range,
     c(0.50, 0.95)
   )
-
 })
 
-test_that('mode specific package dependencies', {
+test_that("mode specific package dependencies", {
   expect_identical(
     get_from_env(paste0("rule_fit", "_pkgs")) %>%
       dplyr::filter(engine == "xrf", mode == "classification") %>%
