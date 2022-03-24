@@ -120,7 +120,7 @@ get_reg_data <- function(txt, results = "expression") {
     if (n_elem %% 2 != 0) {
       rlang::abort("number of remaining terms not even", call. = FALSE)
     }
-    n_terms <- n_elem/2
+    n_terms <- n_elem / 2
     split_terms <- split(vals, rep(1:n_terms, each = 2))
     res <- splits_to_coefs(split_terms, res)
   } else {
@@ -187,7 +187,7 @@ single_cond <- function(txt) {
 }
 
 cb_cond_2 <- function(txt) {
-  entires <- stringr::str_split(txt, " ") %>% unlist
+  entires <- stringr::str_split(txt, " ") %>% unlist()
   rms <- "(att=\")|(cut=\")|(result=\")"
   entires <- purrr::map_chr(entires, stringr::str_remove_all, rms)
   entires <- purrr::map_chr(entires, stringr::str_remove_all, "\"")
@@ -195,7 +195,7 @@ cb_cond_2 <- function(txt) {
 }
 
 cb_cond_3 <- function(txt) {
-  entires <- stringr::str_split(txt, " ") %>% unlist
+  entires <- stringr::str_split(txt, " ") %>% unlist()
   var_name <- entires[2]
   var_name <- stringr::str_remove(var_name, "att=\"")
   var_name <- stringr::str_remove(var_name, "\"")

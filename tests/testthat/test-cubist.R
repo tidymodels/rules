@@ -1,10 +1,4 @@
-context("cubist fits")
-
-source(file.path(test_path(), "test-helpers.R"))
-
-# ------------------------------------------------------------------------------
-
-test_that('argument/call assembly', {
+test_that("argument/call assembly", {
   skip_on_cran()
   skip_if_not_installed("Cubist")
 
@@ -20,42 +14,66 @@ test_that('argument/call assembly', {
 
   expect_equal(
     rules:::cubist_args(list(quote(x), quote(y), max_rules = 1)),
-    rlang::call2("cubist", .ns = "Cubist", quote(x), quote(y),
-                 control = quote(Cubist::cubistControl(rules = 1)))
+    rlang::call2(
+      "cubist",
+      .ns = "Cubist",
+      quote(x), quote(y),
+      control = quote(Cubist::cubistControl(rules = 1))
+    )
   )
 
   expect_equal(
     rules:::cubist_args(list(quote(x), quote(y), max_rules = NA)),
-    rlang::call2("cubist", .ns = "Cubist", quote(x), quote(y),
-                 control = quote(Cubist::cubistControl(rules = NA)))
+    rlang::call2(
+      "cubist",
+      .ns = "Cubist",
+      quote(x), quote(y),
+      control = quote(Cubist::cubistControl(rules = NA))
+    )
   )
 
   expect_equal(
     rules:::cubist_args(list(quote(x), quote(y), max_rules = NA, control = ctrl_1)),
-    rlang::call2("cubist", .ns = "Cubist", quote(x), quote(y),
-                 control = list(unbiased = TRUE, rules = NA, extrapolation = 1,
-                                sample = 0, label = "outcome", seed = 2))
+    rlang::call2(
+      "cubist",
+      .ns = "Cubist",
+      quote(x), quote(y),
+      control = list(
+        unbiased = TRUE, rules = NA, extrapolation = 1,
+        sample = 0, label = "outcome", seed = 2
+      )
     )
+  )
 
   expect_equal(
     rules:::cubist_args(list(quote(x), quote(y), control = ctrl_2)),
-    rlang::call2("cubist", .ns = "Cubist", quote(x), quote(y),
-                 control = list(unbiased = TRUE, rules = 13, extrapolation = 1,
-                                sample = 0, label = "outcome", seed = 2))
+    rlang::call2(
+      "cubist",
+      .ns = "Cubist",
+      quote(x), quote(y),
+      control = list(
+        unbiased = TRUE, rules = 13, extrapolation = 1,
+        sample = 0, label = "outcome", seed = 2
+      )
+    )
   )
 
   expect_equal(
     rules:::cubist_args(list(quote(x), quote(y), max_rules = 31, control = ctrl_2)),
-    rlang::call2("cubist", .ns = "Cubist", quote(x), quote(y),
-                 control = list(unbiased = TRUE, rules = 31, extrapolation = 1,
-                                sample = 0, label = "outcome", seed = 2))
+    rlang::call2("cubist",
+                 .ns = "Cubist", quote(x), quote(y),
+                 control = list(
+                   unbiased = TRUE, rules = 31, extrapolation = 1,
+                   sample = 0, label = "outcome", seed = 2
+                 )
+    )
   )
 })
 
 
 # ------------------------------------------------------------------------------
 
-test_that('formula method', {
+test_that("formula method", {
   skip_on_cran()
   skip_if_not_installed("Cubist")
 
@@ -89,31 +107,31 @@ test_that('formula method', {
   expect_equal(cb_pred$.pred, cb_pred_exp)
 
   cb_pred <-
-    multi_predict(cb_fit, chi_pred[1:2,], neighbors = c(0, 1, 9)) %>%
+    multi_predict(cb_fit, chi_pred[1:2, ], neighbors = c(0, 1, 9)) %>%
     mutate(.row = row_number()) %>%
     tidyr::unnest(cols = c(.pred))
 
   # Will be slightly different due to the value of `maxd`
   expect_equal(
     cb_pred$.pred[cb_pred$neighbors == 0],
-    predict(cb_fit_exp, chi_mod[1:2,], neighbors = 0),
+    predict(cb_fit_exp, chi_mod[1:2, ], neighbors = 0),
     tol = .1
   )
   expect_equal(
     cb_pred$.pred[cb_pred$neighbors == 1],
-    predict(cb_fit_exp, chi_mod[1:2,], neighbors = 1),
+    predict(cb_fit_exp, chi_mod[1:2, ], neighbors = 1),
     tol = .1
   )
   expect_equal(
     cb_pred$.pred[cb_pred$neighbors == 9],
-    predict(cb_fit_exp, chi_mod[1:2,], neighbors = 9),
+    predict(cb_fit_exp, chi_mod[1:2, ], neighbors = 9),
     tol = .1
   )
 })
 
 # ------------------------------------------------------------------------------
 
-test_that('formula method - limited rules', {
+test_that("formula method - limited rules", {
   skip_on_cran()
   skip_if_not_installed("Cubist")
 
@@ -149,7 +167,7 @@ test_that('formula method - limited rules', {
 
 # ------------------------------------------------------------------------------
 
-test_that('formula method - limited rules and control', {
+test_that("formula method - limited rules and control", {
   skip_on_cran()
   skip_if_not_installed("Cubist")
 
@@ -186,7 +204,7 @@ test_that('formula method - limited rules and control', {
 
 # ------------------------------------------------------------------------------
 
-test_that('formula method - control', {
+test_that("formula method - control", {
   skip_on_cran()
   skip_if_not_installed("Cubist")
 
@@ -222,7 +240,7 @@ test_that('formula method - control', {
 
 # ------------------------------------------------------------------------------
 
-test_that('non-formula method', {
+test_that("non-formula method", {
   skip_on_cran()
   skip_if_not_installed("Cubist")
 
@@ -246,8 +264,11 @@ test_that('non-formula method', {
 
   expect_error(
     cb_fit <-
-      fit_xy(cb_mod, x = chi_mod[, names(chi_mod) != "ridership"],
-             y = chi_mod$ridership),
+      fit_xy(
+        cb_mod,
+        x = chi_mod[, names(chi_mod) != "ridership"],
+        y = chi_mod$ridership
+      ),
     NA
   )
   cb_pred <- predict(cb_fit, chi_pred)
@@ -271,14 +292,16 @@ test_that('non-formula method', {
 
   for (i in K) {
     exp_pred <- predict(cb_fit_exp, chi_pred, neighbors = i)
-    obs_pred <- cb_m_pred %>% dplyr::filter(neighbors == i) %>% pull(.pred)
+    obs_pred <- cb_m_pred %>%
+      dplyr::filter(neighbors == i) %>%
+      pull(.pred)
     expect_equal(exp_pred, obs_pred)
   }
 })
 
 # ------------------------------------------------------------------------------
 
-test_that('non-formula method - limited rules', {
+test_that("non-formula method - limited rules", {
   skip_on_cran()
   skip_if_not_installed("Cubist")
 
@@ -301,9 +324,11 @@ test_that('non-formula method - limited rules', {
   )
 
   expect_error(
-    cb_fit <- fit_xy(cb_mod,
-                     x = chi_mod[, names(chi_mod) != "ridership"],
-                     y = chi_mod$ridership),
+    cb_fit <- fit_xy(
+      cb_mod,
+      x = chi_mod[, names(chi_mod) != "ridership"],
+      y = chi_mod$ridership
+    ),
     NA
   )
   cb_pred <- predict(cb_fit, chi_pred)
@@ -316,7 +341,7 @@ test_that('non-formula method - limited rules', {
 
 # ------------------------------------------------------------------------------
 
-test_that('non-formula method - limited rules and control', {
+test_that("non-formula method - limited rules and control", {
   skip_on_cran()
   skip_if_not_installed("Cubist")
 
@@ -353,7 +378,7 @@ test_that('non-formula method - limited rules and control', {
 
 # ------------------------------------------------------------------------------
 
-test_that('non-formula method - control', {
+test_that("non-formula method - control", {
   skip_on_cran()
   skip_if_not_installed("Cubist")
 
@@ -389,14 +414,14 @@ test_that('non-formula method - control', {
 
 # ------------------------------------------------------------------------------
 
-test_that('cubist parameters', {
-  expect_equal(max_rules(1:2)$range,  list(lower = 1L, upper = 2L))
+test_that("cubist parameters", {
+  expect_equal(max_rules(1:2)$range, list(lower = 1L, upper = 2L))
   expect_equal(committees(1:2)$range, list(lower = 1L, upper = 2L))
 })
 
 # ------------------------------------------------------------------------------
 
-test_that('tidy method for cubist - one committee', {
+test_that("tidy method for cubist - one committee", {
   skip_on_cran()
   skip_if_not_installed("Cubist")
 
@@ -414,7 +439,7 @@ test_that('tidy method for cubist - one committee', {
   expect_output(
     print(summary(cb_single_fit$fit)),
     "Rule 18: \\[269 cases, mean 5.517277, range 5.167317 to 5.877947, est err 0.061801\\]"
-    )
+  )
 
   cb_single_fit_res <- tidy(cb_single_fit)
   expect_equal(max(cb_single_fit_res$rule_num), 18)
@@ -428,10 +453,9 @@ test_that('tidy method for cubist - one committee', {
   expect_true(grepl("\\( Latitude", cb_single_fit_res$rule[18]))
   expect_true(!grepl("\\( Longitude", cb_single_fit_res$rule[18]))
   expect_true(!grepl("\\( Central_Air", cb_single_fit_res$rule[18]))
-
 })
 
-test_that('tidy method for cubist - one committee - only intercepts', {
+test_that("tidy method for cubist - one committee - only intercepts", {
   skip_on_cran()
   skip_if_not_installed("Cubist")
 
@@ -462,7 +486,7 @@ test_that('tidy method for cubist - one committee - only intercepts', {
 })
 
 
-test_that('tidy method for cubist - many committees', {
+test_that("tidy method for cubist - many committees", {
   skip_on_cran()
   skip_if_not_installed("Cubist")
 
@@ -512,7 +536,7 @@ test_that('tidy method for cubist - many committees', {
 
   cb_single_fit <-
     cb_single %>%
-    fit(Sale_Price ~ Neighborhood+ Gr_Liv_Area, data = ames2)
+    fit(Sale_Price ~ Neighborhood + Gr_Liv_Area, data = ames2)
 
   cb_mult_fit_res <- tidy(cb_single_fit)
   expect_true(nrow(cb_mult_fit_res) == 1)
@@ -520,25 +544,24 @@ test_that('tidy method for cubist - many committees', {
 })
 
 
-test_that('tunable', {
+test_that("tunable", {
   cubist_rules_Cubist <-
     cubist_rules(committees = tune(), neighbors = tune(), max_rules = tune()) %>%
-    set_engine('Cubist') %>%
+    set_engine("Cubist") %>%
     tunable()
 
   expect_equal(
-    cubist_rules_Cubist$call_info[cubist_rules_Cubist$name=="committees"][[1]]$range,
+    cubist_rules_Cubist$call_info[cubist_rules_Cubist$name == "committees"][[1]]$range,
     c(1L, 100L)
   )
 
   expect_equal(
-    cubist_rules_Cubist$call_info[cubist_rules_Cubist$name=="neighbors"][[1]]$range,
+    cubist_rules_Cubist$call_info[cubist_rules_Cubist$name == "neighbors"][[1]]$range,
     c(0L, 9L)
   )
-
 })
 
-test_that('mode specific package dependencies', {
+test_that("mode specific package dependencies", {
   expect_identical(
     get_from_env(paste0("cubist_rules", "_pkgs")) %>%
       dplyr::filter(engine == "Cubist", mode == "classification") %>%

@@ -1,10 +1,4 @@
-context("C5 fits")
-
-source(test_path("test-helpers.R"))
-
-# ------------------------------------------------------------------------------
-
-test_that('formula method', {
+test_that("formula method", {
   skip_on_cran()
   skip_if_not_installed("C50")
 
@@ -43,7 +37,7 @@ test_that('formula method', {
 
 # ------------------------------------------------------------------------------
 
-test_that('formula method - control', {
+test_that("formula method - control", {
   skip_on_cran()
   skip_if_not_installed("C50")
 
@@ -81,7 +75,7 @@ test_that('formula method - control', {
 
 # ------------------------------------------------------------------------------
 
-test_that('non-formula method', {
+test_that("non-formula method", {
   skip_on_cran()
   skip_if_not_installed("C50")
 
@@ -119,7 +113,7 @@ test_that('non-formula method', {
 
 # ------------------------------------------------------------------------------
 
-test_that('non-formula method - control', {
+test_that("non-formula method - control", {
   skip_on_cran()
   skip_if_not_installed("C50")
 
@@ -157,7 +151,7 @@ test_that('non-formula method - control', {
 
 # ------------------------------------------------------------------------------
 
-test_that('printing', {
+test_that("printing", {
   skip_on_cran()
   skip_if_not_installed("C50")
 
@@ -168,10 +162,10 @@ test_that('printing', {
 
 # ------------------------------------------------------------------------------
 
-test_that('updates', {
-  spec_1 <-    C5_rules(trees =  1)
-  spec_1_a <-  C5_rules(trees =  1, min_n = 100)
-  spec_10 <-   C5_rules(trees = 10)
+test_that("updates", {
+  spec_1    <- C5_rules(trees = 1)
+  spec_1_a  <- C5_rules(trees = 1, min_n = 100)
+  spec_10   <- C5_rules(trees = 10)
   spec_10_a <- C5_rules(trees = 10, min_n = 100)
 
   expect_equal(update(spec_1,   tibble::tibble(trees = 10))$args$trees, 10)
@@ -184,7 +178,7 @@ test_that('updates', {
 
 # ------------------------------------------------------------------------------
 
-test_that('mulit-predict', {
+test_that("mulit-predict", {
   skip_on_cran()
   skip_if_not_installed("C50")
 
@@ -209,28 +203,25 @@ test_that('mulit-predict', {
     c5_multi_pred$.pred_class[c5_multi_pred$trees == 2]
   )
   expect_equivalent(
-    predict(c5_fit$fit, ad_mod_x[1:5, -1], trees = 2, type = "prob")[,1],
+    predict(c5_fit$fit, ad_mod_x[1:5, -1], trees = 2, type = "prob")[, 1],
     c5_multi_prob$.pred_Impaired[c5_multi_prob$trees == 2]
   )
-
 })
 
 
-test_that('tunable', {
-
+test_that("tunable", {
   C5_rules_C5.0 <-
     C5_rules(trees = tune(), min_n = tune()) %>%
-    set_engine('C5.0') %>%
+    set_engine("C5.0") %>%
     tunable()
 
   expect_equal(
-    C5_rules_C5.0$call_info[C5_rules_C5.0$name=="trees"][[1]]$range,
+    C5_rules_C5.0$call_info[C5_rules_C5.0$name == "trees"][[1]]$range,
     c(1L, 100L)
   )
-
 })
 
-test_that('mode specific package dependencies', {
+test_that("mode specific package dependencies", {
   expect_identical(
     get_from_env(paste0("C5_rules", "_pkgs")) %>%
       dplyr::filter(engine == "C5.0", mode == "classification") %>%

@@ -81,6 +81,4 @@ make_c5 <- function() {
         )
     )
   )
-
 }
-

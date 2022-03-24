@@ -90,5 +90,4 @@ make_cubist <- function() {
         )
     )
   )
-
 }

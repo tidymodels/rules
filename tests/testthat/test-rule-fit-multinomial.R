@@ -1,13 +1,9 @@
-context("rule_fit multinomial outcomes")
-
-source(file.path(test_path(), "test-helpers.R"))
-
 vals <- c(0.01, .1, 1)
 lvls <- levels(hpc_mod$class)
 
 # ------------------------------------------------------------------------------
 
-test_that('formula method', {
+test_that("formula method", {
   skip_on_cran()
   skip_if_not_installed("xrf")
 
@@ -20,7 +16,7 @@ test_that('formula method', {
       xgb_control = list(nrounds = 3, min_child_weight = 3, penalty = 1, num_class = 4),
       verbose = 0
     )
-  rf_prob_exp <- predict(rf_fit_exp, hpc_pred, lambda = 1)[,,1]
+  rf_prob_exp <- predict(rf_fit_exp, hpc_pred, lambda = 1)[, , 1]
   rf_pred_exp <- factor(lvls[apply(rf_prob_exp, 1, which.max)], levels = lvls)
   rf_pred_exp <- unname(rf_pred_exp)
 
@@ -49,7 +45,7 @@ test_that('formula method', {
   expect_equal(names(rf_prob), paste0(".pred_", lvls))
   expect_true(tibble::is_tibble(rf_prob))
   for (i in 1:ncol(rf_prob)) {
-    expect_equal(rf_prob[[i]], unname(rf_prob_exp[,i]))
+    expect_equal(rf_prob[[i]], unname(rf_prob_exp[, i]))
   }
 
   expect_error(
@@ -68,7 +64,7 @@ test_that('formula method', {
     arrange(penalty, .row_number)
 
   for (i in vals) {
-    exp_prob <- predict(rf_fit_exp, hpc_pred, lambda = i)[,,1]
+    exp_prob <- predict(rf_fit_exp, hpc_pred, lambda = i)[, , 1]
     exp_pred <- factor(lvls[apply(exp_prob, 1, which.max)], levels = lvls)
     exp_pred <- unname(exp_pred)
 
@@ -83,18 +79,17 @@ test_that('formula method', {
     arrange(penalty, .row_number)
 
   for (i in vals) {
-    exp_pred <- predict(rf_fit_exp, hpc_pred, lambda = i, type = "response")[,,1]
+    exp_pred <- predict(rf_fit_exp, hpc_pred, lambda = i, type = "response")[, , 1]
     obs_pred <- rf_m_prob %>% dplyr::filter(penalty == i)
     for (i in 1:ncol(rf_prob)) {
-      expect_equal(obs_pred[[i]], unname(exp_pred[,i]))
+      expect_equal(obs_pred[[i]], unname(exp_pred[, i]))
     }
   }
-
 })
 
 # ------------------------------------------------------------------------------
 
-test_that('non-formula method', {
+test_that("non-formula method", {
   skip_on_cran()
   skip_if_not_installed("xrf")
 
@@ -107,7 +102,7 @@ test_that('non-formula method', {
       xgb_control = list(nrounds = 3, min_child_weight = 3, penalty = 1, num_class = 4),
       verbose = 0
     )
-  rf_prob_exp <- predict(rf_fit_exp, hpc_pred, lambda = 1)[,,1]
+  rf_prob_exp <- predict(rf_fit_exp, hpc_pred, lambda = 1)[, , 1]
   rf_pred_exp <- factor(lvls[apply(rf_prob_exp, 1, which.max)], levels = lvls)
   rf_pred_exp <- unname(rf_pred_exp)
 
@@ -135,7 +130,7 @@ test_that('non-formula method', {
   expect_equal(names(rf_prob), paste0(".pred_", lvls))
   expect_true(tibble::is_tibble(rf_prob))
   for (i in 1:ncol(rf_prob)) {
-    expect_equal(rf_prob[[i]], unname(rf_prob_exp[,i]))
+    expect_equal(rf_prob[[i]], unname(rf_prob_exp[, i]))
   }
 
   expect_error(
@@ -154,7 +149,7 @@ test_that('non-formula method', {
     arrange(penalty, .row_number)
 
   for (i in vals) {
-    exp_prob <- predict(rf_fit_exp, hpc_pred, lambda = i)[,,1]
+    exp_prob <- predict(rf_fit_exp, hpc_pred, lambda = i)[, , 1]
     exp_pred <- factor(lvls[apply(exp_prob, 1, which.max)], levels = lvls)
     exp_pred <- unname(exp_pred)
 
@@ -169,18 +164,17 @@ test_that('non-formula method', {
     arrange(penalty, .row_number)
 
   for (i in vals) {
-    exp_pred <- predict(rf_fit_exp, hpc_pred, lambda = i, type = "response")[,,1]
+    exp_pred <- predict(rf_fit_exp, hpc_pred, lambda = i, type = "response")[, , 1]
     obs_pred <- rf_m_prob %>% dplyr::filter(penalty == i)
     for (i in 1:ncol(rf_prob)) {
-      expect_equal(obs_pred[[i]], unname(exp_pred[,i]))
+      expect_equal(obs_pred[[i]], unname(exp_pred[, i]))
     }
   }
-
 })
 
 # ------------------------------------------------------------------------------
 
-test_that('tidy method - multi-class', {
+test_that("tidy method - multi-class", {
   skip_on_cran()
   skip_if_not_installed("xrf")
 

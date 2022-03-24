@@ -150,7 +150,7 @@ make_rule_fit <- function() {
         object = quote(object),
         new_data = quote(new_data),
         lambda = quote(object$fit$lambda),
-        type = "response"  # post-processed into classes
+        type = "response" # post-processed into classes
       )
     )
   )
@@ -172,5 +172,4 @@ make_rule_fit <- function() {
       )
     )
   )
-
 }

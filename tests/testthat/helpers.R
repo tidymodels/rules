@@ -11,11 +11,11 @@ Chicago$Cubs <- factor(ifelse(Chicago$Cubs_Home, "home", "away"))
 chi_mod  <- Chicago %>% slice(-(1:10)) %>% select(ridership, Cubs, Austin, Clark_Lake)
 chi_pred <- Chicago %>% slice(  1:10 ) %>% select(           Cubs, Austin, Clark_Lake)
 chi_mod_x <-
-  model.matrix(ridership ~ ., data = chi_mod)  %>%
+  model.matrix(ridership ~ ., data = chi_mod) %>%
   as.data.frame() %>%
   select(-1)
 chi_pred_x <-
-  model.matrix( ~ ., data = chi_pred)  %>%
+  model.matrix( ~ ., data = chi_pred) %>%
   as.data.frame() %>%
   select(-1)
 
@@ -50,8 +50,10 @@ data(ames, package = "modeldata")
 
 ames <-
   ames %>%
-  mutate(Sale_Price = log10(ames$Sale_Price),
-         Gr_Liv_Area = log10(ames$Gr_Liv_Area))
+  mutate(
+    Sale_Price = log10(ames$Sale_Price),
+    Gr_Liv_Area = log10(ames$Gr_Liv_Area)
+  )
 
 set.seed(1001)
 keep <- sample(1:nrow(hpc_data), 1510)

@@ -39,7 +39,6 @@ tidy.xrf <- function(x, penalty = NULL, unit = c("rules", "columns"), ...) {
       dplyr::select(dplyr::any_of(c("rule_id", "term", "class", "estimate")))
   }
   res
-
 }
 
 xrf_coefs <- function(x, penalty = NULL) {
@@ -61,8 +60,11 @@ xrf_coefs <- function(x, penalty = NULL) {
         ~ tibble::as_tibble(.x, .name_repair = "minimal", rownames = "rule_id")
       )
     feature_coef <-
-      purrr::map2(feature_coef, lvls,
-                  ~ rlang::set_names(.x, c("rule_id", .y)))
+      purrr::map2(
+        feature_coef,
+        lvls,
+        ~ rlang::set_names(.x, c("rule_id", .y))
+      )
     tmp <- feature_coef[[1]]
     for (cls in 2:length(feature_coef)) {
       tmp <- dplyr::full_join(tmp, feature_coef[[cls]], by = "rule_id")
@@ -71,8 +73,11 @@ xrf_coefs <- function(x, penalty = NULL) {
   } else {
     feature_coef <- as.matrix(feature_coef)
     feature_coef <-
-      tibble::as_tibble(feature_coef, .name_repair = "minimal",
-                        rownames = "rule_id")
+      tibble::as_tibble(
+        feature_coef,
+        .name_repair = "minimal",
+        rownames = "rule_id"
+      )
     feature_coef <- rlang::set_names(feature_coef, c("rule_id", "value"))
   }
 
@@ -91,7 +96,7 @@ xrf_coefs <- function(x, penalty = NULL) {
     # Fix cases where features as added as rules
     dplyr::mutate(
       feature = ifelse(is.na(split_id), rule_id, feature)
-    )  %>%
+    ) %>%
     dplyr::filter(value != 0) %>%
     dplyr::rename(term = feature, split_value = split)
 }

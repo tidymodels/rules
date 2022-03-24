@@ -1,3 +1,8 @@
+#' @keywords internal
+"_PACKAGE"
+
+#------------------------------------------------------------------------------#
+
 #' @importFrom rlang enquo call2 abort eval_tidy warn new_quosure empty_env
 #' @importFrom rlang enquos expr
 #' @importFrom purrr map_dfr
