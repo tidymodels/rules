@@ -1,7 +1,3 @@
-context("rule_fit binomial outcomes")
-
-source(file.path(test_path(), "test-helpers.R"))
-
 vals <- c(0.01, .1, 1)
 lvls <- levels(ad_mod$Class)
 

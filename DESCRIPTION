@@ -35,13 +35,14 @@ Suggests:
     recipes,
     rmarkdown,
     spelling,
-    testthat,
+    testthat (>= 3.0.0),
     xrf (>= 0.2.0)
 Config/Needs/website: 
     tidyr, 
     tidyverse/tidytemplate, 
     recipes, 
     xrf
+Config/testthat/edition: 3
 Encoding: UTF-8
 Language: en-US
 Roxygen: list(markdown = TRUE)

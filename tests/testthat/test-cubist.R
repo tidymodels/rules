@@ -1,9 +1,3 @@
-context("cubist fits")
-
-source(file.path(test_path(), "test-helpers.R"))
-
-# ------------------------------------------------------------------------------
-
 test_that('argument/call assembly', {
   skip_on_cran()
   skip_if_not_installed("Cubist")

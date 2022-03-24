@@ -1,9 +1,3 @@
-context("C5 fits")
-
-source(test_path("test-helpers.R"))
-
-# ------------------------------------------------------------------------------
-
 test_that('formula method', {
   skip_on_cran()
   skip_if_not_installed("C50")

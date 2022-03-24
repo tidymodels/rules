@@ -1,7 +1,3 @@
-context("rule_fit multinomial outcomes")
-
-source(file.path(test_path(), "test-helpers.R"))
-
 vals <- c(0.01, .1, 1)
 lvls <- levels(hpc_mod$class)
 

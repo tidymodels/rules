@@ -1,6 +1,4 @@
-
+library(testthat)
 library(rules)
 
-if (require(testthat)) {
-  test_check("rules")
-}
+test_check("rules")
