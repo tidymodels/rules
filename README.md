@@ -7,7 +7,7 @@
 
 [![Lifecycle:
 experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html)
-[![R-CMD-check](https://github.com/tidymodels/rules/workflows/R-CMD-check/badge.svg)](https://github.com/tidymodels/rules/actions)
+[![R-CMD-check](https://github.com/tidymodels/rules/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/tidymodels/rules/actions/workflows/R-CMD-check.yaml)
 [![Codecov test
 coverage](https://codecov.io/gh/tidymodels/rules/branch/main/graph/badge.svg)](https://app.codecov.io/gh/tidymodels/rules?branch=main)
 [![CRAN
@@ -16,8 +16,8 @@ status](https://www.r-pkg.org/badges/version/rules)](https://cran.r-project.org/
 
 ## Introduction
 
-rules is a “[parsnip](https://parsnip.tidymodels.org/)-adjacent” package
-with model definitions for different rule-based models, including:
+rules is a [parsnip](https://parsnip.tidymodels.org/) extension package
+with model definitions for rule-based models, including:
 
 -   cubist models that have discrete rule sets that contain linear
     models with an ensemble method similar to boosting
@@ -58,7 +58,7 @@ table.
 ## Contributing
 
 This project is released with a [Contributor Code of
-Conduct](https://www.contributor-covenant.org/version/2/0/CODE_OF_CONDUCT.html).
+Conduct](https://www.contributor-covenant.org/version/2/1/CODE_OF_CONDUCT.html).
 By contributing to this project, you agree to abide by its terms.
 
 -   For questions and discussions about tidymodels packages, modeling,
