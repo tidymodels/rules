@@ -220,6 +220,11 @@ test_that("tunable", {
     c(1L, 100L)
   )
 
+  expect_equal(
+    C5_rules_C5.0$call_info[C5_rules_C5.0$name == "min_n"][[1]]$range,
+    c(2L, 40L)
+  )
+
   C5_rules_engine_args <-
     C5_rules() %>%
     set_engine("C5.0", fuzzyThreshold = tune()) %>%
