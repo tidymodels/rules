@@ -1,3 +1,5 @@
+load(test_path("data/helper-data.Rda"))
+
 test_that("formula method", {
   skip_on_cran()
   skip_if_not_installed("C50")

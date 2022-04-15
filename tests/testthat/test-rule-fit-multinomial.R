@@ -1,3 +1,5 @@
+load(test_path("data/helper-data.Rda"))
+
 vals <- c(0.01, .1, 1)
 lvls <- levels(hpc_mod$class)
 

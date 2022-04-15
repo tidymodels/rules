@@ -65,3 +65,5 @@ hpc_pred <- hpc_data %>% slice(in_pred) %>% select(       compounds, protocol, i
 
 hpc_mod <- as.data.frame(hpc_mod)
 hpc_pred <- as.data.frame(hpc_pred)
+
+save.image("tests/testthat/data/helper-data.Rda")

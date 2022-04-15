@@ -1,3 +1,5 @@
+load(test_path("data/helper-data.Rda"))
+
 test_that("argument/call assembly", {
   skip_on_cran()
   skip_if_not_installed("Cubist")
