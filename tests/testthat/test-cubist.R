@@ -1,4 +1,6 @@
 load(test_path("data/helper-data.Rda"))
+library(dplyr)
+
 
 test_that("argument/call assembly", {
   skip_on_cran()

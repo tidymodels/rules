@@ -1,4 +1,5 @@
 load(test_path("data/helper-data.Rda"))
+library(dplyr)
 
 test_that("formula method", {
   skip_on_cran()

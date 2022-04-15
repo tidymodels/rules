@@ -1,4 +1,6 @@
 load(test_path("data/helper-data.Rda"))
+library(dplyr)
+
 
 vals <- c(0.01, .1, 1)
 lvls <- levels(ad_mod$Class)
