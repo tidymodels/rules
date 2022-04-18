@@ -15,6 +15,8 @@ below to see their documentation.
 \describe{
   \item{generics}{\code{\link[generics]{tidy}}, \code{\link[generics]{tunable}}}
 
+  \item{generics}{\code{\link[generics]{tidy}}, \code{\link[generics]{tunable}}}
+
   \item{parsnip}{\code{\link[parsnip]{multi_predict}}}
 }}
 
