@@ -164,7 +164,7 @@ tunable.C5_rules <- function(x, ...) {
     res$call_info[res$name == "trees"] <-
       list(list(pkg = "dials", fun = "trees", range = c(1, 100)))
     res$call_info[res$name == "min_n"] <-
-      list(list(pkg = "dials", fun = "trees", range = c(2L, 40L)))
+      list(list(pkg = "dials", fun = "min_n", range = c(2L, 40L)))
   }
 
   res
