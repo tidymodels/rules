@@ -1,13 +1,21 @@
-#' Turn regression rule models into tidy tibbles
+#' Turn rule models into tidy tibbles
 #'
-#' @param x A `Cubist` or `xrf` object.
+#' @param x A `Cubist`, `C5.0`, or `xrf` object.
+#' @param committees The number of committees to tidy (defaults to the entire
+#' ensemble).
+#' @param trials The number of boosting iterations to tidy (defaults to the entire
+#' ensemble).
 #' @param ... Not currently used.
 #' @includeRmd man/rmd/tidy-example.Rmd details
 #' @return
 #' The Cubist method has columns `committee`, `rule_num`, `rule`, `estimate`,
-#' and `statistics`. The latter two are nested tibbles. `estimate` contains
-#' the parameter estimates for each term in the regression model and `statistics`
+#' and `statistic`. The latter two are nested tibbles. `estimate` contains
+#' the parameter estimates for each term in the regression model and `statistic`
 #' has statistics about the data selected by the rules and the model fit.
+#'
+#' The C5.0 method has columns `trial`, `rule_num`, `rule`,
+#' and `statistics`. The latter two are nested tibbles.  `statistic`
+#' has statistics about the data selected by the rules.
 #'
 #' The `xrf` results has columns `rule_id`, `rule`, and `estimate`. The
 #' `rule_id` column has the rule identifier (e.g., "r0_21") or the feature
@@ -18,13 +26,23 @@
 #' conditions. These can be converted to an R expression using
 #' [rlang::parse_expr()].
 #' @export
-tidy.cubist <- function(x, ...) {
+tidy.cubist <- function(x, committees = x$committee, ...) {
   txt <- x$model
   txt_rows <- stringr::str_split(txt, pattern = "\n") %>% unlist()
 
+  if (!is.null(committees)) {
+    committees <- min(committees, x$committee)
+  }
+
+
   # These are the markers for where committees start
   comm_inds <- stringr::str_which(txt_rows, "^rules=")
-  num_comm <- length(comm_inds)
+
+  # Truncate them when needed
+  total_comm <- length(comm_inds)
+  num_comm <- min(committees, total_comm)
+  comm_inds <- comm_inds[1:(committees + 1)] # Need 1 extra to find boundary of committee info
+
   # container for results for each committee
   comms <- list(length = num_comm)
 
@@ -34,15 +52,15 @@ tidy.cubist <- function(x, ...) {
   # the `rules` line. Immediately after these is a single line with the information
   # on the regression equation.
 
-  for (i in seq_along(comm_inds)) {
+  for (i in 1:num_comm) {
     loc <- comm_inds[i]
     # Get the locations of the model file that encompasses the committee's rows
-    if (i < num_comm) {
+    if (i < total_comm) {
       uppr <- comm_inds[i + 1] - 1
     } else {
       uppr <- length(txt_rows)
     }
-    num_rules <- cb_rule_info(txt_rows[loc])
+    num_rules <- get_num_rules(txt_rows[loc])
     comm_data <-
       tibble::tibble(
         rule_num = 1:num_rules,
@@ -94,16 +112,29 @@ parse_cond <- function(ind, txt) {
   entires <- stringr::str_split(txt[ind], " ") %>% unlist()
   tmp <- purrr::map(entires, ~ stringr::str_split(.x, pattern = "=") %>% unlist())
   nms <- purrr::map_chr(tmp, purrr::pluck, 1)
-  vals <- purrr::map(tmp, stringr::str_remove_all, pattern = "\"")
-  vals <- purrr::map_dbl(vals, ~ purrr::pluck(.x, 2) %>% as.numeric())
-  names(vals) <- nms
-  as.data.frame(t(vals))
+  info <- purrr::map(tmp, stringr::str_remove_all, pattern = "\"")
+  info_name <- purrr::map_chr(info, ~ .x[1])
+  info_value <- purrr::map_chr(info, ~ .x[2])
+  info_value <- purrr::map2(info_name, info_value, convert_info)
+  names(info_value) <- info_name
+  as_tibble(info_value)
 }
 
-cb_rule_info <- function(txt) {
-  txt <- stringr::str_remove_all(txt, "\"")
-  txt <- stringr::str_remove(txt, "^rules=")
-  as.integer(txt)
+convert_info <- function(nm, val) {
+  if (nm != "class") {
+    val <- as.numeric(val)
+  }
+  val
+}
+
+
+get_num_rules <- function(txt) {
+  res <- stringr::str_split(txt, " ") %>% unlist()
+  res_ind <- stringr::str_which(res, "^rules=")
+  res <- res[res_ind]
+  res <- stringr::str_remove(res, "^rules=")
+  res <- stringr::str_remove_all(res, '\"')
+  as.integer(res)
 }
 
 
