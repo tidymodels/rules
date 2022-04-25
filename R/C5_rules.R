@@ -156,13 +156,48 @@ prob_matrix_to_tibble <- function(x, object) {
 #' @keywords internal
 #' @rdname rules-internal
 tunable.C5_rules <- function(x, ...) {
+  res <- NextMethod()
+
+  if (x$engine == "C5.0") {
+    res <- add_engine_parameters(res, c5_rules_engine_args)
+
+    res$call_info[res$name == "trees"] <-
+      list(list(pkg = "dials", fun = "trees", range = c(1, 100)))
+    res$call_info[res$name == "min_n"] <-
+      list(list(pkg = "dials", fun = "min_n", range = c(2L, 40L)))
+  }
+
+  res
+}
+
+add_engine_parameters <- function(pset, engines) {
+  is_engine_param <- pset$name %in% engines$name
+  if (any(is_engine_param)) {
+    engine_names <- pset$name[is_engine_param]
+    pset <- pset[!is_engine_param,]
+    pset <-
+      dplyr::bind_rows(pset, engines %>% dplyr::filter(name %in% engines$name))
+  }
+  pset
+}
+
+c5_rules_engine_args <-
   tibble::tibble(
-    name = c("trees"),
+    name = c(
+      "CF",
+      "noGlobalPruning",
+      "winnow",
+      "fuzzyThreshold",
+      "bands"
+    ),
     call_info = list(
-      list(pkg = "dials", fun = "trees", range = c(1L, 100L))
+      list(pkg = "dials", fun = "confidence_factor"),
+      list(pkg = "dials", fun = "no_global_pruning"),
+      list(pkg = "dials", fun = "predictor_winnowing"),
+      list(pkg = "dials", fun = "fuzzy_thresholding"),
+      list(pkg = "dials", fun = "rule_bands")
     ),
     source = "model_spec",
-    component = class(x)[class(x) != "model_spec"][1],
-    component_id = "main"
+    component = "C5_rules",
+    component_id = "engine"
   )
-}
