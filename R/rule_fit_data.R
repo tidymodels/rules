@@ -77,7 +77,7 @@ make_rule_fit <- function() {
     mode = "regression",
     value = list(
       interface = "formula",
-      protect = c("object", "data"),
+      protect = c("formula", "data"),
       func = c(pkg = "rules", fun = "xrf_fit"),
       defaults = list()
     )
@@ -119,7 +119,7 @@ make_rule_fit <- function() {
     mode = "classification",
     value = list(
       interface = "formula",
-      protect = c("object", "data"),
+      protect = c("formula", "data"),
       func = c(pkg = "rules", fun = "xrf_fit"),
       defaults = list()
     )

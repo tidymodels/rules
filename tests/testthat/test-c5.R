@@ -235,6 +235,21 @@ test_that("tunable", {
     C5_rules_C5.0$call_info[C5_rules_C5.0$name == "trees"][[1]]$range,
     c(1L, 100L)
   )
+
+  expect_equal(
+    C5_rules_C5.0$call_info[C5_rules_C5.0$name == "min_n"][[1]]$range,
+    c(2L, 40L)
+  )
+
+  C5_rules_engine_args <-
+    C5_rules() %>%
+    set_engine("C5.0", fuzzyThreshold = tune()) %>%
+    tunable()
+
+  expect_equal(
+    C5_rules_engine_args$call_info[C5_rules_engine_args$name == "fuzzyThreshold"][[1]]$fun,
+    "fuzzy_thresholding"
+  )
 })
 
 test_that("mode specific package dependencies", {
