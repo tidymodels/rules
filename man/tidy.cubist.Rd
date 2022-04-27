@@ -135,8 +135,8 @@ set.seed(1)
 xrf_reg_fit <-
   xrf_reg_mod \%>\%
   fit(Sale_Price ~ ., data = ames_processed)
-}\if{html}{\out{</div>}}\preformatted{## [11:09:14] WARNING: amalgamation/../src/objective/regression_obj.cu:188: reg:linear is now deprecated in favor of reg:squarederror.
-## [11:09:14] WARNING: amalgamation/../src/learner.cc:576: 
+}\if{html}{\out{</div>}}\preformatted{## [10:08:59] WARNING: amalgamation/../src/objective/regression_obj.cu:188: reg:linear is now deprecated in favor of reg:squarederror.
+## [10:08:59] WARNING: amalgamation/../src/learner.cc:576: 
 ## Parameters: \{ "nrounds" \} might not be used.
 ## 
 ##   This could be a false alarm, with some parameters getting used by language bindings but
