@@ -453,6 +453,23 @@ test_that("tidy method for cubist - one committee", {
   expect_true(grepl("\\( Latitude", cb_single_fit_res$rule[18]))
   expect_true(!grepl("\\( Longitude", cb_single_fit_res$rule[18]))
   expect_true(!grepl("\\( Central_Air", cb_single_fit_res$rule[18]))
+
+  # ------------------------------------------------------------------------------
+  # limit number of commiittees
+
+
+  cb_multi <- cubist_rules(committees = 5) %>% set_engine("Cubist")
+
+  set.seed(1)
+  cb_multi_fit <-
+    cb_multi %>%
+    fit(Sale_Price ~ Neighborhood + Longitude + Latitude +
+          Gr_Liv_Area + Central_Air, data = ames)
+
+  for (comm in 1:5) {
+    cb_multi_fit_res <- tidy(cb_single_fit, committees = comm)
+    expect_equal(cb_single_fit_res, cb_multi_fit_res)
+  }
 })
 
 test_that("tidy method for cubist - one committee - only intercepts", {

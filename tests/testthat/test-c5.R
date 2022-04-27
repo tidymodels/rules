@@ -251,3 +251,45 @@ test_that("mode specific package dependencies", {
     list()
   )
 })
+
+# ------------------------------------------------------------------------------
+
+test_that("tidy method", {
+  skip_on_cran()
+  skip_if_not_installed("C50")
+  skip_if_not_installed("modeldata")
+  library(C50)
+
+  data(penguins, package = "modeldata")
+  penguins <- penguins[complete.cases(penguins),]
+
+  tree_1 <-
+    decision_tree() %>%
+    set_engine("C5.0") %>%
+    set_mode("classification") %>%
+    fit(sex ~ ., data = penguins) %>%
+    purrr::pluck("fit")
+  expect_error(tidy(tree_1), "method only implemented for")
+
+  rules_1 <- C5.0(sex ~ ., data = penguins, rules = TRUE)
+  rules_2 <- C5.0(sex ~ ., data = penguins, rules = TRUE, trials = 5)
+
+  tidy_1 <- tidy(rules_1)
+  expect_equal(nrow(tidy_1), rules_1$size)
+  expect_equal(max(tidy_1$trial), 1L)
+  # Spot check a few lines
+  expect_equal(tidy_1$rule[4], "( bill_length_mm < 39.599998 ) & ( bill_depth_mm < 17.9 )")
+  expect_equal(tidy_1$statistic[[2]]$lift, 1.94859)
+
+  tidy_2 <- tidy(rules_2)
+  expect_equal(nrow(tidy_2), sum(rules_2$size))
+  expect_equal(max(tidy_2$trial), 5L)
+  # Spot check a few more lines
+  expect_equal(
+    tidy_2$rule[37],  # trial 4, rule 6
+    "( island  %in% c( 'Biscoe','Dream' ) ) & ( bill_length_mm < 50.5 ) & ( bill_depth_mm > 20.5 )"
+    )
+  expect_equal(tidy_2$statistic[[50]]$lift, 1.67623) # trial 5, rule 4
+
+  expect_equal(tidy_1, tidy_2[1:nrow(tidy_1), ])
+})

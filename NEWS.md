@@ -1,5 +1,9 @@
 # rules (development version)
 
+* `tidy()` method for Cubist models now has an option for how many committees to tidy. 
+
+* Added a `tidy()` method for C5.0 rule-based models. 
+
 # rules 0.2.0
 
 * Model definition functions (e.g. `cubist_rules()`) were moved to the parsnip package.

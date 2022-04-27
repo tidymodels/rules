@@ -3,6 +3,7 @@
 S3method(multi_predict,"_C5_rules")
 S3method(multi_predict,"_cubist")
 S3method(multi_predict,"_xrf")
+S3method(tidy,C5.0)
 S3method(tidy,cubist)
 S3method(tidy,xrf)
 S3method(tunable,C5_rules)

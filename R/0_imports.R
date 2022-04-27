@@ -35,6 +35,6 @@ utils::globalVariables(
     ".pred", "(Intercept)", "committee", "rule", "trials",
     "column", "conds", "cover", "coverage", "error", "esterr", "estimate", "feature", "hival",
     "less_than", "level", "loval", "num_conditions", "rule_comp", "rule_id", "rule_num",
-    "split_id", "split_value", "statistic", "term", "value"
+    "split_id", "split_value", "statistic", "term", "value", "lift", "ok", "trial"
   )
 )
