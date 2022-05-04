@@ -1,4 +1,4 @@
-vals <- c(0.01, .1, 1)
+library(dplyr)
 
 # ------------------------------------------------------------------------------
 
@@ -6,16 +6,18 @@ test_that("formula method", {
   skip_on_cran()
   skip_if_not_installed("xrf")
 
+  chi_data <- make_chi_data()
+
   set.seed(4526)
   rf_fit_exp <-
     xrf::xrf(
       ridership ~ .,
-      data = chi_mod,
+      data = chi_data$chi_mod,
       family = "gaussian",
       xgb_control = list(nrounds = 3, min_child_weight = 3, penalty = 1),
       verbose = 0
     )
-  rf_pred_exp <- predict(rf_fit_exp, chi_pred, lambda = 1)[, 1]
+  rf_pred_exp <- predict(rf_fit_exp, chi_data$chi_pred, lambda = 1)[, 1]
 
   expect_error(
     rf_mod <-
@@ -27,10 +29,10 @@ test_that("formula method", {
 
   set.seed(4526)
   expect_error(
-    rf_fit <- fit(rf_mod, ridership ~ ., data = chi_mod),
+    rf_fit <- fit(rf_mod, ridership ~ ., data = chi_data$chi_mod),
     NA
   )
-  rf_pred <- predict(rf_fit, chi_pred)
+  rf_pred <- predict(rf_fit, chi_data$chi_pred)
 
   expect_equal(rf_fit_exp$xgb$evaluation_log, rf_fit$fit$xgb$evaluation_log)
   expect_equal(names(rf_pred), ".pred")
@@ -38,7 +40,7 @@ test_that("formula method", {
   expect_equal(rf_pred$.pred, unname(rf_pred_exp))
 
   expect_error(
-    rf_m_pred <- multi_predict(rf_fit, chi_pred, penalty = vals),
+    rf_m_pred <- multi_predict(rf_fit, chi_data$chi_pred, penalty = chi_data$vals),
     NA
   )
   rf_m_pred <-
@@ -47,8 +49,8 @@ test_that("formula method", {
     tidyr::unnest(cols = c(.pred)) %>%
     arrange(penalty, .row_number)
 
-  for (i in vals) {
-    exp_pred <- predict(rf_fit_exp, chi_pred, lambda = i)[, 1]
+  for (i in chi_data$vals) {
+    exp_pred <- predict(rf_fit_exp, chi_data$chi_pred, lambda = i)[, 1]
     obs_pred <- rf_m_pred %>% dplyr::filter(penalty == i) %>% pull(.pred)
     expect_equal(unname(exp_pred), obs_pred)
   }
@@ -60,16 +62,18 @@ test_that("non-formula method", {
   skip_on_cran()
   skip_if_not_installed("xrf")
 
+  chi_data <- make_chi_data()
+
   set.seed(4526)
   rf_fit_exp <-
     xrf::xrf(
       ridership ~ .,
-      data = chi_mod,
+      data = chi_data$chi_mod,
       family = "gaussian",
       xgb_control = list(nrounds = 3, min_child_weight = 3, penalty = 1),
       verbose = 0
     )
-  rf_pred_exp <- predict(rf_fit_exp, chi_pred, lambda = 1)[, 1]
+  rf_pred_exp <- predict(rf_fit_exp, chi_data$chi_pred, lambda = 1)[, 1]
 
   expect_error(
     rf_mod <-
@@ -80,10 +84,10 @@ test_that("non-formula method", {
   )
 
   expect_error(
-    rf_fit <- fit_xy(rf_mod, x = chi_mod[, -1], y = chi_mod$ridership),
+    rf_fit <- fit_xy(rf_mod, x = chi_data$chi_mod[, -1], y = chi_data$chi_mod$ridership),
     NA
   )
-  rf_pred <- predict(rf_fit, chi_pred)
+  rf_pred <- predict(rf_fit, chi_data$chi_pred)
 
   expect_equal(rf_fit_exp$xgb$evaluation_log, rf_fit$fit$xgb$evaluation_log)
   expect_equal(rf_fit_exp$glm$model$nzero, rf_fit$fit$glm$model$nzero)
@@ -92,7 +96,7 @@ test_that("non-formula method", {
   expect_equal(rf_pred$.pred, unname(rf_pred_exp))
 
   expect_error(
-    rf_m_pred <- multi_predict(rf_fit, chi_pred, penalty = vals),
+    rf_m_pred <- multi_predict(rf_fit, chi_data$chi_pred, penalty = chi_data$vals),
     NA
   )
   rf_m_pred <-
@@ -101,8 +105,8 @@ test_that("non-formula method", {
     tidyr::unnest(cols = c(.pred)) %>%
     arrange(penalty, .row_number)
 
-  for (i in vals) {
-    exp_pred <- predict(rf_fit_exp, chi_pred, lambda = i)[, 1]
+  for (i in chi_data$vals) {
+    exp_pred <- predict(rf_fit_exp, chi_data$chi_pred, lambda = i)[, 1]
     obs_pred <- rf_m_pred %>% dplyr::filter(penalty == i) %>% pull(.pred)
     expect_equal(unname(exp_pred), obs_pred)
   }
@@ -113,6 +117,8 @@ test_that("non-formula method", {
 test_that("tidy method - regression", {
   skip_on_cran()
   skip_if_not_installed("xrf")
+
+  ames_data <- make_ames_data()
 
   library(xrf)
 
@@ -127,7 +133,7 @@ test_that("tidy method - regression", {
     fit(
       Sale_Price ~ Neighborhood + Longitude + Latitude +
         Gr_Liv_Area + Central_Air,
-      data = ames
+      data = ames_data$ames
     )
 
   xrf_rule_res <- tidy(xrf_reg_fit)

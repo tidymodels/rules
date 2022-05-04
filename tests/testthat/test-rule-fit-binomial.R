@@ -1,5 +1,4 @@
-vals <- c(0.01, .1, 1)
-lvls <- levels(ad_mod$Class)
+library(dplyr)
 
 # ------------------------------------------------------------------------------
 
@@ -7,19 +6,22 @@ test_that("formula method", {
   skip_on_cran()
   skip_if_not_installed("xrf")
 
+  ad_data <- make_ad_data()
+
   set.seed(4526)
   rf_fit_exp <-
     xrf::xrf(
       Class ~ .,
-      data = ad_mod,
+      data = ad_data$ad_mod,
       family = "binomial",
       xgb_control = list(nrounds = 3, min_child_weight = 3, penalty = 1),
       verbose = 0
     )
-  rf_pred_exp <- predict(rf_fit_exp, ad_pred, lambda = 1)[, 1]
-  rf_pred_exp <- factor(ifelse(rf_pred_exp >= 0.5, lvls[2], lvls[1]), levels = lvls)
+  rf_pred_exp <- predict(rf_fit_exp, ad_data$ad_pred, lambda = 1)[, 1]
+  rf_pred_exp <- factor(ifelse(rf_pred_exp >= 0.5, ad_data$lvls[2], ad_data$lvls[1]),
+                        levels = ad_data$lvls)
   rf_pred_exp <- unname(rf_pred_exp)
-  rf_prob_exp <- predict(rf_fit_exp, ad_pred, lambda = 1, type = "response")[, 1]
+  rf_prob_exp <- predict(rf_fit_exp, ad_data$ad_pred, lambda = 1, type = "response")[, 1]
 
   expect_error(
     rf_mod <-
@@ -31,11 +33,11 @@ test_that("formula method", {
 
   set.seed(4526)
   expect_error(
-    rf_fit <- fit(rf_mod, Class ~ ., data = ad_mod),
+    rf_fit <- fit(rf_mod, Class ~ ., data = ad_data$ad_mod),
     NA
   )
-  rf_pred <- predict(rf_fit, ad_pred)
-  rf_prob <- predict(rf_fit, ad_pred, type = "prob")
+  rf_pred <- predict(rf_fit, ad_data$ad_pred)
+  rf_prob <- predict(rf_fit, ad_data$ad_pred, type = "prob")
 
   expect_equal(rf_fit_exp$xgb$evaluation_log, rf_fit$fit$xgb$evaluation_log)
 
@@ -43,16 +45,16 @@ test_that("formula method", {
   expect_true(tibble::is_tibble(rf_pred))
   expect_equal(rf_pred$.pred_class, unname(rf_pred_exp))
 
-  expect_equal(names(rf_prob), paste0(".pred_", lvls))
+  expect_equal(names(rf_prob), paste0(".pred_", ad_data$lvls))
   expect_true(tibble::is_tibble(rf_prob))
   expect_equal(rf_prob$.pred_Control, unname(rf_prob_exp))
 
   expect_error(
-    rf_m_pred <- multi_predict(rf_fit, ad_pred, penalty = vals),
+    rf_m_pred <- multi_predict(rf_fit, ad_data$ad_pred, penalty = ad_data$vals),
     NA
   )
   expect_error(
-    rf_m_prob <- multi_predict(rf_fit, ad_pred, penalty = vals, type = "prob"),
+    rf_m_prob <- multi_predict(rf_fit, ad_data$ad_pred, penalty = ad_data$vals, type = "prob"),
     NA
   )
 
@@ -62,9 +64,9 @@ test_that("formula method", {
     tidyr::unnest(cols = c(.pred)) %>%
     arrange(penalty, .row_number)
 
-  for (i in vals) {
-    exp_pred <- predict(rf_fit_exp, ad_pred, lambda = i)[, 1]
-    exp_pred <- factor(ifelse(exp_pred >= 0.5, lvls[2], lvls[1]), levels = lvls)
+  for (i in ad_data$vals) {
+    exp_pred <- predict(rf_fit_exp, ad_data$ad_pred, lambda = i)[, 1]
+    exp_pred <- factor(ifelse(exp_pred >= 0.5, ad_data$lvls[2], ad_data$lvls[1]), levels = ad_data$lvls)
     exp_pred <- unname(exp_pred)
     obs_pred <- rf_m_pred %>% dplyr::filter(penalty == i) %>% pull(.pred_class)
     expect_equal(unname(exp_pred), obs_pred)
@@ -76,8 +78,8 @@ test_that("formula method", {
     tidyr::unnest(cols = c(.pred)) %>%
     arrange(penalty, .row_number)
 
-  for (i in vals) {
-    exp_pred <- predict(rf_fit_exp, ad_pred, lambda = i, type = "response")[, 1]
+  for (i in ad_data$vals) {
+    exp_pred <- predict(rf_fit_exp, ad_data$ad_pred, lambda = i, type = "response")[, 1]
     obs_pred <- rf_m_prob %>% dplyr::filter(penalty == i) %>% pull(.pred_Control)
     expect_equal(unname(exp_pred), obs_pred)
   }
@@ -89,19 +91,22 @@ test_that("non-formula method", {
   skip_on_cran()
   skip_if_not_installed("xrf")
 
+  ad_data <- make_ad_data()
+
   set.seed(4526)
   rf_fit_exp <-
     xrf::xrf(
       Class ~ .,
-      data = ad_mod,
+      data = ad_data$ad_mod,
       family = "binomial",
       xgb_control = list(nrounds = 3, min_child_weight = 3, penalty = 1),
       verbose = 0
     )
-  rf_pred_exp <- predict(rf_fit_exp, ad_pred, lambda = 1)[, 1]
-  rf_pred_exp <- factor(ifelse(rf_pred_exp >= 0.5, lvls[2], lvls[1]), levels = lvls)
+  rf_pred_exp <- predict(rf_fit_exp, ad_data$ad_pred, lambda = 1)[, 1]
+  rf_pred_exp <- factor(ifelse(rf_pred_exp >= 0.5, ad_data$lvls[2], ad_data$lvls[1]),
+                        levels = ad_data$lvls)
   rf_pred_exp <- unname(rf_pred_exp)
-  rf_prob_exp <- predict(rf_fit_exp, ad_pred, lambda = 1, type = "response")[, 1]
+  rf_prob_exp <- predict(rf_fit_exp, ad_data$ad_pred, lambda = 1, type = "response")[, 1]
 
   expect_error(
     rf_mod <-
@@ -112,11 +117,11 @@ test_that("non-formula method", {
   )
 
   expect_error(
-    rf_fit <- fit_xy(rf_mod, x = ad_mod[, -1], y = ad_mod$Class),
+    rf_fit <- fit_xy(rf_mod, x = ad_data$ad_mod[, -1], y = ad_data$ad_mod$Class),
     NA
   )
-  rf_pred <- predict(rf_fit, ad_pred)
-  rf_prob <- predict(rf_fit, ad_pred, type = "prob")
+  rf_pred <- predict(rf_fit, ad_data$ad_pred)
+  rf_prob <- predict(rf_fit, ad_data$ad_pred, type = "prob")
 
   expect_equal(rf_fit_exp$xgb$evaluation_log, rf_fit$fit$xgb$evaluation_log)
 
@@ -124,16 +129,17 @@ test_that("non-formula method", {
   expect_true(tibble::is_tibble(rf_pred))
   expect_equal(rf_pred$.pred_class, unname(rf_pred_exp))
 
-  expect_equal(names(rf_prob), paste0(".pred_", lvls))
+  expect_equal(names(rf_prob), paste0(".pred_", ad_data$lvls))
   expect_true(tibble::is_tibble(rf_prob))
   expect_equal(rf_prob$.pred_Control, unname(rf_prob_exp))
 
   expect_error(
-    rf_m_pred <- multi_predict(rf_fit, ad_pred, penalty = vals),
+    rf_m_pred <- multi_predict(rf_fit, ad_data$ad_pred, penalty = ad_data$vals),
     NA
   )
   expect_error(
-    rf_m_prob <- multi_predict(rf_fit, ad_pred, penalty = vals, type = "prob"),
+    rf_m_prob <- multi_predict(rf_fit, ad_data$ad_pred,
+                               penalty = ad_data$vals, type = "prob"),
     NA
   )
 
@@ -143,9 +149,10 @@ test_that("non-formula method", {
     tidyr::unnest(cols = c(.pred)) %>%
     arrange(penalty, .row_number)
 
-  for (i in vals) {
-    exp_pred <- predict(rf_fit_exp, ad_pred, lambda = i)[, 1]
-    exp_pred <- factor(ifelse(exp_pred >= 0.5, lvls[2], lvls[1]), levels = lvls)
+  for (i in ad_data$vals) {
+    exp_pred <- predict(rf_fit_exp, ad_data$ad_pred, lambda = i)[, 1]
+    exp_pred <- factor(ifelse(exp_pred >= 0.5, ad_data$lvls[2], ad_data$lvls[1]),
+                       levels = ad_data$lvls)
     exp_pred <- unname(exp_pred)
     obs_pred <- rf_m_pred %>% dplyr::filter(penalty == i) %>% pull(.pred_class)
     expect_equal(unname(exp_pred), obs_pred)
@@ -157,8 +164,8 @@ test_that("non-formula method", {
     tidyr::unnest(cols = c(.pred)) %>%
     arrange(penalty, .row_number)
 
-  for (i in vals) {
-    exp_pred <- predict(rf_fit_exp, ad_pred, lambda = i, type = "response")[, 1]
+  for (i in ad_data$vals) {
+    exp_pred <- predict(rf_fit_exp, ad_data$ad_pred, lambda = i, type = "response")[, 1]
     obs_pred <- rf_m_prob %>% dplyr::filter(penalty == i) %>% pull(.pred_Control)
     expect_equal(unname(exp_pred), obs_pred)
   }
@@ -170,6 +177,8 @@ test_that("tidy method - two classes", {
   skip_on_cran()
   skip_if_not_installed("xrf")
 
+  ad_data <- make_ad_data()
+
   library(xrf)
 
   xrf_cls_mod <-
@@ -180,7 +189,7 @@ test_that("tidy method - two classes", {
   set.seed(1)
   xrf_cls_fit <-
     xrf_cls_mod %>%
-    fit(Class ~ ., data = ad_mod)
+    fit(Class ~ ., data = ad_data$ad_mod)
   xrf_rule_res <- tidy(xrf_cls_fit)
   raw_coef <- coef(xrf_cls_fit$fit, lambda = 0.001)
   raw_coef <- raw_coef[raw_coef[, 1] != 0, ]

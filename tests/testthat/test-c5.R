@@ -1,19 +1,23 @@
+library(dplyr)
+
 test_that("formula method", {
   skip_on_cran()
   skip_if_not_installed("C50")
+
+  ad_data <- make_ad_data()
 
   ctrl <- C50::C5.0Control(subset = FALSE, seed = 2)
 
   c5_fit_exp <-
     C50::C5.0(
-      x = ad_mod[, names(ad_mod) != "Class"],
-      y = ad_mod$Class,
+      x = ad_data$ad_mod[, names(ad_data$ad_mod) != "Class"],
+      y = ad_data$ad_mod$Class,
       trials = 10,
       rules = TRUE,
       control = C50::C5.0Control(seed = 2)
     )
-  c5_pred_exp <- predict(c5_fit_exp, ad_pred)
-  c5_prob_exp <- predict(c5_fit_exp, ad_pred, type = "prob")
+  c5_pred_exp <- predict(c5_fit_exp, ad_data$ad_pred)
+  c5_prob_exp <- predict(c5_fit_exp, ad_data$ad_pred, type = "prob")
 
   expect_error(
     c5_mod <-
@@ -23,11 +27,11 @@ test_that("formula method", {
   )
 
   expect_error(
-    c5_fit <- fit(c5_mod, Class ~ ., data = ad_mod),
+    c5_fit <- fit(c5_mod, Class ~ ., data = ad_data$ad_mod),
     NA
   )
-  c5_pred <- predict(c5_fit, ad_pred)
-  c5_prob <- predict(c5_fit, ad_pred, type = "prob")
+  c5_pred <- predict(c5_fit, ad_data$ad_pred)
+  c5_prob <- predict(c5_fit, ad_data$ad_pred, type = "prob")
 
   expect_equal(c5_fit_exp$boostResults, c5_fit$fit$boostResults)
   expect_equal(names(c5_pred), ".pred_class")
@@ -41,17 +45,19 @@ test_that("formula method - control", {
   skip_on_cran()
   skip_if_not_installed("C50")
 
+  ad_data <- make_ad_data()
+
   ctrl <- C50::C5.0Control(subset = FALSE, seed = 2)
 
   c5_fit_exp <-
     C50::C5.0(
-      x = ad_mod[, names(ad_mod) != "Class"],
-      y = ad_mod$Class,
+      x = ad_data$ad_mod[, names(ad_data$ad_mod) != "Class"],
+      y = ad_data$ad_mod$Class,
       trials = 2,
       rules = TRUE,
       control = C50::C5.0Control(seed = 2, subset = FALSE)
     )
-  c5_pred_exp <- predict(c5_fit_exp, ad_pred)
+  c5_pred_exp <- predict(c5_fit_exp, ad_data$ad_pred)
 
   expect_error(
     c5_mod <-
@@ -61,11 +67,11 @@ test_that("formula method - control", {
   )
 
   expect_error(
-    c5_fit <- fit(c5_mod, Class ~ ., data = ad_mod),
+    c5_fit <- fit(c5_mod, Class ~ ., data = ad_data$ad_mod),
     NA
   )
-  c5_pred <- predict(c5_fit, ad_pred)
-  c5_prob <- predict(c5_fit, ad_pred, type = "prob")
+  c5_pred <- predict(c5_fit, ad_data$ad_pred)
+  c5_prob <- predict(c5_fit, ad_data$ad_pred, type = "prob")
 
   expect_equal(c5_fit_exp$boostResults, c5_fit$fit$boostResults)
   expect_equal(names(c5_pred), ".pred_class")
@@ -79,17 +85,19 @@ test_that("non-formula method", {
   skip_on_cran()
   skip_if_not_installed("C50")
 
+  ad_data <- make_ad_data()
+
   ctrl <- C50::C5.0Control(subset = FALSE, seed = 2)
 
   c5_fit_exp <-
     C50::C5.0(
-      x = ad_mod[, names(ad_mod) != "Class"],
-      y = ad_mod$Class,
+      x = ad_data$ad_mod[, names(ad_data$ad_mod) != "Class"],
+      y = ad_data$ad_mod$Class,
       trials = 10,
       rules = TRUE,
       control = C50::C5.0Control(seed = 2)
     )
-  c5_pred_exp <- predict(c5_fit_exp, ad_pred)
+  c5_pred_exp <- predict(c5_fit_exp, ad_data$ad_pred)
 
   expect_error(
     c5_mod <-
@@ -99,11 +107,13 @@ test_that("non-formula method", {
   )
 
   expect_error(
-    c5_fit <- fit_xy(c5_mod, x = ad_mod[, names(ad_mod) != "Class"], y = ad_mod$Class),
+    c5_fit <- fit_xy(c5_mod,
+                     x = ad_data$ad_mod[, names(ad_data$ad_mod) != "Class"],
+                     y = ad_data$ad_mod$Class),
     NA
   )
-  c5_pred <- predict(c5_fit, ad_pred)
-  c5_prob <- predict(c5_fit, ad_pred, type = "prob")
+  c5_pred <- predict(c5_fit, ad_data$ad_pred)
+  c5_prob <- predict(c5_fit, ad_data$ad_pred, type = "prob")
 
   expect_equal(c5_fit_exp$boostResults, c5_fit$fit$boostResults)
   expect_equal(names(c5_pred), ".pred_class")
@@ -117,17 +127,19 @@ test_that("non-formula method - control", {
   skip_on_cran()
   skip_if_not_installed("C50")
 
+  ad_data <- make_ad_data()
+
   ctrl <- C50::C5.0Control(subset = FALSE, seed = 2)
 
   c5_fit_exp <-
     C50::C5.0(
-      x = as.data.frame(ad_mod[, -1]),
-      y = ad_mod$Class,
+      x = as.data.frame(ad_data$ad_mod[, -1]),
+      y = ad_data$ad_mod$Class,
       trials = 2,
       rules = TRUE,
       control = C50::C5.0Control(seed = 2, subset = FALSE)
     )
-  c5_pred_exp <- predict(c5_fit_exp, ad_pred)
+  c5_pred_exp <- predict(c5_fit_exp, ad_data$ad_pred)
 
   expect_error(
     c5_mod <-
@@ -137,11 +149,13 @@ test_that("non-formula method - control", {
   )
 
   expect_error(
-    c5_fit <- fit_xy(c5_mod, x = as.data.frame(ad_mod[, -1]), y = ad_mod$Class),
+    c5_fit <- fit_xy(c5_mod,
+                     x = as.data.frame(ad_data$ad_mod[, -1]),
+                     y = ad_data$ad_mod$Class),
     NA
   )
-  c5_pred <- predict(c5_fit, ad_pred)
-  c5_prob <- predict(c5_fit, ad_pred, type = "prob")
+  c5_pred <- predict(c5_fit, ad_data$ad_pred)
+  c5_prob <- predict(c5_fit, ad_data$ad_pred, type = "prob")
 
   expect_equal(c5_fit_exp$boostResults, c5_fit$fit$boostResults)
   expect_equal(names(c5_pred), ".pred_class")
@@ -182,28 +196,30 @@ test_that("mulit-predict", {
   skip_on_cran()
   skip_if_not_installed("C50")
 
+  ad_data <- make_ad_data()
+
   ctrl <- C50::C5.0Control(subset = FALSE, seed = 2)
 
   c5_fit <-
     C5_rules(trees = 10) %>%
     set_engine("C5.0", seed = 2) %>%
-    fit_xy(x = ad_mod_x[-(1:5), -1], y = ad_mod$Class[-(1:5)])
+    fit_xy(x = ad_data$ad_mod_x[-(1:5), -1], y = ad_data$ad_mod$Class[-(1:5)])
 
   c5_multi_pred <-
-    multi_predict(c5_fit, ad_mod_x[1:5, -1], trees = 1:3) %>%
+    multi_predict(c5_fit, ad_data$ad_mod_x[1:5, -1], trees = 1:3) %>%
     mutate(.row_number = row_number()) %>%
     tidyr::unnest(cols = c(.pred))
   c5_multi_prob <-
-    multi_predict(c5_fit, ad_mod_x[1:5, -1], type = "prob", trees = 1:3) %>%
+    multi_predict(c5_fit, ad_data$ad_mod_x[1:5, -1], type = "prob", trees = 1:3) %>%
     mutate(.row_number = row_number()) %>%
     tidyr::unnest(cols = c(.pred))
 
   expect_equivalent(
-    predict(c5_fit$fit, ad_mod_x[1:5, -1], trees = 2, type = "class"),
+    predict(c5_fit$fit, ad_data$ad_mod_x[1:5, -1], trees = 2, type = "class"),
     c5_multi_pred$.pred_class[c5_multi_pred$trees == 2]
   )
   expect_equivalent(
-    predict(c5_fit$fit, ad_mod_x[1:5, -1], trees = 2, type = "prob")[, 1],
+    predict(c5_fit$fit, ad_data$ad_mod_x[1:5, -1], trees = 2, type = "prob")[, 1],
     c5_multi_prob$.pred_Impaired[c5_multi_prob$trees == 2]
   )
 })
