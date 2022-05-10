@@ -4,6 +4,9 @@
 
 * Added a `tidy()` method for C5.0 rule-based models. 
 
+* The `mtry_prop` parameter was moved to dials and is now re-exported here
+  for backward compatibility.
+
 # rules 0.2.0
 
 * Model definition functions (e.g. `cubist_rules()`) were moved to the parsnip package.

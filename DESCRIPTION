@@ -20,7 +20,7 @@ Depends:
     parsnip (>= 0.2.0),
     R (>= 3.4)
 Imports: 
-    dials,
+    dials (>= 0.1.1.9001),
     dplyr,
     generics (>= 0.1.0),
     purrr,
@@ -39,6 +39,8 @@ Suggests:
     spelling,
     testthat (>= 3.0.0),
     xrf (>= 0.2.0)
+Remotes:
+    tidymodels/dials#233
 Config/Needs/website: 
     tidyr, 
     tidyverse/tidytemplate, 

@@ -309,7 +309,7 @@ tunable.rule_fit <- function(x, ...) {
       "loss_reduction", "sample_size", "penalty"
     ),
     call_info = list(
-      list(pkg = "rules", fun = "mtry_prop"),
+      list(pkg = "dials", fun = "mtry_prop"),
       list(pkg = "dials", fun = "trees", range = c(5L, 100L)),
       list(pkg = "dials", fun = "min_n"),
       list(pkg = "dials", fun = "tree_depth", range = c(1L, 10L)),
@@ -324,19 +324,6 @@ tunable.rule_fit <- function(x, ...) {
   )
 }
 
-#' Proportion of Randomly Selected Predictors
-#'
-#' @inheritParams committees
-#' @return A `dials` with classes "quant_param" and "param". The `range` element
-#' of the object is always converted to a list with elements "lower" and "upper".
+#' @importFrom dials mtry_prop
 #' @export
-mtry_prop <- function(range = c(0.1, 1), trans = NULL) {
-  dials::new_quant_param(
-    type = "double",
-    range = range,
-    inclusive = c(TRUE, TRUE),
-    trans = trans,
-    label = c(mtry_prop = "Proportion Randomly Selected Predictors"),
-    finalize = NULL
-  )
-}
+dials::mtry_prop
