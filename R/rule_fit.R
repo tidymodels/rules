@@ -12,7 +12,15 @@ xrf_fit <-
            gamma = 0,
            subsample = 1,
            lambda = 0.1,
+           counts = TRUE,
            ...) {
+    mtry <-
+      process_mtry(
+        colsample_bytree = colsample_bytree,
+        counts = counts,
+        n_predictors = length(attr(terms(formula), "term.labels")),
+        is_missing = missing(colsample_bytree)
+      )
     args <- list(
       object = formula,
       data = rlang::expr(data),
@@ -21,7 +29,7 @@ xrf_fit <-
           nrounds = nrounds,
           max_depth = max_depth,
           eta = eta,
-          colsample_bytree = colsample_bytree,
+          colsample_bytree = mtry,
           min_child_weight = min_child_weight,
           gamma = gamma,
           subsample = subsample
@@ -44,7 +52,49 @@ xrf_fit <-
     res$family <- args$family
     res$levels <- get_levels(formula, data)
     res
+}
+
+process_mtry <- function(colsample_bytree, counts, n_predictors, is_missing) {
+  if (!is.logical(counts)) {
+    rlang::abort("'counts' should be a logical value.")
   }
+
+  ineq <- if (counts) {"greater"} else {"less"}
+  interp <- if (counts) {"count"} else {"proportion"}
+  opp <- if (!counts) {"count"} else {"proportion"}
+
+  if ((colsample_bytree < 1 & counts) | (colsample_bytree > 1 & !counts)) {
+    rlang::abort(
+      glue::glue(
+        "The supplied argument `mtry = {colsample_bytree}` must be ",
+        "{ineq} than or equal to 1. \n\n`mtry` is currently being interpreted ",
+        "as a {interp} rather than a {opp}. Supply `counts = {!counts}` to ",
+        "`set_engine` to supply this argument as a {opp} rather than ",
+        # TODO: add a section to the linked parsnip docs on mtry vs mtry_prop
+        "a {interp}. \n\nSee `?details_rule_fit_xrf` for more details."
+      ),
+      call = NULL
+    )
+  }
+
+  if (rlang::is_call(colsample_bytree)) {
+    if (rlang::call_name(colsample_bytree) == "tune") {
+      rlang::abort(
+        glue::glue(
+          "The supplied `mtry` parameter is a call to `tune`. Did you forget ",
+          "to optimize hyperparameters with a tuning function like `tune::tune_grid`?"
+        ),
+        call = NULL
+      )
+    }
+  }
+
+  if (counts && !is_missing) {
+    colsample_bytree <- colsample_bytree / n_predictors
+  }
+
+  colsample_bytree
+}
 
 get_family <- function(formula, data) {
   m <- model.frame(formula, head(data))
