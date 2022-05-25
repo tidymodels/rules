@@ -184,7 +184,7 @@ test_that("rule_fit handles mtry vs mtry_prop gracefully", {
   # supply mtry = 1 (edge cases)
   expect_error_free({
     pars_fit_2 <-
-      rule_fit(mtry = 1, trees = 5) %>%
+      rule_fit(mtry = 5, trees = 5) %>%
       set_engine("xrf", counts = TRUE) %>%
       set_mode("regression") %>%
       fit(
@@ -196,7 +196,7 @@ test_that("rule_fit handles mtry vs mtry_prop gracefully", {
 
   expect_equal(
     extract_fit_engine(pars_fit_2)$xgb$params$colsample_bytree,
-    1 / 5
+    1
   )
 
   expect_error_free({
@@ -219,7 +219,7 @@ test_that("rule_fit handles mtry vs mtry_prop gracefully", {
   # supply a count (with default counts = TRUE)
   expect_error_free({
     pars_fit_4 <-
-      rule_fit(mtry = 3, trees = 5) %>%
+      rule_fit(mtry = 5, trees = 5) %>%
       set_engine("xrf") %>%
       set_mode("regression") %>%
       fit(
@@ -231,7 +231,7 @@ test_that("rule_fit handles mtry vs mtry_prop gracefully", {
 
   expect_equal(
     extract_fit_engine(pars_fit_4)$xgb$params$colsample_bytree,
-    3 / 5
+    1
   )
 
   # supply a proportion when count expected
@@ -294,7 +294,7 @@ test_that("rule_fit handles mtry vs mtry_prop gracefully", {
 
   expect_warning({
     pars_fit_9 <-
-      rule_fit(mtry = 2, trees = 5) %>%
+      rule_fit(mtry = 5, trees = 5) %>%
       set_engine("xrf", colsample_bytree = .5) %>%
       set_mode("regression") %>%
       fit(
@@ -307,6 +307,6 @@ test_that("rule_fit handles mtry vs mtry_prop gracefully", {
 
   expect_equal(
     extract_fit_engine(pars_fit_9)$xgb$params$colsample_bytree,
-    2 / 5
+    1
   )
 })
