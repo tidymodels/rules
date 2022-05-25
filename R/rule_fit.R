@@ -65,13 +65,13 @@ process_mtry <- function(colsample_bytree, counts, n_predictors, is_missing) {
 
   if ((colsample_bytree < 1 & counts) | (colsample_bytree > 1 & !counts)) {
     rlang::abort(
-      glue::glue(
-        "The supplied argument `mtry = {colsample_bytree}` must be ",
-        "{ineq} than or equal to 1. \n\n`mtry` is currently being interpreted ",
-        "as a {interp} rather than a {opp}. Supply `counts = {!counts}` to ",
-        "`set_engine` to supply this argument as a {opp} rather than ",
+      paste0(
+        "The supplied argument `mtry = ", colsample_bytree, "` must be ",
+        ineq, " than or equal to 1. \n\n`mtry` is currently being interpreted ",
+        "as a ", interp, " rather than a ", opp, ". Supply `counts = ", !counts,
+        "` to `set_engine()` to supply this argument as a ", opp, " rather than ",
         # TODO: add a section to the linked parsnip docs on mtry vs mtry_prop
-        "a {interp}. \n\nSee `?details_rule_fit_xrf` for more details."
+        "a ", interp, ". \n\nSee `?details_rule_fit_xrf` for more details."
       ),
       call = NULL
     )
@@ -80,7 +80,7 @@ process_mtry <- function(colsample_bytree, counts, n_predictors, is_missing) {
   if (rlang::is_call(colsample_bytree)) {
     if (rlang::call_name(colsample_bytree) == "tune") {
       rlang::abort(
-        glue::glue(
+        paste0(
           "The supplied `mtry` parameter is a call to `tune`. Did you forget ",
           "to optimize hyperparameters with a tuning function like `tune::tune_grid`?"
         ),

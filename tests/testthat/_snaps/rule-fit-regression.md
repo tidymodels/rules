@@ -2,7 +2,7 @@
 
     The supplied argument `mtry = 0.5` must be greater than or equal to 1. 
     
-    `mtry` is currently being interpreted as a count rather than a proportion. Supply `counts = FALSE` to `set_engine` to supply this argument as a proportion rather than a count. 
+    `mtry` is currently being interpreted as a count rather than a proportion. Supply `counts = FALSE` to `set_engine()` to supply this argument as a proportion rather than a count. 
     
     See `?details_rule_fit_xrf` for more details.
 
@@ -10,7 +10,7 @@
 
     The supplied argument `mtry = 3` must be less than or equal to 1. 
     
-    `mtry` is currently being interpreted as a proportion rather than a count. Supply `counts = TRUE` to `set_engine` to supply this argument as a count rather than a proportion. 
+    `mtry` is currently being interpreted as a proportion rather than a count. Supply `counts = TRUE` to `set_engine()` to supply this argument as a count rather than a proportion. 
     
     See `?details_rule_fit_xrf` for more details.
 
@@ -26,7 +26,7 @@
     Error <rlang_error>
       The supplied argument `mtry = 0.5` must be greater than or equal to 1. 
       
-      `mtry` is currently being interpreted as a count rather than a proportion. Supply `counts = FALSE` to `set_engine` to supply this argument as a proportion rather than a count. 
+      `mtry` is currently being interpreted as a count rather than a proportion. Supply `counts = FALSE` to `set_engine()` to supply this argument as a proportion rather than a count. 
       
       See `?details_rule_fit_xrf` for more details.
 
