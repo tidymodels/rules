@@ -35,6 +35,7 @@ xrf_fit(
   gamma = 0,
   subsample = 1,
   lambda = 0.1,
+  counts = TRUE,
   ...
 )
 
