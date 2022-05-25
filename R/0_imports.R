@@ -27,6 +27,10 @@ generics::tidy
 #' @export
 generics::tunable
 
+#' @importFrom dials mtry_prop
+#' @export
+dials::mtry_prop
+
 # ------------------------------------------------------------------------------
 
 utils::globalVariables(

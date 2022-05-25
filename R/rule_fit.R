@@ -323,7 +323,3 @@ tunable.rule_fit <- function(x, ...) {
     component_id = "main"
   )
 }
-
-#' @importFrom dials mtry_prop
-#' @export
-dials::mtry_prop
