@@ -62,9 +62,9 @@ make_ames_data <- function() {
 
   ames <-
     ames %>%
-    mutate(
-      Sale_Price = log10(ames$Sale_Price),
-      Gr_Liv_Area = log10(ames$Gr_Liv_Area)
+    dplyr::mutate(
+      Sale_Price = log10(Sale_Price),
+      Gr_Liv_Area = log10(Gr_Liv_Area)
     )
 
   list(ames = ames)
@@ -91,4 +91,8 @@ make_hpc_data <- function(x) {
 
   list(hpc_mod = hpc_mod, hpc_pred = hpc_pred, hpc_data = hpc_data,
        vals = vals, lvls = lvls)
+}
+
+expect_error_free <- function(...) {
+  testthat::expect_error(..., regexp = NA)
 }
