@@ -18,7 +18,7 @@ xrf_fit <-
       process_mtry(
         colsample_bytree = colsample_bytree,
         counts = counts,
-        n_predictors = length(attr(terms(formula), "term.labels")),
+        n_predictors = parsnip::max_mtry_formula(Inf, formula, data),
         is_missing = missing(colsample_bytree)
       )
     args <- list(
