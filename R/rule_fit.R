@@ -18,7 +18,7 @@ xrf_fit <-
       process_mtry(
         colsample_bytree = colsample_bytree,
         counts = counts,
-        n_predictors = parsnip::max_mtry_formula(Inf, formula, data),
+        n_predictors = get_n_predictors(formula, data),
         is_missing = missing(colsample_bytree)
       )
     args <- list(
@@ -94,6 +94,15 @@ process_mtry <- function(colsample_bytree, counts, n_predictors, is_missing) {
   }
 
   colsample_bytree
+}
+
+# adapted from parsnip::max_mtry_formula
+get_n_predictors <- function(formula, data) {
+  preds <- stats::model.frame(formula, head(data))
+  trms <- attr(preds, "terms")
+  p <- ncol(attr(trms, "factors"))
+
+  max(p, 1)
 }
 
 get_family <- function(formula, data) {
