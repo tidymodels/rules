@@ -309,4 +309,10 @@ test_that("rule_fit handles mtry vs mtry_prop gracefully", {
     extract_fit_engine(pars_fit_9)$xgb$params$colsample_bytree,
     1
   )
+
+  # internal helper works as expected
+  expect_equal(get_num_terms(mpg ~ .,             mtcars), ncol(mtcars) - 1)
+  expect_equal(get_num_terms(mpg ~ . + disp*drat, mtcars), ncol(mtcars))
+  expect_equal(get_num_terms(mpg ~ disp,          mtcars), 1)
+  expect_equal(get_num_terms(mpg ~ NULL,          mtcars), 1)
 })
