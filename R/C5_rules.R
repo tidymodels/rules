@@ -46,8 +46,6 @@ c5_fit <- function(x, y, trials = 1, minCases = 2, cost = NULL, ...) {
 
   cl <- rlang::call2(.fn = "C5.0", .ns = "C50", !!!args)
   res <- rlang::eval_tidy(cl)
-  # Give an extra class to have a separate multi_predict() method
-  class(res) <- c("C5_rules", class(res))
   res
 }
 
@@ -93,55 +91,6 @@ c5_pred <- function(object, new_data, trials = object$fit$trials["Actual"], ...)
   }
   res
 }
-
-#' @rdname multi_predict
-#' @export
-#' @param trees An numeric vector of `trees` between one and 100.
-#' @param object An object of class `model_fit`
-#' @param new_data A rectangular data object, such as a data frame.
-#' @param type A single character value or `NULL`. Possible values
-#'  are class" and "prob".
-#' @param ... Not currently used.
-#' @return A tibble with one row for each row of `new_data`. Multiple
-#' predictions are contained in a list column called `.pred`. That column has
-#' the standard `parsnip` prediction column names as well as the column with
-#' the tuning parameter values.
-#' @details
-#' For C5.0 rule-based models, the model fit may contain less boosting
-#' iterations than the number requested. Printing the object will show how many
-#' were used due to early stopping. This can be change using an option in
-#' [C50::C5.0Control()]. Beware that the number of iterations requested
-multi_predict._C5_rules <-
-  function(object, new_data, type = NULL, trees = NULL, ...) {
-    if (any(names(enquos(...)) == "newdata")) {
-      rlang::abort("Did you mean to use `new_data` instead of `newdata`?")
-    }
-    trees_used <- object$fit$trials["Actual"]
-    trees <- ifelse(trees > trees_used, trees_used, trees)
-    trees <- sort(unique(trees))
-
-    if (is.null(type)) {
-      type <- "class"
-    }
-
-    new_data <- parsnip::prepare_data(object, new_data)
-    # preprocess data
-    if (!is.null(object$spec$method$pred$numeric$pre)) {
-      new_data <- object$spec$method$pred$numeric$pre(new_data, object)
-    }
-
-    res <- c5_pred(object, new_data, trials = trees, type = type, ...)
-
-    res$.row_number <- rep(1:nrow(new_data), length(trees))
-    res <-
-      res %>%
-      dplyr::group_by(.row_number) %>%
-      tidyr::nest() %>%
-      dplyr::ungroup() %>%
-      dplyr::select(-.row_number) %>%
-      setNames(".pred")
-    res
-  }
 
 # ------------------------------------------------------------------------------
 

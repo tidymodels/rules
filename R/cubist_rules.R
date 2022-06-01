@@ -180,8 +180,11 @@ tunable.cubist_rules <- function(x, ...) {
 
 #' `multi_predict()` methods for rule-based models
 #' @rdname multi_predict
-#' @export
+#' @param object An object of class `model_fit`
+#' @param new_data A rectangular data object, such as a data frame.
+#' @param type A single character value or `NULL`.
 #' @param neighbors An numeric vector of neighbors values between zero and nine.
+#' @export
 multi_predict._cubist <-
   function(object, new_data, type = NULL, neighbors = NULL, ...) {
     if (any(names(enquos(...)) == "newdata")) {
