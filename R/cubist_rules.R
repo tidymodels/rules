@@ -180,8 +180,12 @@ tunable.cubist_rules <- function(x, ...) {
 
 #' `multi_predict()` methods for rule-based models
 #' @rdname multi_predict
+#' @inheritParams parsnip::multi_predict
+#' @param type A single character value or `NULL`. This argument is ignored in
+#' the method for `_cubist` objects and is handled internally (since
+#' `type = "numeric"` is always used).
+#' @param neighbors A numeric vector of neighbors values between zero and nine.
 #' @export
-#' @param neighbors An numeric vector of neighbors values between zero and nine.
 multi_predict._cubist <-
   function(object, new_data, type = NULL, neighbors = NULL, ...) {
     if (any(names(enquos(...)) == "newdata")) {

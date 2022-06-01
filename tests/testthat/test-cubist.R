@@ -119,17 +119,17 @@ test_that("formula method", {
   expect_equal(
     cb_pred$.pred[cb_pred$neighbors == 0],
     predict(cb_fit_exp, chi_data$chi_mod[1:2, ], neighbors = 0),
-    tol = .1
+    tolerance = .1
   )
   expect_equal(
     cb_pred$.pred[cb_pred$neighbors == 1],
     predict(cb_fit_exp, chi_data$chi_mod[1:2, ], neighbors = 1),
-    tol = .1
+    tolerance = .1
   )
   expect_equal(
     cb_pred$.pred[cb_pred$neighbors == 9],
     predict(cb_fit_exp, chi_data$chi_mod[1:2, ], neighbors = 9),
-    tol = .1
+    tolerance = .1
   )
 })
 

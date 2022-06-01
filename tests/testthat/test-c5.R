@@ -214,13 +214,15 @@ test_that("mulit-predict", {
     mutate(.row_number = row_number()) %>%
     tidyr::unnest(cols = c(.pred))
 
-  expect_equivalent(
-    predict(c5_fit$fit, ad_data$ad_mod_x[1:5, -1], trees = 2, type = "class"),
-    c5_multi_pred$.pred_class[c5_multi_pred$trees == 2]
+  expect_equal(
+    predict(c5_fit$fit, ad_data$ad_mod_x[1:5, -1], trials = 2, type = "class"),
+    c5_multi_pred$.pred_class[c5_multi_pred$trees == 2],
+    ignore_attr = TRUE
   )
-  expect_equivalent(
-    predict(c5_fit$fit, ad_data$ad_mod_x[1:5, -1], trees = 2, type = "prob")[, 1],
-    c5_multi_prob$.pred_Impaired[c5_multi_prob$trees == 2]
+  expect_equal(
+    predict(c5_fit$fit, ad_data$ad_mod_x[1:5, -1], trials = 2, type = "prob")[, 1],
+    c5_multi_prob$.pred_Impaired[c5_multi_prob$trees == 2],
+    ignore_attr = TRUE
   )
 })
 
