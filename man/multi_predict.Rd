@@ -15,7 +15,8 @@
 \item{new_data}{A rectangular data object, such as a data frame.}
 
 \item{type}{A single character value or \code{NULL}. This argument is ignored in
-the method for \verb{_cubist} objects and is handled internally.}
+the method for \verb{_cubist} objects and is handled internally (since
+\code{type = "numeric"} is always used).}
 
 \item{neighbors}{A numeric vector of neighbors values between zero and nine.}
 
