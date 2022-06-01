@@ -181,6 +181,8 @@ tunable.cubist_rules <- function(x, ...) {
 #' `multi_predict()` methods for rule-based models
 #' @rdname multi_predict
 #' @inheritParams parsnip::multi_predict
+#' @param type A single character value or `NULL`. This argument is ignored in
+#' the method for `_cubist` objects and is handled internally.
 #' @param neighbors A numeric vector of neighbors values between zero and nine.
 #' @export
 multi_predict._cubist <-
