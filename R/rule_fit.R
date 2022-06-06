@@ -51,6 +51,10 @@ xrf_fit <-
       )
 
     dots <- rlang::enquos(...)
+
+    # ignore parsnip-protected argument
+    dots[["xgb_control"]] <- NULL
+
     if (!any(names(dots) == "family")) {
       info <- get_family(formula, data)
       args$family <- info$fam
