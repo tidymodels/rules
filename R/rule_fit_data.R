@@ -34,7 +34,7 @@ make_rule_fit <- function() {
     model = "rule_fit",
     eng = "xrf",
     parsnip = "mtry",
-    original = "colsample_bytree",
+    original = "colsample_bynode",
     func = list(pkg = "dials", fun = "mtry"),
     has_submodel = FALSE
   )
@@ -71,13 +71,22 @@ make_rule_fit <- function() {
     has_submodel = TRUE
   )
 
+  parsnip::set_model_arg(
+    model = "rule_fit",
+    eng = "xrf",
+    parsnip = "stop_iter",
+    original = "early_stop",
+    func = list(pkg = "dials", fun = "stop_iter"),
+    has_submodel = FALSE
+  )
+
   parsnip::set_fit(
     model = "rule_fit",
     eng = "xrf",
     mode = "regression",
     value = list(
       interface = "formula",
-      protect = c("formula", "data"),
+      protect = c("formula", "data", "xgb_control"),
       func = c(pkg = "rules", fun = "xrf_fit"),
       defaults = list()
     )
@@ -119,7 +128,7 @@ make_rule_fit <- function() {
     mode = "classification",
     value = list(
       interface = "formula",
-      protect = c("formula", "data"),
+      protect = c("formula", "data", "xgb_control"),
       func = c(pkg = "rules", fun = "xrf_fit"),
       defaults = list()
     )

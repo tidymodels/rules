@@ -7,47 +7,67 @@ xrf_fit <-
            max_depth = 6,
            nrounds = 15,
            eta = 0.3,
-           colsample_bytree = 1,
+           colsample_bynode = NULL,
+           colsample_bytree = NULL,
            min_child_weight = 1,
            gamma = 0,
            subsample = 1,
-           lambda = 0.1,
+           validation = 0,
+           early_stop = NULL,
            counts = TRUE,
+           event_level = c("first", "second"),
+           lambda = 0.1,
            ...) {
-    mtry <-
-      process_mtry(
-        colsample_bytree = colsample_bytree,
-        counts = counts,
-        n_predictors = get_num_terms(formula, data),
-        is_missing = missing(colsample_bytree)
+    converted <-
+      parsnip::.convert_form_to_xy_fit(
+        formula = formula,
+        data = data
       )
-    args <- list(
-      object = formula,
-      data = rlang::expr(data),
-      xgb_control =
-        list(
-          nrounds = nrounds,
-          max_depth = max_depth,
-          eta = eta,
-          colsample_bytree = mtry,
-          min_child_weight = min_child_weight,
-          gamma = gamma,
-          subsample = subsample
-        )
-    )
+
+    prefit <-
+      parsnip::xgb_train(
+        converted$x,
+        converted$y,
+        max_depth = max_depth,
+        nrounds = nrounds,
+        eta = eta,
+        colsample_bynode = colsample_bynode,
+        colsample_bytree = colsample_bytree,
+        min_child_weight = min_child_weight,
+        gamma = gamma,
+        subsample = subsample,
+        validation = validation,
+        early_stop = early_stop,
+        objective = NULL,
+        counts = counts,
+        event_level = event_level
+      )
+
+    args <-
+      list(
+        object = formula,
+        data = rlang::expr(data),
+        prefit_xgb = prefit
+      )
+
     dots <- rlang::enquos(...)
     if (!any(names(dots) == "family")) {
       info <- get_family(formula, data)
       args$family <- info$fam
       if (info$fam == "multinomial") {
+        # have to mock an xgb_control object for xrf for now
+        args$xgb_control <- list()
         args$xgb_control$num_class <- info$classes
+        args$xgb_control$nrounds <- 10
       }
     }
     if (length(dots) > 0) {
       args <- c(args, dots)
     }
+
     cl <- rlang::call2(.fn = "xrf", .ns = "xrf", !!!args)
     res <- rlang::eval_tidy(cl)
+
     res$lambda <- lambda
     res$family <- args$family
     res$levels <- get_levels(formula, data)
@@ -94,15 +114,6 @@ process_mtry <- function(colsample_bytree, counts, n_predictors, is_missing) {
   }
 
   colsample_bytree
-}
-
-# adapted from parsnip::max_mtry_formula
-get_num_terms <- function(formula, data) {
-  preds <- stats::model.frame(formula, head(data))
-  trms <- attr(preds, "terms")
-  p <- ncol(attr(trms, "factors"))
-
-  max(p, 1)
 }
 
 get_family <- function(formula, data) {
