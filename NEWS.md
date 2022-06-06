@@ -6,8 +6,11 @@
 
 * The `mtry_prop` parameter was moved to the dials package and is now re-exported here for backward compatibility.
 
-* A bug was fixed related to `multi_predict()` with C5.0 rule-based models (#49)
+* A bug was fixed related to `multi_predict()` with C5.0 rule-based models (#49).
 
+* The `mtry` argument is now mapped to `colsample_bynode` rather than `colsample_bytree`. This is consistent with parsnip's interface to `xgboost` as of parsnip 0.1.6. `colsample_bytree` can still be optimized by passing it in as an engine argument to `set_engine()` (#60).
+
+* Introduced support for early stopping in `rule_fit()` via the `stop_iter` argument. See `parsnip::details_rule_fit_xrf`. Note that this is a _main_ argument to `rule_fit()` requiring parsnip 1.0.0.
 
 # rules 0.2.0
 
