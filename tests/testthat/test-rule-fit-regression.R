@@ -181,9 +181,10 @@ test_that("early stopping works in xrf_fit", {
     rf_fit_2 <- fit(rf_mod_2, mpg ~ ., data = mtcars)
   )
 
-  expect_warning(
-    rf_fit_3 <- fit(rf_mod_3, mpg ~ ., data = mtcars),
-    "\\`early_stop\\` was reduced to 4"
+  expect_snapshot(
+    suppressMessages(
+      rf_fit_3 <- fit(rf_mod_3, mpg ~ ., data = mtcars)
+    )
   )
 
   expect_true( is.null(rf_fit_1$fit$xgb$best_iteration))
@@ -213,8 +214,9 @@ test_that("xrf_fit guards xgb_control", {
     set_engine("xrf", xgb_control = list(nrounds = 3)) %>%
     set_mode("regression")
 
-  expect_warning(
-    fit(rf_mod, mpg ~ ., data = mtcars),
-    "and were removed: xgb_control"
+  expect_snapshot(
+    suppressMessages(
+      fit(rf_mod, mpg ~ ., data = mtcars)
+    )
   )
 })
