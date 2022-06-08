@@ -55,21 +55,8 @@ Turn rule models into tidy tibbles
 \subsection{An example}{
 
 \if{html}{\out{<div class="sourceCode r">}}\preformatted{library(dplyr)
-}\if{html}{\out{</div>}}
 
-\if{html}{\out{<div class="sourceCode">}}\preformatted{## 
-## Attaching package: 'dplyr'
-
-## The following objects are masked from 'package:stats':
-## 
-##     filter, lag
-
-## The following objects are masked from 'package:base':
-## 
-##     intersect, setdiff, setequal, union
-}\if{html}{\out{</div>}}
-
-\if{html}{\out{<div class="sourceCode r">}}\preformatted{data(ames, package = "modeldata")
+data(ames, package = "modeldata")
 
 ames <-
   ames \%>\%
@@ -89,18 +76,18 @@ cb_res
 }\if{html}{\out{</div>}}
 
 \if{html}{\out{<div class="sourceCode">}}\preformatted{## # A tibble: 157 × 5
-##    committee rule_num rule                                    estimate statistic
-##        <int>    <int> <chr>                                   <list>   <list>   
-##  1         1        1 ( Central_Air == 'N' ) & ( Gr_Liv_Area… <tibble> <tibble> 
-##  2         1        2 ( Gr_Liv_Area <= 3.0326188 ) & ( Neigh… <tibble> <tibble> 
-##  3         1        3 ( Neighborhood  \%in\% c( 'Old_Town','Ed… <tibble> <tibble> 
-##  4         1        4 ( Neighborhood  \%in\% c( 'Old_Town','Ed… <tibble> <tibble> 
-##  5         1        5 ( Central_Air == 'N' ) & ( Gr_Liv_Area… <tibble> <tibble> 
-##  6         1        6 ( Longitude <= -93.652023 ) & ( Neighb… <tibble> <tibble> 
-##  7         1        7 ( Gr_Liv_Area > 3.2284005 ) & ( Neighb… <tibble> <tibble> 
-##  8         1        8 ( Neighborhood  \%in\% c( 'North_Ames','… <tibble> <tibble> 
-##  9         1        9 ( Latitude <= 42.009399 ) & ( Neighbor… <tibble> <tibble> 
-## 10         1       10 ( Neighborhood  \%in\% c( 'College_Creek… <tibble> <tibble> 
+##    committee rule_num rule                                             estimate statistic
+##        <int>    <int> <chr>                                            <list>   <list>   
+##  1         1        1 ( Central_Air == 'N' ) & ( Gr_Liv_Area <= 3.228… <tibble> <tibble> 
+##  2         1        2 ( Gr_Liv_Area <= 3.0326188 ) & ( Neighborhood  … <tibble> <tibble> 
+##  3         1        3 ( Neighborhood  \%in\% c( 'Old_Town','Edwards','B… <tibble> <tibble> 
+##  4         1        4 ( Neighborhood  \%in\% c( 'Old_Town','Edwards','B… <tibble> <tibble> 
+##  5         1        5 ( Central_Air == 'N' ) & ( Gr_Liv_Area > 3.2284… <tibble> <tibble> 
+##  6         1        6 ( Longitude <= -93.652023 ) & ( Neighborhood  \%… <tibble> <tibble> 
+##  7         1        7 ( Gr_Liv_Area > 3.2284005 ) & ( Neighborhood  \%… <tibble> <tibble> 
+##  8         1        8 ( Neighborhood  \%in\% c( 'North_Ames','Gilbert',… <tibble> <tibble> 
+##  9         1        9 ( Latitude <= 42.009399 ) & ( Neighborhood  \%in… <tibble> <tibble> 
+## 10         1       10 ( Neighborhood  \%in\% c( 'College_Creek','Somers… <tibble> <tibble> 
 ## # … with 147 more rows
 }\if{html}{\out{</div>}}
 
@@ -284,29 +271,29 @@ xrf_reg_fit <-
 xrf_rule_res$rule[nrow(xrf_rule_res)] \%>\% rlang::parse_expr()
 }\if{html}{\out{</div>}}
 
-\if{html}{\out{<div class="sourceCode">}}\preformatted{## (Gr_Liv_Area < 3.30210185) & (Gr_Liv_Area < 3.38872266) & (Gr_Liv_Area >= 
-##     2.94571471) & (Gr_Liv_Area >= 3.24870872) & (Latitude < 42.0271072) & 
-##     (Neighborhood_Old_Town >= -9.53674316e-07)
+\if{html}{\out{<div class="sourceCode">}}\preformatted{## (Central_Air_Y >= 0.5) & (Gr_Liv_Area < 3.38872266) & (Gr_Liv_Area >= 
+##     2.94571471) & (Gr_Liv_Area >= 3.24870872) & (Latitude >= 
+##     42.0271072) & (Neighborhood_Old_Town >= 0.5)
 }\if{html}{\out{</div>}}
 
 \if{html}{\out{<div class="sourceCode r">}}\preformatted{xrf_col_res <- tidy(xrf_reg_fit, unit = "columns")
 xrf_col_res
 }\if{html}{\out{</div>}}
 
-\if{html}{\out{<div class="sourceCode">}}\preformatted{## # A tibble: 149 × 3
-##    rule_id term           estimate
-##    <chr>   <chr>             <dbl>
-##  1 r0_1    Gr_Liv_Area   -1.27e- 2
-##  2 r2_4    Gr_Liv_Area   -3.92e-10
-##  3 r2_2    Gr_Liv_Area    7.59e- 3
-##  4 r2_4    Central_Air_Y -3.92e-10
-##  5 r3_5    Longitude      1.06e- 1
-##  6 r3_6    Longitude      2.65e- 2
-##  7 r3_5    Latitude       1.06e- 1
-##  8 r3_6    Latitude       2.65e- 2
-##  9 r3_5    Longitude      1.06e- 1
-## 10 r3_6    Longitude      2.65e- 2
-## # … with 139 more rows
+\if{html}{\out{<div class="sourceCode">}}\preformatted{## # A tibble: 417 × 3
+##    rule_id term          estimate
+##    <chr>   <chr>            <dbl>
+##  1 r0_1    Gr_Liv_Area    -0.0138
+##  2 r2_3    Gr_Liv_Area    -0.0310
+##  3 r2_2    Gr_Liv_Area     0.0127
+##  4 r2_3    Central_Air_Y  -0.0310
+##  5 r3_5    Longitude       0.0859
+##  6 r3_6    Longitude       0.0171
+##  7 r3_2    Longitude      -0.0109
+##  8 r3_5    Latitude        0.0859
+##  9 r3_6    Latitude        0.0171
+## 10 r3_5    Longitude       0.0859
+## # … with 407 more rows
 }\if{html}{\out{</div>}}
 }
 }

@@ -17,7 +17,7 @@ License: MIT + file LICENSE
 URL: https://github.com/tidymodels/rules, https://rules.tidymodels.org/
 BugReports: https://github.com/tidymodels/rules/issues
 Depends:
-    parsnip (>= 0.2.0),
+    parsnip (>= 0.2.1.9003),
     R (>= 3.4)
 Imports: 
     dials (>= 0.1.1.9001),
@@ -40,7 +40,8 @@ Suggests:
     testthat (>= 3.0.0),
     xrf (>= 0.2.0)
 Remotes:
-    tidymodels/dials
+    tidymodels/dials,
+    tidymodels/parsnip@rule-fit-stop-iter
 Config/Needs/website: 
     tidyr, 
     tidyverse/tidytemplate, 

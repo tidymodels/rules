@@ -37,7 +37,7 @@ test_that("formula method", {
   rf_pred <- predict(rf_fit, hpc_data$hpc_pred)
   rf_prob <- predict(rf_fit, hpc_data$hpc_pred, type = "prob")
 
-  expect_equal(rf_fit_exp$xgb$evaluation_log, rf_fit$fit$xgb$evaluation_log)
+  expect_equal(unname(rf_fit_exp$xgb$evaluation_log), unname(rf_fit$fit$xgb$evaluation_log))
 
   expect_equal(names(rf_pred), ".pred_class")
   expect_true(tibble::is_tibble(rf_pred))
@@ -124,7 +124,7 @@ test_that("non-formula method", {
   rf_pred <- predict(rf_fit, hpc_data$hpc_pred)
   rf_prob <- predict(rf_fit, hpc_data$hpc_pred, type = "prob")
 
-  expect_equal(rf_fit_exp$xgb$evaluation_log, rf_fit$fit$xgb$evaluation_log)
+  expect_equal(unname(rf_fit_exp$xgb$evaluation_log), unname(rf_fit$fit$xgb$evaluation_log))
 
   expect_equal(names(rf_pred), ".pred_class")
   expect_true(tibble::is_tibble(rf_pred))
