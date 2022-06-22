@@ -77,12 +77,16 @@
   max_depth <span class="op">=</span> <span class="fl">6</span>,
   nrounds <span class="op">=</span> <span class="fl">15</span>,
   eta <span class="op">=</span> <span class="fl">0.3</span>,
-  colsample_bytree <span class="op">=</span> <span class="fl">1</span>,
+  colsample_bynode <span class="op">=</span> <span class="cn">NULL</span>,
+  colsample_bytree <span class="op">=</span> <span class="cn">NULL</span>,
   min_child_weight <span class="op">=</span> <span class="fl">1</span>,
   gamma <span class="op">=</span> <span class="fl">0</span>,
   subsample <span class="op">=</span> <span class="fl">1</span>,
-  lambda <span class="op">=</span> <span class="fl">0.1</span>,
+  validation <span class="op">=</span> <span class="fl">0</span>,
+  early_stop <span class="op">=</span> <span class="cn">NULL</span>,
   counts <span class="op">=</span> <span class="cn">TRUE</span>,
+  event_level <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"first"</span>, <span class="st">"second"</span><span class="op">)</span>,
+  lambda <span class="op">=</span> <span class="fl">0.1</span>,
   <span class="va">...</span>
 <span class="op">)</span>
 
@@ -103,7 +107,7 @@
 </div>
 
 <div class="pkgdown-footer-right">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
 </div>
 
   </div></footer></body></html>

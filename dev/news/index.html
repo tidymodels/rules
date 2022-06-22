@@ -55,7 +55,9 @@
 <ul><li><p><code><a href="https://generics.r-lib.org/reference/tidy.html" class="external-link">tidy()</a></code> method for Cubist models now has an option for how many committees to tidy.</p></li>
 <li><p>Added a <code><a href="https://generics.r-lib.org/reference/tidy.html" class="external-link">tidy()</a></code> method for C5.0 rule-based models.</p></li>
 <li><p>The <code>mtry_prop</code> parameter was moved to the dials package and is now re-exported here for backward compatibility.</p></li>
-<li><p>A bug was fixed related to <code><a href="https://parsnip.tidymodels.org/reference/multi_predict.html" class="external-link">multi_predict()</a></code> with C5.0 rule-based models (<a href="https://github.com/tidymodels/rules/issues/49" class="external-link">#49</a>)</p></li>
+<li><p>A bug was fixed related to <code><a href="https://parsnip.tidymodels.org/reference/multi_predict.html" class="external-link">multi_predict()</a></code> with C5.0 rule-based models (<a href="https://github.com/tidymodels/rules/issues/49" class="external-link">#49</a>).</p></li>
+<li><p>The <code>mtry</code> argument is now mapped to <code>colsample_bynode</code> rather than <code>colsample_bytree</code>. This is consistent with parsnip’s interface to <code>xgboost</code> as of parsnip 0.1.6. <code>colsample_bytree</code> can still be optimized by passing it in as an engine argument to <code><a href="https://parsnip.tidymodels.org/reference/set_engine.html" class="external-link">set_engine()</a></code> (<a href="https://github.com/tidymodels/rules/issues/60" class="external-link">#60</a>).</p></li>
+<li><p>Introduced support for early stopping in <code><a href="https://parsnip.tidymodels.org/reference/rule_fit.html" class="external-link">rule_fit()</a></code> via the <code>stop_iter</code> argument. See <code><a href="https://parsnip.tidymodels.org/reference/details_rule_fit_xrf.html" class="external-link">parsnip::details_rule_fit_xrf</a></code>. Note that this is a <em>main</em> argument to <code><a href="https://parsnip.tidymodels.org/reference/rule_fit.html" class="external-link">rule_fit()</a></code> requiring parsnip 1.0.0.</p></li>
 </ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.2.0" id="rules-020">rules 0.2.0<a class="anchor" aria-label="anchor" href="#rules-020"></a></h2><p class="text-muted">CRAN release: 2022-03-14</p>
@@ -94,7 +96,7 @@
 </div>
 
 <div class="pkgdown-footer-right">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
 </div>
 
   </div></footer></body></html>
