@@ -39,6 +39,48 @@ test_that("formula method", {
   expect_equal(c5_pred$.pred_class, c5_pred_exp)
 })
 
+test_that("formula method - case weights", {
+  skip_on_cran()
+  skip_if_not_installed("C50")
+
+  ad_data <- make_ad_data()
+
+  wts <- importance_weights(1:nrow(ad_data$ad_mod))
+
+  ctrl <- C50::C5.0Control(subset = FALSE, seed = 2)
+
+  c5_fit_exp <-
+    C50::C5.0(
+      x = ad_data$ad_mod[, names(ad_data$ad_mod) != "Class"],
+      y = ad_data$ad_mod$Class,
+      trials = 10,
+      rules = TRUE,
+      weights = as.double(wts),
+      control = C50::C5.0Control(seed = 2)
+    )
+  c5_pred_exp <- predict(c5_fit_exp, ad_data$ad_pred)
+  c5_prob_exp <- predict(c5_fit_exp, ad_data$ad_pred, type = "prob")
+
+  expect_error(
+    c5_mod <-
+      C5_rules(trees = 10) %>%
+      set_engine("C5.0", seed = 2),
+    NA
+  )
+
+  expect_error(
+    c5_fit <- fit(c5_mod, Class ~ ., data = ad_data$ad_mod, case_weights = wts),
+    NA
+  )
+  c5_pred <- predict(c5_fit, ad_data$ad_pred)
+  c5_prob <- predict(c5_fit, ad_data$ad_pred, type = "prob")
+
+  expect_equal(c5_fit_exp$boostResults, c5_fit$fit$boostResults)
+  expect_equal(names(c5_pred), ".pred_class")
+  expect_true(tibble::is_tibble(c5_pred))
+  expect_equal(c5_pred$.pred_class, c5_pred_exp)
+})
+
 # ------------------------------------------------------------------------------
 
 test_that("formula method - control", {
@@ -110,6 +152,50 @@ test_that("non-formula method", {
     c5_fit <- fit_xy(c5_mod,
                      x = ad_data$ad_mod[, names(ad_data$ad_mod) != "Class"],
                      y = ad_data$ad_mod$Class),
+    NA
+  )
+  c5_pred <- predict(c5_fit, ad_data$ad_pred)
+  c5_prob <- predict(c5_fit, ad_data$ad_pred, type = "prob")
+
+  expect_equal(c5_fit_exp$boostResults, c5_fit$fit$boostResults)
+  expect_equal(names(c5_pred), ".pred_class")
+  expect_true(tibble::is_tibble(c5_pred))
+  expect_equal(c5_pred$.pred_class, c5_pred_exp)
+})
+
+test_that("non-formula method - case weights", {
+  skip_on_cran()
+  skip_if_not_installed("C50")
+
+  ad_data <- make_ad_data()
+
+  wts <- importance_weights(1:nrow(ad_data$ad_mod))
+
+  ctrl <- C50::C5.0Control(subset = FALSE, seed = 2)
+
+  c5_fit_exp <-
+    C50::C5.0(
+      x = ad_data$ad_mod[, names(ad_data$ad_mod) != "Class"],
+      y = ad_data$ad_mod$Class,
+      trials = 10,
+      rules = TRUE,
+      weights = as.double(wts),
+      control = C50::C5.0Control(seed = 2)
+    )
+  c5_pred_exp <- predict(c5_fit_exp, ad_data$ad_pred)
+
+  expect_error(
+    c5_mod <-
+      C5_rules(trees = 10) %>%
+      set_engine("C5.0", seed = 2),
+    NA
+  )
+
+  expect_error(
+    c5_fit <- fit_xy(c5_mod,
+                     x = ad_data$ad_mod[, names(ad_data$ad_mod) != "Class"],
+                     y = ad_data$ad_mod$Class,
+                     case_weights = wts),
     NA
   )
   c5_pred <- predict(c5_fit, ad_data$ad_pred)
