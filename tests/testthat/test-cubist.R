@@ -133,6 +133,47 @@ test_that("formula method", {
   )
 })
 
+test_that("formula method - case weights", {
+  skip_on_cran()
+  skip_if_not_installed("Cubist")
+
+  chi_data <- make_chi_data()
+
+  wts <- importance_weights(1:nrow(chi_data$chi_mod))
+
+  ctrl <- Cubist::cubistControl(unbiased = TRUE, seed = 2)
+
+  cb_fit_exp <-
+    Cubist::cubist(
+      x = chi_data$chi_mod[, names(chi_data$chi_mod) != "ridership"],
+      y = chi_data$chi_mod$ridership,
+      committees = 10,
+      control = Cubist::cubistControl(seed = 2),
+      weights = as.double(wts)
+    )
+  cb_pred_exp <- predict(cb_fit_exp, chi_data$chi_pred)
+
+  expect_error(
+    cb_mod <-
+      cubist_rules(committees = 10) %>%
+      set_engine("Cubist", seed = 2),
+    NA
+  )
+
+  expect_error(
+    cb_fit <- fit(cb_mod, ridership ~ ., data = chi_data$chi_mod,
+                  case_weights = wts),
+    NA
+  )
+  cb_pred <- predict(cb_fit, chi_data$chi_pred)
+
+  expect_equal(cb_fit_exp$coefficients, cb_fit$fit$coefficients)
+  expect_equal(names(cb_pred), ".pred")
+  expect_true(tibble::is_tibble(cb_pred))
+  expect_equal(cb_pred$.pred, cb_pred_exp)
+})
+
+
 # ------------------------------------------------------------------------------
 
 test_that("formula method - limited rules", {
@@ -309,6 +350,51 @@ test_that("non-formula method", {
       pull(.pred)
     expect_equal(exp_pred, obs_pred)
   }
+})
+
+test_that("non-formula method - case weights", {
+  skip_on_cran()
+  skip_if_not_installed("Cubist")
+
+  chi_data <- make_chi_data()
+
+  wts <- importance_weights(1:nrow(chi_data$chi_mod))
+
+  ctrl <- Cubist::cubistControl(unbiased = TRUE, seed = 2)
+
+  cb_fit_exp <-
+    Cubist::cubist(
+      x = chi_data$chi_mod[, names(chi_data$chi_mod) != "ridership"],
+      y = chi_data$chi_mod$ridership,
+      committees = 10,
+      control = Cubist::cubistControl(seed = 2),
+      weights = as.double(wts)
+    )
+  cb_pred_exp <- predict(cb_fit_exp, chi_data$chi_pred)
+
+  expect_error(
+    cb_mod <-
+      cubist_rules(committees = 10, neighbors = 0) %>%
+      set_engine("Cubist", seed = 2),
+    NA
+  )
+
+  expect_error(
+    cb_fit <-
+      fit_xy(
+        cb_mod,
+        x = chi_data$chi_mod[, names(chi_data$chi_mod) != "ridership"],
+        y = chi_data$chi_mod$ridership,
+        case_weights = wts
+      ),
+    NA
+  )
+  cb_pred <- predict(cb_fit, chi_data$chi_pred)
+
+  expect_equal(cb_fit_exp$coefficients, cb_fit$fit$coefficients)
+  expect_equal(names(cb_pred), ".pred")
+  expect_true(tibble::is_tibble(cb_pred))
+  expect_equal(cb_pred$.pred, cb_pred_exp)
 })
 
 # ------------------------------------------------------------------------------

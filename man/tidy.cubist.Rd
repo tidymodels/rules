@@ -55,8 +55,21 @@ Turn rule models into tidy tibbles
 \subsection{An example}{
 
 \if{html}{\out{<div class="sourceCode r">}}\preformatted{library(dplyr)
+}\if{html}{\out{</div>}}
 
-data(ames, package = "modeldata")
+\if{html}{\out{<div class="sourceCode">}}\preformatted{## 
+## Attaching package: 'dplyr'
+
+## The following objects are masked from 'package:stats':
+## 
+##     filter, lag
+
+## The following objects are masked from 'package:base':
+## 
+##     intersect, setdiff, setequal, union
+}\if{html}{\out{</div>}}
+
+\if{html}{\out{<div class="sourceCode r">}}\preformatted{data(ames, package = "modeldata")
 
 ames <-
   ames \%>\%
@@ -76,18 +89,18 @@ cb_res
 }\if{html}{\out{</div>}}
 
 \if{html}{\out{<div class="sourceCode">}}\preformatted{## # A tibble: 157 × 5
-##    committee rule_num rule                                             estimate statistic
-##        <int>    <int> <chr>                                            <list>   <list>   
-##  1         1        1 ( Central_Air == 'N' ) & ( Gr_Liv_Area <= 3.228… <tibble> <tibble> 
-##  2         1        2 ( Gr_Liv_Area <= 3.0326188 ) & ( Neighborhood  … <tibble> <tibble> 
-##  3         1        3 ( Neighborhood  \%in\% c( 'Old_Town','Edwards','B… <tibble> <tibble> 
-##  4         1        4 ( Neighborhood  \%in\% c( 'Old_Town','Edwards','B… <tibble> <tibble> 
-##  5         1        5 ( Central_Air == 'N' ) & ( Gr_Liv_Area > 3.2284… <tibble> <tibble> 
-##  6         1        6 ( Longitude <= -93.652023 ) & ( Neighborhood  \%… <tibble> <tibble> 
-##  7         1        7 ( Gr_Liv_Area > 3.2284005 ) & ( Neighborhood  \%… <tibble> <tibble> 
-##  8         1        8 ( Neighborhood  \%in\% c( 'North_Ames','Gilbert',… <tibble> <tibble> 
-##  9         1        9 ( Latitude <= 42.009399 ) & ( Neighborhood  \%in… <tibble> <tibble> 
-## 10         1       10 ( Neighborhood  \%in\% c( 'College_Creek','Somers… <tibble> <tibble> 
+##    committee rule_num rule                                    estimate statistic
+##        <int>    <int> <chr>                                   <list>   <list>   
+##  1         1        1 ( Central_Air == 'N' ) & ( Gr_Liv_Area… <tibble> <tibble> 
+##  2         1        2 ( Gr_Liv_Area <= 3.0326188 ) & ( Neigh… <tibble> <tibble> 
+##  3         1        3 ( Neighborhood  \%in\% c( 'Old_Town','Ed… <tibble> <tibble> 
+##  4         1        4 ( Neighborhood  \%in\% c( 'Old_Town','Ed… <tibble> <tibble> 
+##  5         1        5 ( Central_Air == 'N' ) & ( Gr_Liv_Area… <tibble> <tibble> 
+##  6         1        6 ( Longitude <= -93.652023 ) & ( Neighb… <tibble> <tibble> 
+##  7         1        7 ( Gr_Liv_Area > 3.2284005 ) & ( Neighb… <tibble> <tibble> 
+##  8         1        8 ( Neighborhood  \%in\% c( 'North_Ames','… <tibble> <tibble> 
+##  9         1        9 ( Latitude <= 42.009399 ) & ( Neighbor… <tibble> <tibble> 
+## 10         1       10 ( Neighborhood  \%in\% c( 'College_Creek… <tibble> <tibble> 
 ## # … with 147 more rows
 }\if{html}{\out{</div>}}
 
