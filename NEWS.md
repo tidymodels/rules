@@ -1,3 +1,5 @@
+# rules (development version)
+
 # rules 1.0.0
 
 * `tidy()` method for Cubist models now has an option for how many committees to tidy. 
