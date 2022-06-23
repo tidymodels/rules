@@ -1,4 +1,4 @@
-# rules (development version)
+# rules 1.0.0
 
 * `tidy()` method for Cubist models now has an option for how many committees to tidy. 
 
@@ -27,6 +27,8 @@
 * Clean up `tunable()` methods that define the default parameter ranges for the tuning parameters. 
 
 * Changes to test for cases when CRAN cannot get `xgboost` to work on their Solaris configuration. 
+
+* Case weights were enabled for [C5_rules()] and [cubist_rules()].
 
 # rules 0.1.0
 
