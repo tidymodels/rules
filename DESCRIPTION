@@ -39,9 +39,6 @@ Suggests:
     spelling,
     testthat (>= 3.0.0),
     xrf (>= 0.2.0)
-Remotes:
-    tidymodels/dials,
-    tidymodels/parsnip@rule-fit-stop-iter
 Config/Needs/website: 
     tidyr, 
     tidyverse/tidytemplate, 
