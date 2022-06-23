@@ -28,6 +28,8 @@
 
 * Changes to test for cases when CRAN cannot get `xgboost` to work on their Solaris configuration. 
 
+* Case weights were enabled for [C5_rules()] and [cubist_rules()].
+
 # rules 0.1.0
 
 * The default encoding methods were changed such that `parsnip` will respect the encoding that the underlying model uses. 
