@@ -40,13 +40,7 @@
     <loc>https://rules.tidymodels.org/reference/committees.html</loc>
   </url>
   <url>
-    <loc>https://rules.tidymodels.org/reference/cubist_and_rulefit.html</loc>
-  </url>
-  <url>
     <loc>https://rules.tidymodels.org/reference/index.html</loc>
-  </url>
-  <url>
-    <loc>https://rules.tidymodels.org/reference/mtry_prop.html</loc>
   </url>
   <url>
     <loc>https://rules.tidymodels.org/reference/multi_predict.html</loc>
@@ -56,6 +50,9 @@
   </url>
   <url>
     <loc>https://rules.tidymodels.org/reference/rules-internal.html</loc>
+  </url>
+  <url>
+    <loc>https://rules.tidymodels.org/reference/rules-package.html</loc>
   </url>
   <url>
     <loc>https://rules.tidymodels.org/reference/tidy.cubist.html</loc>
