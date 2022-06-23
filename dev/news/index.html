@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">rules</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">0.2.0.9000</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.0.0.9000</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -50,8 +50,9 @@
       <small>Source: <a href="https://github.com/tidymodels/rules/blob/HEAD/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
+    <div class="section level2"><h2 class="pkg-version" data-toc-text="development version" id="rules-development-version">rules (development version)<a class="anchor" aria-label="anchor" href="#rules-development-version"></a></h2></div>
     <div class="section level2">
-<h2 class="pkg-version" data-toc-text="development version" id="rules-development-version">rules (development version)<a class="anchor" aria-label="anchor" href="#rules-development-version"></a></h2>
+<h2 class="pkg-version" data-toc-text="1.0.0" id="rules-100">rules 1.0.0<a class="anchor" aria-label="anchor" href="#rules-100"></a></h2><p class="text-muted">CRAN release: 2022-06-23</p>
 <ul><li><p><code><a href="https://generics.r-lib.org/reference/tidy.html" class="external-link">tidy()</a></code> method for Cubist models now has an option for how many committees to tidy.</p></li>
 <li><p>Added a <code><a href="https://generics.r-lib.org/reference/tidy.html" class="external-link">tidy()</a></code> method for C5.0 rule-based models.</p></li>
 <li><p>The <code>mtry_prop</code> parameter was moved to the dials package and is now re-exported here for backward compatibility.</p></li>
@@ -70,6 +71,7 @@
 <ul><li><p>Added <code><a href="https://generics.r-lib.org/reference/tidy.html" class="external-link">tidy()</a></code> methods for cubist and RuleFit models to get back the rules and model coefficients.</p></li>
 <li><p>Clean up <code><a href="https://generics.r-lib.org/reference/tunable.html" class="external-link">tunable()</a></code> methods that define the default parameter ranges for the tuning parameters.</p></li>
 <li><p>Changes to test for cases when CRAN cannot get <code>xgboost</code> to work on their Solaris configuration.</p></li>
+<li><p>Case weights were enabled for [C5_rules()] and [cubist_rules()].</p></li>
 </ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.1.0" id="rules-010">rules 0.1.0<a class="anchor" aria-label="anchor" href="#rules-010"></a></h2><p class="text-muted">CRAN release: 2020-10-28</p>
