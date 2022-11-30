@@ -205,7 +205,7 @@ rule_fit_fit
 To get the rules and their associated coefficients, the `tidy()` method can be used again:
 
 ```{r rf-tidy}
-rf_res <- tidy(rule_fit_fit)
+rf_res <- tidy(rule_fit_fit, penalty = 0.01)
 rf_res
 ```
 
@@ -232,7 +232,7 @@ which can be simplified to have fewer conditions:
 Also, the `tidy()` function can extract the same information but use the original predictors as the unit:
 
 ```{r rf-cols}
-rf_variable_res <- tidy(rule_fit_fit, unit = "columns")
+rf_variable_res <- tidy(rule_fit_fit, unit = "columns", penalty = 0.01)
 rf_variable_res
 ```
 
