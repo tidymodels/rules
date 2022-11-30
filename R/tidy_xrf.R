@@ -7,9 +7,18 @@
 tidy.xrf <- function(x, penalty = NULL, unit = c("rules", "columns"), ...) {
   unit <- match.arg(unit)
 
+  msg <- "Please choose a single numeric value of 'penalty'."
+  if (is.null(penalty)) {
+    rlang::abort(msg)
+  } else {
+    if (!is.numeric(penalty) | length(penalty) != 1) {
+      rlang::abort(msg)
+    }
+  }
+
   lvls <- x$levels
   cat_terms <- expand_xlev(x$glm$xlev)
-  coef_table <- xrf_coefs(x)
+  coef_table <- xrf_coefs(x, penalty = penalty)
   if (unit == "rules") {
     res <-
       dplyr::left_join(coef_table, cat_terms, by = "term") %>%
