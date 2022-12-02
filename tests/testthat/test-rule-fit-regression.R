@@ -136,14 +136,14 @@ test_that("tidy method - regression", {
       data = ames_data$ames
     )
 
-  xrf_rule_res <- tidy(xrf_reg_fit)
+  xrf_rule_res <- tidy(xrf_reg_fit, penalty = .001)
   raw_coef <- coef(xrf_reg_fit$fit, lambda = 0.001)
   raw_coef <- raw_coef[raw_coef[, 1] != 0, ]
   expect_true(nrow(raw_coef) == nrow(xrf_rule_res))
   expect_true(all(raw_coef$term %in% xrf_rule_res$rule_id))
 
 
-  xrf_col_res <- tidy(xrf_reg_fit, unit = "column")
+  xrf_col_res <- tidy(xrf_reg_fit, unit = "column", penalty = .001)
   expect_equal(
     sort(unique(xrf_col_res$term)),
     c(

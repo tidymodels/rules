@@ -190,13 +190,13 @@ test_that("tidy method - two classes", {
   xrf_cls_fit <-
     xrf_cls_mod %>%
     fit(Class ~ ., data = ad_data$ad_mod)
-  xrf_rule_res <- tidy(xrf_cls_fit)
+  xrf_rule_res <- tidy(xrf_cls_fit, penalty = .001)
   raw_coef <- coef(xrf_cls_fit$fit, lambda = 0.001)
   raw_coef <- raw_coef[raw_coef[, 1] != 0, ]
   expect_true(nrow(raw_coef) == nrow(xrf_rule_res))
   expect_true(all(raw_coef$term %in% xrf_rule_res$rule_id))
 
-  xrf_col_res <- tidy(xrf_cls_fit, unit = "column")
+  xrf_col_res <- tidy(xrf_cls_fit, unit = "column", penalty = .001)
   expect_equal(
     sort(unique(xrf_col_res$term)),
     c("(Intercept)", "Genotype", "MMP10", "p_tau")
@@ -205,6 +205,8 @@ test_that("tidy method - two classes", {
     sort(unique(raw_coef$term)),
     sort(unique(xrf_col_res$rule_id))
   )
+
+  expect_snapshot_error(tidy(xrf_cls_fit))
 })
 
 
