@@ -1,26 +1,41 @@
-#' Turn rule models into tidy tibbles
+#' Turn C5.0 and rule-based models into tidy tibbles
 #'
 #' @param x A `Cubist`, `C5.0`, or `xrf` object.
 #' @param committees The number of committees to tidy (defaults to the entire
 #' ensemble).
-#' @param trials The number of boosting iterations to tidy (defaults to the entire
-#' ensemble).
 #' @param ... Not currently used.
 #' @includeRmd man/rmd/tidy-example.Rmd details
 #' @return
+#'
+#' ## Cubist
+#'
 #' The Cubist method has columns `committee`, `rule_num`, `rule`, `estimate`,
 #' and `statistic`. The latter two are nested tibbles. `estimate` contains
 #' the parameter estimates for each term in the regression model and `statistic`
 #' has statistics about the data selected by the rules and the model fit.
 #'
-#' The C5.0 method has columns `trial`, `rule_num`, `rule`,
-#' and `statistics`. The latter two are nested tibbles.  `statistic`
+#' ## C5.0
+#'
+#' C5.0 models have different results depending on the type of model produced
+#' by [C50::C5.0()].
+#'
+#' For rule-based models, the resulting tibble has columns `tree`, `rule_num`,
+#' `rule`, and `statistics`. The latter two are nested tibbles.  `statistic`
 #' has statistics about the data selected by the rules.
 #'
+#' Tree models, including booted trees, are not stored in a nested structure but
+#' in rules. For this model, the rule defines the variables and values that
+#' define the splits all the way down to the terminal node. The columns in the
+#' tibble are `tree`, `node`, `rule`, and `statistics` (a nested tibble).
+#'
+#' ## RuleFit
+#'
 #' The `xrf` results has columns `rule_id`, `rule`, and `estimate`. The
-#' `rule_id` column has the rule identifier (e.g., "r0_21") or the feature
+#' `rule_id` column has the rule identifier (e.g., "`r0_21`") or the feature
 #' column name when the column is added directly into the model. For multiclass
 #' models, a `class` column is included.
+#'
+#' ## Converting rules to expressions
 #'
 #' In each case, the `rule` column has a character string with the rule
 #' conditions. These can be converted to an R expression using
