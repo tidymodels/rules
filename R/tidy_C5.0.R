@@ -108,7 +108,7 @@ parse_tree <- function(tree, lvls) {
     tree_tbl <- dplyr::tibble(
       node = seq_along(rules),
       rule = purrr::map_chr(rules, parse_rule),
-      freqs = lapply(rules, get_freqs, tree = tree, lvls = lvls)
+      statistics = purrr::map(rules, get_freqs, tree = tree, lvls = lvls)
     )
 
     trees <- c(trees, list(tree_tbl))
@@ -175,8 +175,11 @@ get_freqs <- function(rule, tree, lvls) {
   freqs <- stringr::str_remove(tree[last], ".*freq=")
   freqs <- stringr::str_extract_all(freqs, "[0-9]+")[[1]]
   freqs <- as.integer(freqs)
-  names(freqs) <- lvls
-
-  freqs
+  if (length(freqs) != length(lvls)) {
+    msg <- paste0("The number of counts (", length(freqs), ") is not the same as ",
+                  "the number of levels (", length(lvls), ").")
+    rlang::abort(msg)
+  }
+  tibble::tibble(value = lvls, count = freqs)
 }
 
