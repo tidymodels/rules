@@ -1,9 +1,5 @@
 #' @export
 #' @rdname tidy.cubist
-#' @param penalty A single numeric value for the `lambda` penalty value.
-#' @param unit What data should be returned? For `unit = 'rules'`, each row
-#' corresponds to a rule. For `unit = 'columns'`, each row is a predictor
-#' column. The latter can be helpful when determining variable importance.
 tidy.xrf <- function(x, penalty = NULL, unit = c("rules", "columns"), ...) {
   unit <- match.arg(unit)
 

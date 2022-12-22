@@ -1,7 +1,5 @@
 
 #' @rdname tidy.cubist
-#' @param trees The number of boosting iterations to tidy (defaults to the entire
-#' ensemble).
 #' @export
 tidy.C5.0 <- function(x, trees = x$trials["Actual"], ...) {
   if (x$rbm) {
@@ -108,7 +106,7 @@ parse_tree <- function(tree, lvls) {
     tree_tbl <- dplyr::tibble(
       node = seq_along(rules),
       rule = purrr::map_chr(rules, parse_rule),
-      statistics = purrr::map(rules, get_freqs, tree = tree, lvls = lvls)
+      statistic = purrr::map(rules, get_freqs, tree = tree, lvls = lvls)
     )
 
     trees <- c(trees, list(tree_tbl))

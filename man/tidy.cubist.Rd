@@ -29,42 +29,233 @@ ensemble).}
 corresponds to a rule. For \code{unit = 'columns'}, each row is a predictor
 column. The latter can be helpful when determining variable importance.}
 }
-\value{
-\subsection{Cubist}{
-
-The Cubist method has columns \code{committee}, \code{rule_num}, \code{rule}, \code{estimate},
-and \code{statistic}. The latter two are nested tibbles. \code{estimate} contains
-the parameter estimates for each term in the regression model and \code{statistic}
-has statistics about the data selected by the rules and the model fit.
-}
-
-\subsection{C5.0}{
-
-C5.0 models have different results depending on the type of model produced
-by \code{\link[C50:C5.0]{C50::C5.0()}}.
-
-For rule-based models, the resulting tibble has columns \code{tree}, \code{rule_num},
-\code{rule}, and \code{statistics}. The latter two are nested tibbles.  \code{statistic}
-has statistics about the data selected by the rules.
-
-Tree models, including booted trees, are not stored in a nested structure but
-in rules. For this model, the rule defines the variables and values that
-define the splits all the way down to the terminal node. The columns in the
-tibble are \code{tree}, \code{node}, \code{rule}, and \code{statistics} (a nested tibble).
-}
-
-\subsection{RuleFit}{
-
-The \code{xrf} results has columns \code{rule_id}, \code{rule}, and \code{estimate}. The
-\code{rule_id} column has the rule identifier (e.g., "r0_21") or the feature
-column name when the column is added directly into the model. For multiclass
-models, a \code{class} column is included.
-
-In each case, the \code{rule} column has a character string with the rule
-conditions. These can be converted to an R expression using
-\code{\link[rlang:parse_expr]{rlang::parse_expr()}}.
-}
-}
 \description{
 Turn C5.0 and rule-based models into tidy tibbles
+}
+\details{
+The outputs for these tidy functions are different since the model
+structures are different.
+
+Let’s look at Cubist and RuleFit first, using the Ames data, then C5.0
+with a different data set.
+\subsection{An example using the Ames data}{
+
+First we will fit a Cubist model and tidy it:
+
+\if{html}{\out{<div class="sourceCode r">}}\preformatted{library(tidymodels)
+library(rules)
+library(rlang)
+
+data(ames, package = "modeldata")
+
+ames <- ames \%>\% 
+  mutate(Sale_Price = log10(Sale_Price)) \%>\% 
+  select(Sale_Price, Longitude, Latitude, Central_Air)
+
+cb_fit <-
+  cubist_rules(committees = 10) \%>\%
+  set_engine("Cubist") \%>\%
+  fit(Sale_Price ~ ., data = ames)
+
+cb_res <- tidy(cb_fit)
+cb_res
+}\if{html}{\out{</div>}}
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{## # A tibble: 223 x 5
+##    committee rule_num rule                                    estimate statistic
+##        <int>    <int> <chr>                                   <list>   <list>   
+##  1         1        1 ( Central_Air == 'N' ) & ( Latitude <=~ <tibble> <tibble> 
+##  2         1        2 ( Latitude <= 41.992611 ) & ( Latitude~ <tibble> <tibble> 
+##  3         1        3 ( Central_Air == 'N' ) & ( Latitude > ~ <tibble> <tibble> 
+##  4         1        4 ( Latitude <= 42.026997 ) & ( Longitud~ <tibble> <tibble> 
+##  5         1        5 ( Longitude > -93.63002 ) & ( Latitude~ <tibble> <tibble> 
+##  6         1        6 ( Latitude <= 42.035858 ) & ( Longitud~ <tibble> <tibble> 
+##  7         1        7 ( Latitude <= 42.024029 ) & ( Latitude~ <tibble> <tibble> 
+##  8         1        8 ( Longitude > -93.602348 ) & ( Latitud~ <tibble> <tibble> 
+##  9         1        9 ( Latitude <= 41.991756 ) & ( Longitud~ <tibble> <tibble> 
+## 10         1       10 ( Latitude > 42.041813 ) & ( Longitude~ <tibble> <tibble> 
+## # ... with 213 more rows
+}\if{html}{\out{</div>}}
+
+Since Cubist fits linear regressions within the data from each rule, the
+coefficients are in the \code{estimate} column and other information are in
+\code{statistic}:
+
+\if{html}{\out{<div class="sourceCode r">}}\preformatted{cb_res$estimate[[1]]
+}\if{html}{\out{</div>}}
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{## # A tibble: 3 x 2
+##   term        estimate
+##   <chr>          <dbl>
+## 1 (Intercept)  -509.  
+## 2 Longitude      -5.05
+## 3 Latitude        0.99
+}\if{html}{\out{</div>}}
+
+\if{html}{\out{<div class="sourceCode r">}}\preformatted{cb_res$statistic[[1]]
+}\if{html}{\out{</div>}}
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{## # A tibble: 1 x 6
+##   num_conditions coverage  mean   min   max error
+##            <dbl>    <dbl> <dbl> <dbl> <dbl> <dbl>
+## 1              3       38  4.87  4.12  5.22 0.149
+}\if{html}{\out{</div>}}
+
+Note that we can get the data for this rule by using
+\code{\link[rlang:parse_expr]{rlang::parse_expr()}} with it:
+
+\if{html}{\out{<div class="sourceCode r">}}\preformatted{rule_1_expr <- parse_expr(cb_res$rule[1])
+rule_1_expr
+}\if{html}{\out{</div>}}
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{## (Central_Air == "N") & (Latitude <= 42.026997) & (Longitude > 
+##     -93.639572)
+}\if{html}{\out{</div>}}
+
+then use it to get the data back:
+
+\if{html}{\out{<div class="sourceCode r">}}\preformatted{filter(ames, !!rule_1_expr)
+}\if{html}{\out{</div>}}
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{## # A tibble: 38 x 4
+##    Sale_Price Longitude Latitude Central_Air
+##         <dbl>     <dbl>    <dbl> <fct>      
+##  1       5.04     -93.6     42.0 N          
+##  2       4.74     -93.6     42.0 N          
+##  3       4.75     -93.6     42.0 N          
+##  4       4.54     -93.6     42.0 N          
+##  5       4.64     -93.6     42.0 N          
+##  6       5.22     -93.6     42.0 N          
+##  7       4.80     -93.6     42.0 N          
+##  8       4.99     -93.6     42.0 N          
+##  9       5.09     -93.6     42.0 N          
+## 10       4.89     -93.6     42.0 N          
+## # ... with 28 more rows
+}\if{html}{\out{</div>}}
+
+Now let’s fit a RuleFit model. First, we’ll use a recipe to convert the
+Central Air predictor to an indicator:
+
+\if{html}{\out{<div class="sourceCode r">}}\preformatted{xrf_reg_mod <-
+  rule_fit(trees = 3, penalty = .001) \%>\%
+  set_engine("xrf") \%>\%
+  set_mode("regression")
+
+# Make dummy variables since xgboost will not
+ames_rec <-
+  recipe(Sale_Price ~ ., data = ames) \%>\%
+  step_dummy(Central_Air) \%>\%
+  step_zv(all_predictors())
+
+ames_processed <- prep(ames_rec) \%>\% bake(new_data = NULL)
+
+set.seed(1)
+xrf_reg_fit <-
+  xrf_reg_mod \%>\%
+  fit(Sale_Price ~ ., data = ames_processed)
+
+xrf_rule_res <- tidy(xrf_reg_fit, penalty = .001)
+xrf_rule_res
+}\if{html}{\out{</div>}}
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{## # A tibble: 8 x 3
+##   rule_id       rule                                                    estimate
+##   <chr>         <chr>                                                      <dbl>
+## 1 (Intercept)   ( TRUE )                                                 16.4   
+## 2 Central_Air_Y ( Central_Air_Y )                                         0.0567
+## 3 Latitude      ( Latitude )                                             -0.424 
+## 4 Longitude     ( Longitude )                                            -0.0694
+## 5 r1_1          ( Longitude <  -93.6299744 )                              0.102 
+## 6 r2_3          ( Central_Air_Y <  0.5 ) & ( Latitude <  42.0460129 )    -0.136 
+## 7 r2_5          ( Latitude >= 42.0460129 ) & ( Longitude <  -93.650901~   0.302 
+## 8 r2_6          ( Latitude >= 42.0460129 ) & ( Longitude >= -93.650901~   0.0853
+}\if{html}{\out{</div>}}
+
+Here, the focus is on the model coefficients produced by \code{glmnet}. We
+can also break down the results and sort them by the original predictor
+columns:
+
+\if{html}{\out{<div class="sourceCode r">}}\preformatted{tidy(xrf_reg_fit, penalty = .001, unit = "columns")
+}\if{html}{\out{</div>}}
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{## # A tibble: 11 x 3
+##    rule_id       term          estimate
+##    <chr>         <chr>            <dbl>
+##  1 r1_1          Longitude       0.102 
+##  2 r2_3          Latitude       -0.136 
+##  3 r2_5          Latitude        0.302 
+##  4 r2_6          Latitude        0.0853
+##  5 r2_3          Central_Air_Y  -0.136 
+##  6 r2_5          Longitude       0.302 
+##  7 r2_6          Longitude       0.0853
+##  8 (Intercept)   (Intercept)    16.4   
+##  9 Longitude     Longitude      -0.0694
+## 10 Latitude      Latitude       -0.424 
+## 11 Central_Air_Y Central_Air_Y   0.0567
+}\if{html}{\out{</div>}}
+}
+
+\subsection{C5.0 classification models}{
+
+Here, we’ll use the Palmer penguin data:
+
+\if{html}{\out{<div class="sourceCode r">}}\preformatted{data(penguins, package = "modeldata")
+penguins <- 
+  penguins \%>\% 
+  drop_na() \%>\% 
+  select(-sex)
+}\if{html}{\out{</div>}}
+
+First, let’s fit a boosted rule-based model and tidy:
+
+\if{html}{\out{<div class="sourceCode r">}}\preformatted{rule_model <- 
+  C5_rules(trees = 3) \%>\% 
+  fit(island ~ ., data = penguins)
+
+rule_info <- tidy(rule_model)
+rule_info
+}\if{html}{\out{</div>}}
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{## # A tibble: 7 x 4
+##   trial rule_num rule                                        statistic       
+##   <int>    <int> <chr>                                       <list>          
+## 1     1        1 ( species == 'Gentoo' )                     <tibble [1 x 4]>
+## 2     1        2 ( species  \%in\% c( 'Adelie','Chinstrap' ) ) <tibble [1 x 4]>
+## 3     2        1 ( species == 'Gentoo' )                     <tibble [1 x 4]>
+## 4     2        2 ( species == 'Chinstrap' )                  <tibble [1 x 4]>
+## 5     2        3 ( species == 'Adelie' )                     <tibble [1 x 4]>
+## 6     3        1 ( species  \%in\% c( 'Adelie','Gentoo' ) )    <tibble [1 x 4]>
+## 7     3        2 ( species == 'Chinstrap' )                  <tibble [1 x 4]>
+}\if{html}{\out{</div>}}
+
+\if{html}{\out{<div class="sourceCode r">}}\preformatted{# The statistic column has the pre-computed data about the 
+# data covered by the rule:
+rule_info$statistic[[1]]
+}\if{html}{\out{</div>}}
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{## # A tibble: 1 x 4
+##   num_conditions coverage  lift class 
+##            <dbl>    <dbl> <dbl> <chr> 
+## 1              1      119  2.03 Biscoe
+}\if{html}{\out{</div>}}
+
+Tree-based models can also be tidied. Rather than saving the results in
+a recursive tree structure, we can show the paths to each of the
+terminal nodes (which is just a rule).
+
+Let’s fit a model and tidy:
+
+\if{html}{\out{<div class="sourceCode r">}}\preformatted{tree_model <- 
+  boost_tree(trees = 3) \%>\% 
+  set_engine("C5.0") \%>\% 
+  set_mode("classification") \%>\% 
+  fit(island ~ ., data = penguins)
+
+# tree_info <- tidy(tree_model)
+# tree_info
+
+# The statistic column has the class breakdown:
+# tree_info$statistic[[1]]
+}\if{html}{\out{</div>}}
+}
 }
