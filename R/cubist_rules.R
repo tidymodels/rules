@@ -85,7 +85,7 @@ cubist_pred_wrap <- function(neighbors = 0, object, new_data, ...) {
   }
   object$spec$args$neighbors <- neighbors
   res <- predict(object, new_data)
-  tibble::tibble(neighbors = neighbors, .pred = res$.pred)
+  tibble(neighbors = neighbors, .pred = res$.pred)
 }
 
 cubist_pred <- function(object, new_data, neighbors = NULL, ...) {
@@ -165,7 +165,7 @@ max_rules <- function(range = c(1L, 500L), trans = NULL) {
 #' @keywords internal
 #' @rdname rules-internal
 tunable.cubist_rules <- function(x, ...) {
-  tibble::tibble(
+  tibble(
     name = c("committees", "neighbors", "max_rules"),
     call_info = list(
       list(pkg = "rules", fun = "committees", range = c(1L, 100L)),
