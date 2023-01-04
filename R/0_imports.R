@@ -8,7 +8,7 @@
 #' @importFrom purrr map_dfr
 #' @importFrom tibble is_tibble as_tibble tibble
 #' @importFrom parsnip set_new_model multi_predict update_dot_check show_fit
-#' @importFrom parsnip new_model_spec is_varying null_value update_main_parameters
+#' @importFrom parsnip new_model_spec null_value update_main_parameters
 #' @importFrom parsnip check_final_param
 #' @importFrom stats predict model.frame model.response setNames
 #' @importFrom dials new_quant_param
