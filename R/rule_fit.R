@@ -353,7 +353,7 @@ organize_xrf_multi_prob <- function(x, object, penalty, fam) {
     # fam = "multinomial"
     res <-
       apply(x, 3, as_tibble) %>%
-      bind_rows() %>%
+      dplyr::bind_rows() %>%
       setNames(object$lvl)
 
     # good format for predict()

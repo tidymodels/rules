@@ -3,19 +3,15 @@
 
 #------------------------------------------------------------------------------#
 
-#' @importFrom rlang enquo call2 abort eval_tidy warn new_quosure empty_env
-#' @importFrom rlang enquos expr
+#' @importFrom rlang call2 abort eval_tidy warn enquos expr
 #' @importFrom purrr map_dfr
 #' @importFrom tibble is_tibble as_tibble tibble
-#' @importFrom parsnip set_new_model multi_predict update_dot_check show_fit
-#' @importFrom parsnip new_model_spec null_value update_main_parameters
-#' @importFrom parsnip check_final_param
 #' @importFrom stats predict model.frame model.response setNames
 #' @importFrom dials new_quant_param
-#' @importFrom tidyr nest
-#' @importFrom utils head globalVariables
-#' @importFrom dplyr %>% bind_rows bind_cols
+#' @importFrom utils head
+#' @importFrom dplyr %>%
 #'
+#' @importFrom parsnip multi_predict
 #' @export
 parsnip::multi_predict
 
