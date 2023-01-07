@@ -101,6 +101,7 @@ parse_tree_file <- function(x, trials = x$trials["Actual"]) {
   res[res$tree <= trials, ]
 }
 
+# is this working across all boosting iterations?
 parse_tree <- function(input, n_trees, levels, lvls) {
   trees <- list()
 
@@ -148,7 +149,7 @@ get_rule_index <- function(index, tree, history = c(), levels) {
     elts <- levels[[curr$att]]
     for (i in seq_along(elts)) {
       value <- paste0("\"", elts[i], "\"")
-      rule_name <- paste(curr$att, "==", value)
+      rule_name <- paste("(", curr$att, "==", value, ")")
       rule_index <- stats::setNames(max(c(index, unlist(new_rules))) + 1, rule_name)
 
       new_rule <- get_rule_index(
@@ -163,11 +164,11 @@ get_rule_index <- function(index, tree, history = c(), levels) {
   } else if (curr$type == 2) {
     # A binary split on a numeric predictor
 
-    rule_le_name <- paste(curr$att, "<=", curr$cut)
+    rule_le_name <- paste("(", curr$att, "<=", curr$cut, ")")
     rule_le_index <- stats::setNames(index + 1, rule_le_name)
 
     rule_le_ <- get_rule_index(rule_le_index, tree, history, levels)
-    rule_gt_name <- paste(curr$att, "> ", curr$cut)
+    rule_gt_name <- paste("(", curr$att, "> ", curr$cut, ")")
     rule_gt_index <- stats::setNames(max(unlist(rule_le_)) + 1, rule_gt_name)
 
     rule_gt <- get_rule_index(rule_gt_index, tree, history, levels)
@@ -181,7 +182,7 @@ get_rule_index <- function(index, tree, history = c(), levels) {
     elts <- curr$elt
     for (i in seq_along(elts)) {
       value <- paste0("c(", elts[i], ")")
-      rule_name <- paste(curr$att, "%in%", value)
+      rule_name <- paste("(", curr$att, "%in%", value, ")")
       rule_index <- stats::setNames(max(c(index, unlist(new_rules))) + 1, rule_name)
 
       new_rule <- get_rule_index(

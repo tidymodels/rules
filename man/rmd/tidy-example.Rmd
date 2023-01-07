@@ -129,6 +129,6 @@ tree_info
 # The statistic column has the class breakdown:
 tree_info$statistic[[1]]
 ```
-
+Note that C5.0 models can have fractional estimates of counts in the terminal nodes. 
 
 

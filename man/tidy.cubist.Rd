@@ -202,8 +202,7 @@ Here, we’ll use the Palmer penguin data:
 \if{html}{\out{<div class="sourceCode r">}}\preformatted{data(penguins, package = "modeldata")
 penguins <- 
   penguins \%>\% 
-  drop_na() \%>\% 
-  select(-sex)
+  drop_na()
 }\if{html}{\out{</div>}}
 
 First, let’s fit a boosted rule-based model and tidy:
@@ -216,16 +215,20 @@ rule_info <- tidy(rule_model)
 rule_info
 }\if{html}{\out{</div>}}
 
-\if{html}{\out{<div class="sourceCode">}}\preformatted{## # A tibble: 7 x 4
-##   trial rule_num rule                                        statistic       
-##   <int>    <int> <chr>                                       <list>          
-## 1     1        1 ( species == 'Gentoo' )                     <tibble [1 x 4]>
-## 2     1        2 ( species  \%in\% c( 'Adelie','Chinstrap' ) ) <tibble [1 x 4]>
-## 3     2        1 ( species == 'Gentoo' )                     <tibble [1 x 4]>
-## 4     2        2 ( species == 'Chinstrap' )                  <tibble [1 x 4]>
-## 5     2        3 ( species == 'Adelie' )                     <tibble [1 x 4]>
-## 6     3        1 ( species  \%in\% c( 'Adelie','Gentoo' ) )    <tibble [1 x 4]>
-## 7     3        2 ( species == 'Chinstrap' )                  <tibble [1 x 4]>
+\if{html}{\out{<div class="sourceCode">}}\preformatted{## # A tibble: 25 x 4
+##    trial rule_num rule                                                 statistic
+##    <int>    <int> <chr>                                                <list>   
+##  1     1        1 ( bill_length_mm > 37.5 )                            <tibble> 
+##  2     1        2 ( species == 'Chinstrap' )                           <tibble> 
+##  3     1        3 ( body_mass_g > 3200 ) & ( body_mass_g < 3700 ) & (~ <tibble> 
+##  4     1        4 ( flipper_length_mm < 193 )                          <tibble> 
+##  5     1        5 ( species == 'Adelie' ) & ( bill_length_mm > 38.299~ <tibble> 
+##  6     1        6 ( bill_length_mm < 40.799999 ) & ( bill_depth_mm > ~ <tibble> 
+##  7     1        7 ( species == 'Adelie' ) & ( bill_length_mm > 41.599~ <tibble> 
+##  8     1        8 ( species == 'Adelie' ) & ( bill_depth_mm > 18.9 ) ~ <tibble> 
+##  9     2        1 ( species == 'Gentoo' )                              <tibble> 
+## 10     2        2 ( body_mass_g > 3700 ) & ( sex == 'female' )         <tibble> 
+## # ... with 15 more rows
 }\if{html}{\out{</div>}}
 
 \if{html}{\out{<div class="sourceCode r">}}\preformatted{# The statistic column has the pre-computed data about the 
@@ -236,7 +239,7 @@ rule_info$statistic[[1]]
 \if{html}{\out{<div class="sourceCode">}}\preformatted{## # A tibble: 1 x 4
 ##   num_conditions coverage  lift class 
 ##            <dbl>    <dbl> <dbl> <chr> 
-## 1              1      119  2.03 Biscoe
+## 1              1      286  1.10 Biscoe
 }\if{html}{\out{</div>}}
 
 Tree-based models can also be tidied. Rather than saving the results in
@@ -251,11 +254,39 @@ Let’s fit a model and tidy:
   set_mode("classification") \%>\% 
   fit(island ~ ., data = penguins)
 
-# tree_info <- tidy(tree_model)
-# tree_info
-
-# The statistic column has the class breakdown:
-# tree_info$statistic[[1]]
+tree_info <- tidy(tree_model)
+tree_info
 }\if{html}{\out{</div>}}
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{## # A tibble: 34 x 4
+##     tree  node rule                                                    statistic
+##    <int> <int> <chr>                                                   <list>   
+##  1     1     1 "( species \%in\% c(\"Adelie\") ) & ( sex == \"female\" ~ <tibble> 
+##  2     1     2 "( species \%in\% c(\"Adelie\") ) & ( sex == \"female\" ~ <tibble> 
+##  3     1     3 "( species \%in\% c(\"Adelie\") ) & ( sex == \"female\" ~ <tibble> 
+##  4     1     4 "( species \%in\% c(\"Adelie\") ) & ( sex == \"female\" ~ <tibble> 
+##  5     1     5 "( species \%in\% c(\"Adelie\") ) & ( sex == \"female\" ~ <tibble> 
+##  6     1     6 "( species \%in\% c(\"Adelie\") ) & ( sex == \"female\" ~ <tibble> 
+##  7     1     7 "( species \%in\% c(\"Adelie\") ) & ( sex == \"female\" ~ <tibble> 
+##  8     1     8 "( species \%in\% c(\"Adelie\") ) & ( sex == \"male\" ) ~ <tibble> 
+##  9     1     9 "( species \%in\% c(\"Adelie\") ) & ( sex == \"male\" ) ~ <tibble> 
+## 10     1    10 "( species \%in\% c(\"Adelie\") ) & ( sex == \"male\" ) ~ <tibble> 
+## # ... with 24 more rows
+}\if{html}{\out{</div>}}
+
+\if{html}{\out{<div class="sourceCode r">}}\preformatted{# The statistic column has the class breakdown:
+tree_info$statistic[[1]]
+}\if{html}{\out{</div>}}
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{## # A tibble: 3 x 2
+##   value     count
+##   <chr>     <dbl>
+## 1 Biscoe        3
+## 2 Dream         1
+## 3 Torgersen     0
+}\if{html}{\out{</div>}}
+
+Note that C5.0 models can have fractional estimates of counts in the
+terminal nodes.
 }
 }
