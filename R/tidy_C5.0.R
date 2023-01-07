@@ -98,7 +98,7 @@ parse_tree_file <- function(x, trials = x$trials["Actual"]) {
   tree <- lapply(strsplit(tree, " "), make_list)
 
   res <- parse_tree(tree, n_trees, levels, lvls = x$levels)
-  res[res$tree <= trials, ]
+  res[res$trial <= trials, ]
 }
 
 # is this working across all boosting iterations?
@@ -111,7 +111,7 @@ parse_tree <- function(input, n_trees, levels, lvls) {
     rules <- get_rule_index(index, input, levels = levels)
 
     tree_tbl <- dplyr::tibble(
-      tree = i,
+      trial = i,
       node = seq_along(rules),
       rule = purrr::map_chr(rules, parse_rule),
       statistic = purrr::map(rules, get_freqs, tree = input, lvls = lvls)
