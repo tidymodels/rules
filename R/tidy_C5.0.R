@@ -112,7 +112,7 @@ parse_tree <- function(input, n_trees, levels, lvls) {
     tree_tbl <- dplyr::tibble(
       tree = i,
       node = seq_along(rules),
-      rule = lapply(rules, parse_rule),
+      rule = purrr::map_chr(rules, parse_rule),
       statistic = purrr::map(rules, get_freqs, tree = input, lvls = lvls)
     )
 
@@ -124,12 +124,26 @@ parse_tree <- function(input, n_trees, levels, lvls) {
   dplyr::bind_rows(trees)
 }
 
+
 get_rule_index <- function(index, tree, history = c(), levels) {
   res <- list()
   history <- c(history, index)
   curr <- tree[[index]]
 
-  if (curr$type == 1) {
+  if (curr$type == 0) {
+    # A situation where there are no splits, such as the first two here:
+    #
+    # species = Chinstrap: Dream (68)
+    # species = Gentoo: Biscoe (119)
+    # species = Adelie:
+    #   :...sex = male:
+
+    return(list(history))
+
+  } else if (curr$type == 1) {
+    # Case with binary split on a categorical predictor where there are
+    # only two possible levels
+
     new_rules <- list()
     elts <- levels[[curr$att]]
     for (i in seq_along(elts)) {
@@ -147,17 +161,22 @@ get_rule_index <- function(index, tree, history = c(), levels) {
     }
     res <- c(res, new_rules)
   } else if (curr$type == 2) {
-    rule1_name <- paste(curr$att, "<=", curr$cut)
-    rule1_index <- stats::setNames(index + 1, rule1_name)
+    # A binary split on a numeric predictor
 
-    rule1 <- get_rule_index(rule1_index, tree, history, levels)
+    rule_le_name <- paste(curr$att, "<=", curr$cut)
+    rule_le_index <- stats::setNames(index + 1, rule_le_name)
 
-    rule2_name <- paste(curr$att, ">", curr$cut)
-    rule2_index <- stats::setNames(max(unlist(rule1)) + 1, rule2_name)
+    rule_le_ <- get_rule_index(rule_le_index, tree, history, levels)
+    rule_gt_name <- paste(curr$att, "> ", curr$cut)
+    rule_gt_index <- stats::setNames(max(unlist(rule_le_)) + 1, rule_gt_name)
 
-    rule2 <- get_rule_index(rule2_index, tree, history, levels)
-    res <- c(res, rule1, rule2)
+    rule_gt <- get_rule_index(rule_gt_index, tree, history, levels)
+
+    res <- c(res, rule_le_, rule_gt)
+
   } else if (curr$type == 3) {
+    # A split with 3+ branches on a categorical predictor
+
     new_rules <- list()
     elts <- curr$elt
     for (i in seq_along(elts)) {
@@ -173,9 +192,11 @@ get_rule_index <- function(index, tree, history = c(), levels) {
       )
       new_rules <- c(new_rules, new_rule)
     }
+
     res <- c(res, new_rules)
   } else {
-    return(list(history))
+    msg <- paste("Unknown split type", curr$type)
+    rlang::abort(msg)
   }
 
   res
@@ -191,9 +212,11 @@ parse_rule <- function(x) {
 get_freqs <- function(rule, tree, lvls) {
   last <- utils::tail(rule, 1)
 
+  # These can be fraction based on how C5.0 deals with missing data
   freqs <- tree[[last]]$freq
-  freqs <- stringr::str_extract_all(freqs, "[0-9]+")[[1]]
-  freqs <- as.integer(freqs)
+  freqs <- stringr::str_remove_all(freqs, "\"")
+  freqs <- stringr::str_split(freqs, ",")[[1]]
+  freqs <- as.numeric(freqs)
 
   if (length(freqs) != length(lvls)) {
     msg <- paste0("The number of counts (", length(freqs), ") is not the same as ",

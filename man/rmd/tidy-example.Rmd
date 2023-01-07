@@ -94,8 +94,7 @@ Here, we'll use the Palmer penguin data:
 data(penguins, package = "modeldata")
 penguins <- 
   penguins %>% 
-  drop_na() %>% 
-  select(-sex)
+  drop_na()
 ```
 
 First, let's fit a boosted rule-based model and tidy:
@@ -124,11 +123,11 @@ tree_model <-
   set_mode("classification") %>% 
   fit(island ~ ., data = penguins)
 
-# tree_info <- tidy(tree_model)
-# tree_info
+tree_info <- tidy(tree_model)
+tree_info
 
 # The statistic column has the class breakdown:
-# tree_info$statistic[[1]]
+tree_info$statistic[[1]]
 ```
 
 
