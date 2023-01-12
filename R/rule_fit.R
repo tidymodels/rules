@@ -171,7 +171,6 @@ get_levels <- function(formula, data) {
   res
 }
 
-
 #' @export
 #' @keywords internal
 #' @rdname rules-internal
@@ -179,10 +178,11 @@ xrf_pred <- function(object, new_data, lambda = object$fit$lambda, type, ...) {
   lambda <- sort(lambda)
 
   res <- predict(object$fit, new_data, lambda = lambda, type = "response")
+  family <- rlang::as_name(object$fit$family)
   if (type != "prob") {
-    res <- organize_xrf_multi_pred(res, object, lambda, object$fit$family)
+    res <- organize_xrf_multi_pred(res, object, lambda, family)
   } else {
-    res <- organize_xrf_multi_prob(res, object, lambda, object$fit$family)
+    res <- organize_xrf_multi_prob(res, object, lambda, family)
   }
   res
 }
