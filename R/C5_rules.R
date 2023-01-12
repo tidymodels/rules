@@ -70,7 +70,7 @@ c5_pred_wrap <- function(trials = 1, object, new_data, type = "class", ...) {
     args <- c(args, dots)
   }
   cl <- rlang::call2(.fn = "predict", !!!args)
-  tbl_trial <- tibble::tibble(trees = rep(trials, nrow(new_data)))
+  tbl_trial <- tibble(trees = rep(trials, nrow(new_data)))
   res <- dplyr::bind_cols(tbl_trial, rlang::eval_tidy(cl))
   res
 }
@@ -95,7 +95,7 @@ c5_pred <- function(object, new_data, trials = object$fit$trials["Actual"], ...)
 # ------------------------------------------------------------------------------
 
 prob_matrix_to_tibble <- function(x, object) {
-  tibble::as_tibble(x)
+  as_tibble(x)
 }
 
 # ------------------------------------------------------------------------------
@@ -131,7 +131,7 @@ add_engine_parameters <- function(pset, engines) {
 }
 
 c5_rules_engine_args <-
-  tibble::tibble(
+  dplyr::tibble(
     name = c(
       "CF",
       "noGlobalPruning",

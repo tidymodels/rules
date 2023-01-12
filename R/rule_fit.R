@@ -253,7 +253,7 @@ organize_xrf_multi_pred <- function(x, object, penalty, fam) {
       res <- tibble(penalty = rep(penalty, nrow(x)), .pred = unname(x[, 1]))
     } else {
       res <-
-        tibble::as_tibble(x) %>%
+        as_tibble(x) %>%
         dplyr::mutate(.row_number = 1:nrow(x)) %>%
         tidyr::pivot_longer(cols = c(-.row_number), values_to = ".pred") %>%
         dplyr::mutate(penalty = rep(penalty, nrow(x))) %>%
@@ -267,7 +267,7 @@ organize_xrf_multi_pred <- function(x, object, penalty, fam) {
   } else {
     if (fam == "binomial") {
       res <-
-        tibble::as_tibble(x) %>%
+        as_tibble(x) %>%
         dplyr::mutate(.row_number = 1:nrow(x)) %>%
         tidyr::pivot_longer(cols = c(-.row_number), values_to = ".pred_class") %>%
         dplyr::select(-name) %>%
@@ -294,7 +294,7 @@ organize_xrf_multi_pred <- function(x, object, penalty, fam) {
       # fam = "multinomial"
       res <-
         apply(x, 3, function(x) apply(x, 1, which.max)) %>%
-        tibble::as_tibble() %>%
+        as_tibble() %>%
         dplyr::mutate(.row_number = 1:nrow(x)) %>%
         tidyr::pivot_longer(cols = c(-.row_number), values_to = ".pred_class") %>%
         dplyr::select(-name) %>%
@@ -324,7 +324,7 @@ organize_xrf_multi_pred <- function(x, object, penalty, fam) {
 organize_xrf_multi_prob <- function(x, object, penalty, fam) {
   if (fam == "binomial") {
     res <-
-      tibble::as_tibble(x) %>%
+      as_tibble(x) %>%
       dplyr::mutate(.row_number = 1:nrow(x)) %>%
       tidyr::pivot_longer(cols = c(-.row_number), values_to = ".pred_2") %>%
       dplyr::mutate(penalty = rep(penalty, nrow(x))) %>%
@@ -353,7 +353,7 @@ organize_xrf_multi_prob <- function(x, object, penalty, fam) {
     # fam = "multinomial"
     res <-
       apply(x, 3, as_tibble) %>%
-      bind_rows() %>%
+      dplyr::bind_rows() %>%
       setNames(object$lvl)
 
     # good format for predict()
@@ -377,7 +377,7 @@ organize_xrf_multi_prob <- function(x, object, penalty, fam) {
 #' @keywords internal
 #' @rdname rules-internal
 tunable.rule_fit <- function(x, ...) {
-  tibble::tibble(
+  tibble(
     name = c(
       "mtry", "trees", "min_n", "tree_depth", "learn_rate",
       "loss_reduction", "sample_size", "penalty"
