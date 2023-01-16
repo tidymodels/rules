@@ -1,4 +1,4 @@
-# rules (development version)
+# rules 1.0.1
 
 * The `tidy()` method for RuleFit models was not using the penalty value. This is corrected and a single penalty value is required for using the function. (#66)
 
