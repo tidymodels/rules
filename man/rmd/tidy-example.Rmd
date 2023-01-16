@@ -1,56 +1,134 @@
-## An example
+The outputs for these tidy functions are different since the model structures are different. 
+
+Let's look at Cubist and RuleFit first, using the Ames data, then C5.0 with a different data set.
+
+## An example using the Ames data
+
+```{r, include=FALSE}
+library(tidymodels)
+library(rules)
+library(rlang)
+tidymodels_prefer()
+options(pillar.advice = FALSE, pillar.min_title_chars = Inf)
+```
+
+First we will fit a Cubist model and tidy it:
 
 ```{r, warnings = FALSE}
-library(dplyr)
+library(tidymodels)
+library(rules)
+library(rlang)
 
 data(ames, package = "modeldata")
 
-ames <-
-  ames %>%
-  mutate(Sale_Price = log10(ames$Sale_Price),
-         Gr_Liv_Area = log10(ames$Gr_Liv_Area))
-
-# ------------------------------------------------------------------------------
+ames <- ames %>% 
+  mutate(Sale_Price = log10(Sale_Price)) %>% 
+  select(Sale_Price, Longitude, Latitude, Central_Air)
 
 cb_fit <-
   cubist_rules(committees = 10) %>%
   set_engine("Cubist") %>%
-  fit(Sale_Price ~ Neighborhood + Longitude + Latitude + Gr_Liv_Area + Central_Air,
-      data = ames)
+  fit(Sale_Price ~ ., data = ames)
 
 cb_res <- tidy(cb_fit)
-cb_res
 
+cb_res
+```
+
+Since Cubist fits linear regressions within the data from each rule, the coefficients are in the `estimate` column and other information are in `statistic`: 
+
+```{r}
 cb_res$estimate[[1]]
 cb_res$statistic[[1]]
+```
 
-# ------------------------------------------------------------------------------
+Note that we can get the data for this rule by using [rlang::parse_expr()] with it:
 
-library(recipes)
+```{r}
+rule_1_expr <- parse_expr(cb_res$rule[1])
+rule_1_expr
+```
 
+then use it to get the data back:
+
+```{r}
+filter(ames, !!rule_1_expr)
+```
+
+Now let's fit a RuleFit model. First, we'll use a recipe to convert the Central Air predictor to an indicator: 
+
+```{r}
 xrf_reg_mod <-
-  rule_fit(trees = 10, penalty = .001) %>%
+  rule_fit(trees = 3, penalty = .001) %>%
   set_engine("xrf") %>%
   set_mode("regression")
-
 # Make dummy variables since xgboost will not
+
 ames_rec <-
-  recipe(Sale_Price ~ Neighborhood + Longitude + Latitude +
-         Gr_Liv_Area + Central_Air,
-         data = ames) %>%
-  step_dummy(Neighborhood, Central_Air) %>%
+  recipe(Sale_Price ~ ., data = ames) %>%
+  step_dummy(Central_Air) %>%
   step_zv(all_predictors())
 
 ames_processed <- prep(ames_rec) %>% bake(new_data = NULL)
 
-set.seed(1)
 xrf_reg_fit <-
   xrf_reg_mod %>%
   fit(Sale_Price ~ ., data = ames_processed)
 
-xrf_rule_res <- tidy(xrf_reg_fit, penalty = 0.05)
-xrf_rule_res$rule[nrow(xrf_rule_res)] %>% rlang::parse_expr()
+xrf_rule_res <- tidy(xrf_reg_fit, penalty = .001)
 
-xrf_col_res <- tidy(xrf_reg_fit, penalty = 0.05, unit = "columns")
-xrf_col_res
+xrf_rule_res
 ```
+
+Here, the focus is on the model coefficients produced by `glmnet`. We can also break down the results and sort them by the original predictor columns: 
+
+```{r}
+tidy(xrf_reg_fit, penalty = .001, unit = "columns")
+```
+
+## C5.0 classification models
+
+Here, we'll use the Palmer penguin data: 
+
+```{r}
+data(penguins, package = "modeldata")
+
+penguins <- drop_na(penguins)
+```
+
+First, let's fit a boosted rule-based model and tidy:
+
+```{r}
+rule_model <- 
+  C5_rules(trees = 3) %>% 
+  fit(island ~ ., data = penguins)
+
+rule_info <- tidy(rule_model)
+
+rule_info
+
+# The statistic column has the pre-computed data about the 
+# data covered by the rule:
+rule_info$statistic[[1]]
+```
+
+Tree-based models can also be tidied. Rather than saving the results in a recursive tree structure, we can show the paths to each of the terminal nodes (which is just a rule). 
+
+Let's fit a model and tidy: 
+
+```{r}
+tree_model <- 
+  boost_tree(trees = 3) %>% 
+  set_engine("C5.0") %>% 
+  set_mode("classification") %>% 
+  fit(island ~ ., data = penguins)
+
+tree_info <- tidy(tree_model)
+
+tree_info
+
+# The statistic column has the class breakdown:
+tree_info$statistic[[1]]
+```
+
+Note that C5.0 models can have fractional estimates of counts in the terminal nodes. 

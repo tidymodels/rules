@@ -1,30 +1,16 @@
-#' Turn rule models into tidy tibbles
+#' Turn C5.0 and rule-based models into tidy tibbles
 #'
 #' @param x A `Cubist`, `C5.0`, or `xrf` object.
 #' @param committees The number of committees to tidy (defaults to the entire
 #' ensemble).
-#' @param trials The number of boosting iterations to tidy (defaults to the entire
+#' @param trees The number of boosting iterations to tidy (defaults to the entire
 #' ensemble).
+#' @param penalty A single numeric value for the `lambda` penalty value.
+#' @param unit What data should be returned? For `unit = 'rules'`, each row
+#' corresponds to a rule. For `unit = 'columns'`, each row is a predictor
+#' column. The latter can be helpful when determining variable importance.
 #' @param ... Not currently used.
 #' @includeRmd man/rmd/tidy-example.Rmd details
-#' @return
-#' The Cubist method has columns `committee`, `rule_num`, `rule`, `estimate`,
-#' and `statistic`. The latter two are nested tibbles. `estimate` contains
-#' the parameter estimates for each term in the regression model and `statistic`
-#' has statistics about the data selected by the rules and the model fit.
-#'
-#' The C5.0 method has columns `trial`, `rule_num`, `rule`,
-#' and `statistics`. The latter two are nested tibbles.  `statistic`
-#' has statistics about the data selected by the rules.
-#'
-#' The `xrf` results has columns `rule_id`, `rule`, and `estimate`. The
-#' `rule_id` column has the rule identifier (e.g., "r0_21") or the feature
-#' column name when the column is added directly into the model. For multiclass
-#' models, a `class` column is included.
-#'
-#' In each case, the `rule` column has a character string with the rule
-#' conditions. These can be converted to an R expression using
-#' [rlang::parse_expr()].
 #' @export
 tidy.cubist <- function(x, committees = x$committee, ...) {
   txt <- x$model
