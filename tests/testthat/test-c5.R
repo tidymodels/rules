@@ -268,8 +268,8 @@ test_that("updates", {
   spec_10   <- C5_rules(trees = 10)
   spec_10_a <- C5_rules(trees = 10, min_n = 100)
 
-  expect_equal(update(spec_1,   tibble::tibble(trees = 10))$args$trees, 10)
-  expect_equal(update(spec_1_a, tibble::tibble(trees = 10))$args$trees, 10)
+  expect_equal(update(spec_1,   tibble(trees = 10))$args$trees, 10)
+  expect_equal(update(spec_1_a, tibble(trees = 10))$args$trees, 10)
 
   expect_equal(update(spec_1,   trees = 10), spec_10)
   expect_equal(update(spec_1_a, trees = 10), spec_10_a)

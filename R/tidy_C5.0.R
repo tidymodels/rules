@@ -43,7 +43,7 @@ parse_rule_file <- function(x, trials = x$trials["Actual"], ...) {
     }
     num_rules <- get_num_rules(txt_rows[loc])
     trial_data <-
-      tibble::tibble(
+      tibble(
         rule_num = 1:num_rules,
         rule = NA
       )

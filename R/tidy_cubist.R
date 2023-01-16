@@ -48,7 +48,7 @@ tidy.cubist <- function(x, committees = x$committee, ...) {
     }
     num_rules <- get_num_rules(txt_rows[loc])
     comm_data <-
-      tibble::tibble(
+      tibble(
         rule_num = 1:num_rules,
         rule = NA,
         estimate = NA
@@ -141,7 +141,7 @@ get_reg_data <- function(txt, results = "expression") {
     split_terms <- split(vals, rep(1:n_terms, each = 2))
     res <- splits_to_coefs(split_terms, res)
   } else {
-    res <- tibble::tibble(term = "(Intercept)", estimate = as.numeric(res))
+    res <- tibble(term = "(Intercept)", estimate = as.numeric(res))
   }
   res
 }
@@ -152,9 +152,9 @@ splits_to_coefs <- function(x, int) {
     rlang::abort("Problem with getting coefficients")
   }
   coef_val <- purrr::map_dbl(x, ~ as.numeric(.x[2]))
-  res <- tibble::tibble(term = purrr::map_chr(x, ~ .x[1]), estimate = coef_val)
+  res <- tibble(term = purrr::map_chr(x, ~ .x[1]), estimate = coef_val)
   res <- dplyr::bind_rows(
-    tibble::tibble(term = "(Intercept)", estimate = as.numeric(int)),
+    tibble(term = "(Intercept)", estimate = as.numeric(int)),
     res
   )
   res

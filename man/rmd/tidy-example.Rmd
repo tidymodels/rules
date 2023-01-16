@@ -4,7 +4,6 @@ Let's look at Cubist and RuleFit first, using the Ames data, then C5.0 with a di
 
 ## An example using the Ames data
 
-
 ```{r, include=FALSE}
 library(tidymodels)
 library(rules)
@@ -32,6 +31,7 @@ cb_fit <-
   fit(Sale_Price ~ ., data = ames)
 
 cb_res <- tidy(cb_fit)
+
 cb_res
 ```
 
@@ -62,8 +62,8 @@ xrf_reg_mod <-
   rule_fit(trees = 3, penalty = .001) %>%
   set_engine("xrf") %>%
   set_mode("regression")
-
 # Make dummy variables since xgboost will not
+
 ames_rec <-
   recipe(Sale_Price ~ ., data = ames) %>%
   step_dummy(Central_Air) %>%
@@ -71,12 +71,12 @@ ames_rec <-
 
 ames_processed <- prep(ames_rec) %>% bake(new_data = NULL)
 
-set.seed(1)
 xrf_reg_fit <-
   xrf_reg_mod %>%
   fit(Sale_Price ~ ., data = ames_processed)
 
 xrf_rule_res <- tidy(xrf_reg_fit, penalty = .001)
+
 xrf_rule_res
 ```
 
@@ -92,9 +92,8 @@ Here, we'll use the Palmer penguin data:
 
 ```{r}
 data(penguins, package = "modeldata")
-penguins <- 
-  penguins %>% 
-  drop_na()
+
+penguins <- drop_na(penguins)
 ```
 
 First, let's fit a boosted rule-based model and tidy:
@@ -105,6 +104,7 @@ rule_model <-
   fit(island ~ ., data = penguins)
 
 rule_info <- tidy(rule_model)
+
 rule_info
 
 # The statistic column has the pre-computed data about the 
@@ -124,11 +124,11 @@ tree_model <-
   fit(island ~ ., data = penguins)
 
 tree_info <- tidy(tree_model)
+
 tree_info
 
 # The statistic column has the class breakdown:
 tree_info$statistic[[1]]
 ```
+
 Note that C5.0 models can have fractional estimates of counts in the terminal nodes. 
-
-

@@ -58,6 +58,7 @@ cb_fit <-
   fit(Sale_Price ~ ., data = ames)
 
 cb_res <- tidy(cb_fit)
+
 cb_res
 }\if{html}{\out{</div>}}
 
@@ -140,8 +141,8 @@ Central Air predictor to an indicator:
   rule_fit(trees = 3, penalty = .001) \%>\%
   set_engine("xrf") \%>\%
   set_mode("regression")
-
 # Make dummy variables since xgboost will not
+
 ames_rec <-
   recipe(Sale_Price ~ ., data = ames) \%>\%
   step_dummy(Central_Air) \%>\%
@@ -149,12 +150,12 @@ ames_rec <-
 
 ames_processed <- prep(ames_rec) \%>\% bake(new_data = NULL)
 
-set.seed(1)
 xrf_reg_fit <-
   xrf_reg_mod \%>\%
   fit(Sale_Price ~ ., data = ames_processed)
 
 xrf_rule_res <- tidy(xrf_reg_fit, penalty = .001)
+
 xrf_rule_res
 }\if{html}{\out{</div>}}
 
@@ -200,9 +201,8 @@ columns:
 Here, we’ll use the Palmer penguin data:
 
 \if{html}{\out{<div class="sourceCode r">}}\preformatted{data(penguins, package = "modeldata")
-penguins <- 
-  penguins \%>\% 
-  drop_na()
+
+penguins <- drop_na(penguins)
 }\if{html}{\out{</div>}}
 
 First, let’s fit a boosted rule-based model and tidy:
@@ -212,6 +212,7 @@ First, let’s fit a boosted rule-based model and tidy:
   fit(island ~ ., data = penguins)
 
 rule_info <- tidy(rule_model)
+
 rule_info
 }\if{html}{\out{</div>}}
 
@@ -255,11 +256,12 @@ Let’s fit a model and tidy:
   fit(island ~ ., data = penguins)
 
 tree_info <- tidy(tree_model)
+
 tree_info
 }\if{html}{\out{</div>}}
 
 \if{html}{\out{<div class="sourceCode">}}\preformatted{## # A tibble: 34 x 4
-##     tree  node rule                                                    statistic
+##    trial  node rule                                                    statistic
 ##    <int> <int> <chr>                                                   <list>   
 ##  1     1     1 "( species \%in\% c(\"Adelie\") ) & ( sex == \"female\" ~ <tibble> 
 ##  2     1     2 "( species \%in\% c(\"Adelie\") ) & ( sex == \"female\" ~ <tibble> 

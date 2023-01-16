@@ -62,7 +62,7 @@ xrf_coefs <- function(x, penalty = NULL) {
     feature_coef <-
       purrr::map(
         feature_coef,
-        ~ tibble::as_tibble(.x, .name_repair = "minimal", rownames = "rule_id")
+        ~ as_tibble(.x, .name_repair = "minimal", rownames = "rule_id")
       )
     feature_coef <-
       purrr::map2(
@@ -78,7 +78,7 @@ xrf_coefs <- function(x, penalty = NULL) {
   } else {
     feature_coef <- as.matrix(feature_coef)
     feature_coef <-
-      tibble::as_tibble(
+      as_tibble(
         feature_coef,
         .name_repair = "minimal",
         rownames = "rule_id"
@@ -109,7 +109,7 @@ xrf_coefs <- function(x, penalty = NULL) {
 
 
 lvl_to_tibble <- function(x, var_name) {
-  tibble::tibble(
+  tibble(
     term = paste0(var_name, x),
     column = var_name,
     level = x
@@ -122,7 +122,7 @@ expand_xlev <- function(x) {
     res <- purrr::map2_dfr(x, nms, lvl_to_tibble)
   } else {
     res <-
-      tibble::tibble(
+      tibble(
         term = NA_character_,
         column = NA_character_,
         level = NA_character_
