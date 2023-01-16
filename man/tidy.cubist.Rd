@@ -88,26 +88,26 @@ cb_res <- tidy(cb_fit)
 cb_res
 }\if{html}{\out{</div>}}
 
-\if{html}{\out{<div class="sourceCode">}}\preformatted{## # A tibble: 157 × 5
-##    committee rule_num rule                                    estimate statistic
-##        <int>    <int> <chr>                                   <list>   <list>   
-##  1         1        1 ( Central_Air == 'N' ) & ( Gr_Liv_Area… <tibble> <tibble> 
-##  2         1        2 ( Gr_Liv_Area <= 3.0326188 ) & ( Neigh… <tibble> <tibble> 
-##  3         1        3 ( Neighborhood  \%in\% c( 'Old_Town','Ed… <tibble> <tibble> 
-##  4         1        4 ( Neighborhood  \%in\% c( 'Old_Town','Ed… <tibble> <tibble> 
-##  5         1        5 ( Central_Air == 'N' ) & ( Gr_Liv_Area… <tibble> <tibble> 
-##  6         1        6 ( Longitude <= -93.652023 ) & ( Neighb… <tibble> <tibble> 
-##  7         1        7 ( Gr_Liv_Area > 3.2284005 ) & ( Neighb… <tibble> <tibble> 
-##  8         1        8 ( Neighborhood  \%in\% c( 'North_Ames','… <tibble> <tibble> 
-##  9         1        9 ( Latitude <= 42.009399 ) & ( Neighbor… <tibble> <tibble> 
-## 10         1       10 ( Neighborhood  \%in\% c( 'College_Creek… <tibble> <tibble> 
-## # … with 147 more rows
+\if{html}{\out{<div class="sourceCode">}}\preformatted{## # A tibble: 157 x 5
+##    committee rule_num rule                                     estimate statis~1
+##        <int>    <int> <chr>                                    <list>   <list>  
+##  1         1        1 ( Central_Air == 'N' ) & ( Gr_Liv_Area ~ <tibble> <tibble>
+##  2         1        2 ( Gr_Liv_Area <= 3.0326188 ) & ( Neighb~ <tibble> <tibble>
+##  3         1        3 ( Neighborhood  \%in\% c( 'Old_Town','Edw~ <tibble> <tibble>
+##  4         1        4 ( Neighborhood  \%in\% c( 'Old_Town','Edw~ <tibble> <tibble>
+##  5         1        5 ( Central_Air == 'N' ) & ( Gr_Liv_Area ~ <tibble> <tibble>
+##  6         1        6 ( Longitude <= -93.652023 ) & ( Neighbo~ <tibble> <tibble>
+##  7         1        7 ( Gr_Liv_Area > 3.2284005 ) & ( Neighbo~ <tibble> <tibble>
+##  8         1        8 ( Neighborhood  \%in\% c( 'North_Ames','G~ <tibble> <tibble>
+##  9         1        9 ( Latitude <= 42.009399 ) & ( Neighborh~ <tibble> <tibble>
+## 10         1       10 ( Neighborhood  \%in\% c( 'College_Creek'~ <tibble> <tibble>
+## # ... with 147 more rows, and abbreviated variable name 1: statistic
 }\if{html}{\out{</div>}}
 
 \if{html}{\out{<div class="sourceCode r">}}\preformatted{cb_res$estimate[[1]]
 }\if{html}{\out{</div>}}
 
-\if{html}{\out{<div class="sourceCode">}}\preformatted{## # A tibble: 4 × 2
+\if{html}{\out{<div class="sourceCode">}}\preformatted{## # A tibble: 4 x 2
 ##   term        estimate
 ##   <chr>          <dbl>
 ## 1 (Intercept)  -408.  
@@ -119,7 +119,7 @@ cb_res
 \if{html}{\out{<div class="sourceCode r">}}\preformatted{cb_res$statistic[[1]]
 }\if{html}{\out{</div>}}
 
-\if{html}{\out{<div class="sourceCode">}}\preformatted{## # A tibble: 1 × 6
+\if{html}{\out{<div class="sourceCode">}}\preformatted{## # A tibble: 1 x 6
 ##   num_conditions coverage  mean   min   max  error
 ##            <dbl>    <dbl> <dbl> <dbl> <dbl>  <dbl>
 ## 1              2      154  4.94  4.11  5.31 0.0956
@@ -157,156 +157,42 @@ set.seed(1)
 xrf_reg_fit <-
   xrf_reg_mod \%>\%
   fit(Sale_Price ~ ., data = ames_processed)
-}\if{html}{\out{</div>}}
 
-\if{html}{\out{<div class="sourceCode">}}\preformatted{## New names:
-## • `.` -> `....1`
-## • `.` -> `....2`
-## • `.` -> `....3`
-## • `.` -> `....4`
-## • `.` -> `....5`
-## • `.` -> `....6`
-## • `.` -> `....7`
-## • `.` -> `....8`
-## • `.` -> `....9`
-## • `.` -> `....10`
-## • `.` -> `....11`
-## • `.` -> `....12`
-## • `.` -> `....13`
-## • `.` -> `....14`
-## • `.` -> `....15`
-## • `.` -> `....16`
-## • `.` -> `....17`
-## • `.` -> `....18`
-## • `.` -> `....19`
-## • `.` -> `....20`
-## • `.` -> `....21`
-## • `.` -> `....22`
-## • `.` -> `....23`
-## • `.` -> `....24`
-## • `.` -> `....25`
-## • `.` -> `....26`
-## • `.` -> `....27`
-## • `.` -> `....28`
-## • `.` -> `....29`
-## • `.` -> `....30`
-## • `.` -> `....31`
-## • `.` -> `....32`
-## • `.` -> `....33`
-## • `.` -> `....34`
-## • `.` -> `....35`
-## • `.` -> `....36`
-## • `.` -> `....37`
-## • `.` -> `....38`
-## • `.` -> `....39`
-## • `.` -> `....40`
-## • `.` -> `....41`
-## • `.` -> `....42`
-## • `.` -> `....43`
-## • `.` -> `....44`
-## • `.` -> `....45`
-## • `.` -> `....46`
-## • `.` -> `....47`
-## • `.` -> `....48`
-## • `.` -> `....49`
-## • `.` -> `....50`
-## • `.` -> `....51`
-## • `.` -> `....52`
-## • `.` -> `....53`
-## • `.` -> `....54`
-## • `.` -> `....55`
-## • `.` -> `....56`
-## • `.` -> `....57`
-## • `.` -> `....58`
-## • `.` -> `....59`
-## • `.` -> `....60`
-## • `.` -> `....61`
-## • `.` -> `....62`
-## • `.` -> `....63`
-## • `.` -> `....64`
-## • `.` -> `....65`
-## • `.` -> `....66`
-## • `.` -> `....67`
-## • `.` -> `....68`
-## • `.` -> `....69`
-## • `.` -> `....70`
-## • `.` -> `....71`
-## • `.` -> `....72`
-## • `.` -> `....73`
-## • `.` -> `....74`
-## • `.` -> `....75`
-## • `.` -> `....76`
-## • `.` -> `....77`
-## • `.` -> `....78`
-## • `.` -> `....79`
-## • `.` -> `....80`
-## • `.` -> `....81`
-## • `.` -> `....82`
-## • `.` -> `....83`
-## • `.` -> `....84`
-## • `.` -> `....85`
-## • `.` -> `....86`
-## • `.` -> `....87`
-## • `.` -> `....88`
-## • `.` -> `....89`
-## • `.` -> `....90`
-## • `.` -> `....91`
-## • `.` -> `....92`
-## • `.` -> `....93`
-## • `.` -> `....94`
-## • `.` -> `....95`
-## • `.` -> `....96`
-## • `.` -> `....97`
-## • `.` -> `....98`
-## • `.` -> `....99`
-## • `.` -> `....100`
-## • `.` -> `....101`
-## • `.` -> `....102`
-## • `.` -> `....103`
-## • `.` -> `....104`
-## • `.` -> `....105`
-## • `.` -> `....106`
-## • `.` -> `....107`
-## • `.` -> `....108`
-## • `.` -> `....109`
-## • `.` -> `....110`
-## • `.` -> `....111`
-## • `.` -> `....112`
-## • `.` -> `....113`
-## • `.` -> `....114`
-## • `.` -> `....115`
-## • `.` -> `....116`
-## • `.` -> `....117`
-## • `.` -> `....118`
-}\if{html}{\out{</div>}}
-
-\if{html}{\out{<div class="sourceCode r">}}\preformatted{xrf_rule_res <- tidy(xrf_reg_fit)
+xrf_rule_res <- tidy(xrf_reg_fit, penalty = 0.05)
 xrf_rule_res$rule[nrow(xrf_rule_res)] \%>\% rlang::parse_expr()
 }\if{html}{\out{</div>}}
 
-\if{html}{\out{<div class="sourceCode">}}\preformatted{## (Central_Air_Y >= 0.5) & (Gr_Liv_Area < 3.38872266) & (Gr_Liv_Area >= 
-##     2.94571471) & (Gr_Liv_Area >= 3.24870872) & (Latitude >= 
-##     42.0271072) & (Neighborhood_Old_Town >= 0.5)
+\if{html}{\out{<div class="sourceCode">}}\preformatted{## (Latitude < 42.0367355) & (Latitude >= 42.0094452) & (Neighborhood_College_Creek < 
+##     0.5) & (Neighborhood_Northridge_Heights < 0.5) & (Neighborhood_Somerset < 
+##     0.5) & (Neighborhood_Stone_Brook < 0.5)
 }\if{html}{\out{</div>}}
 
-\if{html}{\out{<div class="sourceCode r">}}\preformatted{xrf_col_res <- tidy(xrf_reg_fit, unit = "columns")
+\if{html}{\out{<div class="sourceCode r">}}\preformatted{xrf_col_res <- tidy(xrf_reg_fit, penalty = 0.05, unit = "columns")
 xrf_col_res
 }\if{html}{\out{</div>}}
 
-\if{html}{\out{<div class="sourceCode">}}\preformatted{## # A tibble: 417 × 3
-##    rule_id term          estimate
-##    <chr>   <chr>            <dbl>
-##  1 r0_1    Gr_Liv_Area    -0.0138
-##  2 r2_3    Gr_Liv_Area    -0.0310
-##  3 r2_2    Gr_Liv_Area     0.0127
-##  4 r2_3    Central_Air_Y  -0.0310
-##  5 r3_5    Longitude       0.0859
-##  6 r3_6    Longitude       0.0171
-##  7 r3_2    Longitude      -0.0109
-##  8 r3_5    Latitude        0.0859
-##  9 r3_6    Latitude        0.0171
-## 10 r3_5    Longitude       0.0859
-## # … with 407 more rows
+\if{html}{\out{<div class="sourceCode">}}\preformatted{## # A tibble: 19 x 3
+##    rule_id       term                                                  estimate
+##    <chr>         <chr>                                                    <dbl>
+##  1 r3_5          Longitude                                             0.00731 
+##  2 r3_2          Longitude                                            -0.0101  
+##  3 r3_5          Latitude                                              0.00731 
+##  4 r3_5          Longitude                                             0.00731 
+##  5 r7_47         Gr_Liv_Area                                           0.00186 
+##  6 r7_47         Central_Air_Y                                         0.00186 
+##  7 r7_47         Longitude                                             0.00186 
+##  8 r7_47         Neighborhood_Edwards                                  0.00186 
+##  9 r7_47         Neighborhood_Sawyer                                   0.00186 
+## 10 r7_47         Neighborhood_South_and_West_of_Iowa_State_University  0.00186 
+## 11 r8_25         Neighborhood_Northridge_Heights                      -0.0290  
+## 12 r8_25         Neighborhood_Stone_Brook                             -0.0290  
+## 13 r8_25         Latitude                                             -0.0290  
+## 14 r8_25         Neighborhood_Somerset                                -0.0290  
+## 15 r8_25         Neighborhood_College_Creek                           -0.0290  
+## 16 r8_25         Latitude                                             -0.0290  
+## 17 (Intercept)   (Intercept)                                           3.59    
+## 18 Gr_Liv_Area   Gr_Liv_Area                                           0.521   
+## 19 Central_Air_Y Central_Air_Y                                         0.000314
 }\if{html}{\out{</div>}}
 }
 }
