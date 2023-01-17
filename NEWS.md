@@ -1,8 +1,12 @@
 # rules (development version)
 
+# rules 1.0.1
+
 * The `tidy()` method for RuleFit models was not using the penalty value. This is corrected and a single penalty value is required for using the function. (#66)
 
 * Fixed bug where predict sometimes didn't work for xrf models.
+
+* C50 tree `tidy()` method nor works with threes by showing terminal nodes in rules.
 
 # rules 1.0.0
 
