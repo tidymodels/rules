@@ -38,8 +38,8 @@ install.packages("rules")
 Install the development version from GitHub with:
 
 ``` r
-# install.packages("devtools")
-devtools::install_github("tidymodels/rules")
+# install.packages("pak")
+pak::pak("tidymodels/rules")
 ```
 
 ## Available Engines
