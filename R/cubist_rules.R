@@ -205,7 +205,7 @@ multi_predict._cubist <-
 
     res <- cubist_pred(object, new_data, neighbors = neighbors, ...)
     if (n > 1) {
-      res$.row_number <- rep(1:nrow(new_data), n)
+      res$.row_number <- rep(seq_len(nrow(new_data)), n)
       res <-
         res %>%
         dplyr::group_by(.row_number) %>%

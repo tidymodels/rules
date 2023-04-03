@@ -254,7 +254,7 @@ organize_xrf_multi_pred <- function(x, object, penalty, fam) {
     } else {
       res <-
         as_tibble(x) %>%
-        dplyr::mutate(.row_number = 1:nrow(x)) %>%
+        dplyr::mutate(.row_number = seq_len(nrow(x))) %>%
         tidyr::pivot_longer(cols = c(-.row_number), values_to = ".pred") %>%
         dplyr::mutate(penalty = rep(penalty, nrow(x))) %>%
         dplyr::select(-name) %>%
@@ -268,7 +268,7 @@ organize_xrf_multi_pred <- function(x, object, penalty, fam) {
     if (fam == "binomial") {
       res <-
         as_tibble(x) %>%
-        dplyr::mutate(.row_number = 1:nrow(x)) %>%
+        dplyr::mutate(.row_number = seq_len(nrow(x))) %>%
         tidyr::pivot_longer(cols = c(-.row_number), values_to = ".pred_class") %>%
         dplyr::select(-name) %>%
         dplyr::mutate(
@@ -295,7 +295,7 @@ organize_xrf_multi_pred <- function(x, object, penalty, fam) {
       res <-
         apply(x, 3, function(x) apply(x, 1, which.max)) %>%
         as_tibble() %>%
-        dplyr::mutate(.row_number = 1:nrow(x)) %>%
+        dplyr::mutate(.row_number = seq_len(nrow(x))) %>%
         tidyr::pivot_longer(cols = c(-.row_number), values_to = ".pred_class") %>%
         dplyr::select(-name) %>%
         dplyr::mutate(
@@ -325,7 +325,7 @@ organize_xrf_multi_prob <- function(x, object, penalty, fam) {
   if (fam == "binomial") {
     res <-
       as_tibble(x) %>%
-      dplyr::mutate(.row_number = 1:nrow(x)) %>%
+      dplyr::mutate(.row_number = seq_len(nrow(x))) %>%
       tidyr::pivot_longer(cols = c(-.row_number), values_to = ".pred_2") %>%
       dplyr::mutate(penalty = rep(penalty, nrow(x))) %>%
       dplyr::select(-name) %>%
@@ -361,7 +361,7 @@ organize_xrf_multi_prob <- function(x, object, penalty, fam) {
       # multi_predict
       res <-
         res %>%
-        dplyr::mutate(.row_number = rep(1:nrow(x), length(penalty))) %>%
+        dplyr::mutate(.row_number = rep(seq_len(nrow(x)), length(penalty))) %>%
         dplyr::mutate(penalty = rep(penalty, each = nrow(x))) %>%
         dplyr::group_by(.row_number) %>%
         tidyr::nest() %>%
