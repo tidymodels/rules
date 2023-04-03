@@ -247,7 +247,7 @@ rules.</p>
 <span><span class="co">#&gt; cubist.default(x = x, y = y, committees = 2)</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Cubist [Release 2.07 GPL Edition]  Mon Mar 13 17:30:43 2023</span></span>
+<span><span class="co">#&gt; Cubist [Release 2.07 GPL Edition]  Mon Apr  3 18:09:16 2023</span></span>
 <span><span class="co">#&gt; ---------------------------------</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt;     Target attribute `outcome'</span></span>
@@ -334,15 +334,14 @@ data:</p>
 <code class="sourceCode R"><span><span class="va">cb_res</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://generics.r-lib.org/reference/tidy.html" class="external-link">tidy</a></span><span class="op">(</span><span class="va">cubist_fit</span><span class="op">)</span></span>
 <span><span class="va">cb_res</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 5</span></span></span>
-<span><span class="co">#&gt;   committee rule_num rule                                estimate statis…¹</span></span>
-<span><span class="co">#&gt;       <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                               <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>  </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>         1        1 ( sex == 'female' ) &amp; ( flipper_le… &lt;tibble&gt; &lt;tibble&gt;</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>         1        2 ( sex == 'male' ) &amp; ( flipper_leng… &lt;tibble&gt; &lt;tibble&gt;</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>         1        3 ( flipper_length_mm &gt; 202 ) &amp; ( se… &lt;tibble&gt; &lt;tibble&gt;</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span>         1        4 ( flipper_length_mm &gt; 202 ) &amp; ( bi… &lt;tibble&gt; &lt;tibble&gt;</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span>         1        5 ( bill_depth_mm &lt;= 16.4 ) &amp; ( sex … &lt;tibble&gt; &lt;tibble&gt;</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span>         2        1 &lt;no conditions&gt;                     &lt;tibble&gt; &lt;tibble&gt;</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># … with abbreviated variable name ¹​statistic</span></span></span></code></pre></div>
+<span><span class="co">#&gt;   committee rule_num rule                               estimate statistic</span></span>
+<span><span class="co">#&gt;       <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                              <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>   </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>         1        1 ( sex == 'female' ) &amp; ( flipper_l… <span style="color: #949494;">&lt;tibble&gt;</span> <span style="color: #949494;">&lt;tibble&gt;</span> </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>         1        2 ( sex == 'male' ) &amp; ( flipper_len… <span style="color: #949494;">&lt;tibble&gt;</span> <span style="color: #949494;">&lt;tibble&gt;</span> </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>         1        3 ( flipper_length_mm &gt; 202 ) &amp; ( s… <span style="color: #949494;">&lt;tibble&gt;</span> <span style="color: #949494;">&lt;tibble&gt;</span> </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span>         1        4 ( flipper_length_mm &gt; 202 ) &amp; ( b… <span style="color: #949494;">&lt;tibble&gt;</span> <span style="color: #949494;">&lt;tibble&gt;</span> </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span>         1        5 ( bill_depth_mm &lt;= 16.4 ) &amp; ( sex… <span style="color: #949494;">&lt;tibble&gt;</span> <span style="color: #949494;">&lt;tibble&gt;</span> </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span>         2        1 &lt;no conditions&gt;                    <span style="color: #949494;">&lt;tibble&gt;</span> <span style="color: #949494;">&lt;tibble&gt;</span></span></span></code></pre></div>
 <p>The <code>estimate</code> and <code>statistic</code> columns contain
 tibbles with parameter estimates and rule statistics, respectively. They
 can be easily expanded using <code><a href="https://tidyr.tidyverse.org/reference/unnest.html" class="external-link">unnest()</a></code>:</p>
@@ -379,20 +378,20 @@ evaluate the expression on the data set:</p>
 <span><span class="va">penguins</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
 <span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/slice.html" class="external-link">slice</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/which.html" class="external-link">which</a></span><span class="op">(</span><span class="va">rule_4_filter</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 23 × 7</span></span></span>
-<span><span class="co">#&gt;    species island    bill_length_mm bill_depth_mm flipper_…¹ body_…² sex  </span></span>
-<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> Adelie  Dream               41.1          18.1        205    <span style="text-decoration: underline;">4</span>300 male </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> Adelie  Dream               40.8          18.9        208    <span style="text-decoration: underline;">4</span>300 male </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> Adelie  Biscoe              41            20          203    <span style="text-decoration: underline;">4</span>725 male </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> Adelie  Torgersen           44.1          18          210    <span style="text-decoration: underline;">4</span>000 male </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> Gentoo  Biscoe              59.6          17          230    <span style="text-decoration: underline;">6</span>050 male </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> Gentoo  Biscoe              44.4          17.3        219    <span style="text-decoration: underline;">5</span>250 male </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> Gentoo  Biscoe              49.8          16.8        230    <span style="text-decoration: underline;">5</span>700 male </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> Gentoo  Biscoe              50.8          17.3        228    <span style="text-decoration: underline;">5</span>600 male </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> Gentoo  Biscoe              52.1          17          230    <span style="text-decoration: underline;">5</span>550 male </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> Gentoo  Biscoe              52.2          17.1        228    <span style="text-decoration: underline;">5</span>400 male </span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># … with 13 more rows, and abbreviated variable names ¹​flipper_length_mm,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   ²​body_mass_g</span></span></span></code></pre></div>
+<span><span class="co">#&gt;    species island    bill_length_mm bill_depth_mm flipper_length_mm</span></span>
+<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>             <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> Adelie  Dream               41.1          18.1               205</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> Adelie  Dream               40.8          18.9               208</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> Adelie  Biscoe              41            20                 203</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> Adelie  Torgersen           44.1          18                 210</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> Gentoo  Biscoe              59.6          17                 230</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> Gentoo  Biscoe              44.4          17.3               219</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> Gentoo  Biscoe              49.8          16.8               230</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> Gentoo  Biscoe              50.8          17.3               228</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> Gentoo  Biscoe              52.1          17                 230</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> Gentoo  Biscoe              52.2          17.1               228</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 13 more rows</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 2 more variables: body_mass_g &lt;int&gt;, sex &lt;fct&gt;</span></span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="rulefit-makes-one-model-with-rule-predictors">RuleFit makes one model with rule predictors<a class="anchor" aria-label="anchor" href="#rulefit-makes-one-model-with-rule-predictors"></a>
@@ -459,7 +458,7 @@ double, so:</p>
 <code class="sourceCode R"><span><span class="va">rf_res</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://generics.r-lib.org/reference/tidy.html" class="external-link">tidy</a></span><span class="op">(</span><span class="va">rule_fit_fit</span>, penalty <span class="op">=</span> <span class="fl">0.01</span><span class="op">)</span></span>
 <span><span class="va">rf_res</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 110 × 3</span></span></span>
-<span><span class="co">#&gt;    rule_id           rule                                          estim…¹</span></span>
+<span><span class="co">#&gt;    rule_id           rule                                         estimate</span></span>
 <span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>             <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                                           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> (Intercept)       ( TRUE )                                      <span style="text-decoration: underline;">5</span>753.  </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> bill_depth_mm     ( bill_depth_mm )                              -<span style="color: #BB0000;">15.9</span> </span></span>
@@ -470,8 +469,8 @@ double, so:</p>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> r0_2              ( species == 'Gentoo' )                        472.  </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> r0_3              ( sex != 'male' ) &amp; ( species != 'Gentoo' )    -<span style="color: #BB0000;">78.8</span> </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> r1_2              ( flipper_length_mm &gt;= 211.5 )                 219.  </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> r1_3              ( flipper_length_mm &lt;  194.5 ) &amp; ( flipper_l… -<span style="color: #BB0000;">142.</span>  </span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># … with 100 more rows, and abbreviated variable name ¹​estimate</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> r1_3              ( flipper_length_mm &lt;  194.5 ) &amp; ( flipper_…  -<span style="color: #BB0000;">142.</span>  </span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 100 more rows</span></span></span></code></pre></div>
 <p>Note that the units of each predictor have been scaled to be between
 zero and one.</p>
 <p>Looking at the rules, there are examples of some rules, such as:</p>
@@ -502,7 +501,7 @@ information but use the original predictors as the unit:</p>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> r2_7    sex                   9.04</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> r2_7    species               9.04</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> r3_3    flipper_length_mm  -<span style="color: #BB0000;">101.</span>  </span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># … with 442 more rows</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 442 more rows</span></span></span></code></pre></div>
 <p>A single rule might be represented with multiple rows of this version
 of the data. These results can also be used to compute a rough estimate
 or variable importance using the absolute value of the coefficients:</p>
