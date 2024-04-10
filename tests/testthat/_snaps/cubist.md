@@ -17,7 +17,7 @@
     Condition
       Warning:
       The number of committees should be `>= 1` and `<= 100`.
-      Truncating to 100.
+      Truncating to 1.
 
 ---
 
