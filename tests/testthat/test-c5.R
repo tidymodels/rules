@@ -412,3 +412,48 @@ test_that("tidy method", {
   expect_equal(nrow(tidy_2), term_nodes_2)
 
 })
+
+test_that('check_args() works', {
+  skip_on_cran()
+  skip_if_not_installed("C50")
+  skip_if_not_installed("parsnip", "1.2.1.9001")
+  ad_data <- make_ad_data()
+
+  expect_snapshot(
+    error = TRUE,
+    {
+      spec <- C5_rules(trees = c(1, 2, 3)) %>% 
+        set_engine("C5.0") %>%
+        set_mode("classification")
+      fit(spec, Class ~ ., data = ad_data$ad_mod)
+    }
+  )
+
+  expect_snapshot(
+    {
+      spec <- C5_rules(trees = 0) %>% 
+        set_engine("C5.0") %>%
+        set_mode("classification")
+      res <- fit(spec, Class ~ ., data = ad_data$ad_mod)
+    }
+  )
+
+  expect_snapshot(
+    {
+      spec <- C5_rules(trees = 1000) %>% 
+        set_engine("C5.0") %>%
+        set_mode("classification")
+      res <- fit(spec, Class ~ ., data = ad_data$ad_mod)
+    }
+  )
+
+  expect_snapshot(
+    error = TRUE,
+    {
+      spec <- C5_rules(min_n = c(1, 2, 3)) %>% 
+        set_engine("C5.0") %>%
+        set_mode("classification")
+      fit(spec, Class ~ ., data = ad_data$ad_mod)
+    }
+  )
+})

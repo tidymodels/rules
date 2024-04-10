@@ -705,3 +705,67 @@ test_that("mode specific package dependencies", {
     list(c("Cubist", "rules"))
   )
 })
+
+
+test_that('check_args() works', {
+  skip_on_cran()
+  skip_if_not_installed("Cubist")
+  skip_if_not_installed("parsnip", "1.2.1.9001")
+  chi_data <- make_chi_data()
+
+  expect_snapshot(
+    error = TRUE,
+    {
+      spec <- cubist_rules(committees = c(1, 2, 3)) %>% 
+        set_engine("Cubist") %>%
+        set_mode("regression")
+      fit(spec, ridership ~ ., data = chi_data$chi_mod)
+    }
+  )
+
+  expect_snapshot(
+    {
+      spec <- cubist_rules(committees = 0) %>% 
+        set_engine("Cubist") %>%
+        set_mode("regression")
+      res <- fit(spec, ridership ~ ., data = chi_data$chi_mod)
+    }
+  )
+
+  expect_snapshot(
+    {
+      spec <- cubist_rules(committees = 1000) %>% 
+        set_engine("Cubist") %>%
+        set_mode("regression")
+      res <- fit(spec, ridership ~ ., data = chi_data$chi_mod)
+    }
+  )
+
+  expect_snapshot(
+    error = TRUE,
+    {
+      spec <- cubist_rules(neighbors = c(1, 2, 3)) %>% 
+        set_engine("Cubist") %>%
+        set_mode("regression")
+      fit(spec, ridership ~ ., data = chi_data$chi_mod)
+    }
+  )
+
+  expect_snapshot(
+    {
+      spec <- cubist_rules(neighbors = -1) %>% 
+        set_engine("Cubist") %>%
+        set_mode("regression")
+      res <- fit(spec, ridership ~ ., data = chi_data$chi_mod)
+    }
+  )
+
+  expect_snapshot(
+    {
+      spec <- cubist_rules(neighbors = 1000) %>% 
+        set_engine("Cubist") %>%
+        set_mode("regression")
+      res <- fit(spec, ridership ~ ., data = chi_data$chi_mod)
+    }
+  )
+})
