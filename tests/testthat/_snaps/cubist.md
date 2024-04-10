@@ -6,7 +6,7 @@
       fit(spec, ridership ~ ., data = chi_data$chi_mod)
     Condition
       Error in `fit()`:
-      ! Only a single value of `committees` should be passed, not 3.
+      ! `committees` must be a whole number or `NULL`, not a double vector.
 
 ---
 
@@ -38,7 +38,7 @@
       fit(spec, ridership ~ ., data = chi_data$chi_mod)
     Condition
       Error in `fit()`:
-      ! Only a single value of `neighbors` should be passed, not 3.
+      ! `neighbors` must be a whole number or `NULL`, not a double vector.
 
 ---
 
