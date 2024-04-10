@@ -2,14 +2,16 @@
 
     Code
       suppressMessages(rf_fit_3 <- fit(rf_mod_3, mpg ~ ., data = mtcars))
-    Warning <rlang_warning>
+    Condition
+      Warning:
       `early_stop` was reduced to 4.
 
 # xrf_fit guards xgb_control
 
     Code
       suppressMessages(fit(rf_mod, mpg ~ ., data = mtcars))
-    Warning <rlang_warning>
+    Condition
+      Warning:
       The following arguments cannot be manually modified and were removed: xgb_control.
     Output
       parsnip model object
