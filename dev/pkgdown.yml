@@ -1,10 +1,9 @@
 pandoc: 3.1.11
-pkgdown: 2.0.7
+pkgdown: 2.1.0
 pkgdown_sha: ~
 articles:
-  cubist-and-rulefit: cubist-and-rulefit.html
-last_built: 2024-04-10T19:27Z
+  articles/cubist-and-rulefit: cubist-and-rulefit.html
+last_built: 2024-08-02T19:27Z
 urls:
   reference: https://rules.tidymodels.org/reference
   article: https://rules.tidymodels.org/articles
-
