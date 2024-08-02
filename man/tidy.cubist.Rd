@@ -75,7 +75,7 @@ cb_res
 ##  8         1        8 ( Longitude > -93.602348 ) & ( Latitud~ <tibble> <tibble> 
 ##  9         1        9 ( Latitude <= 41.991756 ) & ( Longitud~ <tibble> <tibble> 
 ## 10         1       10 ( Latitude > 42.041813 ) & ( Longitude~ <tibble> <tibble> 
-## # ... with 213 more rows
+## # i 213 more rows
 }\if{html}{\out{</div>}}
 
 Since Cubist fits linear regressions within the data from each rule, the
@@ -131,7 +131,7 @@ then use it to get the data back:
 ##  8       4.99     -93.6     42.0 N          
 ##  9       5.09     -93.6     42.0 N          
 ## 10       4.89     -93.6     42.0 N          
-## # ... with 28 more rows
+## # i 28 more rows
 }\if{html}{\out{</div>}}
 
 Now let’s fit a RuleFit model. First, we’ll use a recipe to convert the
@@ -229,7 +229,7 @@ rule_info
 ##  8     1        8 ( species == 'Adelie' ) & ( bill_depth_mm > 18.9 ) ~ <tibble> 
 ##  9     2        1 ( species == 'Gentoo' )                              <tibble> 
 ## 10     2        2 ( body_mass_g > 3700 ) & ( sex == 'female' )         <tibble> 
-## # ... with 15 more rows
+## # i 15 more rows
 }\if{html}{\out{</div>}}
 
 \if{html}{\out{<div class="sourceCode r">}}\preformatted{# The statistic column has the pre-computed data about the 
@@ -273,7 +273,7 @@ tree_info
 ##  8     1     8 "( species \%in\% c(\"Adelie\") ) & ( sex == \"male\" ) ~ <tibble> 
 ##  9     1     9 "( species \%in\% c(\"Adelie\") ) & ( sex == \"male\" ) ~ <tibble> 
 ## 10     1    10 "( species \%in\% c(\"Adelie\") ) & ( sex == \"male\" ) ~ <tibble> 
-## # ... with 24 more rows
+## # i 24 more rows
 }\if{html}{\out{</div>}}
 
 \if{html}{\out{<div class="sourceCode r">}}\preformatted{# The statistic column has the class breakdown:
