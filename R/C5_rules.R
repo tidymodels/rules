@@ -5,6 +5,7 @@
 #' @keywords internal
 #' @rdname rules-internal
 c5_fit <- function(x, y, trials = 1, minCases = 2, cost = NULL, ...) {
+  rlang::check_installed("C5.0")
   args <- list(
     x = rlang::expr(x),
     y = rlang::expr(y),

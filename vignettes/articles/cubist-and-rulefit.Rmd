@@ -3,7 +3,14 @@ title: "What's the difference between Cubist and RuleFit?"
 ---
 
 ```{r, include = FALSE}
+if (rlang::is_installed(c("modeldata", "recipes", "Cubist", "xrf"))) {
+  run <- TRUE
+} else {
+  run <- FALSE
+}
+
 knitr::opts_chunk$set(
+  eval = run,
   collapse = TRUE,
   comment = "#>"
 )
