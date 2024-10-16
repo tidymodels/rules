@@ -1,6 +1,3 @@
-skip_if_not_installed("modeldata")
-library(modeldata)
-
 library(dplyr)
 
 # ------------------------------------------------------------------------------

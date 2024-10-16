@@ -5,6 +5,7 @@ library(dplyr)
 test_that("formula method", {
   skip_on_cran()
   skip_if_not_installed("xrf")
+  skip_if_not_installed("modeldata")
 
   chi_data <- make_chi_data()
 
@@ -61,6 +62,7 @@ test_that("formula method", {
 test_that("non-formula method", {
   skip_on_cran()
   skip_if_not_installed("xrf")
+  skip_if_not_installed("modeldata")
 
   chi_data <- make_chi_data()
 

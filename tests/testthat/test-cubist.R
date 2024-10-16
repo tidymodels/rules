@@ -78,6 +78,7 @@ test_that("argument/call assembly", {
 test_that("formula method", {
   skip_on_cran()
   skip_if_not_installed("Cubist")
+  skip_if_not_installed("modeldata")
 
   chi_data <- make_chi_data()
 
@@ -136,6 +137,7 @@ test_that("formula method", {
 test_that("formula method - case weights", {
   skip_on_cran()
   skip_if_not_installed("Cubist")
+  skip_if_not_installed("modeldata")
 
   chi_data <- make_chi_data()
 
@@ -179,6 +181,7 @@ test_that("formula method - case weights", {
 test_that("formula method - limited rules", {
   skip_on_cran()
   skip_if_not_installed("Cubist")
+  skip_if_not_installed("modeldata")
 
   chi_data <- make_chi_data()
 
@@ -217,6 +220,7 @@ test_that("formula method - limited rules", {
 test_that("formula method - limited rules and control", {
   skip_on_cran()
   skip_if_not_installed("Cubist")
+  skip_if_not_installed("modeldata")
 
   chi_data <- make_chi_data()
 
@@ -256,6 +260,7 @@ test_that("formula method - limited rules and control", {
 test_that("formula method - control", {
   skip_on_cran()
   skip_if_not_installed("Cubist")
+  skip_if_not_installed("modeldata")
 
   chi_data <- make_chi_data()
 
@@ -294,6 +299,7 @@ test_that("formula method - control", {
 test_that("non-formula method", {
   skip_on_cran()
   skip_if_not_installed("Cubist")
+  skip_if_not_installed("modeldata")
 
   chi_data <- make_chi_data()
 
@@ -355,6 +361,7 @@ test_that("non-formula method", {
 test_that("non-formula method - case weights", {
   skip_on_cran()
   skip_if_not_installed("Cubist")
+  skip_if_not_installed("modeldata")
 
   chi_data <- make_chi_data()
 
@@ -402,6 +409,7 @@ test_that("non-formula method - case weights", {
 test_that("non-formula method - limited rules", {
   skip_on_cran()
   skip_if_not_installed("Cubist")
+  skip_if_not_installed("modeldata")
 
   chi_data <- make_chi_data()
 
@@ -444,6 +452,7 @@ test_that("non-formula method - limited rules", {
 test_that("non-formula method - limited rules and control", {
   skip_on_cran()
   skip_if_not_installed("Cubist")
+  skip_if_not_installed("modeldata")
 
   chi_data <- make_chi_data()
 
@@ -483,6 +492,7 @@ test_that("non-formula method - limited rules and control", {
 test_that("non-formula method - control", {
   skip_on_cran()
   skip_if_not_installed("Cubist")
+  skip_if_not_installed("modeldata")
 
   chi_data <- make_chi_data()
 
@@ -714,6 +724,8 @@ test_that('check_args() works', {
   skip_on_cran()
   skip_if_not_installed("Cubist")
   skip_if_not_installed("parsnip", "1.2.1.9001")
+  skip_if_not_installed("modeldata")
+
   chi_data <- make_chi_data()
 
   expect_snapshot(
