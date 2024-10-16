@@ -117,6 +117,7 @@ test_that("non-formula method", {
 test_that("tidy method - regression", {
   skip_on_cran()
   skip_if_not_installed("xrf")
+  skip_if_not_installed("modeldata")
 
   ames_data <- make_ames_data()
 
