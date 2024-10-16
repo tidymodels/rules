@@ -78,6 +78,7 @@ test_that("argument/call assembly", {
 test_that("formula method", {
   skip_on_cran()
   skip_if_not_installed("Cubist")
+  skip_if_not_installed("modeldata")
 
   chi_data <- make_chi_data()
 
@@ -136,6 +137,7 @@ test_that("formula method", {
 test_that("formula method - case weights", {
   skip_on_cran()
   skip_if_not_installed("Cubist")
+  skip_if_not_installed("modeldata")
 
   chi_data <- make_chi_data()
 
@@ -179,6 +181,7 @@ test_that("formula method - case weights", {
 test_that("formula method - limited rules", {
   skip_on_cran()
   skip_if_not_installed("Cubist")
+  skip_if_not_installed("modeldata")
 
   chi_data <- make_chi_data()
 
@@ -217,6 +220,7 @@ test_that("formula method - limited rules", {
 test_that("formula method - limited rules and control", {
   skip_on_cran()
   skip_if_not_installed("Cubist")
+  skip_if_not_installed("modeldata")
 
   chi_data <- make_chi_data()
 
@@ -256,6 +260,7 @@ test_that("formula method - limited rules and control", {
 test_that("formula method - control", {
   skip_on_cran()
   skip_if_not_installed("Cubist")
+  skip_if_not_installed("modeldata")
 
   chi_data <- make_chi_data()
 
@@ -294,6 +299,7 @@ test_that("formula method - control", {
 test_that("non-formula method", {
   skip_on_cran()
   skip_if_not_installed("Cubist")
+  skip_if_not_installed("modeldata")
 
   chi_data <- make_chi_data()
 
@@ -355,6 +361,7 @@ test_that("non-formula method", {
 test_that("non-formula method - case weights", {
   skip_on_cran()
   skip_if_not_installed("Cubist")
+  skip_if_not_installed("modeldata")
 
   chi_data <- make_chi_data()
 
@@ -402,6 +409,7 @@ test_that("non-formula method - case weights", {
 test_that("non-formula method - limited rules", {
   skip_on_cran()
   skip_if_not_installed("Cubist")
+  skip_if_not_installed("modeldata")
 
   chi_data <- make_chi_data()
 
@@ -444,6 +452,7 @@ test_that("non-formula method - limited rules", {
 test_that("non-formula method - limited rules and control", {
   skip_on_cran()
   skip_if_not_installed("Cubist")
+  skip_if_not_installed("modeldata")
 
   chi_data <- make_chi_data()
 
@@ -483,6 +492,7 @@ test_that("non-formula method - limited rules and control", {
 test_that("non-formula method - control", {
   skip_on_cran()
   skip_if_not_installed("Cubist")
+  skip_if_not_installed("modeldata")
 
   chi_data <- make_chi_data()
 
@@ -530,6 +540,7 @@ test_that("cubist parameters", {
 test_that("tidy method for cubist - one committee", {
   skip_on_cran()
   skip_if_not_installed("Cubist")
+  skip_if_not_installed("modeldata")
 
   ames_data <- make_ames_data()
 
@@ -583,6 +594,7 @@ test_that("tidy method for cubist - one committee", {
 test_that("tidy method for cubist - one committee - only intercepts", {
   skip_on_cran()
   skip_if_not_installed("Cubist")
+  skip_if_not_installed("modeldata")
 
   ames_data <- make_ames_data()
 
@@ -616,6 +628,7 @@ test_that("tidy method for cubist - one committee - only intercepts", {
 test_that("tidy method for cubist - many committees", {
   skip_on_cran()
   skip_if_not_installed("Cubist")
+  skip_if_not_installed("modeldata")
 
   ames_data <- make_ames_data()
 
@@ -711,12 +724,14 @@ test_that('check_args() works', {
   skip_on_cran()
   skip_if_not_installed("Cubist")
   skip_if_not_installed("parsnip", "1.2.1.9001")
+  skip_if_not_installed("modeldata")
+
   chi_data <- make_chi_data()
 
   expect_snapshot(
     error = TRUE,
     {
-      spec <- cubist_rules(committees = c(1, 2, 3)) %>% 
+      spec <- cubist_rules(committees = c(1, 2, 3)) %>%
         set_engine("Cubist") %>%
         set_mode("regression")
       fit(spec, ridership ~ ., data = chi_data$chi_mod)
@@ -725,7 +740,7 @@ test_that('check_args() works', {
 
   expect_snapshot(
     {
-      spec <- cubist_rules(committees = 0) %>% 
+      spec <- cubist_rules(committees = 0) %>%
         set_engine("Cubist") %>%
         set_mode("regression")
       res <- fit(spec, ridership ~ ., data = chi_data$chi_mod)
@@ -734,7 +749,7 @@ test_that('check_args() works', {
 
   expect_snapshot(
     {
-      spec <- cubist_rules(committees = 1000) %>% 
+      spec <- cubist_rules(committees = 1000) %>%
         set_engine("Cubist") %>%
         set_mode("regression")
       res <- fit(spec, ridership ~ ., data = chi_data$chi_mod)
@@ -744,7 +759,7 @@ test_that('check_args() works', {
   expect_snapshot(
     error = TRUE,
     {
-      spec <- cubist_rules(neighbors = c(1, 2, 3)) %>% 
+      spec <- cubist_rules(neighbors = c(1, 2, 3)) %>%
         set_engine("Cubist") %>%
         set_mode("regression")
       fit(spec, ridership ~ ., data = chi_data$chi_mod)
@@ -753,7 +768,7 @@ test_that('check_args() works', {
 
   expect_snapshot(
     {
-      spec <- cubist_rules(neighbors = -1) %>% 
+      spec <- cubist_rules(neighbors = -1) %>%
         set_engine("Cubist") %>%
         set_mode("regression")
       res <- fit(spec, ridership ~ ., data = chi_data$chi_mod)
@@ -762,7 +777,7 @@ test_that('check_args() works', {
 
   expect_snapshot(
     {
-      spec <- cubist_rules(neighbors = 1000) %>% 
+      spec <- cubist_rules(neighbors = 1000) %>%
         set_engine("Cubist") %>%
         set_mode("regression")
       res <- fit(spec, ridership ~ ., data = chi_data$chi_mod)

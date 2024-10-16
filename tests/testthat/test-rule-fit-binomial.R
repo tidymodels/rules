@@ -5,6 +5,7 @@ library(dplyr)
 test_that("formula method", {
   skip_on_cran()
   skip_if_not_installed("xrf")
+  skip_if_not_installed("modeldata")
 
   ad_data <- make_ad_data()
 
@@ -90,6 +91,7 @@ test_that("formula method", {
 test_that("non-formula method", {
   skip_on_cran()
   skip_if_not_installed("xrf")
+  skip_if_not_installed("modeldata")
 
   ad_data <- make_ad_data()
 
@@ -176,6 +178,7 @@ test_that("non-formula method", {
 test_that("tidy method - two classes", {
   skip_on_cran()
   skip_if_not_installed("xrf")
+  skip_if_not_installed("modeldata")
 
   ad_data <- make_ad_data()
 

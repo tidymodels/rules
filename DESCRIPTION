@@ -17,7 +17,7 @@ License: MIT + file LICENSE
 URL: https://github.com/tidymodels/rules, https://rules.tidymodels.org/
 BugReports: https://github.com/tidymodels/rules/issues
 Depends:
-    parsnip (>= 0.2.1.9004),
+    parsnip (>= 1.0.3),
     R (>= 3.4)
 Imports: 
     dials (>= 0.1.1.9001),

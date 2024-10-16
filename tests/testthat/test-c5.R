@@ -3,6 +3,7 @@ library(dplyr)
 test_that("formula method", {
   skip_on_cran()
   skip_if_not_installed("C50")
+  skip_if_not_installed("modeldata")
 
   ad_data <- make_ad_data()
 
@@ -42,6 +43,7 @@ test_that("formula method", {
 test_that("formula method - case weights", {
   skip_on_cran()
   skip_if_not_installed("C50")
+  skip_if_not_installed("modeldata")
 
   ad_data <- make_ad_data()
 
@@ -86,6 +88,7 @@ test_that("formula method - case weights", {
 test_that("formula method - control", {
   skip_on_cran()
   skip_if_not_installed("C50")
+  skip_if_not_installed("modeldata")
 
   ad_data <- make_ad_data()
 
@@ -126,6 +129,7 @@ test_that("formula method - control", {
 test_that("non-formula method", {
   skip_on_cran()
   skip_if_not_installed("C50")
+  skip_if_not_installed("modeldata")
 
   ad_data <- make_ad_data()
 
@@ -166,6 +170,7 @@ test_that("non-formula method", {
 test_that("non-formula method - case weights", {
   skip_on_cran()
   skip_if_not_installed("C50")
+  skip_if_not_installed("modeldata")
 
   ad_data <- make_ad_data()
 
@@ -212,6 +217,7 @@ test_that("non-formula method - case weights", {
 test_that("non-formula method - control", {
   skip_on_cran()
   skip_if_not_installed("C50")
+  skip_if_not_installed("modeldata")
 
   ad_data <- make_ad_data()
 
@@ -281,6 +287,7 @@ test_that("updates", {
 test_that("mulit-predict", {
   skip_on_cran()
   skip_if_not_installed("C50")
+  skip_if_not_installed("modeldata")
 
   ad_data <- make_ad_data()
 
@@ -417,12 +424,14 @@ test_that('check_args() works', {
   skip_on_cran()
   skip_if_not_installed("C50")
   skip_if_not_installed("parsnip", "1.2.1.9001")
+  skip_if_not_installed("modeldata")
+
   ad_data <- make_ad_data()
 
   expect_snapshot(
     error = TRUE,
     {
-      spec <- C5_rules(trees = c(1, 2, 3)) %>% 
+      spec <- C5_rules(trees = c(1, 2, 3)) %>%
         set_engine("C5.0") %>%
         set_mode("classification")
       fit(spec, Class ~ ., data = ad_data$ad_mod)
@@ -431,7 +440,7 @@ test_that('check_args() works', {
 
   expect_snapshot(
     {
-      spec <- C5_rules(trees = 0) %>% 
+      spec <- C5_rules(trees = 0) %>%
         set_engine("C5.0") %>%
         set_mode("classification")
       res <- fit(spec, Class ~ ., data = ad_data$ad_mod)
@@ -440,7 +449,7 @@ test_that('check_args() works', {
 
   expect_snapshot(
     {
-      spec <- C5_rules(trees = 1000) %>% 
+      spec <- C5_rules(trees = 1000) %>%
         set_engine("C5.0") %>%
         set_mode("classification")
       res <- fit(spec, Class ~ ., data = ad_data$ad_mod)
@@ -450,7 +459,7 @@ test_that('check_args() works', {
   expect_snapshot(
     error = TRUE,
     {
-      spec <- C5_rules(min_n = c(1, 2, 3)) %>% 
+      spec <- C5_rules(min_n = c(1, 2, 3)) %>%
         set_engine("C5.0") %>%
         set_mode("classification")
       fit(spec, Class ~ ., data = ad_data$ad_mod)

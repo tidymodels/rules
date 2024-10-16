@@ -5,6 +5,7 @@ library(dplyr)
 test_that("formula method", {
   skip_on_cran()
   skip_if_not_installed("xrf")
+  skip_if_not_installed("modeldata")
 
   chi_data <- make_chi_data()
 
@@ -61,6 +62,7 @@ test_that("formula method", {
 test_that("non-formula method", {
   skip_on_cran()
   skip_if_not_installed("xrf")
+  skip_if_not_installed("modeldata")
 
   chi_data <- make_chi_data()
 
@@ -117,6 +119,7 @@ test_that("non-formula method", {
 test_that("tidy method - regression", {
   skip_on_cran()
   skip_if_not_installed("xrf")
+  skip_if_not_installed("modeldata")
 
   ames_data <- make_ames_data()
 
@@ -158,6 +161,9 @@ test_that("tidy method - regression", {
 })
 
 test_that("early stopping works in xrf_fit", {
+  skip_on_cran()
+  skip_if_not_installed("xrf")
+
   rf_mod_1 <-
     rule_fit(trees = 5) %>%
     set_engine("xrf") %>%
@@ -193,6 +199,9 @@ test_that("early stopping works in xrf_fit", {
 })
 
 test_that("xrf_fit is sensitive to glm_control", {
+  skip_on_cran()
+  skip_if_not_installed("xrf")
+
   rf_mod <-
     rule_fit(trees = 3) %>%
     set_engine("xrf", glm_control = list(type.measure = "deviance", nfolds = 8)) %>%
@@ -209,6 +218,9 @@ test_that("xrf_fit is sensitive to glm_control", {
 })
 
 test_that("xrf_fit guards xgb_control", {
+  skip_on_cran()
+  skip_if_not_installed("xrf")
+
   rf_mod <-
     rule_fit(trees = 3) %>%
     set_engine("xrf", xgb_control = list(nrounds = 3)) %>%
