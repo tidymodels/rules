@@ -1,5 +1,3 @@
-library(dplyr)
-
 test_that("argument/call assembly", {
   skip_on_cran()
   skip_if_not_installed("Cubist")
@@ -583,7 +581,7 @@ test_that("tidy method for cubist - one committee", {
   cb_multi_fit <-
     cb_multi %>%
     fit(Sale_Price ~ Neighborhood + Longitude + Latitude +
-          Gr_Liv_Area + Central_Air, data = ames)
+          Gr_Liv_Area + Central_Air, data = ames_data$ames)
 
   for (comm in 1:5) {
     cb_multi_fit_res <- tidy(cb_single_fit, committees = comm)

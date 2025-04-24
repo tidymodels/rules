@@ -1,7 +1,3 @@
-library(dplyr)
-
-# ------------------------------------------------------------------------------
-
 test_that("formula method", {
   skip_on_cran()
   skip_if_not_installed("xrf")
