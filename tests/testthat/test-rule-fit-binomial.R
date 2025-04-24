@@ -15,10 +15,17 @@ test_that("formula method", {
       verbose = 0
     )
   rf_pred_exp <- predict(rf_fit_exp, ad_data$ad_pred, lambda = 1)[, 1]
-  rf_pred_exp <- factor(ifelse(rf_pred_exp >= 0.5, ad_data$lvls[2], ad_data$lvls[1]),
-                        levels = ad_data$lvls)
+  rf_pred_exp <- factor(
+    ifelse(rf_pred_exp >= 0.5, ad_data$lvls[2], ad_data$lvls[1]),
+    levels = ad_data$lvls
+  )
   rf_pred_exp <- unname(rf_pred_exp)
-  rf_prob_exp <- predict(rf_fit_exp, ad_data$ad_pred, lambda = 1, type = "response")[, 1]
+  rf_prob_exp <- predict(
+    rf_fit_exp,
+    ad_data$ad_pred,
+    lambda = 1,
+    type = "response"
+  )[, 1]
 
   expect_error(
     rf_mod <-
@@ -36,7 +43,10 @@ test_that("formula method", {
   rf_pred <- predict(rf_fit, ad_data$ad_pred)
   rf_prob <- predict(rf_fit, ad_data$ad_pred, type = "prob")
 
-  expect_equal(unname(rf_fit_exp$xgb$evaluation_log), unname(rf_fit$fit$xgb$evaluation_log))
+  expect_equal(
+    unname(rf_fit_exp$xgb$evaluation_log),
+    unname(rf_fit$fit$xgb$evaluation_log)
+  )
 
   expect_equal(names(rf_pred), ".pred_class")
   expect_true(tibble::is_tibble(rf_pred))
@@ -51,7 +61,12 @@ test_that("formula method", {
     NA
   )
   expect_error(
-    rf_m_prob <- multi_predict(rf_fit, ad_data$ad_pred, penalty = ad_data$vals, type = "prob"),
+    rf_m_prob <- multi_predict(
+      rf_fit,
+      ad_data$ad_pred,
+      penalty = ad_data$vals,
+      type = "prob"
+    ),
     NA
   )
 
@@ -63,7 +78,10 @@ test_that("formula method", {
 
   for (i in ad_data$vals) {
     exp_pred <- predict(rf_fit_exp, ad_data$ad_pred, lambda = i)[, 1]
-    exp_pred <- factor(ifelse(exp_pred >= 0.5, ad_data$lvls[2], ad_data$lvls[1]), levels = ad_data$lvls)
+    exp_pred <- factor(
+      ifelse(exp_pred >= 0.5, ad_data$lvls[2], ad_data$lvls[1]),
+      levels = ad_data$lvls
+    )
     exp_pred <- unname(exp_pred)
     obs_pred <- rf_m_pred %>% dplyr::filter(penalty == i) %>% pull(.pred_class)
     expect_equal(unname(exp_pred), obs_pred)
@@ -76,8 +94,15 @@ test_that("formula method", {
     arrange(penalty, .row_number)
 
   for (i in ad_data$vals) {
-    exp_pred <- predict(rf_fit_exp, ad_data$ad_pred, lambda = i, type = "response")[, 1]
-    obs_pred <- rf_m_prob %>% dplyr::filter(penalty == i) %>% pull(.pred_Control)
+    exp_pred <- predict(
+      rf_fit_exp,
+      ad_data$ad_pred,
+      lambda = i,
+      type = "response"
+    )[, 1]
+    obs_pred <- rf_m_prob %>%
+      dplyr::filter(penalty == i) %>%
+      pull(.pred_Control)
     expect_equal(unname(exp_pred), obs_pred)
   }
 })
@@ -101,10 +126,17 @@ test_that("non-formula method", {
       verbose = 0
     )
   rf_pred_exp <- predict(rf_fit_exp, ad_data$ad_pred, lambda = 1)[, 1]
-  rf_pred_exp <- factor(ifelse(rf_pred_exp >= 0.5, ad_data$lvls[2], ad_data$lvls[1]),
-                        levels = ad_data$lvls)
+  rf_pred_exp <- factor(
+    ifelse(rf_pred_exp >= 0.5, ad_data$lvls[2], ad_data$lvls[1]),
+    levels = ad_data$lvls
+  )
   rf_pred_exp <- unname(rf_pred_exp)
-  rf_prob_exp <- predict(rf_fit_exp, ad_data$ad_pred, lambda = 1, type = "response")[, 1]
+  rf_prob_exp <- predict(
+    rf_fit_exp,
+    ad_data$ad_pred,
+    lambda = 1,
+    type = "response"
+  )[, 1]
 
   expect_error(
     rf_mod <-
@@ -115,13 +147,20 @@ test_that("non-formula method", {
   )
 
   expect_error(
-    rf_fit <- fit_xy(rf_mod, x = ad_data$ad_mod[, -1], y = ad_data$ad_mod$Class),
+    rf_fit <- fit_xy(
+      rf_mod,
+      x = ad_data$ad_mod[, -1],
+      y = ad_data$ad_mod$Class
+    ),
     NA
   )
   rf_pred <- predict(rf_fit, ad_data$ad_pred)
   rf_prob <- predict(rf_fit, ad_data$ad_pred, type = "prob")
 
-  expect_equal(unname(rf_fit_exp$xgb$evaluation_log), unname(rf_fit$fit$xgb$evaluation_log))
+  expect_equal(
+    unname(rf_fit_exp$xgb$evaluation_log),
+    unname(rf_fit$fit$xgb$evaluation_log)
+  )
 
   expect_equal(names(rf_pred), ".pred_class")
   expect_true(tibble::is_tibble(rf_pred))
@@ -136,8 +175,12 @@ test_that("non-formula method", {
     NA
   )
   expect_error(
-    rf_m_prob <- multi_predict(rf_fit, ad_data$ad_pred,
-                               penalty = ad_data$vals, type = "prob"),
+    rf_m_prob <- multi_predict(
+      rf_fit,
+      ad_data$ad_pred,
+      penalty = ad_data$vals,
+      type = "prob"
+    ),
     NA
   )
 
@@ -149,8 +192,10 @@ test_that("non-formula method", {
 
   for (i in ad_data$vals) {
     exp_pred <- predict(rf_fit_exp, ad_data$ad_pred, lambda = i)[, 1]
-    exp_pred <- factor(ifelse(exp_pred >= 0.5, ad_data$lvls[2], ad_data$lvls[1]),
-                       levels = ad_data$lvls)
+    exp_pred <- factor(
+      ifelse(exp_pred >= 0.5, ad_data$lvls[2], ad_data$lvls[1]),
+      levels = ad_data$lvls
+    )
     exp_pred <- unname(exp_pred)
     obs_pred <- rf_m_pred %>% dplyr::filter(penalty == i) %>% pull(.pred_class)
     expect_equal(unname(exp_pred), obs_pred)
@@ -163,8 +208,15 @@ test_that("non-formula method", {
     arrange(penalty, .row_number)
 
   for (i in ad_data$vals) {
-    exp_pred <- predict(rf_fit_exp, ad_data$ad_pred, lambda = i, type = "response")[, 1]
-    obs_pred <- rf_m_prob %>% dplyr::filter(penalty == i) %>% pull(.pred_Control)
+    exp_pred <- predict(
+      rf_fit_exp,
+      ad_data$ad_pred,
+      lambda = i,
+      type = "response"
+    )[, 1]
+    obs_pred <- rf_m_prob %>%
+      dplyr::filter(penalty == i) %>%
+      pull(.pred_Control)
     expect_equal(unname(exp_pred), obs_pred)
   }
 })

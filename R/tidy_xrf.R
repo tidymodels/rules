@@ -107,7 +107,6 @@ xrf_coefs <- function(x, penalty = NULL) {
 }
 
 
-
 lvl_to_tibble <- function(x, var_name) {
   tibble(
     term = paste0(var_name, x),

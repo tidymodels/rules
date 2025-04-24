@@ -20,7 +20,6 @@ tidy.cubist <- function(x, committees = x$committee, ...) {
     committees <- min(committees, x$committee)
   }
 
-
   # These are the markers for where committees start
   comm_inds <- stringr::str_which(txt_rows, "^rules=")
 
@@ -59,8 +58,15 @@ tidy.cubist <- function(x, committees = x$committee, ...) {
     comm_data <-
       dplyr::bind_cols(comm_data, cond_att) %>%
       dplyr::mutate(num_conditions = conds) %>%
-      dplyr::rename(coverage = cover, min = loval, max = hival, error = esterr) %>%
-      tidyr::nest(statistic = c(num_conditions, coverage, mean, min, max, error))
+      dplyr::rename(
+        coverage = cover,
+        min = loval,
+        max = hival,
+        error = esterr
+      ) %>%
+      tidyr::nest(
+        statistic = c(num_conditions, coverage, mean, min, max, error)
+      )
 
     # Loop over all of the rules and get their rule conditions
     for (j in seq_along(attr_inds)) {
@@ -96,7 +102,10 @@ find_cond_info <- function(txt, strt = 0, stp = 0) {
 
 parse_cond <- function(ind, txt) {
   entires <- stringr::str_split(txt[ind], " ") %>% unlist()
-  tmp <- purrr::map(entires, ~ stringr::str_split(.x, pattern = "=") %>% unlist())
+  tmp <- purrr::map(
+    entires,
+    ~ stringr::str_split(.x, pattern = "=") %>% unlist()
+  )
   nms <- purrr::map_chr(tmp, purrr::pluck, 1)
   info <- purrr::map(tmp, stringr::str_remove_all, pattern = "\"")
   info_name <- purrr::map_chr(info, ~ .x[1])

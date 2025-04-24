@@ -17,7 +17,8 @@ test_that("argument/call assembly", {
     rlang::call2(
       "cubist",
       .ns = "Cubist",
-      quote(x), quote(y),
+      quote(x),
+      quote(y),
       control = quote(Cubist::cubistControl(rules = 1))
     )
   )
@@ -27,20 +28,31 @@ test_that("argument/call assembly", {
     rlang::call2(
       "cubist",
       .ns = "Cubist",
-      quote(x), quote(y),
+      quote(x),
+      quote(y),
       control = quote(Cubist::cubistControl(rules = NA))
     )
   )
 
   expect_equal(
-    rules:::cubist_args(list(quote(x), quote(y), max_rules = NA, control = ctrl_1)),
+    rules:::cubist_args(list(
+      quote(x),
+      quote(y),
+      max_rules = NA,
+      control = ctrl_1
+    )),
     rlang::call2(
       "cubist",
       .ns = "Cubist",
-      quote(x), quote(y),
+      quote(x),
+      quote(y),
       control = list(
-        unbiased = TRUE, rules = NA, extrapolation = 1,
-        sample = 0, label = "outcome", seed = 2
+        unbiased = TRUE,
+        rules = NA,
+        extrapolation = 1,
+        sample = 0,
+        label = "outcome",
+        seed = 2
       )
     )
   )
@@ -50,22 +62,39 @@ test_that("argument/call assembly", {
     rlang::call2(
       "cubist",
       .ns = "Cubist",
-      quote(x), quote(y),
+      quote(x),
+      quote(y),
       control = list(
-        unbiased = TRUE, rules = 13, extrapolation = 1,
-        sample = 0, label = "outcome", seed = 2
+        unbiased = TRUE,
+        rules = 13,
+        extrapolation = 1,
+        sample = 0,
+        label = "outcome",
+        seed = 2
       )
     )
   )
 
   expect_equal(
-    rules:::cubist_args(list(quote(x), quote(y), max_rules = 31, control = ctrl_2)),
-    rlang::call2("cubist",
-                 .ns = "Cubist", quote(x), quote(y),
-                 control = list(
-                   unbiased = TRUE, rules = 31, extrapolation = 1,
-                   sample = 0, label = "outcome", seed = 2
-                 )
+    rules:::cubist_args(list(
+      quote(x),
+      quote(y),
+      max_rules = 31,
+      control = ctrl_2
+    )),
+    rlang::call2(
+      "cubist",
+      .ns = "Cubist",
+      quote(x),
+      quote(y),
+      control = list(
+        unbiased = TRUE,
+        rules = 31,
+        extrapolation = 1,
+        sample = 0,
+        label = "outcome",
+        seed = 2
+      )
     )
   )
 })
@@ -161,8 +190,12 @@ test_that("formula method - case weights", {
   )
 
   expect_error(
-    cb_fit <- fit(cb_mod, ridership ~ ., data = chi_data$chi_mod,
-                  case_weights = wts),
+    cb_fit <- fit(
+      cb_mod,
+      ridership ~ .,
+      data = chi_data$chi_mod,
+      case_weights = wts
+    ),
     NA
   )
   cb_pred <- predict(cb_fit, chi_data$chi_pred)
@@ -473,7 +506,11 @@ test_that("non-formula method - limited rules and control", {
   )
 
   expect_error(
-    cb_fit <- fit_xy(cb_mod, x = chi_data$chi_mod[, -1], y = chi_data$chi_mod$ridership),
+    cb_fit <- fit_xy(
+      cb_mod,
+      x = chi_data$chi_mod[, -1],
+      y = chi_data$chi_mod$ridership
+    ),
     NA
   )
   cb_pred <- predict(cb_fit, chi_data$chi_pred)
@@ -513,9 +550,11 @@ test_that("non-formula method - control", {
   )
 
   expect_error(
-    cb_fit <- fit_xy(cb_mod,
-                     x = chi_data$chi_mod[, -1],
-                     y = chi_data$chi_mod$ridership),
+    cb_fit <- fit_xy(
+      cb_mod,
+      x = chi_data$chi_mod[, -1],
+      y = chi_data$chi_mod$ridership
+    ),
     NA
   )
   cb_pred <- predict(cb_fit, chi_data$chi_pred)
@@ -549,8 +588,11 @@ test_that("tidy method for cubist - one committee", {
   set.seed(1)
   cb_single_fit <-
     cb_single %>%
-    fit(Sale_Price ~ Neighborhood + Longitude + Latitude +
-          Gr_Liv_Area + Central_Air, data = ames_data$ames)
+    fit(
+      Sale_Price ~
+        Neighborhood + Longitude + Latitude + Gr_Liv_Area + Central_Air,
+      data = ames_data$ames
+    )
 
   # check for consistent cubist model:
   expect_output(
@@ -563,7 +605,10 @@ test_that("tidy method for cubist - one committee", {
   expect_equal(max(cb_single_fit_res$committee), 1)
 
   expect_equal(cb_single_fit_res$statistic[[18]]$error, 0.061801)
-  expect_equal(unname(cb_single_fit_res$estimate[[18]]$estimate[1]), -404.368656)
+  expect_equal(
+    unname(cb_single_fit_res$estimate[[18]]$estimate[1]),
+    -404.368656
+  )
   expect_equal(unname(cb_single_fit_res$estimate[[18]]$estimate[2]), 9.68)
   expect_true(grepl("\\( Gr_Liv_Area", cb_single_fit_res$rule[18]))
   expect_true(grepl("\\( Neighborhood", cb_single_fit_res$rule[18]))
@@ -574,14 +619,16 @@ test_that("tidy method for cubist - one committee", {
   # ------------------------------------------------------------------------------
   # limit number of commiittees
 
-
   cb_multi <- cubist_rules(committees = 5) %>% set_engine("Cubist")
 
   set.seed(1)
   cb_multi_fit <-
     cb_multi %>%
-    fit(Sale_Price ~ Neighborhood + Longitude + Latitude +
-          Gr_Liv_Area + Central_Air, data = ames_data$ames)
+    fit(
+      Sale_Price ~
+        Neighborhood + Longitude + Latitude + Gr_Liv_Area + Central_Air,
+      data = ames_data$ames
+    )
 
   for (comm in 1:5) {
     cb_multi_fit_res <- tidy(cb_single_fit, committees = comm)
@@ -603,7 +650,10 @@ test_that("tidy method for cubist - one committee - only intercepts", {
   set.seed(1)
   cb_single_fit <-
     cb_single %>%
-    fit(Sale_Price ~ Neighborhood + Central_Air + MS_SubClass, data = ames_data$ames)
+    fit(
+      Sale_Price ~ Neighborhood + Central_Air + MS_SubClass,
+      data = ames_data$ames
+    )
 
   # check for consistent cubist model:
   expect_output(
@@ -637,8 +687,11 @@ test_that("tidy method for cubist - many committees", {
   set.seed(1)
   cb_mult_fit <-
     cb_mult %>%
-    fit(Sale_Price ~ Neighborhood + Longitude + Latitude +
-          Gr_Liv_Area + Central_Air, data = ames_data$ames)
+    fit(
+      Sale_Price ~
+        Neighborhood + Longitude + Latitude + Gr_Liv_Area + Central_Air,
+      data = ames_data$ames
+    )
 
   # check for consistent cubist model:
   expect_output(
@@ -686,17 +739,25 @@ test_that("tidy method for cubist - many committees", {
 
 test_that("tunable", {
   cubist_rules_Cubist <-
-    cubist_rules(committees = tune(), neighbors = tune(), max_rules = tune()) %>%
+    cubist_rules(
+      committees = tune(),
+      neighbors = tune(),
+      max_rules = tune()
+    ) %>%
     set_engine("Cubist") %>%
     tunable()
 
   expect_equal(
-    cubist_rules_Cubist$call_info[cubist_rules_Cubist$name == "committees"][[1]]$range,
+    cubist_rules_Cubist$call_info[cubist_rules_Cubist$name == "committees"][[
+      1
+    ]]$range,
     c(1L, 100L)
   )
 
   expect_equal(
-    cubist_rules_Cubist$call_info[cubist_rules_Cubist$name == "neighbors"][[1]]$range,
+    cubist_rules_Cubist$call_info[cubist_rules_Cubist$name == "neighbors"][[
+      1
+    ]]$range,
     c(0L, 9L)
   )
 })

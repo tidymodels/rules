@@ -31,13 +31,20 @@ test_that("formula method", {
   )
   rf_pred <- predict(rf_fit, chi_data$chi_pred)
 
-  expect_equal(unname(rf_fit_exp$xgb$evaluation_log), unname(rf_fit_exp$xgb$evaluation_log))
+  expect_equal(
+    unname(rf_fit_exp$xgb$evaluation_log),
+    unname(rf_fit_exp$xgb$evaluation_log)
+  )
   expect_equal(names(rf_pred), ".pred")
   expect_true(tibble::is_tibble(rf_pred))
   expect_equal(rf_pred$.pred, unname(rf_pred_exp))
 
   expect_error(
-    rf_m_pred <- multi_predict(rf_fit, chi_data$chi_pred, penalty = chi_data$vals),
+    rf_m_pred <- multi_predict(
+      rf_fit,
+      chi_data$chi_pred,
+      penalty = chi_data$vals
+    ),
     NA
   )
   rf_m_pred <-
@@ -82,19 +89,30 @@ test_that("non-formula method", {
   )
 
   expect_error(
-    rf_fit <- fit_xy(rf_mod, x = chi_data$chi_mod[, -1], y = chi_data$chi_mod$ridership),
+    rf_fit <- fit_xy(
+      rf_mod,
+      x = chi_data$chi_mod[, -1],
+      y = chi_data$chi_mod$ridership
+    ),
     NA
   )
   rf_pred <- predict(rf_fit, chi_data$chi_pred)
 
-  expect_equal(unname(rf_fit_exp$xgb$evaluation_log), unname(rf_fit$fit$xgb$evaluation_log))
+  expect_equal(
+    unname(rf_fit_exp$xgb$evaluation_log),
+    unname(rf_fit$fit$xgb$evaluation_log)
+  )
   expect_equal(rf_fit_exp$glm$model$nzero, rf_fit$fit$glm$model$nzero)
   expect_equal(names(rf_pred), ".pred")
   expect_true(tibble::is_tibble(rf_pred))
   expect_equal(rf_pred$.pred, unname(rf_pred_exp))
 
   expect_error(
-    rf_m_pred <- multi_predict(rf_fit, chi_data$chi_pred, penalty = chi_data$vals),
+    rf_m_pred <- multi_predict(
+      rf_fit,
+      chi_data$chi_pred,
+      penalty = chi_data$vals
+    ),
     NA
   )
   rf_m_pred <-
@@ -130,8 +148,8 @@ test_that("tidy method - regression", {
   xrf_reg_fit <-
     xrf_reg_mod %>%
     fit(
-      Sale_Price ~ Neighborhood + Longitude + Latitude +
-        Gr_Liv_Area + Central_Air,
+      Sale_Price ~
+        Neighborhood + Longitude + Latitude + Gr_Liv_Area + Central_Air,
       data = ames_data$ames
     )
 
@@ -141,12 +159,15 @@ test_that("tidy method - regression", {
   expect_true(nrow(raw_coef) == nrow(xrf_rule_res))
   expect_true(all(raw_coef$term %in% xrf_rule_res$rule_id))
 
-
   xrf_col_res <- tidy(xrf_reg_fit, unit = "column", penalty = .001)
   expect_equal(
     sort(unique(xrf_col_res$term)),
     c(
-      "(Intercept)", "Central_Air", "Gr_Liv_Area", "Latitude", "Longitude",
+      "(Intercept)",
+      "Central_Air",
+      "Gr_Liv_Area",
+      "Latitude",
+      "Longitude",
       "Neighborhood"
     )
   )
@@ -189,7 +210,7 @@ test_that("early stopping works in xrf_fit", {
     )
   )
 
-  expect_true( is.null(rf_fit_1$fit$xgb$best_iteration))
+  expect_true(is.null(rf_fit_1$fit$xgb$best_iteration))
   expect_true(!is.null(rf_fit_2$fit$xgb$best_iteration))
   expect_true(!is.null(rf_fit_3$fit$xgb$best_iteration))
 })
@@ -200,7 +221,10 @@ test_that("xrf_fit is sensitive to glm_control", {
 
   rf_mod <-
     rule_fit(trees = 3) %>%
-    set_engine("xrf", glm_control = list(type.measure = "deviance", nfolds = 8)) %>%
+    set_engine(
+      "xrf",
+      glm_control = list(type.measure = "deviance", nfolds = 8)
+    ) %>%
     set_mode("regression")
 
   expect_error_free(

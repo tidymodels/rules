@@ -1,5 +1,12 @@
 cubist_args <- function(x) {
-  ctrl_args <- c("unbiased", "rules", "extrapolation", "sample", "seed", "label")
+  ctrl_args <- c(
+    "unbiased",
+    "rules",
+    "extrapolation",
+    "sample",
+    "seed",
+    "label"
+  )
 
   # translate name
   names(x) <- ifelse(names(x) == "max_rules", "rules", names(x))
@@ -32,7 +39,14 @@ cubist_args <- function(x) {
 #' @export
 #' @keywords internal
 #' @rdname rules-internal
-cubist_fit <- function(x, y, committees = 1, neighbors = 0, max_rules = NA, ...) {
+cubist_fit <- function(
+  x,
+  y,
+  committees = 1,
+  neighbors = 0,
+  max_rules = NA,
+  ...
+) {
   args <- list(
     x = rlang::expr(x),
     y = rlang::expr(y),

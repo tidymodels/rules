@@ -153,9 +153,11 @@ test_that("non-formula method", {
   )
 
   expect_error(
-    c5_fit <- fit_xy(c5_mod,
-                     x = ad_data$ad_mod[, names(ad_data$ad_mod) != "Class"],
-                     y = ad_data$ad_mod$Class),
+    c5_fit <- fit_xy(
+      c5_mod,
+      x = ad_data$ad_mod[, names(ad_data$ad_mod) != "Class"],
+      y = ad_data$ad_mod$Class
+    ),
     NA
   )
   c5_pred <- predict(c5_fit, ad_data$ad_pred)
@@ -197,10 +199,12 @@ test_that("non-formula method - case weights", {
   )
 
   expect_error(
-    c5_fit <- fit_xy(c5_mod,
-                     x = ad_data$ad_mod[, names(ad_data$ad_mod) != "Class"],
-                     y = ad_data$ad_mod$Class,
-                     case_weights = wts),
+    c5_fit <- fit_xy(
+      c5_mod,
+      x = ad_data$ad_mod[, names(ad_data$ad_mod) != "Class"],
+      y = ad_data$ad_mod$Class,
+      case_weights = wts
+    ),
     NA
   )
   c5_pred <- predict(c5_fit, ad_data$ad_pred)
@@ -241,9 +245,11 @@ test_that("non-formula method - control", {
   )
 
   expect_error(
-    c5_fit <- fit_xy(c5_mod,
-                     x = as.data.frame(ad_data$ad_mod[, -1]),
-                     y = ad_data$ad_mod$Class),
+    c5_fit <- fit_xy(
+      c5_mod,
+      x = as.data.frame(ad_data$ad_mod[, -1]),
+      y = ad_data$ad_mod$Class
+    ),
     NA
   )
   c5_pred <- predict(c5_fit, ad_data$ad_pred)
@@ -269,15 +275,15 @@ test_that("printing", {
 # ------------------------------------------------------------------------------
 
 test_that("updates", {
-  spec_1    <- C5_rules(trees = 1)
-  spec_1_a  <- C5_rules(trees = 1, min_n = 100)
-  spec_10   <- C5_rules(trees = 10)
+  spec_1 <- C5_rules(trees = 1)
+  spec_1_a <- C5_rules(trees = 1, min_n = 100)
+  spec_10 <- C5_rules(trees = 10)
   spec_10_a <- C5_rules(trees = 10, min_n = 100)
 
-  expect_equal(update(spec_1,   tibble(trees = 10))$args$trees, 10)
+  expect_equal(update(spec_1, tibble(trees = 10))$args$trees, 10)
   expect_equal(update(spec_1_a, tibble(trees = 10))$args$trees, 10)
 
-  expect_equal(update(spec_1,   trees = 10), spec_10)
+  expect_equal(update(spec_1, trees = 10), spec_10)
   expect_equal(update(spec_1_a, trees = 10), spec_10_a)
 })
 
@@ -303,7 +309,12 @@ test_that("mulit-predict", {
     mutate(.row_number = row_number()) %>%
     tidyr::unnest(cols = c(.pred))
   c5_multi_prob <-
-    multi_predict(c5_fit, ad_data$ad_mod_x[1:5, -1], type = "prob", trees = 1:3) %>%
+    multi_predict(
+      c5_fit,
+      ad_data$ad_mod_x[1:5, -1],
+      type = "prob",
+      trees = 1:3
+    ) %>%
     mutate(.row_number = row_number()) %>%
     tidyr::unnest(cols = c(.pred))
 
@@ -313,7 +324,9 @@ test_that("mulit-predict", {
     ignore_attr = TRUE
   )
   expect_equal(
-    predict(c5_fit$fit, ad_data$ad_mod_x[1:5, -1], trials = 2, type = "prob")[, 1],
+    predict(c5_fit$fit, ad_data$ad_mod_x[1:5, -1], trials = 2, type = "prob")[,
+      1
+    ],
     c5_multi_prob$.pred_Impaired[c5_multi_prob$trees == 2],
     ignore_attr = TRUE
   )
@@ -342,7 +355,9 @@ test_that("tunable", {
     tunable()
 
   expect_equal(
-    C5_rules_engine_args$call_info[C5_rules_engine_args$name == "fuzzyThreshold"][[1]]$fun,
+    C5_rules_engine_args$call_info[
+      C5_rules_engine_args$name == "fuzzyThreshold"
+    ][[1]]$fun,
     "fuzzy_thresholding"
   )
 })
@@ -372,7 +387,7 @@ test_that("tidy method", {
   library(C50)
 
   data(penguins, package = "modeldata")
-  penguins <- penguins[complete.cases(penguins),]
+  penguins <- penguins[complete.cases(penguins), ]
 
   # ------------------------------------------------------------------------------
   # rule based model
@@ -384,7 +399,10 @@ test_that("tidy method", {
   expect_equal(nrow(tidy_1), rules_1$size)
   expect_equal(max(tidy_1$trial), 1L)
   # Spot check a few lines
-  expect_equal(tidy_1$rule[4], "( bill_length_mm < 39.599998 ) & ( bill_depth_mm < 17.9 )")
+  expect_equal(
+    tidy_1$rule[4],
+    "( bill_length_mm < 39.599998 ) & ( bill_depth_mm < 17.9 )"
+  )
   expect_equal(tidy_1$statistic[[2]]$lift, 1.94859)
 
   tidy_2 <- tidy(rules_2)
@@ -392,9 +410,9 @@ test_that("tidy method", {
   expect_equal(max(tidy_2$trial), 5L)
   # Spot check a few more lines
   expect_equal(
-    tidy_2$rule[37],  # trial 4, rule 6
+    tidy_2$rule[37], # trial 4, rule 6
     "( island  %in% c( 'Biscoe','Dream' ) ) & ( bill_length_mm < 50.5 ) & ( bill_depth_mm > 20.5 )"
-    )
+  )
   expect_equal(tidy_2$statistic[[50]]$lift, 1.67623) # trial 5, rule 4
 
   expect_equal(tidy_1, tidy_2[1:nrow(tidy_1), ])
@@ -403,8 +421,12 @@ test_that("tidy method", {
   # tree-based models
 
   trees_1 <- C5.0(sex ~ ., data = penguins)
-  trees_2 <- C5.0(sex ~ ., data = penguins, trials = 2,
-                  control = C5.0Control(earlyStopping = FALSE))
+  trees_2 <- C5.0(
+    sex ~ .,
+    data = penguins,
+    trials = 2,
+    control = C5.0Control(earlyStopping = FALSE)
+  )
 
   tidy_1 <- tidy(trees_1)
   tidy_2 <- tidy(trees_2)
@@ -417,7 +439,6 @@ test_that("tidy method", {
 
   expect_equal(nrow(tidy_1), term_nodes_1)
   expect_equal(nrow(tidy_2), term_nodes_2)
-
 })
 
 test_that('check_args() works', {
