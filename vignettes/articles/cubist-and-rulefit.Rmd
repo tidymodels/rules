@@ -110,8 +110,8 @@ library(rules)
 data(penguins, package = "modeldata")
 
 cubist_fit <- 
-  cubist_rules(committees = 2) %>% 
-  set_engine("Cubist") %>% 
+  cubist_rules(committees = 2) |> 
+  set_engine("Cubist") |> 
   fit(body_mass_g ~ ., data = penguins)
 cubist_fit
 ```
@@ -134,8 +134,8 @@ The `estimate` and `statistic` columns contain tibbles with parameter estimates 
 
 ```{r stats}
 library(tidyr)
-cb_res %>% 
-  dplyr::select(committee, rule_num, statistic) %>% 
+cb_res |> 
+  dplyr::select(committee, rule_num, statistic) |> 
   unnest(cols = c(statistic))
 ```
 For the first committee, rule four contains two conditions and covers 23 data points from the original data set. We can find these data points by converting the character string for the rule to an R expression, then evaluate the expression on the data set: 
@@ -146,13 +146,13 @@ library(purrr)
 library(rlang)
 
 rule_4_filter <- 
-  cb_res %>% 
-  dplyr::filter(rule_num == 4) %>% 
-  pluck("rule") %>%   # <- character string
-  parse_expr() %>%    # <- R expression
+  cb_res |> 
+  dplyr::filter(rule_num == 4) |> 
+  pluck("rule") |>   # <- character string
+  parse_expr() |>    # <- R expression
   eval_tidy(penguins) # <- logical vector
 
-penguins %>% 
+penguins |> 
   dplyr::slice(which(rule_4_filter))
 ```
 
@@ -164,7 +164,7 @@ RuleFit uses rules in a more straightforward way.  It creates an initial tree (o
 
 ```{r rule-fit, eval = FALSE}
 data_with_rules <- 
-  data %>% 
+  data |> 
   mutate(
     rule_1 = ifelse(A <  a & B <  b, 0, 1),
     rule_2 = ifelse(A <  a & B >= b, 0, 1),
@@ -172,7 +172,7 @@ data_with_rules <-
   )
 
 rule_fit_model <- 
-  glmnet(x = data_with_rules %>% select(A, B, starts_with("rule_") %>% as.matrix(),
+  glmnet(x = data_with_rules |> select(A, B, starts_with("rule_") |> as.matrix(),
          y = data_with_rules$y,
          alpha = 1)
 ```
@@ -187,8 +187,8 @@ RuleFit, as implemented by the `xrf` package, required all of the data to be com
 
 ```{r preproc}
 penguins <- 
-  penguins %>% 
-  mutate(body_mass_g = body_mass_g + 0.0) %>% 
+  penguins |> 
+  mutate(body_mass_g = body_mass_g + 0.0) |> 
   na.omit()
 ```
 
@@ -196,12 +196,12 @@ Fitting the model:
 
 ```{r rf-penguins, results = 'hide', warning=FALSE, message=FALSE}
 rule_fit_spec <- 
-  rule_fit(trees = 10, tree_depth = 5, penalty = 0.01) %>% 
-  set_engine("xrf") %>%
+  rule_fit(trees = 10, tree_depth = 5, penalty = 0.01) |> 
+  set_engine("xrf") |>
   set_mode("regression") 
 
 rule_fit_fit <- 
-  rule_fit_spec %>% 
+  rule_fit_spec |> 
   fit(body_mass_g ~ ., data = penguins)
 ```
 
@@ -248,13 +248,13 @@ A single rule might be represented with multiple rows of this version of the dat
 ```{r rf-imp}
 num_rules <- sum(grepl("^r[0-9]*_", unique(rf_res$rule_id))) + 1
 
-rf_variable_res %>% 
-  dplyr::filter(term != "(Intercept)") %>% 
-  group_by(term) %>% 
-  summarize(effect = sum(abs(estimate)), .groups = "drop") %>% 
-  ungroup() %>% 
+rf_variable_res |> 
+  dplyr::filter(term != "(Intercept)") |> 
+  group_by(term) |> 
+  summarize(effect = sum(abs(estimate)), .groups = "drop") |> 
+  ungroup() |> 
   # normalize by number of possible occurrences
-  mutate(effect = effect / num_rules ) %>% 
+  mutate(effect = effect / num_rules ) |> 
   arrange(desc(effect))
 ```
 

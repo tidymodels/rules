@@ -18,8 +18,8 @@ test_that("formula method", {
 
   expect_error(
     rf_mod <-
-      rule_fit(trees = 3, min_n = 3, penalty = 1) %>%
-      set_engine("xrf") %>%
+      rule_fit(trees = 3, min_n = 3, penalty = 1) |>
+      set_engine("xrf") |>
       set_mode("regression"),
     NA
   )
@@ -48,14 +48,14 @@ test_that("formula method", {
     NA
   )
   rf_m_pred <-
-    rf_m_pred %>%
-    mutate(.row_number = 1:nrow(rf_m_pred)) %>%
-    tidyr::unnest(cols = c(.pred)) %>%
+    rf_m_pred |>
+    mutate(.row_number = 1:nrow(rf_m_pred)) |>
+    tidyr::unnest(cols = c(.pred)) |>
     arrange(penalty, .row_number)
 
   for (i in chi_data$vals) {
     exp_pred <- predict(rf_fit_exp, chi_data$chi_pred, lambda = i)[, 1]
-    obs_pred <- rf_m_pred %>% dplyr::filter(penalty == i) %>% pull(.pred)
+    obs_pred <- rf_m_pred |> dplyr::filter(penalty == i) |> pull(.pred)
     expect_equal(unname(exp_pred), obs_pred)
   }
 })
@@ -82,8 +82,8 @@ test_that("non-formula method", {
 
   expect_error(
     rf_mod <-
-      rule_fit(trees = 3, min_n = 3, penalty = 1) %>%
-      set_engine("xrf") %>%
+      rule_fit(trees = 3, min_n = 3, penalty = 1) |>
+      set_engine("xrf") |>
       set_mode("regression"),
     NA
   )
@@ -116,14 +116,14 @@ test_that("non-formula method", {
     NA
   )
   rf_m_pred <-
-    rf_m_pred %>%
-    mutate(.row_number = 1:nrow(rf_m_pred)) %>%
-    tidyr::unnest(cols = c(.pred)) %>%
+    rf_m_pred |>
+    mutate(.row_number = 1:nrow(rf_m_pred)) |>
+    tidyr::unnest(cols = c(.pred)) |>
     arrange(penalty, .row_number)
 
   for (i in chi_data$vals) {
     exp_pred <- predict(rf_fit_exp, chi_data$chi_pred, lambda = i)[, 1]
-    obs_pred <- rf_m_pred %>% dplyr::filter(penalty == i) %>% pull(.pred)
+    obs_pred <- rf_m_pred |> dplyr::filter(penalty == i) |> pull(.pred)
     expect_equal(unname(exp_pred), obs_pred)
   }
 })
@@ -140,13 +140,13 @@ test_that("tidy method - regression", {
   library(xrf)
 
   xrf_reg_mod <-
-    rule_fit(trees = 3, penalty = .001) %>%
-    set_engine("xrf") %>%
+    rule_fit(trees = 3, penalty = .001) |>
+    set_engine("xrf") |>
     set_mode("regression")
 
   set.seed(1)
   xrf_reg_fit <-
-    xrf_reg_mod %>%
+    xrf_reg_mod |>
     fit(
       Sale_Price ~
         Neighborhood + Longitude + Latitude + Gr_Liv_Area + Central_Air,
@@ -182,18 +182,18 @@ test_that("early stopping works in xrf_fit", {
   skip_if_not_installed("xrf")
 
   rf_mod_1 <-
-    rule_fit(trees = 5) %>%
-    set_engine("xrf") %>%
+    rule_fit(trees = 5) |>
+    set_engine("xrf") |>
     set_mode("regression")
 
   rf_mod_2 <-
-    rule_fit(trees = 5, stop_iter = 3) %>%
-    set_engine("xrf") %>%
+    rule_fit(trees = 5, stop_iter = 3) |>
+    set_engine("xrf") |>
     set_mode("regression")
 
   rf_mod_3 <-
-    rule_fit(trees = 5, stop_iter = 5) %>%
-    set_engine("xrf") %>%
+    rule_fit(trees = 5, stop_iter = 5) |>
+    set_engine("xrf") |>
     set_mode("regression")
 
   expect_error_free(
@@ -220,11 +220,11 @@ test_that("xrf_fit is sensitive to glm_control", {
   skip_if_not_installed("xrf")
 
   rf_mod <-
-    rule_fit(trees = 3) %>%
+    rule_fit(trees = 3) |>
     set_engine(
       "xrf",
       glm_control = list(type.measure = "deviance", nfolds = 8)
-    ) %>%
+    ) |>
     set_mode("regression")
 
   expect_error_free(
@@ -242,8 +242,8 @@ test_that("xrf_fit guards xgb_control", {
   skip_if_not_installed("xrf")
 
   rf_mod <-
-    rule_fit(trees = 3) %>%
-    set_engine("xrf", xgb_control = list(nrounds = 3)) %>%
+    rule_fit(trees = 3) |>
+    set_engine("xrf", xgb_control = list(nrounds = 3)) |>
     set_mode("regression")
 
   expect_snapshot(

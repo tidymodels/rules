@@ -95,7 +95,7 @@ c5_pred <- function(
     ...
   )
   if (length(trials) == 1) {
-    res <- res %>% dplyr::select(-trials)
+    res <- res |> dplyr::select(-trials)
   }
   res
 }
@@ -132,7 +132,7 @@ add_engine_parameters <- function(pset, engines) {
     engine_names <- pset$name[is_engine_param]
     pset <- pset[!is_engine_param, ]
     pset <-
-      dplyr::bind_rows(pset, engines %>% dplyr::filter(name %in% engines$name))
+      dplyr::bind_rows(pset, engines |> dplyr::filter(name %in% engines$name))
   }
   pset
 }

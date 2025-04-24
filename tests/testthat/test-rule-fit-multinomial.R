@@ -28,8 +28,8 @@ test_that("formula method", {
 
   expect_error(
     rf_mod <-
-      rule_fit(trees = 3, min_n = 3, penalty = 1) %>%
-      set_engine("xrf") %>%
+      rule_fit(trees = 3, min_n = 3, penalty = 1) |>
+      set_engine("xrf") |>
       set_mode("classification"),
     NA
   )
@@ -76,9 +76,9 @@ test_that("formula method", {
   )
 
   rf_m_pred <-
-    rf_m_pred %>%
-    mutate(.row_number = 1:nrow(rf_m_pred)) %>%
-    tidyr::unnest(cols = c(.pred)) %>%
+    rf_m_pred |>
+    mutate(.row_number = 1:nrow(rf_m_pred)) |>
+    tidyr::unnest(cols = c(.pred)) |>
     arrange(penalty, .row_number)
 
   for (i in hpc_data$vals) {
@@ -89,14 +89,14 @@ test_that("formula method", {
     )
     exp_pred <- unname(exp_pred)
 
-    obs_pred <- rf_m_pred %>% dplyr::filter(penalty == i) %>% pull(.pred_class)
+    obs_pred <- rf_m_pred |> dplyr::filter(penalty == i) |> pull(.pred_class)
     expect_equal(unname(exp_pred), obs_pred)
   }
 
   rf_m_prob <-
-    rf_m_prob %>%
-    mutate(.row_number = 1:nrow(rf_m_prob)) %>%
-    tidyr::unnest(cols = c(.pred)) %>%
+    rf_m_prob |>
+    mutate(.row_number = 1:nrow(rf_m_prob)) |>
+    tidyr::unnest(cols = c(.pred)) |>
     arrange(penalty, .row_number)
 
   for (i in hpc_data$vals) {
@@ -106,7 +106,7 @@ test_that("formula method", {
       lambda = i,
       type = "response"
     )[,, 1]
-    obs_pred <- rf_m_prob %>% dplyr::filter(penalty == i)
+    obs_pred <- rf_m_prob |> dplyr::filter(penalty == i)
     for (i in 1:ncol(rf_prob)) {
       expect_equal(obs_pred[[i]], unname(exp_pred[, i]))
     }
@@ -145,8 +145,8 @@ test_that("non-formula method", {
 
   expect_error(
     rf_mod <-
-      rule_fit(trees = 3, min_n = 3, penalty = 1) %>%
-      set_engine("xrf") %>%
+      rule_fit(trees = 3, min_n = 3, penalty = 1) |>
+      set_engine("xrf") |>
       set_mode("classification"),
     NA
   )
@@ -196,9 +196,9 @@ test_that("non-formula method", {
   )
 
   rf_m_pred <-
-    rf_m_pred %>%
-    mutate(.row_number = 1:nrow(rf_m_pred)) %>%
-    tidyr::unnest(cols = c(.pred)) %>%
+    rf_m_pred |>
+    mutate(.row_number = 1:nrow(rf_m_pred)) |>
+    tidyr::unnest(cols = c(.pred)) |>
     arrange(penalty, .row_number)
 
   for (i in hpc_data$vals) {
@@ -209,14 +209,14 @@ test_that("non-formula method", {
     )
     exp_pred <- unname(exp_pred)
 
-    obs_pred <- rf_m_pred %>% dplyr::filter(penalty == i) %>% pull(.pred_class)
+    obs_pred <- rf_m_pred |> dplyr::filter(penalty == i) |> pull(.pred_class)
     expect_equal(unname(exp_pred), obs_pred)
   }
 
   rf_m_prob <-
-    rf_m_prob %>%
-    mutate(.row_number = 1:nrow(rf_m_prob)) %>%
-    tidyr::unnest(cols = c(.pred)) %>%
+    rf_m_prob |>
+    mutate(.row_number = 1:nrow(rf_m_prob)) |>
+    tidyr::unnest(cols = c(.pred)) |>
     arrange(penalty, .row_number)
 
   for (i in hpc_data$vals) {
@@ -226,7 +226,7 @@ test_that("non-formula method", {
       lambda = i,
       type = "response"
     )[,, 1]
-    obs_pred <- rf_m_prob %>% dplyr::filter(penalty == i)
+    obs_pred <- rf_m_prob |> dplyr::filter(penalty == i)
     for (i in 1:ncol(rf_prob)) {
       expect_equal(obs_pred[[i]], unname(exp_pred[, i]))
     }
@@ -245,13 +245,13 @@ test_that("tidy method - multi-class", {
   library(xrf)
 
   xrf_cls_mod <-
-    rule_fit(trees = 3, penalty = .001) %>%
-    set_engine("xrf") %>%
+    rule_fit(trees = 3, penalty = .001) |>
+    set_engine("xrf") |>
     set_mode("classification")
 
   set.seed(1)
   xrf_cls_fit <-
-    xrf_cls_mod %>%
+    xrf_cls_mod |>
     fit(class ~ ., data = hpc_data$hpc_mod)
 
   xrf_rule_res <- tidy(xrf_cls_fit, penalty = .001)

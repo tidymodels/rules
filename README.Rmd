@@ -52,20 +52,20 @@ The rules package provides engines for the models in the following table.
 ```{r, echo=FALSE, message=FALSE}
 library(parsnip)
 
-parsnip_models <- get_from_env("models") %>%
-  setNames(., .) %>%
+parsnip_models <- get_from_env("models") |>
+  setNames() |>
   purrr::map_dfr(get_from_env, .id = "model")
 
 library(rules)
 
-rules_models <- get_from_env("models") %>%
-  setNames(., .) %>%
+rules_models <- get_from_env("models") |>
+  setNames() |>
   purrr::map_dfr(get_from_env, .id = "model")
 
 dplyr::anti_join(
   rules_models, parsnip_models, 
   by = c("model", "engine", "mode")
-) %>%
+) |>
   knitr::kable()
 ```
 

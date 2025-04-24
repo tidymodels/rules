@@ -14,7 +14,7 @@ tidy.C5.0 <- function(x, trees = x$trials["Actual"], ...) {
 
 parse_rule_file <- function(x, trials = x$trials["Actual"], ...) {
   txt <- x$rules
-  txt_rows <- stringr::str_split(txt, pattern = "\n") %>% unlist()
+  txt_rows <- stringr::str_split(txt, pattern = "\n") |> unlist()
 
   if (!is.null(trials)) {
     trials <- min(trials, x$trials["Actual"])
@@ -50,10 +50,10 @@ parse_rule_file <- function(x, trials = x$trials["Actual"], ...) {
     attr_inds <- find_cond_info(txt_rows, loc, uppr)
     cond_att <- purrr::map_dfr(attr_inds, parse_cond, txt = txt_rows)
     trial_data <-
-      dplyr::bind_cols(trial_data, cond_att) %>%
-      dplyr::mutate(num_conditions = conds) %>%
-      dplyr::rename(coverage = cover) %>%
-      dplyr::select(-ok) %>%
+      dplyr::bind_cols(trial_data, cond_att) |>
+      dplyr::mutate(num_conditions = conds) |>
+      dplyr::rename(coverage = cover) |>
+      dplyr::select(-ok) |>
       tidyr::nest(statistic = c(num_conditions, coverage, lift, class))
 
     # Loop over all of the rules and get their rule conditions
@@ -74,7 +74,7 @@ parse_rule_file <- function(x, trials = x$trials["Actual"], ...) {
   }
 
   res <-
-    dplyr::bind_rows(trial_res) %>%
+    dplyr::bind_rows(trial_res) |>
     dplyr::select(trial, rule_num, rule, statistic)
   res
 }
@@ -83,8 +83,8 @@ parse_rule_file <- function(x, trials = x$trials["Actual"], ...) {
 # parsing tree models
 
 parse_tree_file <- function(x, trials = x$trials["Actual"]) {
-  tree_raw <- x$tree %>%
-    stringr::str_split("\n") %>%
+  tree_raw <- x$tree |>
+    stringr::str_split("\n") |>
     purrr::pluck(1)
 
   levels <- get_variable_levels(x)

@@ -66,7 +66,7 @@ cubist_fit <- function(
   res <- rlang::eval_tidy(cl)
 
   # Fix used args
-  used <- res$coefficients %>% dplyr::select(-`(Intercept)`, -committee, -rule)
+  used <- res$coefficients |> dplyr::select(-`(Intercept)`, -committee, -rule)
   used <- purrr::map_lgl(used, ~ any(!is.na(.x)))
   res$vars$used <- names(used)[used]
 
@@ -221,11 +221,11 @@ multi_predict._cubist <-
     if (n > 1) {
       res$.row_number <- rep(seq_len(nrow(new_data)), n)
       res <-
-        res %>%
-        dplyr::group_by(.row_number) %>%
-        tidyr::nest() %>%
-        dplyr::ungroup() %>%
-        dplyr::select(-.row_number) %>%
+        res |>
+        dplyr::group_by(.row_number) |>
+        tidyr::nest() |>
+        dplyr::ungroup() |>
+        dplyr::select(-.row_number) |>
         setNames(".pred")
     }
     res

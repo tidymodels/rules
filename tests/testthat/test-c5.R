@@ -22,7 +22,7 @@ test_that("formula method", {
 
   expect_error(
     c5_mod <-
-      C5_rules(trees = 10) %>%
+      C5_rules(trees = 10) |>
       set_engine("C5.0", seed = 2),
     NA
   )
@@ -65,7 +65,7 @@ test_that("formula method - case weights", {
 
   expect_error(
     c5_mod <-
-      C5_rules(trees = 10) %>%
+      C5_rules(trees = 10) |>
       set_engine("C5.0", seed = 2),
     NA
   )
@@ -106,7 +106,7 @@ test_that("formula method - control", {
 
   expect_error(
     c5_mod <-
-      C5_rules(trees = 2) %>%
+      C5_rules(trees = 2) |>
       set_engine("C5.0", control = ctrl),
     NA
   )
@@ -147,7 +147,7 @@ test_that("non-formula method", {
 
   expect_error(
     c5_mod <-
-      C5_rules(trees = 10) %>%
+      C5_rules(trees = 10) |>
       set_engine("C5.0", seed = 2),
     NA
   )
@@ -193,7 +193,7 @@ test_that("non-formula method - case weights", {
 
   expect_error(
     c5_mod <-
-      C5_rules(trees = 10) %>%
+      C5_rules(trees = 10) |>
       set_engine("C5.0", seed = 2),
     NA
   )
@@ -239,7 +239,7 @@ test_that("non-formula method - control", {
 
   expect_error(
     c5_mod <-
-      C5_rules(trees = 2) %>%
+      C5_rules(trees = 2) |>
       set_engine("C5.0", control = ctrl),
     NA
   )
@@ -300,13 +300,13 @@ test_that("mulit-predict", {
   ctrl <- C50::C5.0Control(subset = FALSE, seed = 2)
 
   c5_fit <-
-    C5_rules(trees = 10) %>%
-    set_engine("C5.0", seed = 2) %>%
+    C5_rules(trees = 10) |>
+    set_engine("C5.0", seed = 2) |>
     fit_xy(x = ad_data$ad_mod_x[-(1:5), -1], y = ad_data$ad_mod$Class[-(1:5)])
 
   c5_multi_pred <-
-    multi_predict(c5_fit, ad_data$ad_mod_x[1:5, -1], trees = 1:3) %>%
-    mutate(.row_number = row_number()) %>%
+    multi_predict(c5_fit, ad_data$ad_mod_x[1:5, -1], trees = 1:3) |>
+    mutate(.row_number = row_number()) |>
     tidyr::unnest(cols = c(.pred))
   c5_multi_prob <-
     multi_predict(
@@ -314,8 +314,8 @@ test_that("mulit-predict", {
       ad_data$ad_mod_x[1:5, -1],
       type = "prob",
       trees = 1:3
-    ) %>%
-    mutate(.row_number = row_number()) %>%
+    ) |>
+    mutate(.row_number = row_number()) |>
     tidyr::unnest(cols = c(.pred))
 
   expect_equal(
@@ -335,8 +335,8 @@ test_that("mulit-predict", {
 
 test_that("tunable", {
   C5_rules_C5.0 <-
-    C5_rules(trees = tune(), min_n = tune()) %>%
-    set_engine("C5.0") %>%
+    C5_rules(trees = tune(), min_n = tune()) |>
+    set_engine("C5.0") |>
     tunable()
 
   expect_equal(
@@ -350,8 +350,8 @@ test_that("tunable", {
   )
 
   C5_rules_engine_args <-
-    C5_rules() %>%
-    set_engine("C5.0", fuzzyThreshold = tune()) %>%
+    C5_rules() |>
+    set_engine("C5.0", fuzzyThreshold = tune()) |>
     tunable()
 
   expect_equal(
@@ -364,15 +364,15 @@ test_that("tunable", {
 
 test_that("mode specific package dependencies", {
   expect_identical(
-    get_from_env(paste0("C5_rules", "_pkgs")) %>%
-      dplyr::filter(engine == "C5.0", mode == "classification") %>%
+    get_from_env(paste0("C5_rules", "_pkgs")) |>
+      dplyr::filter(engine == "C5.0", mode == "classification") |>
       dplyr::pull(pkg),
     list(c("C50", "rules"))
   )
 
   expect_identical(
-    get_from_env(paste0("C5_rules", "_pkgs")) %>%
-      dplyr::filter(engine == "C5.0", mode == "regression") %>%
+    get_from_env(paste0("C5_rules", "_pkgs")) |>
+      dplyr::filter(engine == "C5.0", mode == "regression") |>
       dplyr::pull(pkg),
     list()
   )
@@ -452,8 +452,8 @@ test_that('check_args() works', {
   expect_snapshot(
     error = TRUE,
     {
-      spec <- C5_rules(trees = c(1, 2, 3)) %>%
-        set_engine("C5.0") %>%
+      spec <- C5_rules(trees = c(1, 2, 3)) |>
+        set_engine("C5.0") |>
         set_mode("classification")
       fit(spec, Class ~ ., data = ad_data$ad_mod)
     }
@@ -461,8 +461,8 @@ test_that('check_args() works', {
 
   expect_snapshot(
     {
-      spec <- C5_rules(trees = 0) %>%
-        set_engine("C5.0") %>%
+      spec <- C5_rules(trees = 0) |>
+        set_engine("C5.0") |>
         set_mode("classification")
       res <- fit(spec, Class ~ ., data = ad_data$ad_mod)
     }
@@ -470,8 +470,8 @@ test_that('check_args() works', {
 
   expect_snapshot(
     {
-      spec <- C5_rules(trees = 1000) %>%
-        set_engine("C5.0") %>%
+      spec <- C5_rules(trees = 1000) |>
+        set_engine("C5.0") |>
         set_mode("classification")
       res <- fit(spec, Class ~ ., data = ad_data$ad_mod)
     }
@@ -480,8 +480,8 @@ test_that('check_args() works', {
   expect_snapshot(
     error = TRUE,
     {
-      spec <- C5_rules(min_n = c(1, 2, 3)) %>%
-        set_engine("C5.0") %>%
+      spec <- C5_rules(min_n = c(1, 2, 3)) |>
+        set_engine("C5.0") |>
         set_mode("classification")
       fit(spec, Class ~ ., data = ad_data$ad_mod)
     }

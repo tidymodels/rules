@@ -3,19 +3,19 @@ make_chi_data <- function() {
 
   Chicago$Cubs <- factor(ifelse(Chicago$Cubs_Home, "home", "away"))
 
-  chi_mod <- Chicago %>%
-    dplyr::slice(-(1:10)) %>%
+  chi_mod <- Chicago |>
+    dplyr::slice(-(1:10)) |>
     dplyr::select(ridership, Cubs, Austin, Clark_Lake)
-  chi_pred <- Chicago %>%
-    dplyr::slice(1:10) %>%
+  chi_pred <- Chicago |>
+    dplyr::slice(1:10) |>
     dplyr::select(Cubs, Austin, Clark_Lake)
   chi_mod_x <-
-    model.matrix(ridership ~ ., data = chi_mod) %>%
-    as.data.frame() %>%
+    model.matrix(ridership ~ ., data = chi_mod) |>
+    as.data.frame() |>
     dplyr::select(-1)
   chi_pred_x <-
-    model.matrix(~., data = chi_pred) %>%
-    as.data.frame() %>%
+    model.matrix(~., data = chi_pred) |>
+    as.data.frame() |>
     dplyr::select(-1)
 
   chi_mod <- as.data.frame(chi_mod)
@@ -38,19 +38,19 @@ make_chi_data <- function() {
 make_ad_data <- function() {
   ad_data <- modeldata::ad_data
 
-  ad_mod <- ad_data %>%
-    dplyr::slice(-(1:10)) %>%
+  ad_mod <- ad_data |>
+    dplyr::slice(-(1:10)) |>
     dplyr::select(Class, Genotype, p_tau, MMP10)
-  ad_pred <- ad_data %>%
-    dplyr::slice(1:10) %>%
+  ad_pred <- ad_data |>
+    dplyr::slice(1:10) |>
     dplyr::select(Genotype, p_tau, MMP10)
   ad_mod_x <-
-    model.matrix(Class ~ ., data = ad_mod) %>%
-    as.data.frame() %>%
+    model.matrix(Class ~ ., data = ad_mod) |>
+    as.data.frame() |>
     dplyr::select(-1)
   ad_pred_x <-
-    model.matrix(~., data = ad_pred) %>%
-    as.data.frame() %>%
+    model.matrix(~., data = ad_pred) |>
+    as.data.frame() |>
     dplyr::select(-1)
 
   ad_mod <- as.data.frame(ad_mod)
@@ -73,7 +73,7 @@ make_ames_data <- function() {
   ames <- modeldata::ames
 
   ames <-
-    ames %>%
+    ames |>
     dplyr::mutate(
       Sale_Price = log10(Sale_Price),
       Gr_Liv_Area = log10(Gr_Liv_Area)
@@ -92,11 +92,11 @@ make_hpc_data <- function(x) {
   in_mod <- keep[1:1500]
   in_pred <- keep[1501:1510]
 
-  hpc_mod <- hpc_data %>%
-    dplyr::slice(in_mod) %>%
+  hpc_mod <- hpc_data |>
+    dplyr::slice(in_mod) |>
     dplyr::select(class, compounds, protocol, input_fields)
-  hpc_pred <- hpc_data %>%
-    dplyr::slice(in_pred) %>%
+  hpc_pred <- hpc_data |>
+    dplyr::slice(in_pred) |>
     dplyr::select(compounds, protocol, input_fields)
 
   hpc_mod <- as.data.frame(hpc_mod)

@@ -3,7 +3,6 @@
 
 ## usethis namespace: start
 #' @importFrom dials new_quant_param
-#' @importFrom dplyr %>%
 #' @importFrom dplyr as_tibble
 #' @importFrom dplyr tibble
 #' @importFrom purrr map_dfr

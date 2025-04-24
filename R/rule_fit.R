@@ -279,27 +279,27 @@ organize_xrf_multi_pred <- function(x, object, penalty, fam) {
       res <- tibble(penalty = rep(penalty, nrow(x)), .pred = unname(x[, 1]))
     } else {
       res <-
-        as_tibble(x) %>%
-        dplyr::mutate(.row_number = seq_len(nrow(x))) %>%
-        tidyr::pivot_longer(cols = c(-.row_number), values_to = ".pred") %>%
-        dplyr::mutate(penalty = rep(penalty, nrow(x))) %>%
-        dplyr::select(-name) %>%
-        dplyr::group_by(.row_number) %>%
-        tidyr::nest() %>%
-        dplyr::ungroup() %>%
-        dplyr::select(-.row_number) %>%
+        as_tibble(x) |>
+        dplyr::mutate(.row_number = seq_len(nrow(x))) |>
+        tidyr::pivot_longer(cols = c(-.row_number), values_to = ".pred") |>
+        dplyr::mutate(penalty = rep(penalty, nrow(x))) |>
+        dplyr::select(-name) |>
+        dplyr::group_by(.row_number) |>
+        tidyr::nest() |>
+        dplyr::ungroup() |>
+        dplyr::select(-.row_number) |>
         setNames(".pred")
     }
   } else {
     if (fam == "binomial") {
       res <-
-        as_tibble(x) %>%
-        dplyr::mutate(.row_number = seq_len(nrow(x))) %>%
+        as_tibble(x) |>
+        dplyr::mutate(.row_number = seq_len(nrow(x))) |>
         tidyr::pivot_longer(
           cols = c(-.row_number),
           values_to = ".pred_class"
-        ) %>%
-        dplyr::select(-name) %>%
+        ) |>
+        dplyr::select(-name) |>
         dplyr::mutate(
           .pred_class = ifelse(.pred_class >= .5, object$lvl[2], object$lvl[1]),
           .pred_class = factor(.pred_class, levels = object$lvl)
@@ -311,25 +311,25 @@ organize_xrf_multi_pred <- function(x, object, penalty, fam) {
       } else {
         # multipredict
         res <-
-          res %>%
-          dplyr::mutate(penalty = rep(penalty, nrow(x))) %>%
-          dplyr::group_by(.row_number) %>%
-          tidyr::nest() %>%
-          dplyr::ungroup() %>%
-          dplyr::select(-.row_number) %>%
+          res |>
+          dplyr::mutate(penalty = rep(penalty, nrow(x))) |>
+          dplyr::group_by(.row_number) |>
+          tidyr::nest() |>
+          dplyr::ungroup() |>
+          dplyr::select(-.row_number) |>
           setNames(".pred")
       }
     } else {
       # fam = "multinomial"
       res <-
-        apply(x, 3, function(x) apply(x, 1, which.max)) %>%
-        as_tibble() %>%
-        dplyr::mutate(.row_number = seq_len(nrow(x))) %>%
+        apply(x, 3, function(x) apply(x, 1, which.max)) |>
+        as_tibble() |>
+        dplyr::mutate(.row_number = seq_len(nrow(x))) |>
         tidyr::pivot_longer(
           cols = c(-.row_number),
           values_to = ".pred_class"
-        ) %>%
-        dplyr::select(-name) %>%
+        ) |>
+        dplyr::select(-name) |>
         dplyr::mutate(
           .pred_class = object$lvl[.pred_class],
           .pred_class = factor(.pred_class, levels = object$lvl)
@@ -340,12 +340,12 @@ organize_xrf_multi_pred <- function(x, object, penalty, fam) {
       } else {
         # multi-predict
         res <-
-          res %>%
-          dplyr::mutate(penalty = rep(penalty, nrow(x))) %>%
-          dplyr::group_by(.row_number) %>%
-          tidyr::nest() %>%
-          dplyr::ungroup() %>%
-          dplyr::select(-.row_number) %>%
+          res |>
+          dplyr::mutate(penalty = rep(penalty, nrow(x))) |>
+          dplyr::group_by(.row_number) |>
+          tidyr::nest() |>
+          dplyr::ungroup() |>
+          dplyr::select(-.row_number) |>
           setNames(".pred")
       }
     }
@@ -356,49 +356,49 @@ organize_xrf_multi_pred <- function(x, object, penalty, fam) {
 organize_xrf_multi_prob <- function(x, object, penalty, fam) {
   if (fam == "binomial") {
     res <-
-      as_tibble(x) %>%
-      dplyr::mutate(.row_number = seq_len(nrow(x))) %>%
-      tidyr::pivot_longer(cols = c(-.row_number), values_to = ".pred_2") %>%
-      dplyr::mutate(penalty = rep(penalty, nrow(x))) %>%
-      dplyr::select(-name) %>%
-      dplyr::mutate(.pred_1 = 1 - .pred_2) %>%
+      as_tibble(x) |>
+      dplyr::mutate(.row_number = seq_len(nrow(x))) |>
+      tidyr::pivot_longer(cols = c(-.row_number), values_to = ".pred_2") |>
+      dplyr::mutate(penalty = rep(penalty, nrow(x))) |>
+      dplyr::select(-name) |>
+      dplyr::mutate(.pred_1 = 1 - .pred_2) |>
       dplyr::select(.row_number, penalty, .pred_1, .pred_2)
 
     if (length(penalty) == 1) {
       # predict
       res <-
-        res %>%
-        setNames(c(".row_number", "penalty", object$lvl)) %>%
+        res |>
+        setNames(c(".row_number", "penalty", object$lvl)) |>
         dplyr::select(-.row_number, -penalty)
     } else {
       # multi_predict
       res <-
-        res %>%
-        setNames(c(".row_number", "penalty", paste0(".pred_", object$lvl))) %>%
-        dplyr::group_by(.row_number) %>%
-        tidyr::nest() %>%
-        dplyr::ungroup() %>%
-        dplyr::select(-.row_number) %>%
+        res |>
+        setNames(c(".row_number", "penalty", paste0(".pred_", object$lvl))) |>
+        dplyr::group_by(.row_number) |>
+        tidyr::nest() |>
+        dplyr::ungroup() |>
+        dplyr::select(-.row_number) |>
         setNames(".pred")
     }
   } else {
     # fam = "multinomial"
     res <-
-      apply(x, 3, as_tibble) %>%
-      dplyr::bind_rows() %>%
+      apply(x, 3, as_tibble) |>
+      dplyr::bind_rows() |>
       setNames(object$lvl)
 
     # good format for predict()
     if (length(penalty) > 1) {
       # multi_predict
       res <-
-        res %>%
-        dplyr::mutate(.row_number = rep(seq_len(nrow(x)), length(penalty))) %>%
-        dplyr::mutate(penalty = rep(penalty, each = nrow(x))) %>%
-        dplyr::group_by(.row_number) %>%
-        tidyr::nest() %>%
-        dplyr::ungroup() %>%
-        dplyr::select(-.row_number) %>%
+        res |>
+        dplyr::mutate(.row_number = rep(seq_len(nrow(x)), length(penalty))) |>
+        dplyr::mutate(penalty = rep(penalty, each = nrow(x))) |>
+        dplyr::group_by(.row_number) |>
+        tidyr::nest() |>
+        dplyr::ungroup() |>
+        dplyr::select(-.row_number) |>
         setNames(".pred")
     }
   }
