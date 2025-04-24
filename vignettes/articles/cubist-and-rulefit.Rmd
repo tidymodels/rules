@@ -2,7 +2,8 @@
 title: "What's the difference between Cubist and RuleFit?"
 ---
 
-```{r, include = FALSE}
+```{r}
+#| include: false
 if (rlang::is_installed(c("modeldata", "recipes", "Cubist", "xrf"))) {
   run <- TRUE
 } else {
@@ -73,7 +74,8 @@ Now let's look at how each model uses the rules.
 
 Before delving into the rules, let's start with the _model tree_ initially created by Cubist (Quinlan (1992)). An initial tree is created and a regression model is created for _each split in the tree_. Each linear regression is created on the subset of the data covered by the current rule and uses only the predictors in the current rule. In the tree shown above, the first split produces two models with `A` as a predictor. The data for each are filtered either with `A < a` or `A >= a`. The entire set of models are: 
 
-```{r, eval = FALSE}
+```{r}
+#| eval: false
 split_1_low  <- filter(data, A <  a)
 model_1_low  <- lm(y ~ A, data = split_1_low)
 
@@ -105,7 +107,8 @@ Perhaps unrelated to this document, which focuses on how rules are used, Cubist 
 
 Let's look at an example model on the Palmer penguin data: 
 
-```{r cubist-penguins}
+```{r}
+#| label: cubist-penguins
 library(rules)
 data(penguins, package = "modeldata")
 
@@ -118,21 +121,24 @@ cubist_fit
 
 The `summary()` function shows the details of the rules. 
 
-```{r cubist-summary}
+```{r}
+#| label: cubist-summary
 summary(cubist_fit$fit)
 ```
 Note that the only rule in the second committee has no conditions; all data points being predicted are affected by that rule. Also, it is possible for the linear model within a rule to only contain an intercept. 
 
 The `tidy()` function can extract the rule and model data: 
 
-```{r cubist-tidy}
+```{r}
+#| label: cubist-tidy
 cb_res <- tidy(cubist_fit)
 cb_res
 ```
 
 The `estimate` and `statistic` columns contain tibbles with parameter estimates and rule statistics, respectively. They can be easily expanded using `unnest()`: 
 
-```{r stats}
+```{r}
+#| label: stats
 library(tidyr)
 cb_res |> 
   dplyr::select(committee, rule_num, statistic) |> 
@@ -140,7 +146,8 @@ cb_res |>
 ```
 For the first committee, rule four contains two conditions and covers 23 data points from the original data set. We can find these data points by converting the character string for the rule to an R expression, then evaluate the expression on the data set: 
 
-```{r cubist-expr}
+```{r}
+#| label: cubist-expr
 library(dplyr)
 library(purrr)
 library(rlang)
@@ -162,7 +169,9 @@ penguins |>
 RuleFit uses rules in a more straightforward way.  It creates an initial tree (or ensemble of trees) from the data. Rules are extracted from this initial model and converted to a set of binary features. These features are then added to a regularized regression model (along with the original columns). For example: 
 
 
-```{r rule-fit, eval = FALSE}
+```{r}
+#| label: rule-fit
+#| eval: false
 data_with_rules <- 
   data |> 
   mutate(
@@ -185,7 +194,8 @@ The tuning parameters for this model inherits the parameter of the tree-based mo
 
 RuleFit, as implemented by the `xrf` package, required all of the data to be complete (i.e, non-missing). In the original data set, the body mass is encoded as integer and `xrf` requires a double, so: 
 
-```{r preproc}
+```{r}
+#| label: preproc
 penguins <- 
   penguins |> 
   mutate(body_mass_g = body_mass_g + 0.0) |> 
@@ -194,7 +204,11 @@ penguins <-
 
 Fitting the model: 
 
-```{r rf-penguins, results = 'hide', warning=FALSE, message=FALSE}
+```{r}
+#| label: rf-penguins
+#| results: hide
+#| warning: false
+#| message: false
 rule_fit_spec <- 
   rule_fit(trees = 10, tree_depth = 5, penalty = 0.01) |> 
   set_engine("xrf") |>
@@ -205,13 +219,15 @@ rule_fit_fit <-
   fit(body_mass_g ~ ., data = penguins)
 ```
 
-```{r rf-penguins-print}
+```{r}
+#| label: rf-penguins-print
 rule_fit_fit
 ```
 
 To get the rules and their associated coefficients, the `tidy()` method can be used again:
 
-```{r rf-tidy}
+```{r}
+#| label: rf-tidy
 rf_res <- tidy(rule_fit_fit, penalty = 0.01)
 rf_res
 ```
@@ -238,14 +254,16 @@ which can be simplified to have fewer conditions:
 
 Also, the `tidy()` function can extract the same information but use the original predictors as the unit:
 
-```{r rf-cols}
+```{r}
+#| label: rf-cols
 rf_variable_res <- tidy(rule_fit_fit, unit = "columns", penalty = 0.01)
 rf_variable_res
 ```
 
 A single rule might be represented with multiple rows of this version of the data. These results can also be used to compute a rough estimate or variable importance using the absolute value of the coefficients: 
 
-```{r rf-imp}
+```{r}
+#| label: rf-imp
 num_rules <- sum(grepl("^r[0-9]*_", unique(rf_res$rule_id))) + 1
 
 rf_variable_res |> 

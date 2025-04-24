@@ -4,7 +4,8 @@ Let's look at Cubist and RuleFit first, using the Ames data, then C5.0 with a di
 
 ## An example using the Ames data
 
-```{r, include=FALSE}
+```{r}
+#| include: false
 library(tidymodels)
 library(rules)
 library(rlang)
@@ -14,7 +15,8 @@ options(pillar.advice = FALSE, pillar.min_title_chars = Inf)
 
 First we will fit a Cubist model and tidy it:
 
-```{r, warnings = FALSE}
+```{r}
+#| warnings: false
 library(tidymodels)
 library(rules)
 library(rlang)
