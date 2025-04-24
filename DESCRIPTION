@@ -4,9 +4,10 @@ Version: 1.0.2.9000
 Authors@R: c(
     person("Emil", "Hvitfeldt", , "emil.hvitfeldt@posit.co", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0002-0679-1945")),
-    person("Max", "Kuhn", , "max@posit.co", role = c("aut"),
+    person("Max", "Kuhn", , "max@posit.co", role = "aut",
            comment = c(ORCID = "0000-0003-2402-136X")),
-    person(given = "Posit Software, PBC", role = c("cph", "fnd"))
+    person("Posit Software, PBC", role = c("cph", "fnd"),
+           comment = c(ROR = "03wc8by49"))
   )
 Description: Bindings for additional models for use with the 'parsnip'
     package.  Models include prediction rule ensembles (Friedman and
@@ -41,14 +42,10 @@ Suggests:
     testthat (>= 3.0.0),
     tibble,
     xrf (>= 0.2.0)
-Config/Needs/website: 
-    tidyr, 
-    tidyverse/tidytemplate, 
-    recipes, 
-    xrf
+Config/Needs/website: tidyr, tidyverse/tidytemplate, recipes, xrf
 Config/testthat/edition: 3
+Config/usethis/last-upkeep: 2025-04-24
 Encoding: UTF-8
 Language: en-US
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.2
-Config/usethis/last-upkeep: 2025-04-24
