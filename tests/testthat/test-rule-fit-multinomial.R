@@ -26,18 +26,16 @@ test_that("formula method", {
   )
   rf_pred_exp <- unname(rf_pred_exp)
 
-  expect_error(
+  expect_no_error(
     rf_mod <-
       rule_fit(trees = 3, min_n = 3, penalty = 1) |>
       set_engine("xrf") |>
-      set_mode("classification"),
-    NA
+      set_mode("classification")
   )
 
   set.seed(4526)
-  expect_error(
-    rf_fit <- fit(rf_mod, class ~ ., data = hpc_data$hpc_mod),
-    NA
+  expect_no_error(
+    rf_fit <- fit(rf_mod, class ~ ., data = hpc_data$hpc_mod)
   )
   rf_pred <- predict(rf_fit, hpc_data$hpc_pred)
   rf_prob <- predict(rf_fit, hpc_data$hpc_pred, type = "prob")
@@ -57,22 +55,20 @@ test_that("formula method", {
     expect_equal(rf_prob[[i]], unname(rf_prob_exp[, i]))
   }
 
-  expect_error(
+  expect_no_error(
     rf_m_pred <- multi_predict(
       rf_fit,
       hpc_data$hpc_pred,
       penalty = hpc_data$vals
-    ),
-    NA
+    )
   )
-  expect_error(
+  expect_no_error(
     rf_m_prob <- multi_predict(
       rf_fit,
       hpc_data$hpc_pred,
       penalty = hpc_data$vals,
       type = "prob"
-    ),
-    NA
+    )
   )
 
   rf_m_pred <-
@@ -143,21 +139,19 @@ test_that("non-formula method", {
   )
   rf_pred_exp <- unname(rf_pred_exp)
 
-  expect_error(
+  expect_no_error(
     rf_mod <-
       rule_fit(trees = 3, min_n = 3, penalty = 1) |>
       set_engine("xrf") |>
-      set_mode("classification"),
-    NA
+      set_mode("classification")
   )
 
-  expect_error(
+  expect_no_error(
     rf_fit <- fit_xy(
       rf_mod,
       x = hpc_data$hpc_mod[, -1],
       y = hpc_data$hpc_mod$class
-    ),
-    NA
+    )
   )
   rf_pred <- predict(rf_fit, hpc_data$hpc_pred)
   rf_prob <- predict(rf_fit, hpc_data$hpc_pred, type = "prob")
@@ -177,22 +171,20 @@ test_that("non-formula method", {
     expect_equal(rf_prob[[i]], unname(rf_prob_exp[, i]))
   }
 
-  expect_error(
+  expect_no_error(
     rf_m_pred <- multi_predict(
       rf_fit,
       hpc_data$hpc_pred,
       penalty = hpc_data$vals
-    ),
-    NA
+    )
   )
-  expect_error(
+  expect_no_error(
     rf_m_prob <- multi_predict(
       rf_fit,
       hpc_data$hpc_pred,
       penalty = hpc_data$vals,
       type = "prob"
-    ),
-    NA
+    )
   )
 
   rf_m_pred <-

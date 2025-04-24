@@ -16,18 +16,16 @@ test_that("formula method", {
     )
   rf_pred_exp <- predict(rf_fit_exp, chi_data$chi_pred, lambda = 1)[, 1]
 
-  expect_error(
+  expect_no_error(
     rf_mod <-
       rule_fit(trees = 3, min_n = 3, penalty = 1) |>
       set_engine("xrf") |>
-      set_mode("regression"),
-    NA
+      set_mode("regression")
   )
 
   set.seed(4526)
-  expect_error(
-    rf_fit <- fit(rf_mod, ridership ~ ., data = chi_data$chi_mod),
-    NA
+  expect_no_error(
+    rf_fit <- fit(rf_mod, ridership ~ ., data = chi_data$chi_mod)
   )
   rf_pred <- predict(rf_fit, chi_data$chi_pred)
 
@@ -39,13 +37,12 @@ test_that("formula method", {
   expect_true(tibble::is_tibble(rf_pred))
   expect_equal(rf_pred$.pred, unname(rf_pred_exp))
 
-  expect_error(
+  expect_no_error(
     rf_m_pred <- multi_predict(
       rf_fit,
       chi_data$chi_pred,
       penalty = chi_data$vals
-    ),
-    NA
+    )
   )
   rf_m_pred <-
     rf_m_pred |>
@@ -80,21 +77,19 @@ test_that("non-formula method", {
     )
   rf_pred_exp <- predict(rf_fit_exp, chi_data$chi_pred, lambda = 1)[, 1]
 
-  expect_error(
+  expect_no_error(
     rf_mod <-
       rule_fit(trees = 3, min_n = 3, penalty = 1) |>
       set_engine("xrf") |>
-      set_mode("regression"),
-    NA
+      set_mode("regression")
   )
 
-  expect_error(
+  expect_no_error(
     rf_fit <- fit_xy(
       rf_mod,
       x = chi_data$chi_mod[, -1],
       y = chi_data$chi_mod$ridership
-    ),
-    NA
+    )
   )
   rf_pred <- predict(rf_fit, chi_data$chi_pred)
 
@@ -107,13 +102,12 @@ test_that("non-formula method", {
   expect_true(tibble::is_tibble(rf_pred))
   expect_equal(rf_pred$.pred, unname(rf_pred_exp))
 
-  expect_error(
+  expect_no_error(
     rf_m_pred <- multi_predict(
       rf_fit,
       chi_data$chi_pred,
       penalty = chi_data$vals
-    ),
-    NA
+    )
   )
   rf_m_pred <-
     rf_m_pred |>
@@ -196,11 +190,11 @@ test_that("early stopping works in xrf_fit", {
     set_engine("xrf") |>
     set_mode("regression")
 
-  expect_error_free(
+  expect_no_error(
     rf_fit_1 <- fit(rf_mod_1, mpg ~ ., data = mtcars)
   )
 
-  expect_error_free(
+  expect_no_error(
     rf_fit_2 <- fit(rf_mod_2, mpg ~ ., data = mtcars)
   )
 
@@ -227,7 +221,7 @@ test_that("xrf_fit is sensitive to glm_control", {
     ) |>
     set_mode("regression")
 
-  expect_error_free(
+  expect_no_error(
     rf_fit_1 <- fit(rf_mod, mpg ~ ., data = mtcars)
   )
 

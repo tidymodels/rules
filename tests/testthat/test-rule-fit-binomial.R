@@ -27,18 +27,16 @@ test_that("formula method", {
     type = "response"
   )[, 1]
 
-  expect_error(
+  expect_no_error(
     rf_mod <-
       rule_fit(trees = 3, min_n = 3, penalty = 1) |>
       set_engine("xrf") |>
-      set_mode("classification"),
-    NA
+      set_mode("classification")
   )
 
   set.seed(4526)
-  expect_error(
-    rf_fit <- fit(rf_mod, Class ~ ., data = ad_data$ad_mod),
-    NA
+  expect_no_error(
+    rf_fit <- fit(rf_mod, Class ~ ., data = ad_data$ad_mod)
   )
   rf_pred <- predict(rf_fit, ad_data$ad_pred)
   rf_prob <- predict(rf_fit, ad_data$ad_pred, type = "prob")
@@ -56,18 +54,16 @@ test_that("formula method", {
   expect_true(tibble::is_tibble(rf_prob))
   expect_equal(rf_prob$.pred_Control, unname(rf_prob_exp))
 
-  expect_error(
-    rf_m_pred <- multi_predict(rf_fit, ad_data$ad_pred, penalty = ad_data$vals),
-    NA
+  expect_no_error(
+    rf_m_pred <- multi_predict(rf_fit, ad_data$ad_pred, penalty = ad_data$vals)
   )
-  expect_error(
+  expect_no_error(
     rf_m_prob <- multi_predict(
       rf_fit,
       ad_data$ad_pred,
       penalty = ad_data$vals,
       type = "prob"
-    ),
-    NA
+    )
   )
 
   rf_m_pred <-
@@ -138,21 +134,19 @@ test_that("non-formula method", {
     type = "response"
   )[, 1]
 
-  expect_error(
+  expect_no_error(
     rf_mod <-
       rule_fit(trees = 3, min_n = 3, penalty = 1) |>
       set_engine("xrf") |>
-      set_mode("classification"),
-    NA
+      set_mode("classification")
   )
 
-  expect_error(
+  expect_no_error(
     rf_fit <- fit_xy(
       rf_mod,
       x = ad_data$ad_mod[, -1],
       y = ad_data$ad_mod$Class
-    ),
-    NA
+    )
   )
   rf_pred <- predict(rf_fit, ad_data$ad_pred)
   rf_prob <- predict(rf_fit, ad_data$ad_pred, type = "prob")
@@ -170,18 +164,16 @@ test_that("non-formula method", {
   expect_true(tibble::is_tibble(rf_prob))
   expect_equal(rf_prob$.pred_Control, unname(rf_prob_exp))
 
-  expect_error(
-    rf_m_pred <- multi_predict(rf_fit, ad_data$ad_pred, penalty = ad_data$vals),
-    NA
+  expect_no_error(
+    rf_m_pred <- multi_predict(rf_fit, ad_data$ad_pred, penalty = ad_data$vals)
   )
-  expect_error(
+  expect_no_error(
     rf_m_prob <- multi_predict(
       rf_fit,
       ad_data$ad_pred,
       penalty = ad_data$vals,
       type = "prob"
-    ),
-    NA
+    )
   )
 
   rf_m_pred <-

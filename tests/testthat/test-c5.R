@@ -20,16 +20,14 @@ test_that("formula method", {
   c5_pred_exp <- predict(c5_fit_exp, ad_data$ad_pred)
   c5_prob_exp <- predict(c5_fit_exp, ad_data$ad_pred, type = "prob")
 
-  expect_error(
+  expect_no_error(
     c5_mod <-
       C5_rules(trees = 10) |>
-      set_engine("C5.0", seed = 2),
-    NA
+      set_engine("C5.0", seed = 2)
   )
 
-  expect_error(
-    c5_fit <- fit(c5_mod, Class ~ ., data = ad_data$ad_mod),
-    NA
+  expect_no_error(
+    c5_fit <- fit(c5_mod, Class ~ ., data = ad_data$ad_mod)
   )
   c5_pred <- predict(c5_fit, ad_data$ad_pred)
   c5_prob <- predict(c5_fit, ad_data$ad_pred, type = "prob")
@@ -63,16 +61,14 @@ test_that("formula method - case weights", {
   c5_pred_exp <- predict(c5_fit_exp, ad_data$ad_pred)
   c5_prob_exp <- predict(c5_fit_exp, ad_data$ad_pred, type = "prob")
 
-  expect_error(
+  expect_no_error(
     c5_mod <-
       C5_rules(trees = 10) |>
-      set_engine("C5.0", seed = 2),
-    NA
+      set_engine("C5.0", seed = 2)
   )
 
-  expect_error(
-    c5_fit <- fit(c5_mod, Class ~ ., data = ad_data$ad_mod, case_weights = wts),
-    NA
+  expect_no_error(
+    c5_fit <- fit(c5_mod, Class ~ ., data = ad_data$ad_mod, case_weights = wts)
   )
   c5_pred <- predict(c5_fit, ad_data$ad_pred)
   c5_prob <- predict(c5_fit, ad_data$ad_pred, type = "prob")
@@ -104,16 +100,14 @@ test_that("formula method - control", {
     )
   c5_pred_exp <- predict(c5_fit_exp, ad_data$ad_pred)
 
-  expect_error(
+  expect_no_error(
     c5_mod <-
       C5_rules(trees = 2) |>
-      set_engine("C5.0", control = ctrl),
-    NA
+      set_engine("C5.0", control = ctrl)
   )
 
-  expect_error(
-    c5_fit <- fit(c5_mod, Class ~ ., data = ad_data$ad_mod),
-    NA
+  expect_no_error(
+    c5_fit <- fit(c5_mod, Class ~ ., data = ad_data$ad_mod)
   )
   c5_pred <- predict(c5_fit, ad_data$ad_pred)
   c5_prob <- predict(c5_fit, ad_data$ad_pred, type = "prob")
@@ -145,20 +139,18 @@ test_that("non-formula method", {
     )
   c5_pred_exp <- predict(c5_fit_exp, ad_data$ad_pred)
 
-  expect_error(
+  expect_no_error(
     c5_mod <-
       C5_rules(trees = 10) |>
-      set_engine("C5.0", seed = 2),
-    NA
+      set_engine("C5.0", seed = 2)
   )
 
-  expect_error(
+  expect_no_error(
     c5_fit <- fit_xy(
       c5_mod,
       x = ad_data$ad_mod[, names(ad_data$ad_mod) != "Class"],
       y = ad_data$ad_mod$Class
-    ),
-    NA
+    )
   )
   c5_pred <- predict(c5_fit, ad_data$ad_pred)
   c5_prob <- predict(c5_fit, ad_data$ad_pred, type = "prob")
@@ -191,21 +183,19 @@ test_that("non-formula method - case weights", {
     )
   c5_pred_exp <- predict(c5_fit_exp, ad_data$ad_pred)
 
-  expect_error(
+  expect_no_error(
     c5_mod <-
       C5_rules(trees = 10) |>
-      set_engine("C5.0", seed = 2),
-    NA
+      set_engine("C5.0", seed = 2)
   )
 
-  expect_error(
+  expect_no_error(
     c5_fit <- fit_xy(
       c5_mod,
       x = ad_data$ad_mod[, names(ad_data$ad_mod) != "Class"],
       y = ad_data$ad_mod$Class,
       case_weights = wts
-    ),
-    NA
+    )
   )
   c5_pred <- predict(c5_fit, ad_data$ad_pred)
   c5_prob <- predict(c5_fit, ad_data$ad_pred, type = "prob")
@@ -237,20 +227,18 @@ test_that("non-formula method - control", {
     )
   c5_pred_exp <- predict(c5_fit_exp, ad_data$ad_pred)
 
-  expect_error(
+  expect_no_error(
     c5_mod <-
       C5_rules(trees = 2) |>
-      set_engine("C5.0", control = ctrl),
-    NA
+      set_engine("C5.0", control = ctrl)
   )
 
-  expect_error(
+  expect_no_error(
     c5_fit <- fit_xy(
       c5_mod,
       x = as.data.frame(ad_data$ad_mod[, -1]),
       y = ad_data$ad_mod$Class
-    ),
-    NA
+    )
   )
   c5_pred <- predict(c5_fit, ad_data$ad_pred)
   c5_prob <- predict(c5_fit, ad_data$ad_pred, type = "prob")

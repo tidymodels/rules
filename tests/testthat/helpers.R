@@ -113,7 +113,3 @@ make_hpc_data <- function(x) {
     lvls = lvls
   )
 }
-
-expect_error_free <- function(...) {
-  testthat::expect_error(..., regexp = NA)
-}

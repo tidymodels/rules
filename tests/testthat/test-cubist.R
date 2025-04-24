@@ -120,16 +120,14 @@ test_that("formula method", {
     )
   cb_pred_exp <- predict(cb_fit_exp, chi_data$chi_pred)
 
-  expect_error(
+  expect_no_error(
     cb_mod <-
       cubist_rules(committees = 10) |>
-      set_engine("Cubist", seed = 2),
-    NA
+      set_engine("Cubist", seed = 2)
   )
 
-  expect_error(
-    cb_fit <- fit(cb_mod, ridership ~ ., data = chi_data$chi_mod),
-    NA
+  expect_no_error(
+    cb_fit <- fit(cb_mod, ridership ~ ., data = chi_data$chi_mod)
   )
   cb_pred <- predict(cb_fit, chi_data$chi_pred)
 
@@ -182,21 +180,19 @@ test_that("formula method - case weights", {
     )
   cb_pred_exp <- predict(cb_fit_exp, chi_data$chi_pred)
 
-  expect_error(
+  expect_no_error(
     cb_mod <-
       cubist_rules(committees = 10) |>
-      set_engine("Cubist", seed = 2),
-    NA
+      set_engine("Cubist", seed = 2)
   )
 
-  expect_error(
+  expect_no_error(
     cb_fit <- fit(
       cb_mod,
       ridership ~ .,
       data = chi_data$chi_mod,
       case_weights = wts
-    ),
-    NA
+    )
   )
   cb_pred <- predict(cb_fit, chi_data$chi_pred)
 
@@ -227,16 +223,14 @@ test_that("formula method - limited rules", {
     )
   cb_pred_exp <- predict(cb_fit_exp, chi_data$chi_pred)
 
-  expect_error(
+  expect_no_error(
     cb_mod <-
       cubist_rules(committees = 2, max_rules = 3) |>
-      set_engine("Cubist", seed = 2),
-    NA
+      set_engine("Cubist", seed = 2)
   )
 
-  expect_error(
-    cb_fit <- fit(cb_mod, ridership ~ ., data = chi_data$chi_mod),
-    NA
+  expect_no_error(
+    cb_fit <- fit(cb_mod, ridership ~ ., data = chi_data$chi_mod)
   )
   cb_pred <- predict(cb_fit, chi_data$chi_pred)
 
@@ -266,16 +260,14 @@ test_that("formula method - limited rules and control", {
     )
   cb_pred_exp <- predict(cb_fit_exp, chi_data$chi_pred)
 
-  expect_error(
+  expect_no_error(
     cb_mod <-
       cubist_rules(committees = 2, max_rules = 3) |>
-      set_engine("Cubist", control = ctrl),
-    NA
+      set_engine("Cubist", control = ctrl)
   )
 
-  expect_error(
-    cb_fit <- fit(cb_mod, ridership ~ ., data = chi_data$chi_mod),
-    NA
+  expect_no_error(
+    cb_fit <- fit(cb_mod, ridership ~ ., data = chi_data$chi_mod)
   )
   cb_pred <- predict(cb_fit, chi_data$chi_pred)
 
@@ -306,16 +298,14 @@ test_that("formula method - control", {
     )
   cb_pred_exp <- predict(cb_fit_exp, chi_data$chi_pred)
 
-  expect_error(
+  expect_no_error(
     cb_mod <-
       cubist_rules(committees = 2, neighbors = 0) |>
-      set_engine("Cubist", control = ctrl),
-    NA
+      set_engine("Cubist", control = ctrl)
   )
 
-  expect_error(
-    cb_fit <- fit(cb_mod, ridership ~ ., data = chi_data$chi_mod),
-    NA
+  expect_no_error(
+    cb_fit <- fit(cb_mod, ridership ~ ., data = chi_data$chi_mod)
   )
   cb_pred <- predict(cb_fit, chi_data$chi_pred)
 
@@ -345,21 +335,19 @@ test_that("non-formula method", {
     )
   cb_pred_exp <- predict(cb_fit_exp, chi_data$chi_pred)
 
-  expect_error(
+  expect_no_error(
     cb_mod <-
       cubist_rules(committees = 10, neighbors = 0) |>
-      set_engine("Cubist", seed = 2),
-    NA
+      set_engine("Cubist", seed = 2)
   )
 
-  expect_error(
+  expect_no_error(
     cb_fit <-
       fit_xy(
         cb_mod,
         x = chi_data$chi_mod[, names(chi_data$chi_mod) != "ridership"],
         y = chi_data$chi_mod$ridership
-      ),
-    NA
+      )
   )
   cb_pred <- predict(cb_fit, chi_data$chi_pred)
 
@@ -370,9 +358,8 @@ test_that("non-formula method", {
 
   K <- c(0, 1, 9)
 
-  expect_error(
-    cb_m_pred <- multi_predict(cb_fit, chi_data$chi_pred, neighbors = K),
-    NA
+  expect_no_error(
+    cb_m_pred <- multi_predict(cb_fit, chi_data$chi_pred, neighbors = K)
   )
   cb_m_pred <-
     cb_m_pred |>
@@ -410,22 +397,20 @@ test_that("non-formula method - case weights", {
     )
   cb_pred_exp <- predict(cb_fit_exp, chi_data$chi_pred)
 
-  expect_error(
+  expect_no_error(
     cb_mod <-
       cubist_rules(committees = 10, neighbors = 0) |>
-      set_engine("Cubist", seed = 2),
-    NA
+      set_engine("Cubist", seed = 2)
   )
 
-  expect_error(
+  expect_no_error(
     cb_fit <-
       fit_xy(
         cb_mod,
         x = chi_data$chi_mod[, names(chi_data$chi_mod) != "ridership"],
         y = chi_data$chi_mod$ridership,
         case_weights = wts
-      ),
-    NA
+      )
   )
   cb_pred <- predict(cb_fit, chi_data$chi_pred)
 
@@ -455,20 +440,18 @@ test_that("non-formula method - limited rules", {
     )
   cb_pred_exp <- predict(cb_fit_exp, chi_data$chi_pred)
 
-  expect_error(
+  expect_no_error(
     cb_mod <-
       cubist_rules(committees = 2, max_rules = 3, neighbors = 0) |>
-      set_engine("Cubist", seed = 2),
-    NA
+      set_engine("Cubist", seed = 2)
   )
 
-  expect_error(
+  expect_no_error(
     cb_fit <- fit_xy(
       cb_mod,
       x = chi_data$chi_mod[, names(chi_data$chi_mod) != "ridership"],
       y = chi_data$chi_mod$ridership
-    ),
-    NA
+    )
   )
   cb_pred <- predict(cb_fit, chi_data$chi_pred)
 
@@ -498,20 +481,18 @@ test_that("non-formula method - limited rules and control", {
     )
   cb_pred_exp <- predict(cb_fit_exp, chi_data$chi_pred)
 
-  expect_error(
+  expect_no_error(
     cb_mod <-
       cubist_rules(committees = 2, max_rules = 3, neighbors = 0) |>
-      set_engine("Cubist", control = ctrl),
-    NA
+      set_engine("Cubist", control = ctrl)
   )
 
-  expect_error(
+  expect_no_error(
     cb_fit <- fit_xy(
       cb_mod,
       x = chi_data$chi_mod[, -1],
       y = chi_data$chi_mod$ridership
-    ),
-    NA
+    )
   )
   cb_pred <- predict(cb_fit, chi_data$chi_pred)
 
@@ -542,20 +523,18 @@ test_that("non-formula method - control", {
     )
   cb_pred_exp <- predict(cb_fit_exp, chi_data$chi_pred)
 
-  expect_error(
+  expect_no_error(
     cb_mod <-
       cubist_rules(committees = 2, neighbors = 0) |>
-      set_engine("Cubist", control = ctrl),
-    NA
+      set_engine("Cubist", control = ctrl)
   )
 
-  expect_error(
+  expect_no_error(
     cb_fit <- fit_xy(
       cb_mod,
       x = chi_data$chi_mod[, -1],
       y = chi_data$chi_mod$ridership
-    ),
-    NA
+    )
   )
   cb_pred <- predict(cb_fit, chi_data$chi_pred)
 
