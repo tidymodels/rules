@@ -104,12 +104,12 @@ parse_cond <- function(ind, txt) {
   entires <- stringr::str_split(txt[ind], " ") |> unlist()
   tmp <- purrr::map(
     entires,
-    ~ stringr::str_split(.x, pattern = "=") |> unlist()
+    \(.x) stringr::str_split(.x, pattern = "=") |> unlist()
   )
   nms <- purrr::map_chr(tmp, purrr::pluck, 1)
   info <- purrr::map(tmp, stringr::str_remove_all, pattern = "\"")
-  info_name <- purrr::map_chr(info, ~ .x[1])
-  info_value <- purrr::map_chr(info, ~ .x[2])
+  info_name <- purrr::map_chr(info, \(.x) .x[1])
+  info_value <- purrr::map_chr(info, \(.x) .x[2])
   info_value <- purrr::map2(info_name, info_value, convert_info)
   names(info_value) <- info_name
   as_tibble(info_value)
@@ -160,8 +160,8 @@ splits_to_coefs <- function(x, int) {
   if (!all(num_check == 2)) {
     rlang::abort("Problem with getting coefficients")
   }
-  coef_val <- purrr::map_dbl(x, ~ as.numeric(.x[2]))
-  res <- tibble(term = purrr::map_chr(x, ~ .x[1]), estimate = coef_val)
+  coef_val <- purrr::map_dbl(x, \(.x) as.numeric(.x[2]))
+  res <- tibble(term = purrr::map_chr(x, \(.x) .x[1]), estimate = coef_val)
   res <- dplyr::bind_rows(
     tibble(term = "(Intercept)", estimate = as.numeric(int)),
     res

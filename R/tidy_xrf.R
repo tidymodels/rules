@@ -58,17 +58,17 @@ xrf_coefs <- function(x, penalty = NULL) {
   rule_info <- x$rules
   feature_coef <- stats::coef(x$glm$model, s = penalty)
   if (is.list(feature_coef)) {
-    feature_coef <- purrr::map(feature_coef, ~ as.matrix(.x))
+    feature_coef <- purrr::map(feature_coef, as.matrix)
     feature_coef <-
       purrr::map(
         feature_coef,
-        ~ as_tibble(.x, .name_repair = "minimal", rownames = "rule_id")
+        \(.x) as_tibble(.x, .name_repair = "minimal", rownames = "rule_id")
       )
     feature_coef <-
       purrr::map2(
         feature_coef,
         lvls,
-        ~ rlang::set_names(.x, c("rule_id", .y))
+        \(.x, .y) rlang::set_names(.x, c("rule_id", .y))
       )
     tmp <- feature_coef[[1]]
     for (cls in 2:length(feature_coef)) {

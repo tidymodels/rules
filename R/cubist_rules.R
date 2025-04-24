@@ -67,7 +67,7 @@ cubist_fit <- function(
 
   # Fix used args
   used <- res$coefficients |> dplyr::select(-`(Intercept)`, -committee, -rule)
-  used <- purrr::map_lgl(used, ~ any(!is.na(.x)))
+  used <- purrr::map_lgl(used, \(.x) any(!is.na(.x)))
   res$vars$used <- names(used)[used]
 
   res$.neighbors <- rlang::eval_tidy(neighbors)
