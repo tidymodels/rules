@@ -1,8 +1,8 @@
 # check_args() works
 
     Code
-      spec <- cubist_rules(committees = c(1, 2, 3)) %>% set_engine("Cubist") %>%
-        set_mode("regression")
+      spec <- set_mode(set_engine(cubist_rules(committees = c(1, 2, 3)), "Cubist"),
+      "regression")
       fit(spec, ridership ~ ., data = chi_data$chi_mod)
     Condition
       Error in `fit()`:
@@ -11,8 +11,8 @@
 ---
 
     Code
-      spec <- cubist_rules(committees = 0) %>% set_engine("Cubist") %>% set_mode(
-        "regression")
+      spec <- set_mode(set_engine(cubist_rules(committees = 0), "Cubist"),
+      "regression")
       res <- fit(spec, ridership ~ ., data = chi_data$chi_mod)
     Condition
       Warning:
@@ -22,8 +22,8 @@
 ---
 
     Code
-      spec <- cubist_rules(committees = 1000) %>% set_engine("Cubist") %>% set_mode(
-        "regression")
+      spec <- set_mode(set_engine(cubist_rules(committees = 1000), "Cubist"),
+      "regression")
       res <- fit(spec, ridership ~ ., data = chi_data$chi_mod)
     Condition
       Warning:
@@ -33,8 +33,8 @@
 ---
 
     Code
-      spec <- cubist_rules(neighbors = c(1, 2, 3)) %>% set_engine("Cubist") %>%
-        set_mode("regression")
+      spec <- set_mode(set_engine(cubist_rules(neighbors = c(1, 2, 3)), "Cubist"),
+      "regression")
       fit(spec, ridership ~ ., data = chi_data$chi_mod)
     Condition
       Error in `fit()`:
@@ -43,8 +43,8 @@
 ---
 
     Code
-      spec <- cubist_rules(neighbors = -1) %>% set_engine("Cubist") %>% set_mode(
-        "regression")
+      spec <- set_mode(set_engine(cubist_rules(neighbors = -1), "Cubist"),
+      "regression")
       res <- fit(spec, ridership ~ ., data = chi_data$chi_mod)
     Condition
       Warning:
@@ -54,8 +54,8 @@
 ---
 
     Code
-      spec <- cubist_rules(neighbors = 1000) %>% set_engine("Cubist") %>% set_mode(
-        "regression")
+      spec <- set_mode(set_engine(cubist_rules(neighbors = 1000), "Cubist"),
+      "regression")
       res <- fit(spec, ridership ~ ., data = chi_data$chi_mod)
     Condition
       Warning:

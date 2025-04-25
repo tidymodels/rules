@@ -1,5 +1,3 @@
-library(dplyr)
-
 test_that("argument/call assembly", {
   skip_on_cran()
   skip_if_not_installed("Cubist")
@@ -19,7 +17,8 @@ test_that("argument/call assembly", {
     rlang::call2(
       "cubist",
       .ns = "Cubist",
-      quote(x), quote(y),
+      quote(x),
+      quote(y),
       control = quote(Cubist::cubistControl(rules = 1))
     )
   )
@@ -29,20 +28,31 @@ test_that("argument/call assembly", {
     rlang::call2(
       "cubist",
       .ns = "Cubist",
-      quote(x), quote(y),
+      quote(x),
+      quote(y),
       control = quote(Cubist::cubistControl(rules = NA))
     )
   )
 
   expect_equal(
-    rules:::cubist_args(list(quote(x), quote(y), max_rules = NA, control = ctrl_1)),
+    rules:::cubist_args(list(
+      quote(x),
+      quote(y),
+      max_rules = NA,
+      control = ctrl_1
+    )),
     rlang::call2(
       "cubist",
       .ns = "Cubist",
-      quote(x), quote(y),
+      quote(x),
+      quote(y),
       control = list(
-        unbiased = TRUE, rules = NA, extrapolation = 1,
-        sample = 0, label = "outcome", seed = 2
+        unbiased = TRUE,
+        rules = NA,
+        extrapolation = 1,
+        sample = 0,
+        label = "outcome",
+        seed = 2
       )
     )
   )
@@ -52,22 +62,39 @@ test_that("argument/call assembly", {
     rlang::call2(
       "cubist",
       .ns = "Cubist",
-      quote(x), quote(y),
+      quote(x),
+      quote(y),
       control = list(
-        unbiased = TRUE, rules = 13, extrapolation = 1,
-        sample = 0, label = "outcome", seed = 2
+        unbiased = TRUE,
+        rules = 13,
+        extrapolation = 1,
+        sample = 0,
+        label = "outcome",
+        seed = 2
       )
     )
   )
 
   expect_equal(
-    rules:::cubist_args(list(quote(x), quote(y), max_rules = 31, control = ctrl_2)),
-    rlang::call2("cubist",
-                 .ns = "Cubist", quote(x), quote(y),
-                 control = list(
-                   unbiased = TRUE, rules = 31, extrapolation = 1,
-                   sample = 0, label = "outcome", seed = 2
-                 )
+    rules:::cubist_args(list(
+      quote(x),
+      quote(y),
+      max_rules = 31,
+      control = ctrl_2
+    )),
+    rlang::call2(
+      "cubist",
+      .ns = "Cubist",
+      quote(x),
+      quote(y),
+      control = list(
+        unbiased = TRUE,
+        rules = 31,
+        extrapolation = 1,
+        sample = 0,
+        label = "outcome",
+        seed = 2
+      )
     )
   )
 })
@@ -93,16 +120,14 @@ test_that("formula method", {
     )
   cb_pred_exp <- predict(cb_fit_exp, chi_data$chi_pred)
 
-  expect_error(
+  expect_no_error(
     cb_mod <-
-      cubist_rules(committees = 10) %>%
-      set_engine("Cubist", seed = 2),
-    NA
+      cubist_rules(committees = 10) |>
+      set_engine("Cubist", seed = 2)
   )
 
-  expect_error(
-    cb_fit <- fit(cb_mod, ridership ~ ., data = chi_data$chi_mod),
-    NA
+  expect_no_error(
+    cb_fit <- fit(cb_mod, ridership ~ ., data = chi_data$chi_mod)
   )
   cb_pred <- predict(cb_fit, chi_data$chi_pred)
 
@@ -112,8 +137,8 @@ test_that("formula method", {
   expect_equal(cb_pred$.pred, cb_pred_exp)
 
   cb_pred <-
-    multi_predict(cb_fit, chi_data$chi_pred[1:2, ], neighbors = c(0, 1, 9)) %>%
-    mutate(.row = row_number()) %>%
+    multi_predict(cb_fit, chi_data$chi_pred[1:2, ], neighbors = c(0, 1, 9)) |>
+    mutate(.row = row_number()) |>
     tidyr::unnest(cols = c(.pred))
 
   # Will be slightly different due to the value of `maxd`
@@ -155,17 +180,19 @@ test_that("formula method - case weights", {
     )
   cb_pred_exp <- predict(cb_fit_exp, chi_data$chi_pred)
 
-  expect_error(
+  expect_no_error(
     cb_mod <-
-      cubist_rules(committees = 10) %>%
-      set_engine("Cubist", seed = 2),
-    NA
+      cubist_rules(committees = 10) |>
+      set_engine("Cubist", seed = 2)
   )
 
-  expect_error(
-    cb_fit <- fit(cb_mod, ridership ~ ., data = chi_data$chi_mod,
-                  case_weights = wts),
-    NA
+  expect_no_error(
+    cb_fit <- fit(
+      cb_mod,
+      ridership ~ .,
+      data = chi_data$chi_mod,
+      case_weights = wts
+    )
   )
   cb_pred <- predict(cb_fit, chi_data$chi_pred)
 
@@ -196,16 +223,14 @@ test_that("formula method - limited rules", {
     )
   cb_pred_exp <- predict(cb_fit_exp, chi_data$chi_pred)
 
-  expect_error(
+  expect_no_error(
     cb_mod <-
-      cubist_rules(committees = 2, max_rules = 3) %>%
-      set_engine("Cubist", seed = 2),
-    NA
+      cubist_rules(committees = 2, max_rules = 3) |>
+      set_engine("Cubist", seed = 2)
   )
 
-  expect_error(
-    cb_fit <- fit(cb_mod, ridership ~ ., data = chi_data$chi_mod),
-    NA
+  expect_no_error(
+    cb_fit <- fit(cb_mod, ridership ~ ., data = chi_data$chi_mod)
   )
   cb_pred <- predict(cb_fit, chi_data$chi_pred)
 
@@ -235,16 +260,14 @@ test_that("formula method - limited rules and control", {
     )
   cb_pred_exp <- predict(cb_fit_exp, chi_data$chi_pred)
 
-  expect_error(
+  expect_no_error(
     cb_mod <-
-      cubist_rules(committees = 2, max_rules = 3) %>%
-      set_engine("Cubist", control = ctrl),
-    NA
+      cubist_rules(committees = 2, max_rules = 3) |>
+      set_engine("Cubist", control = ctrl)
   )
 
-  expect_error(
-    cb_fit <- fit(cb_mod, ridership ~ ., data = chi_data$chi_mod),
-    NA
+  expect_no_error(
+    cb_fit <- fit(cb_mod, ridership ~ ., data = chi_data$chi_mod)
   )
   cb_pred <- predict(cb_fit, chi_data$chi_pred)
 
@@ -275,16 +298,14 @@ test_that("formula method - control", {
     )
   cb_pred_exp <- predict(cb_fit_exp, chi_data$chi_pred)
 
-  expect_error(
+  expect_no_error(
     cb_mod <-
-      cubist_rules(committees = 2, neighbors = 0) %>%
-      set_engine("Cubist", control = ctrl),
-    NA
+      cubist_rules(committees = 2, neighbors = 0) |>
+      set_engine("Cubist", control = ctrl)
   )
 
-  expect_error(
-    cb_fit <- fit(cb_mod, ridership ~ ., data = chi_data$chi_mod),
-    NA
+  expect_no_error(
+    cb_fit <- fit(cb_mod, ridership ~ ., data = chi_data$chi_mod)
   )
   cb_pred <- predict(cb_fit, chi_data$chi_pred)
 
@@ -314,21 +335,19 @@ test_that("non-formula method", {
     )
   cb_pred_exp <- predict(cb_fit_exp, chi_data$chi_pred)
 
-  expect_error(
+  expect_no_error(
     cb_mod <-
-      cubist_rules(committees = 10, neighbors = 0) %>%
-      set_engine("Cubist", seed = 2),
-    NA
+      cubist_rules(committees = 10, neighbors = 0) |>
+      set_engine("Cubist", seed = 2)
   )
 
-  expect_error(
+  expect_no_error(
     cb_fit <-
       fit_xy(
         cb_mod,
         x = chi_data$chi_mod[, names(chi_data$chi_mod) != "ridership"],
         y = chi_data$chi_mod$ridership
-      ),
-    NA
+      )
   )
   cb_pred <- predict(cb_fit, chi_data$chi_pred)
 
@@ -339,20 +358,19 @@ test_that("non-formula method", {
 
   K <- c(0, 1, 9)
 
-  expect_error(
-    cb_m_pred <- multi_predict(cb_fit, chi_data$chi_pred, neighbors = K),
-    NA
+  expect_no_error(
+    cb_m_pred <- multi_predict(cb_fit, chi_data$chi_pred, neighbors = K)
   )
   cb_m_pred <-
-    cb_m_pred %>%
-    mutate(.row_number = 1:nrow(cb_m_pred)) %>%
-    tidyr::unnest(cols = c(.pred)) %>%
+    cb_m_pred |>
+    mutate(.row_number = 1:nrow(cb_m_pred)) |>
+    tidyr::unnest(cols = c(.pred)) |>
     arrange(neighbors, .row_number)
 
   for (i in K) {
     exp_pred <- predict(cb_fit_exp, chi_data$chi_pred, neighbors = i)
-    obs_pred <- cb_m_pred %>%
-      dplyr::filter(neighbors == i) %>%
+    obs_pred <- cb_m_pred |>
+      dplyr::filter(neighbors == i) |>
       pull(.pred)
     expect_equal(exp_pred, obs_pred)
   }
@@ -379,22 +397,20 @@ test_that("non-formula method - case weights", {
     )
   cb_pred_exp <- predict(cb_fit_exp, chi_data$chi_pred)
 
-  expect_error(
+  expect_no_error(
     cb_mod <-
-      cubist_rules(committees = 10, neighbors = 0) %>%
-      set_engine("Cubist", seed = 2),
-    NA
+      cubist_rules(committees = 10, neighbors = 0) |>
+      set_engine("Cubist", seed = 2)
   )
 
-  expect_error(
+  expect_no_error(
     cb_fit <-
       fit_xy(
         cb_mod,
         x = chi_data$chi_mod[, names(chi_data$chi_mod) != "ridership"],
         y = chi_data$chi_mod$ridership,
         case_weights = wts
-      ),
-    NA
+      )
   )
   cb_pred <- predict(cb_fit, chi_data$chi_pred)
 
@@ -424,20 +440,18 @@ test_that("non-formula method - limited rules", {
     )
   cb_pred_exp <- predict(cb_fit_exp, chi_data$chi_pred)
 
-  expect_error(
+  expect_no_error(
     cb_mod <-
-      cubist_rules(committees = 2, max_rules = 3, neighbors = 0) %>%
-      set_engine("Cubist", seed = 2),
-    NA
+      cubist_rules(committees = 2, max_rules = 3, neighbors = 0) |>
+      set_engine("Cubist", seed = 2)
   )
 
-  expect_error(
+  expect_no_error(
     cb_fit <- fit_xy(
       cb_mod,
       x = chi_data$chi_mod[, names(chi_data$chi_mod) != "ridership"],
       y = chi_data$chi_mod$ridership
-    ),
-    NA
+    )
   )
   cb_pred <- predict(cb_fit, chi_data$chi_pred)
 
@@ -467,16 +481,18 @@ test_that("non-formula method - limited rules and control", {
     )
   cb_pred_exp <- predict(cb_fit_exp, chi_data$chi_pred)
 
-  expect_error(
+  expect_no_error(
     cb_mod <-
-      cubist_rules(committees = 2, max_rules = 3, neighbors = 0) %>%
-      set_engine("Cubist", control = ctrl),
-    NA
+      cubist_rules(committees = 2, max_rules = 3, neighbors = 0) |>
+      set_engine("Cubist", control = ctrl)
   )
 
-  expect_error(
-    cb_fit <- fit_xy(cb_mod, x = chi_data$chi_mod[, -1], y = chi_data$chi_mod$ridership),
-    NA
+  expect_no_error(
+    cb_fit <- fit_xy(
+      cb_mod,
+      x = chi_data$chi_mod[, -1],
+      y = chi_data$chi_mod$ridership
+    )
   )
   cb_pred <- predict(cb_fit, chi_data$chi_pred)
 
@@ -507,18 +523,18 @@ test_that("non-formula method - control", {
     )
   cb_pred_exp <- predict(cb_fit_exp, chi_data$chi_pred)
 
-  expect_error(
+  expect_no_error(
     cb_mod <-
-      cubist_rules(committees = 2, neighbors = 0) %>%
-      set_engine("Cubist", control = ctrl),
-    NA
+      cubist_rules(committees = 2, neighbors = 0) |>
+      set_engine("Cubist", control = ctrl)
   )
 
-  expect_error(
-    cb_fit <- fit_xy(cb_mod,
-                     x = chi_data$chi_mod[, -1],
-                     y = chi_data$chi_mod$ridership),
-    NA
+  expect_no_error(
+    cb_fit <- fit_xy(
+      cb_mod,
+      x = chi_data$chi_mod[, -1],
+      y = chi_data$chi_mod$ridership
+    )
   )
   cb_pred <- predict(cb_fit, chi_data$chi_pred)
 
@@ -546,13 +562,16 @@ test_that("tidy method for cubist - one committee", {
 
   ctrl <- Cubist::cubistControl(unbiased = TRUE, seed = 2)
 
-  cb_single <- cubist_rules(committees = 1) %>% set_engine("Cubist")
+  cb_single <- cubist_rules(committees = 1) |> set_engine("Cubist")
 
   set.seed(1)
   cb_single_fit <-
-    cb_single %>%
-    fit(Sale_Price ~ Neighborhood + Longitude + Latitude +
-          Gr_Liv_Area + Central_Air, data = ames_data$ames)
+    cb_single |>
+    fit(
+      Sale_Price ~
+        Neighborhood + Longitude + Latitude + Gr_Liv_Area + Central_Air,
+      data = ames_data$ames
+    )
 
   # check for consistent cubist model:
   expect_output(
@@ -565,7 +584,10 @@ test_that("tidy method for cubist - one committee", {
   expect_equal(max(cb_single_fit_res$committee), 1)
 
   expect_equal(cb_single_fit_res$statistic[[18]]$error, 0.061801)
-  expect_equal(unname(cb_single_fit_res$estimate[[18]]$estimate[1]), -404.368656)
+  expect_equal(
+    unname(cb_single_fit_res$estimate[[18]]$estimate[1]),
+    -404.368656
+  )
   expect_equal(unname(cb_single_fit_res$estimate[[18]]$estimate[2]), 9.68)
   expect_true(grepl("\\( Gr_Liv_Area", cb_single_fit_res$rule[18]))
   expect_true(grepl("\\( Neighborhood", cb_single_fit_res$rule[18]))
@@ -576,14 +598,16 @@ test_that("tidy method for cubist - one committee", {
   # ------------------------------------------------------------------------------
   # limit number of commiittees
 
-
-  cb_multi <- cubist_rules(committees = 5) %>% set_engine("Cubist")
+  cb_multi <- cubist_rules(committees = 5) |> set_engine("Cubist")
 
   set.seed(1)
   cb_multi_fit <-
-    cb_multi %>%
-    fit(Sale_Price ~ Neighborhood + Longitude + Latitude +
-          Gr_Liv_Area + Central_Air, data = ames)
+    cb_multi |>
+    fit(
+      Sale_Price ~
+        Neighborhood + Longitude + Latitude + Gr_Liv_Area + Central_Air,
+      data = ames_data$ames
+    )
 
   for (comm in 1:5) {
     cb_multi_fit_res <- tidy(cb_single_fit, committees = comm)
@@ -600,12 +624,15 @@ test_that("tidy method for cubist - one committee - only intercepts", {
 
   ctrl <- Cubist::cubistControl(unbiased = TRUE, seed = 2)
 
-  cb_single <- cubist_rules(committees = 1) %>% set_engine("Cubist")
+  cb_single <- cubist_rules(committees = 1) |> set_engine("Cubist")
 
   set.seed(1)
   cb_single_fit <-
-    cb_single %>%
-    fit(Sale_Price ~ Neighborhood + Central_Air + MS_SubClass, data = ames_data$ames)
+    cb_single |>
+    fit(
+      Sale_Price ~ Neighborhood + Central_Air + MS_SubClass,
+      data = ames_data$ames
+    )
 
   # check for consistent cubist model:
   expect_output(
@@ -615,10 +642,10 @@ test_that("tidy method for cubist - one committee - only intercepts", {
 
   cb_single_fit_res <- tidy(cb_single_fit)
   terms <-
-    cb_single_fit_res %>%
-    dplyr::select(estimate) %>%
-    tidyr::unnest(cols = c(estimate)) %>%
-    pull(term) %>%
+    cb_single_fit_res |>
+    dplyr::select(estimate) |>
+    tidyr::unnest(cols = c(estimate)) |>
+    pull(term) |>
     unique()
 
   expect_true(all(terms == "(Intercept)"))
@@ -634,13 +661,16 @@ test_that("tidy method for cubist - many committees", {
 
   ctrl <- Cubist::cubistControl(unbiased = TRUE, seed = 2)
 
-  cb_mult <- cubist_rules(committees = 10) %>% set_engine("Cubist")
+  cb_mult <- cubist_rules(committees = 10) |> set_engine("Cubist")
 
   set.seed(1)
   cb_mult_fit <-
-    cb_mult %>%
-    fit(Sale_Price ~ Neighborhood + Longitude + Latitude +
-          Gr_Liv_Area + Central_Air, data = ames_data$ames)
+    cb_mult |>
+    fit(
+      Sale_Price ~
+        Neighborhood + Longitude + Latitude + Gr_Liv_Area + Central_Air,
+      data = ames_data$ames
+    )
 
   # check for consistent cubist model:
   expect_output(
@@ -674,10 +704,10 @@ test_that("tidy method for cubist - many committees", {
   set.seed(1)
   ames2$Neighborhood <- sample(ames2$Neighborhood)
 
-  cb_single <- cubist_rules(committees = 1) %>% set_engine("Cubist")
+  cb_single <- cubist_rules(committees = 1) |> set_engine("Cubist")
 
   cb_single_fit <-
-    cb_single %>%
+    cb_single |>
     fit(Sale_Price ~ Neighborhood + Gr_Liv_Area, data = ames2)
 
   cb_mult_fit_res <- tidy(cb_single_fit)
@@ -688,32 +718,40 @@ test_that("tidy method for cubist - many committees", {
 
 test_that("tunable", {
   cubist_rules_Cubist <-
-    cubist_rules(committees = tune(), neighbors = tune(), max_rules = tune()) %>%
-    set_engine("Cubist") %>%
+    cubist_rules(
+      committees = tune(),
+      neighbors = tune(),
+      max_rules = tune()
+    ) |>
+    set_engine("Cubist") |>
     tunable()
 
   expect_equal(
-    cubist_rules_Cubist$call_info[cubist_rules_Cubist$name == "committees"][[1]]$range,
+    cubist_rules_Cubist$call_info[cubist_rules_Cubist$name == "committees"][[
+      1
+    ]]$range,
     c(1L, 100L)
   )
 
   expect_equal(
-    cubist_rules_Cubist$call_info[cubist_rules_Cubist$name == "neighbors"][[1]]$range,
+    cubist_rules_Cubist$call_info[cubist_rules_Cubist$name == "neighbors"][[
+      1
+    ]]$range,
     c(0L, 9L)
   )
 })
 
 test_that("mode specific package dependencies", {
   expect_identical(
-    get_from_env(paste0("cubist_rules", "_pkgs")) %>%
-      dplyr::filter(engine == "Cubist", mode == "classification") %>%
+    get_from_env(paste0("cubist_rules", "_pkgs")) |>
+      dplyr::filter(engine == "Cubist", mode == "classification") |>
       dplyr::pull(pkg),
     list()
   )
 
   expect_identical(
-    get_from_env(paste0("cubist_rules", "_pkgs")) %>%
-      dplyr::filter(engine == "Cubist", mode == "regression") %>%
+    get_from_env(paste0("cubist_rules", "_pkgs")) |>
+      dplyr::filter(engine == "Cubist", mode == "regression") |>
       dplyr::pull(pkg),
     list(c("Cubist", "rules"))
   )
@@ -731,8 +769,8 @@ test_that('check_args() works', {
   expect_snapshot(
     error = TRUE,
     {
-      spec <- cubist_rules(committees = c(1, 2, 3)) %>%
-        set_engine("Cubist") %>%
+      spec <- cubist_rules(committees = c(1, 2, 3)) |>
+        set_engine("Cubist") |>
         set_mode("regression")
       fit(spec, ridership ~ ., data = chi_data$chi_mod)
     }
@@ -740,8 +778,8 @@ test_that('check_args() works', {
 
   expect_snapshot(
     {
-      spec <- cubist_rules(committees = 0) %>%
-        set_engine("Cubist") %>%
+      spec <- cubist_rules(committees = 0) |>
+        set_engine("Cubist") |>
         set_mode("regression")
       res <- fit(spec, ridership ~ ., data = chi_data$chi_mod)
     }
@@ -749,8 +787,8 @@ test_that('check_args() works', {
 
   expect_snapshot(
     {
-      spec <- cubist_rules(committees = 1000) %>%
-        set_engine("Cubist") %>%
+      spec <- cubist_rules(committees = 1000) |>
+        set_engine("Cubist") |>
         set_mode("regression")
       res <- fit(spec, ridership ~ ., data = chi_data$chi_mod)
     }
@@ -759,8 +797,8 @@ test_that('check_args() works', {
   expect_snapshot(
     error = TRUE,
     {
-      spec <- cubist_rules(neighbors = c(1, 2, 3)) %>%
-        set_engine("Cubist") %>%
+      spec <- cubist_rules(neighbors = c(1, 2, 3)) |>
+        set_engine("Cubist") |>
         set_mode("regression")
       fit(spec, ridership ~ ., data = chi_data$chi_mod)
     }
@@ -768,8 +806,8 @@ test_that('check_args() works', {
 
   expect_snapshot(
     {
-      spec <- cubist_rules(neighbors = -1) %>%
-        set_engine("Cubist") %>%
+      spec <- cubist_rules(neighbors = -1) |>
+        set_engine("Cubist") |>
         set_mode("regression")
       res <- fit(spec, ridership ~ ., data = chi_data$chi_mod)
     }
@@ -777,8 +815,8 @@ test_that('check_args() works', {
 
   expect_snapshot(
     {
-      spec <- cubist_rules(neighbors = 1000) %>%
-        set_engine("Cubist") %>%
+      spec <- cubist_rules(neighbors = 1000) |>
+        set_engine("Cubist") |>
         set_mode("regression")
       res <- fit(spec, ridership ~ ., data = chi_data$chi_mod)
     }

@@ -3,7 +3,6 @@
 
 ## usethis namespace: start
 #' @importFrom dials new_quant_param
-#' @importFrom dplyr %>%
 #' @importFrom dplyr as_tibble
 #' @importFrom dplyr tibble
 #' @importFrom purrr map_dfr
@@ -41,11 +40,42 @@ dials::mtry_prop
 
 utils::globalVariables(
   c(
-    ".pred", ".pred_1", ".pred_2", ".pred_class", ".row_number", "(Intercept)",
-    "column", "committee", "conds", "cover", "coverage", "error", "esterr",
-    "estimate", "feature", "hival", "less_than", "level", "lift", "loval",
-    "name", "new_data", "num_conditions", "object", "ok", "rule", "rule_comp",
-    "rule_id", "rule_num", "split_id", "split_value", "statistic", "term",
-    "terms", "trial", "trials", "value"
+    ".pred",
+    ".pred_1",
+    ".pred_2",
+    ".pred_class",
+    ".row_number",
+    "(Intercept)",
+    "column",
+    "committee",
+    "conds",
+    "cover",
+    "coverage",
+    "error",
+    "esterr",
+    "estimate",
+    "feature",
+    "hival",
+    "less_than",
+    "level",
+    "lift",
+    "loval",
+    "name",
+    "new_data",
+    "num_conditions",
+    "object",
+    "ok",
+    "rule",
+    "rule_comp",
+    "rule_id",
+    "rule_num",
+    "split_id",
+    "split_value",
+    "statistic",
+    "term",
+    "terms",
+    "trial",
+    "trials",
+    "value"
   )
 )

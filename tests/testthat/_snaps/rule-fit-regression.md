@@ -12,7 +12,7 @@
       suppressMessages(fit(rf_mod, mpg ~ ., data = mtcars))
     Condition
       Warning:
-      The following arguments cannot be manually modified and were removed: xgb_control.
+      The argument `xgb_control` cannot be manually modified and was removed.
     Output
       parsnip model object
       

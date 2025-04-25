@@ -14,12 +14,11 @@
 #' @export
 tidy.cubist <- function(x, committees = x$committee, ...) {
   txt <- x$model
-  txt_rows <- stringr::str_split(txt, pattern = "\n") %>% unlist()
+  txt_rows <- stringr::str_split(txt, pattern = "\n") |> unlist()
 
   if (!is.null(committees)) {
     committees <- min(committees, x$committee)
   }
-
 
   # These are the markers for where committees start
   comm_inds <- stringr::str_which(txt_rows, "^rules=")
@@ -57,10 +56,17 @@ tidy.cubist <- function(x, committees = x$committee, ...) {
     attr_inds <- find_cond_info(txt_rows, loc, uppr)
     cond_att <- purrr::map_dfr(attr_inds, parse_cond, txt = txt_rows)
     comm_data <-
-      dplyr::bind_cols(comm_data, cond_att) %>%
-      dplyr::mutate(num_conditions = conds) %>%
-      dplyr::rename(coverage = cover, min = loval, max = hival, error = esterr) %>%
-      tidyr::nest(statistic = c(num_conditions, coverage, mean, min, max, error))
+      dplyr::bind_cols(comm_data, cond_att) |>
+      dplyr::mutate(num_conditions = conds) |>
+      dplyr::rename(
+        coverage = cover,
+        min = loval,
+        max = hival,
+        error = esterr
+      ) |>
+      tidyr::nest(
+        statistic = c(num_conditions, coverage, mean, min, max, error)
+      )
 
     # Loop over all of the rules and get their rule conditions
     for (j in seq_along(attr_inds)) {
@@ -82,7 +88,7 @@ tidy.cubist <- function(x, committees = x$committee, ...) {
     comms[[i]] <- comm_data
   }
   res <-
-    dplyr::bind_rows(comms) %>%
+    dplyr::bind_rows(comms) |>
     dplyr::select(committee, rule_num, rule, estimate, statistic)
   res
 }
@@ -95,12 +101,15 @@ find_cond_info <- function(txt, strt = 0, stp = 0) {
 }
 
 parse_cond <- function(ind, txt) {
-  entires <- stringr::str_split(txt[ind], " ") %>% unlist()
-  tmp <- purrr::map(entires, ~ stringr::str_split(.x, pattern = "=") %>% unlist())
+  entires <- stringr::str_split(txt[ind], " ") |> unlist()
+  tmp <- purrr::map(
+    entires,
+    \(.x) stringr::str_split(.x, pattern = "=") |> unlist()
+  )
   nms <- purrr::map_chr(tmp, purrr::pluck, 1)
   info <- purrr::map(tmp, stringr::str_remove_all, pattern = "\"")
-  info_name <- purrr::map_chr(info, ~ .x[1])
-  info_value <- purrr::map_chr(info, ~ .x[2])
+  info_name <- purrr::map_chr(info, \(.x) .x[1])
+  info_value <- purrr::map_chr(info, \(.x) .x[2])
   info_value <- purrr::map2(info_name, info_value, convert_info)
   names(info_value) <- info_name
   as_tibble(info_value)
@@ -115,7 +124,7 @@ convert_info <- function(nm, val) {
 
 
 get_num_rules <- function(txt) {
-  res <- stringr::str_split(txt, " ") %>% unlist()
+  res <- stringr::str_split(txt, " ") |> unlist()
   res_ind <- stringr::str_which(res, "^rules=")
   res <- res[res_ind]
   res <- stringr::str_remove(res, "^rules=")
@@ -127,7 +136,7 @@ get_num_rules <- function(txt) {
 # ------------------------------------------------------------------------------
 
 get_reg_data <- function(txt, results = "expression") {
-  entires <- stringr::str_split(txt, " ") %>% unlist()
+  entires <- stringr::str_split(txt, " ") |> unlist()
   n <- length(entires)
   vals <- purrr::map_chr(entires, reg_terms)
   res <- vals[1]
@@ -151,8 +160,8 @@ splits_to_coefs <- function(x, int) {
   if (!all(num_check == 2)) {
     rlang::abort("Problem with getting coefficients")
   }
-  coef_val <- purrr::map_dbl(x, ~ as.numeric(.x[2]))
-  res <- tibble(term = purrr::map_chr(x, ~ .x[1]), estimate = coef_val)
+  coef_val <- purrr::map_dbl(x, \(.x) as.numeric(.x[2]))
+  res <- tibble(term = purrr::map_chr(x, \(.x) .x[1]), estimate = coef_val)
   res <- dplyr::bind_rows(
     tibble(term = "(Intercept)", estimate = as.numeric(int)),
     res
@@ -204,7 +213,7 @@ single_cond <- function(txt) {
 }
 
 cb_cond_2 <- function(txt) {
-  entires <- stringr::str_split(txt, " ") %>% unlist()
+  entires <- stringr::str_split(txt, " ") |> unlist()
   rms <- "(att=\")|(cut=\")|(result=\")"
   entires <- purrr::map_chr(entires, stringr::str_remove_all, rms)
   entires <- purrr::map_chr(entires, stringr::str_remove_all, "\"")
@@ -212,7 +221,7 @@ cb_cond_2 <- function(txt) {
 }
 
 cb_cond_3 <- function(txt) {
-  entires <- stringr::str_split(txt, " ") %>% unlist()
+  entires <- stringr::str_split(txt, " ") |> unlist()
   var_name <- entires[2]
   var_name <- stringr::str_remove(var_name, "att=\"")
   var_name <- stringr::str_remove(var_name, "\"")

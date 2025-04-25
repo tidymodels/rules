@@ -1,4 +1,3 @@
-
 #' @rdname tidy.cubist
 #' @export
 tidy.C5.0 <- function(x, trees = x$trials["Actual"], ...) {
@@ -15,7 +14,7 @@ tidy.C5.0 <- function(x, trees = x$trials["Actual"], ...) {
 
 parse_rule_file <- function(x, trials = x$trials["Actual"], ...) {
   txt <- x$rules
-  txt_rows <- stringr::str_split(txt, pattern = "\n") %>% unlist()
+  txt_rows <- stringr::str_split(txt, pattern = "\n") |> unlist()
 
   if (!is.null(trials)) {
     trials <- min(trials, x$trials["Actual"])
@@ -51,10 +50,10 @@ parse_rule_file <- function(x, trials = x$trials["Actual"], ...) {
     attr_inds <- find_cond_info(txt_rows, loc, uppr)
     cond_att <- purrr::map_dfr(attr_inds, parse_cond, txt = txt_rows)
     trial_data <-
-      dplyr::bind_cols(trial_data, cond_att) %>%
-      dplyr::mutate(num_conditions = conds) %>%
-      dplyr::rename(coverage = cover) %>%
-      dplyr::select(-ok) %>%
+      dplyr::bind_cols(trial_data, cond_att) |>
+      dplyr::mutate(num_conditions = conds) |>
+      dplyr::rename(coverage = cover) |>
+      dplyr::select(-ok) |>
       tidyr::nest(statistic = c(num_conditions, coverage, lift, class))
 
     # Loop over all of the rules and get their rule conditions
@@ -75,7 +74,7 @@ parse_rule_file <- function(x, trials = x$trials["Actual"], ...) {
   }
 
   res <-
-    dplyr::bind_rows(trial_res) %>%
+    dplyr::bind_rows(trial_res) |>
     dplyr::select(trial, rule_num, rule, statistic)
   res
 }
@@ -84,8 +83,8 @@ parse_rule_file <- function(x, trials = x$trials["Actual"], ...) {
 # parsing tree models
 
 parse_tree_file <- function(x, trials = x$trials["Actual"]) {
-  tree_raw <- x$tree %>%
-    stringr::str_split("\n") %>%
+  tree_raw <- x$tree |>
+    stringr::str_split("\n") |>
     purrr::pluck(1)
 
   levels <- get_variable_levels(x)
@@ -107,7 +106,7 @@ parse_tree <- function(input, n_trees, levels, lvls) {
 
   index <- 1
 
-  for(i in seq_len(n_trees)) {
+  for (i in seq_len(n_trees)) {
     rules <- get_rule_index(index, input, levels = levels)
 
     tree_tbl <- dplyr::tibble(
@@ -140,7 +139,6 @@ get_rule_index <- function(index, tree, history = c(), levels) {
     #   :...sex = male:
 
     return(list(history))
-
   } else if (curr$type == 1) {
     # Case with binary split on a categorical predictor where there are
     # only two possible levels
@@ -150,7 +148,10 @@ get_rule_index <- function(index, tree, history = c(), levels) {
     for (i in seq_along(elts)) {
       value <- paste0("\"", elts[i], "\"")
       rule_name <- paste("(", curr$att, "==", value, ")")
-      rule_index <- stats::setNames(max(c(index, unlist(new_rules))) + 1, rule_name)
+      rule_index <- stats::setNames(
+        max(c(index, unlist(new_rules))) + 1,
+        rule_name
+      )
 
       new_rule <- get_rule_index(
         index = rule_index,
@@ -174,7 +175,6 @@ get_rule_index <- function(index, tree, history = c(), levels) {
     rule_gt <- get_rule_index(rule_gt_index, tree, history, levels)
 
     res <- c(res, rule_le_, rule_gt)
-
   } else if (curr$type == 3) {
     # A split with 3+ branches on a categorical predictor
 
@@ -183,7 +183,10 @@ get_rule_index <- function(index, tree, history = c(), levels) {
     for (i in seq_along(elts)) {
       value <- paste0("c(", elts[i], ")")
       rule_name <- paste("(", curr$att, "%in%", value, ")")
-      rule_index <- stats::setNames(max(c(index, unlist(new_rules))) + 1, rule_name)
+      rule_index <- stats::setNames(
+        max(c(index, unlist(new_rules))) + 1,
+        rule_name
+      )
 
       new_rule <- get_rule_index(
         index = rule_index,
@@ -220,8 +223,14 @@ get_freqs <- function(rule, tree, lvls) {
   freqs <- as.numeric(freqs)
 
   if (length(freqs) != length(lvls)) {
-    msg <- paste0("The number of counts (", length(freqs), ") is not the same as ",
-                  "the number of levels (", length(lvls), ").")
+    msg <- paste0(
+      "The number of counts (",
+      length(freqs),
+      ") is not the same as ",
+      "the number of levels (",
+      length(lvls),
+      ")."
+    )
     rlang::abort(msg)
   }
   tibble::tibble(value = lvls, count = freqs)

@@ -29,8 +29,11 @@ c5_fit <- function(x, y, trials = 1, minCases = 2, cost = NULL, ...) {
       c(
         args,
         list(
-          control =
-            rlang::expr(C50::C5.0Control(minCases = minCases, seed = sample.int(10^5, 1), earlyStopping = FALSE))
+          control = rlang::expr(C50::C5.0Control(
+            minCases = minCases,
+            seed = sample.int(10^5, 1),
+            earlyStopping = FALSE
+          ))
         )
       )
   }
@@ -44,7 +47,6 @@ c5_fit <- function(x, y, trials = 1, minCases = 2, cost = NULL, ...) {
     args$costs <- costs
   }
 
-
   cl <- rlang::call2(.fn = "C5.0", .ns = "C50", !!!args)
   res <- rlang::eval_tidy(cl)
   res
@@ -54,7 +56,7 @@ c5_pred_wrap <- function(trials = 1, object, new_data, type = "class", ...) {
   if (length(trials) > 1) {
     rlang::abort("`c5_pred_wrap` takes a single value of `trials`")
   }
-  trials[trials <   1] <-   1L
+  trials[trials < 1] <- 1L
   trials[trials > 100] <- 100L
 
   new_data <- as.data.frame(new_data)
@@ -79,7 +81,12 @@ c5_pred_wrap <- function(trials = 1, object, new_data, type = "class", ...) {
 #' @export
 #' @keywords internal
 #' @rdname rules-internal
-c5_pred <- function(object, new_data, trials = object$fit$trials["Actual"], ...) {
+c5_pred <- function(
+  object,
+  new_data,
+  trials = object$fit$trials["Actual"],
+  ...
+) {
   res <- purrr::map_dfr(
     trials,
     c5_pred_wrap,
@@ -88,7 +95,7 @@ c5_pred <- function(object, new_data, trials = object$fit$trials["Actual"], ...)
     ...
   )
   if (length(trials) == 1) {
-    res <- res %>% dplyr::select(-trials)
+    res <- res |> dplyr::select(-trials)
   }
   res
 }
@@ -100,7 +107,6 @@ prob_matrix_to_tibble <- function(x, object) {
 }
 
 # ------------------------------------------------------------------------------
-
 
 #' @export
 #' @keywords internal
@@ -124,9 +130,9 @@ add_engine_parameters <- function(pset, engines) {
   is_engine_param <- pset$name %in% engines$name
   if (any(is_engine_param)) {
     engine_names <- pset$name[is_engine_param]
-    pset <- pset[!is_engine_param,]
+    pset <- pset[!is_engine_param, ]
     pset <-
-      dplyr::bind_rows(pset, engines %>% dplyr::filter(name %in% engines$name))
+      dplyr::bind_rows(pset, engines |> dplyr::filter(name %in% engines$name))
   }
   pset
 }

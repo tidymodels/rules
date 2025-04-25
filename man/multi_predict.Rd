@@ -10,7 +10,7 @@
 \method{multi_predict}{`_xrf`}(object, new_data, type = NULL, penalty = NULL, ...)
 }
 \arguments{
-\item{object}{A \code{model_fit} object.}
+\item{object}{A \link[parsnip:model_fit]{model fit}.}
 
 \item{new_data}{A rectangular data object, such as a data frame.}
 

@@ -2,22 +2,24 @@
 #' @keywords internal
 #' @rdname rules-internal
 xrf_fit <-
-  function(formula,
-           data,
-           max_depth = 6,
-           nrounds = 15,
-           eta = 0.3,
-           colsample_bynode = NULL,
-           colsample_bytree = NULL,
-           min_child_weight = 1,
-           gamma = 0,
-           subsample = 1,
-           validation = 0,
-           early_stop = NULL,
-           counts = TRUE,
-           event_level = c("first", "second"),
-           lambda = 0.1,
-           ...) {
+  function(
+    formula,
+    data,
+    max_depth = 6,
+    nrounds = 15,
+    eta = 0.3,
+    colsample_bynode = NULL,
+    colsample_bytree = NULL,
+    min_child_weight = 1,
+    gamma = 0,
+    subsample = 1,
+    validation = 0,
+    early_stop = NULL,
+    counts = TRUE,
+    event_level = c("first", "second"),
+    lambda = 0.1,
+    ...
+  ) {
     converted <-
       parsnip::.convert_form_to_xy_fit(
         formula = formula,
@@ -76,26 +78,50 @@ xrf_fit <-
     res$family <- args$family
     res$levels <- get_levels(formula, data)
     res
-}
+  }
 
 process_mtry <- function(colsample_bytree, counts, n_predictors, is_missing) {
   if (!is.logical(counts)) {
     rlang::abort("'counts' should be a logical value.")
   }
 
-  ineq <- if (counts) {"greater"} else {"less"}
-  interp <- if (counts) {"count"} else {"proportion"}
-  opp <- if (!counts) {"count"} else {"proportion"}
+  ineq <- if (counts) {
+    "greater"
+  } else {
+    "less"
+  }
+  interp <- if (counts) {
+    "count"
+  } else {
+    "proportion"
+  }
+  opp <- if (!counts) {
+    "count"
+  } else {
+    "proportion"
+  }
 
   if ((colsample_bytree < 1 & counts) | (colsample_bytree > 1 & !counts)) {
     rlang::abort(
       paste0(
-        "The supplied argument `mtry = ", colsample_bytree, "` must be ",
-        ineq, " than or equal to 1. \n\n`mtry` is currently being interpreted ",
-        "as a ", interp, " rather than a ", opp, ". Supply `counts = ", !counts,
-        "` to `set_engine()` to supply this argument as a ", opp, " rather than ",
+        "The supplied argument `mtry = ",
+        colsample_bytree,
+        "` must be ",
+        ineq,
+        " than or equal to 1. \n\n`mtry` is currently being interpreted ",
+        "as a ",
+        interp,
+        " rather than a ",
+        opp,
+        ". Supply `counts = ",
+        !counts,
+        "` to `set_engine()` to supply this argument as a ",
+        opp,
+        " rather than ",
         # TODO: add a section to the linked parsnip docs on mtry vs mtry_prop
-        "a ", interp, ". \n\nSee `?details_rule_fit_xrf` for more details."
+        "a ",
+        interp,
+        ". \n\nSee `?details_rule_fit_xrf` for more details."
       ),
       call = NULL
     )
@@ -240,7 +266,7 @@ organize_xrf_class_prob <- function(x, object) {
     x <- x[, 1]
     x <- tibble(v1 = 1 - x, v2 = x)
   } else {
-    x <- x[, , 1]
+    x <- x[,, 1]
     x <- as_tibble(x)
   }
   colnames(x) <- object$lvl
@@ -253,24 +279,27 @@ organize_xrf_multi_pred <- function(x, object, penalty, fam) {
       res <- tibble(penalty = rep(penalty, nrow(x)), .pred = unname(x[, 1]))
     } else {
       res <-
-        as_tibble(x) %>%
-        dplyr::mutate(.row_number = seq_len(nrow(x))) %>%
-        tidyr::pivot_longer(cols = c(-.row_number), values_to = ".pred") %>%
-        dplyr::mutate(penalty = rep(penalty, nrow(x))) %>%
-        dplyr::select(-name) %>%
-        dplyr::group_by(.row_number) %>%
-        tidyr::nest() %>%
-        dplyr::ungroup() %>%
-        dplyr::select(-.row_number) %>%
+        as_tibble(x) |>
+        dplyr::mutate(.row_number = seq_len(nrow(x))) |>
+        tidyr::pivot_longer(cols = c(-.row_number), values_to = ".pred") |>
+        dplyr::mutate(penalty = rep(penalty, nrow(x))) |>
+        dplyr::select(-name) |>
+        dplyr::group_by(.row_number) |>
+        tidyr::nest() |>
+        dplyr::ungroup() |>
+        dplyr::select(-.row_number) |>
         setNames(".pred")
     }
   } else {
     if (fam == "binomial") {
       res <-
-        as_tibble(x) %>%
-        dplyr::mutate(.row_number = seq_len(nrow(x))) %>%
-        tidyr::pivot_longer(cols = c(-.row_number), values_to = ".pred_class") %>%
-        dplyr::select(-name) %>%
+        as_tibble(x) |>
+        dplyr::mutate(.row_number = seq_len(nrow(x))) |>
+        tidyr::pivot_longer(
+          cols = c(-.row_number),
+          values_to = ".pred_class"
+        ) |>
+        dplyr::select(-name) |>
         dplyr::mutate(
           .pred_class = ifelse(.pred_class >= .5, object$lvl[2], object$lvl[1]),
           .pred_class = factor(.pred_class, levels = object$lvl)
@@ -282,22 +311,25 @@ organize_xrf_multi_pred <- function(x, object, penalty, fam) {
       } else {
         # multipredict
         res <-
-          res %>%
-          dplyr::mutate(penalty = rep(penalty, nrow(x))) %>%
-          dplyr::group_by(.row_number) %>%
-          tidyr::nest() %>%
-          dplyr::ungroup() %>%
-          dplyr::select(-.row_number) %>%
+          res |>
+          dplyr::mutate(penalty = rep(penalty, nrow(x))) |>
+          dplyr::group_by(.row_number) |>
+          tidyr::nest() |>
+          dplyr::ungroup() |>
+          dplyr::select(-.row_number) |>
           setNames(".pred")
       }
     } else {
       # fam = "multinomial"
       res <-
-        apply(x, 3, function(x) apply(x, 1, which.max)) %>%
-        as_tibble() %>%
-        dplyr::mutate(.row_number = seq_len(nrow(x))) %>%
-        tidyr::pivot_longer(cols = c(-.row_number), values_to = ".pred_class") %>%
-        dplyr::select(-name) %>%
+        apply(x, 3, function(x) apply(x, 1, which.max)) |>
+        as_tibble() |>
+        dplyr::mutate(.row_number = seq_len(nrow(x))) |>
+        tidyr::pivot_longer(
+          cols = c(-.row_number),
+          values_to = ".pred_class"
+        ) |>
+        dplyr::select(-name) |>
         dplyr::mutate(
           .pred_class = object$lvl[.pred_class],
           .pred_class = factor(.pred_class, levels = object$lvl)
@@ -308,12 +340,12 @@ organize_xrf_multi_pred <- function(x, object, penalty, fam) {
       } else {
         # multi-predict
         res <-
-          res %>%
-          dplyr::mutate(penalty = rep(penalty, nrow(x))) %>%
-          dplyr::group_by(.row_number) %>%
-          tidyr::nest() %>%
-          dplyr::ungroup() %>%
-          dplyr::select(-.row_number) %>%
+          res |>
+          dplyr::mutate(penalty = rep(penalty, nrow(x))) |>
+          dplyr::group_by(.row_number) |>
+          tidyr::nest() |>
+          dplyr::ungroup() |>
+          dplyr::select(-.row_number) |>
           setNames(".pred")
       }
     }
@@ -324,49 +356,49 @@ organize_xrf_multi_pred <- function(x, object, penalty, fam) {
 organize_xrf_multi_prob <- function(x, object, penalty, fam) {
   if (fam == "binomial") {
     res <-
-      as_tibble(x) %>%
-      dplyr::mutate(.row_number = seq_len(nrow(x))) %>%
-      tidyr::pivot_longer(cols = c(-.row_number), values_to = ".pred_2") %>%
-      dplyr::mutate(penalty = rep(penalty, nrow(x))) %>%
-      dplyr::select(-name) %>%
-      dplyr::mutate(.pred_1 = 1 - .pred_2) %>%
+      as_tibble(x) |>
+      dplyr::mutate(.row_number = seq_len(nrow(x))) |>
+      tidyr::pivot_longer(cols = c(-.row_number), values_to = ".pred_2") |>
+      dplyr::mutate(penalty = rep(penalty, nrow(x))) |>
+      dplyr::select(-name) |>
+      dplyr::mutate(.pred_1 = 1 - .pred_2) |>
       dplyr::select(.row_number, penalty, .pred_1, .pred_2)
 
     if (length(penalty) == 1) {
       # predict
       res <-
-        res %>%
-        setNames(c(".row_number", "penalty", object$lvl)) %>%
+        res |>
+        setNames(c(".row_number", "penalty", object$lvl)) |>
         dplyr::select(-.row_number, -penalty)
     } else {
       # multi_predict
       res <-
-        res %>%
-        setNames(c(".row_number", "penalty", paste0(".pred_", object$lvl))) %>%
-        dplyr::group_by(.row_number) %>%
-        tidyr::nest() %>%
-        dplyr::ungroup() %>%
-        dplyr::select(-.row_number) %>%
+        res |>
+        setNames(c(".row_number", "penalty", paste0(".pred_", object$lvl))) |>
+        dplyr::group_by(.row_number) |>
+        tidyr::nest() |>
+        dplyr::ungroup() |>
+        dplyr::select(-.row_number) |>
         setNames(".pred")
     }
   } else {
     # fam = "multinomial"
     res <-
-      apply(x, 3, as_tibble) %>%
-      dplyr::bind_rows() %>%
+      apply(x, 3, as_tibble) |>
+      dplyr::bind_rows() |>
       setNames(object$lvl)
 
     # good format for predict()
     if (length(penalty) > 1) {
       # multi_predict
       res <-
-        res %>%
-        dplyr::mutate(.row_number = rep(seq_len(nrow(x)), length(penalty))) %>%
-        dplyr::mutate(penalty = rep(penalty, each = nrow(x))) %>%
-        dplyr::group_by(.row_number) %>%
-        tidyr::nest() %>%
-        dplyr::ungroup() %>%
-        dplyr::select(-.row_number) %>%
+        res |>
+        dplyr::mutate(.row_number = rep(seq_len(nrow(x)), length(penalty))) |>
+        dplyr::mutate(penalty = rep(penalty, each = nrow(x))) |>
+        dplyr::group_by(.row_number) |>
+        tidyr::nest() |>
+        dplyr::ungroup() |>
+        dplyr::select(-.row_number) |>
         setNames(".pred")
     }
   }
@@ -379,8 +411,14 @@ organize_xrf_multi_prob <- function(x, object, penalty, fam) {
 tunable.rule_fit <- function(x, ...) {
   tibble(
     name = c(
-      "mtry", "trees", "min_n", "tree_depth", "learn_rate",
-      "loss_reduction", "sample_size", "penalty"
+      "mtry",
+      "trees",
+      "min_n",
+      "tree_depth",
+      "learn_rate",
+      "loss_reduction",
+      "sample_size",
+      "penalty"
     ),
     call_info = list(
       list(pkg = "dials", fun = "mtry_prop"),

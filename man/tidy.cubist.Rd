@@ -48,13 +48,13 @@ library(rlang)
 
 data(ames, package = "modeldata")
 
-ames <- ames \%>\% 
-  mutate(Sale_Price = log10(Sale_Price)) \%>\% 
+ames <- ames |> 
+  mutate(Sale_Price = log10(Sale_Price)) |> 
   select(Sale_Price, Longitude, Latitude, Central_Air)
 
 cb_fit <-
-  cubist_rules(committees = 10) \%>\%
-  set_engine("Cubist") \%>\%
+  cubist_rules(committees = 10) |>
+  set_engine("Cubist") |>
   fit(Sale_Price ~ ., data = ames)
 
 cb_res <- tidy(cb_fit)
@@ -138,20 +138,20 @@ Now let’s fit a RuleFit model. First, we’ll use a recipe to convert the
 Central Air predictor to an indicator:
 
 \if{html}{\out{<div class="sourceCode r">}}\preformatted{xrf_reg_mod <-
-  rule_fit(trees = 3, penalty = .001) \%>\%
-  set_engine("xrf") \%>\%
+  rule_fit(trees = 3, penalty = .001) |>
+  set_engine("xrf") |>
   set_mode("regression")
 # Make dummy variables since xgboost will not
 
 ames_rec <-
-  recipe(Sale_Price ~ ., data = ames) \%>\%
-  step_dummy(Central_Air) \%>\%
+  recipe(Sale_Price ~ ., data = ames) |>
+  step_dummy(Central_Air) |>
   step_zv(all_predictors())
 
-ames_processed <- prep(ames_rec) \%>\% bake(new_data = NULL)
+ames_processed <- prep(ames_rec) |> bake(new_data = NULL)
 
 xrf_reg_fit <-
-  xrf_reg_mod \%>\%
+  xrf_reg_mod |>
   fit(Sale_Price ~ ., data = ames_processed)
 
 xrf_rule_res <- tidy(xrf_reg_fit, penalty = .001)
@@ -208,7 +208,7 @@ penguins <- drop_na(penguins)
 First, let’s fit a boosted rule-based model and tidy:
 
 \if{html}{\out{<div class="sourceCode r">}}\preformatted{rule_model <- 
-  C5_rules(trees = 3) \%>\% 
+  C5_rules(trees = 3) |> 
   fit(island ~ ., data = penguins)
 
 rule_info <- tidy(rule_model)
@@ -250,9 +250,9 @@ terminal nodes (which is just a rule).
 Let’s fit a model and tidy:
 
 \if{html}{\out{<div class="sourceCode r">}}\preformatted{tree_model <- 
-  boost_tree(trees = 3) \%>\% 
-  set_engine("C5.0") \%>\% 
-  set_mode("classification") \%>\% 
+  boost_tree(trees = 3) |> 
+  set_engine("C5.0") |> 
+  set_mode("classification") |> 
   fit(island ~ ., data = penguins)
 
 tree_info <- tidy(tree_model)
