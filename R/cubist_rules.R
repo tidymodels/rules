@@ -95,7 +95,7 @@ get_neighbors <- function(x) {
 
 cubist_pred_wrap <- function(neighbors = 0, object, new_data, ...) {
   if (length(neighbors) > 1) {
-    rlang::abort("`cubist_pred_wrap` takes a single neighbor.")
+    cli::cli_abort("{.fn cubist_pred_wrap} takes a single neighbor.")
   }
   object$spec$args$neighbors <- neighbors
   res <- predict(object, new_data)
@@ -203,7 +203,9 @@ tunable.cubist_rules <- function(x, ...) {
 multi_predict._cubist <-
   function(object, new_data, type = NULL, neighbors = NULL, ...) {
     if (any(names(enquos(...)) == "newdata")) {
-      rlang::abort("Did you mean to use `new_data` instead of `newdata`?")
+      cli::cli_abort(
+        "Did you mean to use {.arg new_data} instead of {.arg newdata}?"
+      )
     }
     if (is.null(neighbors)) {
       n <- 1

@@ -5,10 +5,10 @@ tidy.xrf <- function(x, penalty = NULL, unit = c("rules", "columns"), ...) {
 
   msg <- "Please choose a single numeric value of 'penalty'."
   if (is.null(penalty)) {
-    rlang::abort(msg)
+    cli::cli_abort(msg)
   } else {
     if (!is.numeric(penalty) | length(penalty) != 1) {
-      rlang::abort(msg)
+      cli::cli_abort(msg)
     }
   }
 
@@ -51,7 +51,7 @@ xrf_coefs <- function(x, penalty = NULL) {
     penalty <- x$lambda
   }
   if (length(penalty) != 1) {
-    rlang::abort("`penalty` should be a single numeric measure.")
+    cli::cli_abort("{.arg penalty} should be a single numeric measure.")
   }
 
   lvls <- x$levels
