@@ -11,7 +11,7 @@ test_that("formula method", {
       ridership ~ .,
       data = chi_data$chi_mod,
       family = "gaussian",
-      xgb_control = list(nrounds = 3, min_child_weight = 3, penalty = 1),
+      xgb_control = list(nrounds = 3, min_child_weight = 3),
       verbose = 0
     )
   rf_pred_exp <- predict(rf_fit_exp, chi_data$chi_pred, lambda = 1)[, 1]
@@ -72,7 +72,7 @@ test_that("non-formula method", {
       ridership ~ .,
       data = chi_data$chi_mod,
       family = "gaussian",
-      xgb_control = list(nrounds = 3, min_child_weight = 3, penalty = 1),
+      xgb_control = list(nrounds = 3, min_child_weight = 3),
       verbose = 0
     )
   rf_pred_exp <- predict(rf_fit_exp, chi_data$chi_pred, lambda = 1)[, 1]
