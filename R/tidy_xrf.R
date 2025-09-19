@@ -5,10 +5,10 @@ tidy.xrf <- function(x, penalty = NULL, unit = c("rules", "columns"), ...) {
 
   msg <- "Please choose a single numeric value of 'penalty'."
   if (is.null(penalty)) {
-    cli::cli_abort(msg)
+    cli::cli_abort("{msg}")
   } else {
     if (!is.numeric(penalty) | length(penalty) != 1) {
-      cli::cli_abort(msg)
+      cli::cli_abort("{msg}")
     }
   }
 

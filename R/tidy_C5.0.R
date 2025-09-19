@@ -200,7 +200,7 @@ get_rule_index <- function(index, tree, history = c(), levels) {
     res <- c(res, new_rules)
   } else {
     msg <- paste("Unknown split type", curr$type)
-    cli::cli_abort(msg)
+    cli::cli_abort("{msg}")
   }
 
   res
@@ -231,7 +231,7 @@ get_freqs <- function(rule, tree, lvls) {
       length(lvls),
       ")."
     )
-    cli::cli_abort(msg)
+    cli::cli_abort("{msg}")
   }
   tibble::tibble(value = lvls, count = freqs)
 }

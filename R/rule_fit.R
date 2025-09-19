@@ -104,9 +104,9 @@ process_mtry <- function(colsample_bytree, counts, n_predictors, is_missing) {
   if ((colsample_bytree < 1 & counts) | (colsample_bytree > 1 & !counts)) {
     cli::cli_abort(
       c(
-        "The supplied argument {.arg mtry} must be {ineq} than or equal to 1.",
+        "The supplied argument `{.arg mtry} = {colsample_bytree}` must be {ineq} than or equal to 1.",
         "i" = "{.arg mtry} is currently being interpreted as a {interp} rather than a {opp}.",
-        "i" = "Supply `{.arg counts} = {rlang::expr(!counts)}` to `set_engine()` to supply this argument as a {opp} rather than a {interp}.",
+        "i" = "Supply `{.arg counts} = {!counts}` to `set_engine()` to supply this argument as a {opp} rather than a {interp}.",
         "i" = "See {.help details_rule_fit_xrf} for more details.",
         call = NULL
       )
