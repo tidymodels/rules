@@ -6,7 +6,6 @@
 #' @importFrom dplyr as_tibble
 #' @importFrom dplyr tibble
 #' @importFrom purrr map_dfr
-#' @importFrom rlang abort
 #' @importFrom rlang call2
 #' @importFrom rlang enquos
 #' @importFrom rlang eval_tidy

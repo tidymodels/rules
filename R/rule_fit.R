@@ -82,7 +82,7 @@ xrf_fit <-
 
 process_mtry <- function(colsample_bytree, counts, n_predictors, is_missing) {
   if (!is.logical(counts)) {
-    rlang::abort("'counts' should be a logical value.")
+    cli::cli_abort("{.arg counts} should be a logical value.")
   }
 
   ineq <- if (counts) {
@@ -102,35 +102,21 @@ process_mtry <- function(colsample_bytree, counts, n_predictors, is_missing) {
   }
 
   if ((colsample_bytree < 1 & counts) | (colsample_bytree > 1 & !counts)) {
-    rlang::abort(
-      paste0(
-        "The supplied argument `mtry = ",
-        colsample_bytree,
-        "` must be ",
-        ineq,
-        " than or equal to 1. \n\n`mtry` is currently being interpreted ",
-        "as a ",
-        interp,
-        " rather than a ",
-        opp,
-        ". Supply `counts = ",
-        !counts,
-        "` to `set_engine()` to supply this argument as a ",
-        opp,
-        " rather than ",
-        # TODO: add a section to the linked parsnip docs on mtry vs mtry_prop
-        "a ",
-        interp,
-        ". \n\nSee `?details_rule_fit_xrf` for more details."
-      ),
-      call = NULL
+    cli::cli_abort(
+      c(
+        "The supplied argument `{.arg mtry} = {colsample_bytree}` must be {ineq} than or equal to 1.",
+        "i" = "{.arg mtry} is currently being interpreted as a {interp} rather than a {opp}.",
+        "i" = "Supply `{.arg counts} = {!counts}` to `set_engine()` to supply this argument as a {opp} rather than a {interp}.",
+        "i" = "See {.help details_rule_fit_xrf} for more details.",
+        call = NULL
+      )
     )
   }
 
   if (rlang::is_call(colsample_bytree)) {
     if (rlang::call_name(colsample_bytree) == "tune") {
-      rlang::abort(
-        paste0(
+      cli::cli_abort(
+        c(
           "The supplied `mtry` parameter is a call to `tune`. Did you forget ",
           "to optimize hyperparameters with a tuning function like `tune::tune_grid`?"
         ),
@@ -220,7 +206,9 @@ xrf_pred <- function(object, new_data, lambda = object$fit$lambda, type, ...) {
 multi_predict._xrf <-
   function(object, new_data, type = NULL, penalty = NULL, ...) {
     if (any(names(enquos(...)) == "newdata")) {
-      rlang::abort("Did you mean to use `new_data` instead of `newdata`?")
+      cli::cli_abort(
+        "Did you mean to use {.arg new_data} instead of {.arg newdata}?"
+      )
     }
     if (is.null(penalty)) {
       penalty <- object$fit$lambda

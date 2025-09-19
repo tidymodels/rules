@@ -144,7 +144,7 @@ get_reg_data <- function(txt, results = "expression") {
   if (length(vals) > 0) {
     n_elem <- length(vals)
     if (n_elem %% 2 != 0) {
-      rlang::abort("number of remaining terms not even", call. = FALSE)
+      cli::cli_abort("Number of remaining terms is not even.", call. = FALSE)
     }
     n_terms <- n_elem / 2
     split_terms <- split(vals, rep(1:n_terms, each = 2))
@@ -158,7 +158,7 @@ get_reg_data <- function(txt, results = "expression") {
 splits_to_coefs <- function(x, int) {
   num_check <- purrr::map_int(x, length)
   if (!all(num_check == 2)) {
-    rlang::abort("Problem with getting coefficients")
+    cli::cli_abort("Problem with getting coefficients")
   }
   coef_val <- purrr::map_dbl(x, \(.x) as.numeric(.x[2]))
   res <- tibble(term = purrr::map_chr(x, \(.x) .x[1]), estimate = coef_val)

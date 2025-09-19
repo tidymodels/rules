@@ -41,7 +41,7 @@ c5_fit <- function(x, y, trials = 1, minCases = 2, cost = NULL, ...) {
 
   if (!is.null(cost)) {
     if (length(levels(y) != 2)) {
-      rlang::abort("Cost-sensitive models only implemented for 2 classes.")
+      cli::cli_abort("Cost-sensitive models only implemented for 2 classes.")
     }
     costs <- matrix(c(0, 1, cost, 0), nrow = 2, byrow = TRUE)
     args$costs <- costs
@@ -54,7 +54,7 @@ c5_fit <- function(x, y, trials = 1, minCases = 2, cost = NULL, ...) {
 
 c5_pred_wrap <- function(trials = 1, object, new_data, type = "class", ...) {
   if (length(trials) > 1) {
-    rlang::abort("`c5_pred_wrap` takes a single value of `trials`")
+    cli::cli_abort("`c5_pred_wrap` takes a single value of {.arg trials}")
   }
   trials[trials < 1] <- 1L
   trials[trials > 100] <- 100L
