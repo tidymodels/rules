@@ -3,7 +3,7 @@ pkgdown: 2.1.3
 pkgdown_sha: ~
 articles:
   articles/cubist-and-rulefit: cubist-and-rulefit.html
-last_built: 2025-09-19T18:42Z
+last_built: 2025-09-19T19:12Z
 urls:
   reference: https://rules.tidymodels.org/reference
   article: https://rules.tidymodels.org/articles
