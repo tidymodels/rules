@@ -11,7 +11,7 @@ test_that("formula method", {
       Class ~ .,
       data = ad_data$ad_mod,
       family = "binomial",
-      xgb_control = list(nrounds = 3, min_child_weight = 3, penalty = 1),
+      xgb_control = list(nrounds = 3, min_child_weight = 3),
       verbose = 0
     )
   rf_pred_exp <- predict(rf_fit_exp, ad_data$ad_pred, lambda = 1)[, 1]
@@ -118,7 +118,7 @@ test_that("non-formula method", {
       Class ~ .,
       data = ad_data$ad_mod,
       family = "binomial",
-      xgb_control = list(nrounds = 3, min_child_weight = 3, penalty = 1),
+      xgb_control = list(nrounds = 3, min_child_weight = 3),
       verbose = 0
     )
   rf_pred_exp <- predict(rf_fit_exp, ad_data$ad_pred, lambda = 1)[, 1]

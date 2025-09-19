@@ -14,7 +14,6 @@ test_that("formula method", {
       xgb_control = list(
         nrounds = 3,
         min_child_weight = 3,
-        penalty = 1,
         num_class = 4
       ),
       verbose = 0
@@ -127,7 +126,6 @@ test_that("non-formula method", {
       xgb_control = list(
         nrounds = 3,
         min_child_weight = 3,
-        penalty = 1,
         num_class = 4
       ),
       verbose = 0
