@@ -1,0 +1,30 @@
+# Authors and Citation
+
+## Authors
+
+- **Emil Hvitfeldt**. Author, maintainer.
+  [](https://orcid.org/0000-0002-0679-1945)
+
+- **[Max Kuhn](https://github.com/topepo)**. Author.
+  [](https://orcid.org/0000-0003-2402-136X)
+
+- **[![Posit](https://www.tidyverse.org/posit-logo.svg)](https://www.posit.co)**.
+  Copyright holder, funder.
+  [![ROR](https://raw.githubusercontent.com/ror-community/ror-logos/main/ror-icon-rgb.svg)](https://ror.org/03wc8by49)
+
+## Citation
+
+Source:
+[`DESCRIPTION`](https://github.com/tidymodels/rules/blob/main/DESCRIPTION)
+
+Hvitfeldt E, Kuhn M (2025). *rules: Model Wrappers for Rule-Based
+Models*. R package version 1.0.2.9000,
+<https://github.com/tidymodels/rules>.
+
+    @Manual{,
+      title = {rules: Model Wrappers for Rule-Based Models},
+      author = {Emil Hvitfeldt and Max Kuhn},
+      year = {2025},
+      note = {R package version 1.0.2.9000},
+      url = {https://github.com/tidymodels/rules},
+    }
