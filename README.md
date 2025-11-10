@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# rules
+# rules <a href="https://rules.tidymodels.org/"><img src="man/figures/logo.png" align="right" height="138" alt="rules website" /></a>
 
 <!-- badges: start -->
 
