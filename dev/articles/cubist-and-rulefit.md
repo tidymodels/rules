@@ -164,7 +164,7 @@ summary(cubist_fit$fit)
 #> cubist.default(x = x, y = y, committees = 2)
 #> 
 #> 
-#> Cubist [Release 2.07 GPL Edition]  Mon Nov 10 19:17:00 2025
+#> Cubist [Release 2.07 GPL Edition]  Fri Nov 14 09:38:26 2025
 #> ---------------------------------
 #> 
 #>     Target attribute `outcome'
