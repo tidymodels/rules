@@ -40,6 +40,7 @@ xrf_fit(
   counts = TRUE,
   event_level = c("first", "second"),
   lambda = 0.1,
+  objective = NULL,
   ...
 )
 
