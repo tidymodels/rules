@@ -185,35 +185,38 @@ Central Air predictor to an indicator:</p>
 <span><span class="va">xrf_rule_res</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://generics.r-lib.org/reference/tidy.html" class="external-link">tidy</a></span><span class="op">(</span><span class="va">xrf_reg_fit</span>, penalty <span class="op">=</span> <span class="fl">.001</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">xrf_rule_res</span></span></code></pre><p></p></div>
-<p></p><div class="sourceCode"><pre><code><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="do">## # A tibble: 8 x 3</span></span>
-<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a><span class="do">##   rule_id       rule                                                    estimate</span></span>
-<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a><span class="do">##   &lt;chr&gt;         &lt;chr&gt;                                                      &lt;dbl&gt;</span></span>
-<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a><span class="do">## 1 (Intercept)   ( TRUE )                                                 16.4</span></span>
-<span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a><span class="do">## 2 Central_Air_Y ( Central_Air_Y )                                         0.0567</span></span>
-<span id="cb1-6"><a href="#cb1-6" tabindex="-1"></a><span class="do">## 3 Latitude      ( Latitude )                                             -0.424</span></span>
-<span id="cb1-7"><a href="#cb1-7" tabindex="-1"></a><span class="do">## 4 Longitude     ( Longitude )                                            -0.0694</span></span>
-<span id="cb1-8"><a href="#cb1-8" tabindex="-1"></a><span class="do">## 5 r1_1          ( Longitude &lt;  -93.6299744 )                              0.102</span></span>
-<span id="cb1-9"><a href="#cb1-9" tabindex="-1"></a><span class="do">## 6 r2_3          ( Central_Air_Y &lt;  0.5 ) &amp; ( Latitude &lt;  42.0460129 )    -0.136</span></span>
-<span id="cb1-10"><a href="#cb1-10" tabindex="-1"></a><span class="do">## 7 r2_5          ( Latitude &gt;= 42.0460129 ) &amp; ( Longitude &lt;  -93.650901~   0.302</span></span>
-<span id="cb1-11"><a href="#cb1-11" tabindex="-1"></a><span class="do">## 8 r2_6          ( Latitude &gt;= 42.0460129 ) &amp; ( Longitude &gt;= -93.650901~   0.0853</span></span></code></pre><p></p></div>
+<p></p><div class="sourceCode"><pre><code><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="do">## # A tibble: 86 x 3</span></span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a><span class="do">##    rule_id       rule                                                   estimate</span></span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a><span class="do">##    &lt;chr&gt;         &lt;chr&gt;                                                     &lt;dbl&gt;</span></span>
+<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a><span class="do">##  1 (Intercept)   ( TRUE )                                                 5.01</span></span>
+<span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a><span class="do">##  2 Central_Air_Y ( Central_Air_Y )                                        0.245</span></span>
+<span id="cb1-6"><a href="#cb1-6" tabindex="-1"></a><span class="do">##  3 r0_13         ( Latitude &gt;= 42.0586929 ) &amp; ( Longitude &lt;  -93.62364~   0.145</span></span>
+<span id="cb1-7"><a href="#cb1-7" tabindex="-1"></a><span class="do">##  4 r0_19         ( Latitude &gt;= 42.0430069 ) &amp; ( Longitude &lt;  -93.62990~   0.0379</span></span>
+<span id="cb1-8"><a href="#cb1-8" tabindex="-1"></a><span class="do">##  5 r0_32         ( Central_Air_Y &lt;  1 ) &amp; ( Latitude &lt;  42.0430069 ) &amp;~   0.313</span></span>
+<span id="cb1-9"><a href="#cb1-9" tabindex="-1"></a><span class="do">##  6 r0_40         ( Latitude &gt;= 42.0430069 ) &amp; ( Latitude &gt;= 42.0624161~   0.167</span></span>
+<span id="cb1-10"><a href="#cb1-10" tabindex="-1"></a><span class="do">##  7 r0_42         ( Central_Air_Y &lt;  1 ) &amp; ( Latitude &lt;  42.0251541 ) &amp;~  -0.0927</span></span>
+<span id="cb1-11"><a href="#cb1-11" tabindex="-1"></a><span class="do">##  8 r0_50         ( Latitude &gt;= 42.0586929 ) &amp; ( Longitude &lt;  -93.62210~  -0.0403</span></span>
+<span id="cb1-12"><a href="#cb1-12" tabindex="-1"></a><span class="do">##  9 r0_51         ( Central_Air_Y &lt;  1 ) &amp; ( Latitude &lt;  42.0222397 ) &amp;~  -0.0552</span></span>
+<span id="cb1-13"><a href="#cb1-13" tabindex="-1"></a><span class="do">## 10 r0_53         ( Central_Air_Y &lt;  1 ) &amp; ( Latitude &lt;  42.0182838 ) &amp;~  -0.0407</span></span>
+<span id="cb1-14"><a href="#cb1-14" tabindex="-1"></a><span class="do">## # i 76 more rows</span></span></code></pre><p></p></div>
 <p>Here, the focus is on the model coefficients produced by <code>glmnet</code>. We
 can also break down the results and sort them by the original predictor
 columns:</p>
 <p></p><div class="sourceCode r"><pre><code><span><span class="fu"><a href="https://generics.r-lib.org/reference/tidy.html" class="external-link">tidy</a></span><span class="op">(</span><span class="va">xrf_reg_fit</span>, penalty <span class="op">=</span> <span class="fl">.001</span>, unit <span class="op">=</span> <span class="st">"columns"</span><span class="op">)</span></span></code></pre><p></p></div>
-<p></p><div class="sourceCode"><pre><code><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="do">## # A tibble: 11 x 3</span></span>
-<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a><span class="do">##    rule_id       term          estimate</span></span>
-<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a><span class="do">##    &lt;chr&gt;         &lt;chr&gt;            &lt;dbl&gt;</span></span>
-<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a><span class="do">##  1 r1_1          Longitude       0.102</span></span>
-<span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a><span class="do">##  2 r2_3          Latitude       -0.136</span></span>
-<span id="cb1-6"><a href="#cb1-6" tabindex="-1"></a><span class="do">##  3 r2_5          Latitude        0.302</span></span>
-<span id="cb1-7"><a href="#cb1-7" tabindex="-1"></a><span class="do">##  4 r2_6          Latitude        0.0853</span></span>
-<span id="cb1-8"><a href="#cb1-8" tabindex="-1"></a><span class="do">##  5 r2_3          Central_Air_Y  -0.136</span></span>
-<span id="cb1-9"><a href="#cb1-9" tabindex="-1"></a><span class="do">##  6 r2_5          Longitude       0.302</span></span>
-<span id="cb1-10"><a href="#cb1-10" tabindex="-1"></a><span class="do">##  7 r2_6          Longitude       0.0853</span></span>
-<span id="cb1-11"><a href="#cb1-11" tabindex="-1"></a><span class="do">##  8 (Intercept)   (Intercept)    16.4</span></span>
-<span id="cb1-12"><a href="#cb1-12" tabindex="-1"></a><span class="do">##  9 Longitude     Longitude      -0.0694</span></span>
-<span id="cb1-13"><a href="#cb1-13" tabindex="-1"></a><span class="do">## 10 Latitude      Latitude       -0.424</span></span>
-<span id="cb1-14"><a href="#cb1-14" tabindex="-1"></a><span class="do">## 11 Central_Air_Y Central_Air_Y   0.0567</span></span></code></pre><p></p></div>
+<p></p><div class="sourceCode"><pre><code><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="do">## # A tibble: 484 x 3</span></span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a><span class="do">##    rule_id term      estimate</span></span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a><span class="do">##    &lt;chr&gt;   &lt;chr&gt;        &lt;dbl&gt;</span></span>
+<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a><span class="do">##  1 r0_51   Longitude -0.0552</span></span>
+<span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a><span class="do">##  2 r0_53   Longitude -0.0407</span></span>
+<span id="cb1-6"><a href="#cb1-6" tabindex="-1"></a><span class="do">##  3 r0_54   Longitude  0.0693</span></span>
+<span id="cb1-7"><a href="#cb1-7" tabindex="-1"></a><span class="do">##  4 r0_55   Longitude  0.00468</span></span>
+<span id="cb1-8"><a href="#cb1-8" tabindex="-1"></a><span class="do">##  5 r0_32   Longitude  0.313</span></span>
+<span id="cb1-9"><a href="#cb1-9" tabindex="-1"></a><span class="do">##  6 r0_57   Longitude  0.0687</span></span>
+<span id="cb1-10"><a href="#cb1-10" tabindex="-1"></a><span class="do">##  7 r0_59   Longitude  0.0121</span></span>
+<span id="cb1-11"><a href="#cb1-11" tabindex="-1"></a><span class="do">##  8 r0_60   Longitude -0.0110</span></span>
+<span id="cb1-12"><a href="#cb1-12" tabindex="-1"></a><span class="do">##  9 r0_61   Longitude -0.0517</span></span>
+<span id="cb1-13"><a href="#cb1-13" tabindex="-1"></a><span class="do">## 10 r0_62   Longitude  0.0317</span></span>
+<span id="cb1-14"><a href="#cb1-14" tabindex="-1"></a><span class="do">## # i 474 more rows</span></span></code></pre><p></p></div>
 </div>
 
 <div class="section">

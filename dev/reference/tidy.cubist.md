@@ -164,17 +164,20 @@ Central Air predictor to an indicator:
 
     xrf_rule_res
 
-    ## # A tibble: 8 x 3
-    ##   rule_id       rule                                                    estimate
-    ##   <chr>         <chr>                                                      <dbl>
-    ## 1 (Intercept)   ( TRUE )                                                 16.4
-    ## 2 Central_Air_Y ( Central_Air_Y )                                         0.0567
-    ## 3 Latitude      ( Latitude )                                             -0.424
-    ## 4 Longitude     ( Longitude )                                            -0.0694
-    ## 5 r1_1          ( Longitude <  -93.6299744 )                              0.102
-    ## 6 r2_3          ( Central_Air_Y <  0.5 ) & ( Latitude <  42.0460129 )    -0.136
-    ## 7 r2_5          ( Latitude >= 42.0460129 ) & ( Longitude <  -93.650901~   0.302
-    ## 8 r2_6          ( Latitude >= 42.0460129 ) & ( Longitude >= -93.650901~   0.0853
+    ## # A tibble: 86 x 3
+    ##    rule_id       rule                                                   estimate
+    ##    <chr>         <chr>                                                     <dbl>
+    ##  1 (Intercept)   ( TRUE )                                                 5.01
+    ##  2 Central_Air_Y ( Central_Air_Y )                                        0.245
+    ##  3 r0_13         ( Latitude >= 42.0586929 ) & ( Longitude <  -93.62364~   0.145
+    ##  4 r0_19         ( Latitude >= 42.0430069 ) & ( Longitude <  -93.62990~   0.0379
+    ##  5 r0_32         ( Central_Air_Y <  1 ) & ( Latitude <  42.0430069 ) &~   0.313
+    ##  6 r0_40         ( Latitude >= 42.0430069 ) & ( Latitude >= 42.0624161~   0.167
+    ##  7 r0_42         ( Central_Air_Y <  1 ) & ( Latitude <  42.0251541 ) &~  -0.0927
+    ##  8 r0_50         ( Latitude >= 42.0586929 ) & ( Longitude <  -93.62210~  -0.0403
+    ##  9 r0_51         ( Central_Air_Y <  1 ) & ( Latitude <  42.0222397 ) &~  -0.0552
+    ## 10 r0_53         ( Central_Air_Y <  1 ) & ( Latitude <  42.0182838 ) &~  -0.0407
+    ## # i 76 more rows
 
 Here, the focus is on the model coefficients produced by `glmnet`. We
 can also break down the results and sort them by the original predictor
@@ -182,20 +185,20 @@ columns:
 
     tidy(xrf_reg_fit, penalty = .001, unit = "columns")
 
-    ## # A tibble: 11 x 3
-    ##    rule_id       term          estimate
-    ##    <chr>         <chr>            <dbl>
-    ##  1 r1_1          Longitude       0.102
-    ##  2 r2_3          Latitude       -0.136
-    ##  3 r2_5          Latitude        0.302
-    ##  4 r2_6          Latitude        0.0853
-    ##  5 r2_3          Central_Air_Y  -0.136
-    ##  6 r2_5          Longitude       0.302
-    ##  7 r2_6          Longitude       0.0853
-    ##  8 (Intercept)   (Intercept)    16.4
-    ##  9 Longitude     Longitude      -0.0694
-    ## 10 Latitude      Latitude       -0.424
-    ## 11 Central_Air_Y Central_Air_Y   0.0567
+    ## # A tibble: 484 x 3
+    ##    rule_id term      estimate
+    ##    <chr>   <chr>        <dbl>
+    ##  1 r0_51   Longitude -0.0552
+    ##  2 r0_53   Longitude -0.0407
+    ##  3 r0_54   Longitude  0.0693
+    ##  4 r0_55   Longitude  0.00468
+    ##  5 r0_32   Longitude  0.313
+    ##  6 r0_57   Longitude  0.0687
+    ##  7 r0_59   Longitude  0.0121
+    ##  8 r0_60   Longitude -0.0110
+    ##  9 r0_61   Longitude -0.0517
+    ## 10 r0_62   Longitude  0.0317
+    ## # i 474 more rows
 
 ### C5.0 classification models
 

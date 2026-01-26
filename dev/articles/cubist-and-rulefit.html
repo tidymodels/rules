@@ -225,7 +225,7 @@ rules.</p>
 <span><span class="co">#&gt; cubist.default(x = x, y = y, committees = 2)</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Cubist [Release 2.07 GPL Edition]  Fri Nov 14 09:38:26 2025</span></span>
+<span><span class="co">#&gt; Cubist [Release 2.07 GPL Edition]  Mon Jan 26 23:19:02 2026</span></span>
 <span><span class="co">#&gt; ---------------------------------</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt;     Target attribute `outcome'</span></span>
@@ -425,7 +425,7 @@ double, so:</p>
 <code class="sourceCode R"><span><span class="va">rule_fit_fit</span></span>
 <span><span class="co">#&gt; parsnip model object</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; An eXtreme RuleFit model of 112 rules.</span></span>
+<span><span class="co">#&gt; An eXtreme RuleFit model of 242 rules.</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Original Formula:</span></span>
 <span><span class="co">#&gt; </span></span>
@@ -435,20 +435,20 @@ double, so:</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">rf_res</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://generics.r-lib.org/reference/tidy.html" class="external-link">tidy</a></span><span class="op">(</span><span class="va">rule_fit_fit</span>, penalty <span class="op">=</span> <span class="fl">0.01</span><span class="op">)</span></span>
 <span><span class="va">rf_res</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 110 × 3</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 210 × 3</span></span></span>
 <span><span class="co">#&gt;    rule_id           rule                                      estimate</span></span>
 <span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>             <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                                        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> (Intercept)       ( TRUE )                                   <span style="text-decoration: underline;">5</span>753.  </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> bill_depth_mm     ( bill_depth_mm )                           -<span style="color: #BB0000;">15.9</span> </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> bill_length_mm    ( bill_length_mm )                            1.10</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> flipper_length_mm ( flipper_length_mm )                        -<span style="color: #BB0000;">7.67</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> islandDream       ( island == 'Dream' )                       -<span style="color: #BB0000;">29.2</span> </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> islandTorgersen   ( island == 'Torgersen' )                   -<span style="color: #BB0000;">16.8</span> </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> r0_2              ( species == 'Gentoo' )                     472.  </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> r0_3              ( sex != 'male' ) &amp; ( species != 'Gentoo…   -<span style="color: #BB0000;">78.8</span> </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> r1_2              ( flipper_length_mm &gt;= 211.5 )              219.  </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> r1_3              ( flipper_length_mm &lt;  194.5 ) &amp; ( flipp…  -<span style="color: #BB0000;">142.</span>  </span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 100 more rows</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> (Intercept)       ( TRUE )                                  <span style="text-decoration: underline;">4</span>662.   </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> bill_length_mm    ( bill_length_mm )                         -<span style="color: #BB0000;">12.2</span>  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> flipper_length_mm ( flipper_length_mm )                       -<span style="color: #BB0000;">0.862</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> islandDream       ( island == 'Dream' )                       33.8  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> islandTorgersen   ( island == 'Torgersen' )                 -<span style="color: #BB0000;">103.</span>   </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> r0_14             ( bill_depth_mm &lt;  18.7000008 ) &amp; ( flip… -<span style="color: #BB0000;">102.</span>   </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> r0_23             ( bill_depth_mm &lt;  18.7000008 ) &amp; ( bill… -<span style="color: #BB0000;">165.</span>   </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> r0_24             ( bill_depth_mm &lt;  18.7000008 ) &amp; ( bill…  217.   </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> r0_25             ( bill_depth_mm &lt;  19.5 ) &amp; ( bill_depth… -<span style="color: #BB0000;">133.</span>   </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> r0_27             ( bill_depth_mm &gt;= 18.7000008 ) &amp; ( bill…  419.   </span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 200 more rows</span></span></span></code></pre></div>
 <p>Note that the units of each predictor have been scaled to be between
 zero and one.</p>
 <p>Looking at the rules, there are examples of some rules, such as:</p>
@@ -466,20 +466,20 @@ information but use the original predictors as the unit:</p>
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">rf_variable_res</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://generics.r-lib.org/reference/tidy.html" class="external-link">tidy</a></span><span class="op">(</span><span class="va">rule_fit_fit</span>, unit <span class="op">=</span> <span class="st">"columns"</span>, penalty <span class="op">=</span> <span class="fl">0.01</span><span class="op">)</span></span>
 <span><span class="va">rf_variable_res</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 452 × 3</span></span></span>
-<span><span class="co">#&gt;    rule_id term              estimate</span></span>
-<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> r0_3    species             -<span style="color: #BB0000;">78.8</span> </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> r0_2    species             472.  </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> r0_3    sex                 -<span style="color: #BB0000;">78.8</span> </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> r1_3    flipper_length_mm  -<span style="color: #BB0000;">142.</span>  </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> r1_2    flipper_length_mm   219.  </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> r1_3    flipper_length_mm  -<span style="color: #BB0000;">142.</span>  </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> r2_7    flipper_length_mm     9.04</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> r2_7    sex                   9.04</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> r2_7    species               9.04</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> r3_3    flipper_length_mm  -<span style="color: #BB0000;">101.</span>  </span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 442 more rows</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 986 × 3</span></span></span>
+<span><span class="co">#&gt;    rule_id term    estimate</span></span>
+<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> r0_23   species   -<span style="color: #BB0000;">165.</span> </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> r0_24   species    217. </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> r0_14   species   -<span style="color: #BB0000;">102.</span> </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> r0_25   species   -<span style="color: #BB0000;">133.</span> </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> r0_27   species    419. </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> r0_29   species    -<span style="color: #BB0000;">97.8</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> r0_30   species    228. </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> r0_31   species   -<span style="color: #BB0000;">218.</span> </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> r0_32   species     40.0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> r0_33   species     76.8</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 976 more rows</span></span></span></code></pre></div>
 <p>A single rule might be represented with multiple rows of this version
 of the data. These results can also be used to compute a rough estimate
 or variable importance using the absolute value of the coefficients:</p>
@@ -497,12 +497,12 @@ or variable importance using the absolute value of the coefficients:</p>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 2</span></span></span>
 <span><span class="co">#&gt;   term              effect</span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> flipper_length_mm 219.  </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> bill_depth_mm     175.  </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> bill_length_mm    175.  </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> species            69.5 </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> sex                52.0 </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> island              9.84</span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> flipper_length_mm  273. </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> bill_length_mm     185. </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> bill_depth_mm      160. </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> sex                 62.7</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> species             47.7</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> island              15.8</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>

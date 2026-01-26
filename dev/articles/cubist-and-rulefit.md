@@ -164,7 +164,7 @@ summary(cubist_fit$fit)
 #> cubist.default(x = x, y = y, committees = 2)
 #> 
 #> 
-#> Cubist [Release 2.07 GPL Edition]  Fri Nov 14 09:38:26 2025
+#> Cubist [Release 2.07 GPL Edition]  Mon Jan 26 23:19:02 2026
 #> ---------------------------------
 #> 
 #>     Target attribute `outcome'
@@ -385,7 +385,7 @@ rule_fit_fit <-
 rule_fit_fit
 #> parsnip model object
 #> 
-#> An eXtreme RuleFit model of 112 rules.
+#> An eXtreme RuleFit model of 242 rules.
 #> 
 #> Original Formula:
 #> 
@@ -399,20 +399,20 @@ used again:
 ``` r
 rf_res <- tidy(rule_fit_fit, penalty = 0.01)
 rf_res
-#> # A tibble: 110 × 3
+#> # A tibble: 210 × 3
 #>    rule_id           rule                                      estimate
 #>    <chr>             <chr>                                        <dbl>
-#>  1 (Intercept)       ( TRUE )                                   5753.  
-#>  2 bill_depth_mm     ( bill_depth_mm )                           -15.9 
-#>  3 bill_length_mm    ( bill_length_mm )                            1.10
-#>  4 flipper_length_mm ( flipper_length_mm )                        -7.67
-#>  5 islandDream       ( island == 'Dream' )                       -29.2 
-#>  6 islandTorgersen   ( island == 'Torgersen' )                   -16.8 
-#>  7 r0_2              ( species == 'Gentoo' )                     472.  
-#>  8 r0_3              ( sex != 'male' ) & ( species != 'Gentoo…   -78.8 
-#>  9 r1_2              ( flipper_length_mm >= 211.5 )              219.  
-#> 10 r1_3              ( flipper_length_mm <  194.5 ) & ( flipp…  -142.  
-#> # ℹ 100 more rows
+#>  1 (Intercept)       ( TRUE )                                  4662.   
+#>  2 bill_length_mm    ( bill_length_mm )                         -12.2  
+#>  3 flipper_length_mm ( flipper_length_mm )                       -0.862
+#>  4 islandDream       ( island == 'Dream' )                       33.8  
+#>  5 islandTorgersen   ( island == 'Torgersen' )                 -103.   
+#>  6 r0_14             ( bill_depth_mm <  18.7000008 ) & ( flip… -102.   
+#>  7 r0_23             ( bill_depth_mm <  18.7000008 ) & ( bill… -165.   
+#>  8 r0_24             ( bill_depth_mm <  18.7000008 ) & ( bill…  217.   
+#>  9 r0_25             ( bill_depth_mm <  19.5 ) & ( bill_depth… -133.   
+#> 10 r0_27             ( bill_depth_mm >= 18.7000008 ) & ( bill…  419.   
+#> # ℹ 200 more rows
 ```
 
 Note that the units of each predictor have been scaled to be between
@@ -443,20 +443,20 @@ predictors as the unit:
 ``` r
 rf_variable_res <- tidy(rule_fit_fit, unit = "columns", penalty = 0.01)
 rf_variable_res
-#> # A tibble: 452 × 3
-#>    rule_id term              estimate
-#>    <chr>   <chr>                <dbl>
-#>  1 r0_3    species             -78.8 
-#>  2 r0_2    species             472.  
-#>  3 r0_3    sex                 -78.8 
-#>  4 r1_3    flipper_length_mm  -142.  
-#>  5 r1_2    flipper_length_mm   219.  
-#>  6 r1_3    flipper_length_mm  -142.  
-#>  7 r2_7    flipper_length_mm     9.04
-#>  8 r2_7    sex                   9.04
-#>  9 r2_7    species               9.04
-#> 10 r3_3    flipper_length_mm  -101.  
-#> # ℹ 442 more rows
+#> # A tibble: 986 × 3
+#>    rule_id term    estimate
+#>    <chr>   <chr>      <dbl>
+#>  1 r0_23   species   -165. 
+#>  2 r0_24   species    217. 
+#>  3 r0_14   species   -102. 
+#>  4 r0_25   species   -133. 
+#>  5 r0_27   species    419. 
+#>  6 r0_29   species    -97.8
+#>  7 r0_30   species    228. 
+#>  8 r0_31   species   -218. 
+#>  9 r0_32   species     40.0
+#> 10 r0_33   species     76.8
+#> # ℹ 976 more rows
 ```
 
 A single rule might be represented with multiple rows of this version of
@@ -477,12 +477,12 @@ rf_variable_res |>
 #> # A tibble: 6 × 2
 #>   term              effect
 #>   <chr>              <dbl>
-#> 1 flipper_length_mm 219.  
-#> 2 bill_depth_mm     175.  
-#> 3 bill_length_mm    175.  
-#> 4 species            69.5 
-#> 5 sex                52.0 
-#> 6 island              9.84
+#> 1 flipper_length_mm  273. 
+#> 2 bill_length_mm     185. 
+#> 3 bill_depth_mm      160. 
+#> 4 sex                 62.7
+#> 5 species             47.7
+#> 6 island              15.8
 ```
 
 ## References

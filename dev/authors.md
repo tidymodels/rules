@@ -17,14 +17,14 @@
 Source:
 [`DESCRIPTION`](https://github.com/tidymodels/rules/blob/main/DESCRIPTION)
 
-Hvitfeldt E, Kuhn M (2025). *rules: Model Wrappers for Rule-Based
+Hvitfeldt E, Kuhn M (2026). *rules: Model Wrappers for Rule-Based
 Models*. R package version 1.0.2.9000,
 <https://github.com/tidymodels/rules>.
 
     @Manual{,
       title = {rules: Model Wrappers for Rule-Based Models},
       author = {Emil Hvitfeldt and Max Kuhn},
-      year = {2025},
+      year = {2026},
       note = {R package version 1.0.2.9000},
       url = {https://github.com/tidymodels/rules},
     }
