@@ -1,5 +1,7 @@
 # rules (development version)
 
+* Allow for `objective` to be passed through `xrf_fit()`. (#96)
+
 # rules 1.0.2
 
 * Updated Authors@R.
