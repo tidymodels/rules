@@ -1,3 +1,20 @@
+penalties <- 10^(-5:-1)
+
+did_stop_early <- function(x) {
+  if (inherits(x, "model_fit")) {
+    x <- x$fit$xgb
+  } else if (inherits(x, "model_fit")) {
+    x <- x$xgb
+  }
+  attr <- attributes(x)
+  if (any(names(attr) == "early_stop")) {
+    res <- attr$early_stop$stopped_by_max_rounds
+  } else {
+    res <- FALSE
+  }
+  res
+}
+
 make_chi_data <- function() {
   Chicago <- modeldata::Chicago
 

@@ -18,6 +18,7 @@ xrf_fit <-
     counts = TRUE,
     event_level = c("first", "second"),
     lambda = 0.1,
+    objective = NULL,
     ...
   ) {
     converted <-
@@ -40,7 +41,7 @@ xrf_fit <-
         subsample = subsample,
         validation = validation,
         early_stop = early_stop,
-        objective = NULL,
+        objective = objective,
         counts = counts,
         event_level = event_level
       )
