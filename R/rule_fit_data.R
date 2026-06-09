@@ -324,9 +324,9 @@ make_rule_fit <- function() {
     value = list(
       pre = NULL,
       post = organize_qrf_numeric,
-      func = c(fun = "qrf_pred"),
+      func = c(fun = "predict"),
       args = list(
-        object = quote(object),
+        object = quote(object$fit),
         new_data = quote(new_data),
         type = "numeric"
       )
@@ -366,9 +366,9 @@ make_rule_fit <- function() {
     value = list(
       pre = NULL,
       post = organize_qrf_class,
-      func = c(fun = "qrf_pred"),
+      func = c(fun = "predict"),
       args = list(
-        object = quote(object),
+        object = quote(object$fit),
         new_data = quote(new_data),
         type = "class"
       )
@@ -383,9 +383,9 @@ make_rule_fit <- function() {
     value = list(
       pre = NULL,
       post = NULL,
-      func = c(fun = "qrf_pred"),
+      func = c(fun = "predict"),
       args = list(
-        object = quote(object),
+        object = quote(object$fit),
         new_data = quote(new_data),
         type = "prob"
       )

@@ -9,8 +9,6 @@
 \alias{tunable.cubist_rules}
 \alias{xrf_fit}
 \alias{xrf_pred}
-\alias{qrf_fit}
-\alias{qrf_pred}
 \alias{multi_predict._qrf}
 \title{Internal function wrappers}
 \usage{
@@ -47,10 +45,6 @@ xrf_fit(
 )
 
 xrf_pred(object, new_data, lambda = object$fit$lambda, type, ...)
-
-qrf_fit(x, y, weights = NULL, iterations = 5, penalty = 0.01, mixture = 1, ...)
-
-qrf_pred(object, new_data, type, ...)
 
 \method{multi_predict}{`_qrf`}(object, new_data, type = NULL, penalty = NULL, ...)
 }

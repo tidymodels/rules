@@ -397,43 +397,6 @@ organize_xrf_multi_prob <- function(x, object, penalty, fam) {
 # ---------------------------------------------------------------------------
 # qrf engine
 
-#' @export
-#' @keywords internal
-#' @rdname rules-internal
-qrf_fit <- function(
-  x,
-  y,
-  weights = NULL,
-  iterations = 5,
-  penalty = 0.01,
-  mixture = 1.0,
-  ...
-) {
-  if (!is.data.frame(x)) {
-    x <- as.data.frame(x)
-  }
-
-  res <- qrf::qrf(
-    x = x,
-    y = y,
-    case_weights = weights,
-    iterations = iterations,
-    penalty = penalty,
-    mixture = mixture,
-    ...
-  )
-
-  res$lambda <- penalty
-  res
-}
-
-#' @export
-#' @keywords internal
-#' @rdname rules-internal
-qrf_pred <- function(object, new_data, type, ...) {
-  predict(object$fit, new_data, type = type)
-}
-
 organize_qrf_numeric <- function(x, object) {
   x$.pred
 }
