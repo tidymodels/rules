@@ -298,8 +298,8 @@ make_rule_fit <- function() {
     mode = "regression",
     value = list(
       interface = "data.frame",
-      protect = c("x", "y", "case_weights"),
-      func = c(pkg = "rules", fun = "qrf_fit"),
+      protect = c("x", "y", "weights"),
+      func = c(pkg = "qrf", fun = "qrf"),
       defaults = list()
     )
   )
@@ -340,8 +340,8 @@ make_rule_fit <- function() {
     mode = "classification",
     value = list(
       interface = "data.frame",
-      protect = c("x", "y", "case_weights"),
-      func = c(pkg = "rules", fun = "qrf_fit"),
+      protect = c("x", "y", "weights"),
+      func = c(pkg = "qrf", fun = "qrf"),
       defaults = list()
     )
   )

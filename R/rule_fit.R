@@ -453,7 +453,7 @@ multi_predict._qrf <- function(
   ...
 ) {
   # object is a parsnip model_fit; object$fit is the qrf object
-  qrf_obj <- extract_fit_engine(object)
+  qrf_obj <- hardhat::extract_fit_engine(object)
 
   # Default type based on mode
   if (is.null(type)) {
