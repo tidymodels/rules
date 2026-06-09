@@ -52,7 +52,8 @@ test_that("argument/call assembly", {
         extrapolation = 1,
         sample = 0,
         label = "outcome",
-        seed = 2
+        seed = 2,
+        strip_time_stamps = TRUE
       )
     )
   )
@@ -70,7 +71,8 @@ test_that("argument/call assembly", {
         extrapolation = 1,
         sample = 0,
         label = "outcome",
-        seed = 2
+        seed = 2,
+        strip_time_stamps = TRUE
       )
     )
   )
@@ -93,7 +95,8 @@ test_that("argument/call assembly", {
         extrapolation = 1,
         sample = 0,
         label = "outcome",
-        seed = 2
+        seed = 2,
+        strip_time_stamps = TRUE
       )
     )
   )
@@ -138,7 +141,7 @@ test_that("formula method", {
 
   cb_pred <-
     multi_predict(cb_fit, chi_data$chi_pred[1:2, ], neighbors = c(0, 1, 9)) |>
-    mutate(.row = row_number()) |>
+    dplyr::mutate(.row = dplyr::row_number()) |>
     tidyr::unnest(cols = c(.pred))
 
   # Will be slightly different due to the value of `maxd`
@@ -363,15 +366,15 @@ test_that("non-formula method", {
   )
   cb_m_pred <-
     cb_m_pred |>
-    mutate(.row_number = 1:nrow(cb_m_pred)) |>
+    dplyr::mutate(.row_number = 1:nrow(cb_m_pred)) |>
     tidyr::unnest(cols = c(.pred)) |>
-    arrange(neighbors, .row_number)
+    dplyr::arrange(neighbors, .row_number)
 
   for (i in K) {
     exp_pred <- predict(cb_fit_exp, chi_data$chi_pred, neighbors = i)
     obs_pred <- cb_m_pred |>
       dplyr::filter(neighbors == i) |>
-      pull(.pred)
+      dplyr::pull(.pred)
     expect_equal(exp_pred, obs_pred)
   }
 })
@@ -645,7 +648,7 @@ test_that("tidy method for cubist - one committee - only intercepts", {
     cb_single_fit_res |>
     dplyr::select(estimate) |>
     tidyr::unnest(cols = c(estimate)) |>
-    pull(term) |>
+    dplyr::pull(term) |>
     unique()
 
   expect_true(all(terms == "(Intercept)"))
