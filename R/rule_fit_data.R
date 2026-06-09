@@ -206,8 +206,8 @@ make_rule_fit <- function() {
     eng = "qrf",
     parsnip = "penalty",
     original = "penalty",
-    func = list(pkg = "dials", fun = "penalty"),
-    has_submodel = FALSE
+    func = list(pkg = "dials", fun = "penalty", range = c(-5, -1 / 2)),
+    has_submodel = TRUE
   )
   parsnip::set_model_arg(
     model = "rule_fit",
