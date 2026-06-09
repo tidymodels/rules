@@ -394,33 +394,97 @@ organize_xrf_multi_prob <- function(x, object, penalty, fam) {
   res
 }
 
+# ---------------------------------------------------------------------------
+# qrf engine
+
 #' @export
 #' @keywords internal
 #' @rdname rules-internal
-tunable.rule_fit <- function(x, ...) {
-  tibble(
-    name = c(
-      "mtry",
-      "trees",
-      "min_n",
-      "tree_depth",
-      "learn_rate",
-      "loss_reduction",
-      "sample_size",
-      "penalty"
-    ),
-    call_info = list(
-      list(pkg = "dials", fun = "mtry_prop"),
-      list(pkg = "dials", fun = "trees", range = c(5L, 100L)),
-      list(pkg = "dials", fun = "min_n"),
-      list(pkg = "dials", fun = "tree_depth", range = c(1L, 10L)),
-      list(pkg = "dials", fun = "learn_rate", range = c(-10, 0)),
-      list(pkg = "dials", fun = "loss_reduction"),
-      list(pkg = "dials", fun = "sample_prop", range = c(0.50, 0.95)),
-      list(pkg = "dials", fun = "penalty")
-    ),
-    source = "model_spec",
-    component = class(x)[class(x) != "model_spec"][1],
-    component_id = "main"
+qrf_fit <- function(
+  x,
+  y,
+  weights = NULL,
+  iterations = 5,
+  penalty = 0.01,
+  mixture = 1.0,
+  ...
+) {
+  if (!is.data.frame(x)) {
+    x <- as.data.frame(x)
+  }
+
+  res <- qrf::qrf(
+    x = x,
+    y = y,
+    case_weights = weights,
+    iterations = iterations,
+    penalty = penalty,
+    mixture = mixture,
+    ...
   )
+
+  res$lambda <- penalty
+  res
+}
+
+#' @export
+#' @keywords internal
+#' @rdname rules-internal
+qrf_pred <- function(object, new_data, type, ...) {
+  predict(object$fit, new_data, type = type)
+}
+
+organize_qrf_numeric <- function(x, object) {
+  x$.pred
+}
+
+organize_qrf_class <- function(x, object) {
+  x$.pred_class
+}
+
+#' @export
+#' @keywords internal
+#' @rdname rules-internal
+multi_predict._qrf <- function(
+  object,
+  new_data,
+  type = NULL,
+  penalty = NULL,
+  ...
+) {
+  # object is a parsnip model_fit; object$fit is the qrf object
+  qrf_obj <- extract_fit_engine(object)
+
+  # Default type based on mode
+  if (is.null(type)) {
+    if (length(qrf_obj$levels) == 0) {
+      type <- "numeric"
+    } else {
+      type <- "class"
+    }
+  }
+
+  # Default penalty to the one used at fit time
+  if (is.null(penalty)) {
+    penalty <- qrf_obj$args$penalty
+  }
+
+  # Cast the new data to the rule set
+  reg_predictors <- qrf::create_rules_for_new_data(qrf_obj, new_data)
+
+  # Now glmnet prediction
+  flat <- qrf::qrf_glmnet_predict(
+    object = qrf_obj,
+    new_rule_data = reg_predictors,
+    type = type,
+    penalty = penalty
+  )
+
+  # Reshape for parsnip's nested format
+  pred_cols <- setdiff(names(flat), c(".row", "penalty"))
+
+  flat |>
+    dplyr::arrange(.row, penalty) |>
+    tidyr::nest(.by = .row, .key = ".pred") |>
+    dplyr::select(-.row)
 }

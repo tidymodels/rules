@@ -9,7 +9,9 @@
 \alias{tunable.cubist_rules}
 \alias{xrf_fit}
 \alias{xrf_pred}
-\alias{tunable.rule_fit}
+\alias{qrf_fit}
+\alias{qrf_pred}
+\alias{multi_predict._qrf}
 \title{Internal function wrappers}
 \usage{
 c5_fit(x, y, trials = 1, minCases = 2, cost = NULL, ...)
@@ -46,7 +48,11 @@ xrf_fit(
 
 xrf_pred(object, new_data, lambda = object$fit$lambda, type, ...)
 
-\method{tunable}{rule_fit}(x, ...)
+qrf_fit(x, y, weights = NULL, iterations = 5, penalty = 0.01, mixture = 1, ...)
+
+qrf_pred(object, new_data, type, ...)
+
+\method{multi_predict}{`_qrf`}(object, new_data, type = NULL, penalty = NULL, ...)
 }
 \description{
 These are not supported when called by the user.

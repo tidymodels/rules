@@ -14,10 +14,10 @@ These objects are imported from other packages. Follow the links
 below to see their documentation.
 
 \describe{
-  \item{dials}{\code{\link[dials]{mtry_prop}}}
+  \item{dials}{\code{\link[dials:mtry_prop]{mtry_prop()}}}
 
-  \item{generics}{\code{\link[generics]{tidy}}, \code{\link[generics]{tunable}}}
+  \item{generics}{\code{\link[generics:tidy]{tidy()}}, \code{\link[generics:tunable]{tunable()}}}
 
-  \item{parsnip}{\code{\link[parsnip]{multi_predict}}}
+  \item{parsnip}{\code{\link[parsnip:multi_predict]{multi_predict()}}}
 }}
 

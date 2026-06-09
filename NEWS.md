@@ -1,5 +1,7 @@
 # rules (development version)
 
+* Added a new engine for `rule_fit()`: `"qrf"`. 
+
 # rules 1.0.2
 
 * Updated Authors@R.
