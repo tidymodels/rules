@@ -739,6 +739,23 @@ test_that("tunable", {
     ]]$range,
     c(0L, 9L)
   )
+
+  eng_args <- c("extrapolation", "unbiased")
+  expect_identical(
+    cubist_rules_Cubist$name,
+    c("committees", "neighbors", "max_rules", eng_args)
+  )
+  expect_identical(
+    cubist_rules_Cubist$component_id[cubist_rules_Cubist$name %in% eng_args],
+    rep("engine", length(eng_args))
+  )
+  expect_identical(
+    purrr::map_chr(
+      cubist_rules_Cubist$call_info[cubist_rules_Cubist$name %in% eng_args],
+      \(x) x$fun
+    ),
+    c("extrapolation", "unbiased_rules")
+  )
 })
 
 test_that("mode specific package dependencies", {

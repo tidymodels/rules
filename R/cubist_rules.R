@@ -175,23 +175,6 @@ max_rules <- function(range = c(1L, 500L), trans = NULL) {
 }
 
 
-#' @export
-#' @keywords internal
-#' @rdname rules-internal
-tunable.cubist_rules <- function(x, ...) {
-  tibble(
-    name = c("committees", "neighbors", "max_rules"),
-    call_info = list(
-      list(pkg = "rules", fun = "committees", range = c(1L, 100L)),
-      list(pkg = "dials", fun = "neighbors", range = c(0L, 9L)),
-      list(pkg = "rules", fun = "max_rules")
-    ),
-    source = "model_spec",
-    component = class(x)[class(x) != "model_spec"][1],
-    component_id = "main"
-  )
-}
-
 #' `multi_predict()` methods for rule-based models
 #' @rdname multi_predict
 #' @inheritParams parsnip::multi_predict

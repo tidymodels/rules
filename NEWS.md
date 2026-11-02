@@ -1,5 +1,7 @@
 # rules (development version)
 
+* The C5.0 engine arguments for `C5_rules()` (`CF`, `noGlobalPruning`, `winnow`, `fuzzyThreshold`, `bands`) and the Cubist engine arguments for `cubist_rules()` (`extrapolation`, `unbiased`) are now registered with parsnip along with their dials parameter functions, replacing the custom `tunable()` methods for these models. `tunable()` now always lists these engine arguments.
+
 # rules 1.0.2
 
 * Updated Authors@R.

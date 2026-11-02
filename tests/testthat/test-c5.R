@@ -348,6 +348,30 @@ test_that("tunable", {
     ][[1]]$fun,
     "fuzzy_thresholding"
   )
+
+  C5_rules_all <-
+    C5_rules() |>
+    set_engine("C5.0") |>
+    tunable()
+
+  eng_args <- c("CF", "noGlobalPruning", "winnow", "fuzzyThreshold", "bands")
+  expect_identical(C5_rules_all$name, c("trees", "min_n", eng_args))
+  expect_identical(
+    C5_rules_all$component_id[C5_rules_all$name %in% eng_args],
+    rep("engine", length(eng_args))
+  )
+  expect_identical(
+    purrr::map_chr(C5_rules_all$call_info, \(x) x$fun),
+    c(
+      "trees",
+      "min_n",
+      "confidence_factor",
+      "no_global_pruning",
+      "predictor_winnowing",
+      "fuzzy_thresholding",
+      "rule_bands"
+    )
+  )
 })
 
 test_that("mode specific package dependencies", {
