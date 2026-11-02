@@ -32,7 +32,7 @@ make_cubist <- function() {
     eng = "Cubist",
     parsnip = "committees",
     original = "committees",
-    func = list(pkg = "rules", fun = "committees"),
+    func = list(pkg = "rules", fun = "committees", range = c(1L, 100L)),
     has_submodel = FALSE
   )
   parsnip::set_model_arg(
@@ -40,7 +40,7 @@ make_cubist <- function() {
     eng = "Cubist",
     parsnip = "neighbors",
     original = "neighbors",
-    func = list(pkg = "dials", fun = "neighbors"),
+    func = list(pkg = "dials", fun = "neighbors", range = c(0L, 9L)),
     has_submodel = TRUE
   )
 
@@ -50,6 +50,24 @@ make_cubist <- function() {
     parsnip = "max_rules",
     original = "max_rules",
     func = list(pkg = "rules", fun = "max_rules"),
+    has_submodel = FALSE
+  )
+
+  ## engine arguments
+  parsnip::set_model_arg(
+    model = "cubist_rules",
+    eng = "Cubist",
+    parsnip = "extrapolation",
+    original = "extrapolation",
+    func = list(pkg = "dials", fun = "extrapolation"),
+    has_submodel = FALSE
+  )
+  parsnip::set_model_arg(
+    model = "cubist_rules",
+    eng = "Cubist",
+    parsnip = "unbiased",
+    original = "unbiased",
+    func = list(pkg = "dials", fun = "unbiased_rules"),
     has_submodel = FALSE
   )
 
