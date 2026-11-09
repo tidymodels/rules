@@ -1,5 +1,11 @@
 # rules (development version)
 
+* `C5_rules()` with the C5.0 engine now passes `C50::C5.0Control()` engine arguments (e.g., `CF`, `winnow`, `fuzzyThreshold`) to the control object; previously they were silently ignored. If `control` is also given, these engine arguments overwrite the matching elements of the control object, with a warning when the control object's value was not the default.
+
+* Fixed a bug in `C5_rules()` where any `cost` engine argument caused an error, even for two-class outcomes.
+
+* The C5.0 engine arguments for `C5_rules()` (`CF`, `noGlobalPruning`, `winnow`, `fuzzyThreshold`, `bands`) and the Cubist engine arguments for `cubist_rules()` (`extrapolation`, `unbiased`) are now registered with parsnip along with their dials parameter functions, replacing the custom `tunable()` methods for these models. `tunable()` now always lists these engine arguments.
+
 # rules 1.0.2
 
 * Updated Authors@R.

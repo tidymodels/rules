@@ -5,8 +5,6 @@ S3method(multi_predict,"_xrf")
 S3method(tidy,C5.0)
 S3method(tidy,cubist)
 S3method(tidy,xrf)
-S3method(tunable,C5_rules)
-S3method(tunable,cubist_rules)
 S3method(tunable,rule_fit)
 export(c5_fit)
 export(c5_pred)
@@ -20,21 +18,31 @@ export(tidy)
 export(tunable)
 export(xrf_fit)
 export(xrf_pred)
-importFrom(dials,mtry_prop)
-importFrom(dials,new_quant_param)
-importFrom(dplyr,as_tibble)
-importFrom(dplyr,tibble)
-importFrom(generics,tidy)
-importFrom(generics,tunable)
+importFrom(dials,
+  mtry_prop,
+  new_quant_param
+)
+importFrom(dplyr,
+  as_tibble,
+  tibble
+)
+importFrom(generics,
+  tidy,
+  tunable
+)
 importFrom(parsnip,multi_predict)
 importFrom(purrr,map_dfr)
-importFrom(rlang,call2)
-importFrom(rlang,enquos)
-importFrom(rlang,eval_tidy)
-importFrom(rlang,expr)
-importFrom(rlang,warn)
-importFrom(stats,model.frame)
-importFrom(stats,model.response)
-importFrom(stats,predict)
-importFrom(stats,setNames)
+importFrom(rlang,
+  call2,
+  enquos,
+  eval_tidy,
+  expr,
+  warn
+)
+importFrom(stats,
+  model.frame,
+  model.response,
+  predict,
+  setNames
+)
 importFrom(utils,head)

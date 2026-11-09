@@ -3,10 +3,8 @@
 \name{c5_fit}
 \alias{c5_fit}
 \alias{c5_pred}
-\alias{tunable.C5_rules}
 \alias{cubist_fit}
 \alias{get_neighbors}
-\alias{tunable.cubist_rules}
 \alias{xrf_fit}
 \alias{xrf_pred}
 \alias{tunable.rule_fit}
@@ -16,13 +14,9 @@ c5_fit(x, y, trials = 1, minCases = 2, cost = NULL, ...)
 
 c5_pred(object, new_data, trials = object$fit$trials["Actual"], ...)
 
-\method{tunable}{C5_rules}(x, ...)
-
 cubist_fit(x, y, committees = 1, neighbors = 0, max_rules = NA, ...)
 
 get_neighbors(x)
-
-\method{tunable}{cubist_rules}(x, ...)
 
 xrf_fit(
   formula,

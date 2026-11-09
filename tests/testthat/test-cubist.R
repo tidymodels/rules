@@ -6,6 +6,10 @@ test_that("argument/call assembly", {
 
   ctrl_1 <- Cubist::cubistControl(unbiased = TRUE, seed = 2)
   ctrl_2 <- Cubist::cubistControl(unbiased = TRUE, seed = 2, rules = 13)
+  ctrl_na <- ctrl_1
+  ctrl_na$rules <- NA
+  ctrl_31 <- ctrl_2
+  ctrl_31$rules <- 31
 
   expect_equal(
     rules:::cubist_args(list(quote(x), quote(y), committees = 12)),
@@ -46,14 +50,7 @@ test_that("argument/call assembly", {
       .ns = "Cubist",
       quote(x),
       quote(y),
-      control = list(
-        unbiased = TRUE,
-        rules = NA,
-        extrapolation = 1,
-        sample = 0,
-        label = "outcome",
-        seed = 2
-      )
+      control = ctrl_na
     )
   )
 
@@ -64,14 +61,7 @@ test_that("argument/call assembly", {
       .ns = "Cubist",
       quote(x),
       quote(y),
-      control = list(
-        unbiased = TRUE,
-        rules = 13,
-        extrapolation = 1,
-        sample = 0,
-        label = "outcome",
-        seed = 2
-      )
+      control = ctrl_2
     )
   )
 
@@ -87,14 +77,7 @@ test_that("argument/call assembly", {
       .ns = "Cubist",
       quote(x),
       quote(y),
-      control = list(
-        unbiased = TRUE,
-        rules = 31,
-        extrapolation = 1,
-        sample = 0,
-        label = "outcome",
-        seed = 2
-      )
+      control = ctrl_31
     )
   )
 })
@@ -738,6 +721,23 @@ test_that("tunable", {
       1
     ]]$range,
     c(0L, 9L)
+  )
+
+  eng_args <- c("extrapolation", "unbiased")
+  expect_identical(
+    cubist_rules_Cubist$name,
+    c("committees", "neighbors", "max_rules", eng_args)
+  )
+  expect_identical(
+    cubist_rules_Cubist$component_id[cubist_rules_Cubist$name %in% eng_args],
+    rep("engine", length(eng_args))
+  )
+  expect_identical(
+    purrr::map_chr(
+      cubist_rules_Cubist$call_info[cubist_rules_Cubist$name %in% eng_args],
+      \(x) x$fun
+    ),
+    c("extrapolation", "unbiased_rules")
   )
 })
 

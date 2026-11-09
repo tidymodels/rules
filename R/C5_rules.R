@@ -13,43 +13,79 @@ c5_fit <- function(x, y, trials = 1, minCases = 2, cost = NULL, ...) {
   )
   dots <- rlang::enquos(...)
   # trim rules and costs from dots
-  if (length(dots) > 0) {
-    if (any(names(dots) == "control")) {
-      dots$control$minCases <- minCases
-      if (!any(names(dots$control) == "seed")) {
-        dots$control$seed <- sample.int(10^5, 1)
-      }
-      if (!any(names(dots$control) == "earlyStopping")) {
-        dots$control$earlyStopping <- FALSE
-      }
+  ctrl_names <- setdiff(names(formals(C50::C5.0Control)), "minCases")
+  is_ctrl <- names(dots) %in% ctrl_names
+  ctrl_dots <- as.list(dots[is_ctrl])
+  dots <- as.list(dots[!is_ctrl])
+  has_control <- any(names(dots) == "control")
+
+  if (has_control) {
+    control <- rlang::eval_tidy(dots$control)
+    dots$control <- NULL
+    if (length(ctrl_dots) > 0) {
+      control <- merge_c5_control(control, ctrl_dots)
     }
-    args <- c(args, dots)
+    control$minCases <- minCases
+    if (!any(names(control) == "seed")) {
+      control$seed <- sample.int(10^5, 1)
+    }
+    if (!any(names(control) == "earlyStopping")) {
+      control$earlyStopping <- FALSE
+    }
   } else {
-    args <-
-      c(
-        args,
-        list(
-          control = rlang::expr(C50::C5.0Control(
-            minCases = minCases,
-            seed = sample.int(10^5, 1),
-            earlyStopping = FALSE
-          ))
-        )
-      )
+    if (!any(names(ctrl_dots) == "seed")) {
+      ctrl_dots$seed <- sample.int(10^5, 1)
+    }
+    if (!any(names(ctrl_dots) == "earlyStopping")) {
+      ctrl_dots$earlyStopping <- FALSE
+    }
+    control <- rlang::call2(
+      "C5.0Control",
+      .ns = "C50",
+      minCases = minCases,
+      !!!ctrl_dots
+    )
   }
+
+  args <- c(args, list(control = control), dots)
   args$rules <- TRUE
 
   if (!is.null(cost)) {
-    if (length(levels(y) != 2)) {
+    if (length(levels(y)) != 2) {
       cli::cli_abort("Cost-sensitive models only implemented for 2 classes.")
     }
-    costs <- matrix(c(0, 1, cost, 0), nrow = 2, byrow = TRUE)
+    costs <- matrix(
+      c(0, 1, cost, 0),
+      nrow = 2,
+      byrow = TRUE,
+      dimnames = list(levels(y), levels(y))
+    )
     args$costs <- costs
   }
 
   cl <- rlang::call2(.fn = "C5.0", .ns = "C50", !!!args)
   res <- rlang::eval_tidy(cl)
   res
+}
+
+merge_c5_control <- function(control, ctrl_dots, call = rlang::caller_env()) {
+  ctrl_vals <- purrr::map(ctrl_dots, rlang::eval_tidy)
+  ctrl_defaults <- formals(C50::C5.0Control)
+  # The default seed is a random draw, so a user-set value can't be detected.
+  check_nms <- setdiff(names(ctrl_vals), "seed")
+  is_dupe <- purrr::map_lgl(
+    check_nms,
+    \(nm) !identical(control[[nm]], ctrl_defaults[[nm]])
+  )
+  dupes <- check_nms[is_dupe]
+  if (length(dupes) > 0) {
+    cli::cli_warn(
+      "{.arg {dupes}} {?was/were} specified in both {.arg control} and as
+       engine argument{?s}. Using the engine argument value{?s}.",
+      call = call
+    )
+  }
+  rlang::exec(C50::C5.0Control, !!!utils::modifyList(control, ctrl_vals))
 }
 
 c5_pred_wrap <- function(trials = 1, object, new_data, type = "class", ...) {
@@ -105,55 +141,3 @@ c5_pred <- function(
 prob_matrix_to_tibble <- function(x, object) {
   as_tibble(x)
 }
-
-# ------------------------------------------------------------------------------
-
-#' @export
-#' @keywords internal
-#' @rdname rules-internal
-tunable.C5_rules <- function(x, ...) {
-  res <- NextMethod()
-
-  if (x$engine == "C5.0") {
-    res <- add_engine_parameters(res, c5_rules_engine_args)
-
-    res$call_info[res$name == "trees"] <-
-      list(list(pkg = "dials", fun = "trees", range = c(1, 100)))
-    res$call_info[res$name == "min_n"] <-
-      list(list(pkg = "dials", fun = "min_n", range = c(2L, 40L)))
-  }
-
-  res
-}
-
-add_engine_parameters <- function(pset, engines) {
-  is_engine_param <- pset$name %in% engines$name
-  if (any(is_engine_param)) {
-    engine_names <- pset$name[is_engine_param]
-    pset <- pset[!is_engine_param, ]
-    pset <-
-      dplyr::bind_rows(pset, engines |> dplyr::filter(name %in% engines$name))
-  }
-  pset
-}
-
-c5_rules_engine_args <-
-  dplyr::tibble(
-    name = c(
-      "CF",
-      "noGlobalPruning",
-      "winnow",
-      "fuzzyThreshold",
-      "bands"
-    ),
-    call_info = list(
-      list(pkg = "dials", fun = "confidence_factor"),
-      list(pkg = "dials", fun = "no_global_pruning"),
-      list(pkg = "dials", fun = "predictor_winnowing"),
-      list(pkg = "dials", fun = "fuzzy_thresholding"),
-      list(pkg = "dials", fun = "rule_bands")
-    ),
-    source = "model_spec",
-    component = "C5_rules",
-    component_id = "engine"
-  )

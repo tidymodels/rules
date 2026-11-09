@@ -32,7 +32,7 @@ make_c5 <- function() {
     eng = "C5.0",
     parsnip = "trees",
     original = "trials",
-    func = list(pkg = "dials", fun = "trees"),
+    func = list(pkg = "dials", fun = "trees", range = c(1L, 100L)),
     has_submodel = TRUE
   )
   parsnip::set_model_arg(
@@ -40,7 +40,49 @@ make_c5 <- function() {
     eng = "C5.0",
     parsnip = "min_n",
     original = "minCases",
-    func = list(pkg = "dials", fun = "min_n"),
+    func = list(pkg = "dials", fun = "min_n", range = c(2L, 40L)),
+    has_submodel = FALSE
+  )
+
+  ## engine arguments
+  parsnip::set_model_arg(
+    model = "C5_rules",
+    eng = "C5.0",
+    parsnip = "CF",
+    original = "CF",
+    func = list(pkg = "dials", fun = "confidence_factor"),
+    has_submodel = FALSE
+  )
+  parsnip::set_model_arg(
+    model = "C5_rules",
+    eng = "C5.0",
+    parsnip = "noGlobalPruning",
+    original = "noGlobalPruning",
+    func = list(pkg = "dials", fun = "no_global_pruning"),
+    has_submodel = FALSE
+  )
+  parsnip::set_model_arg(
+    model = "C5_rules",
+    eng = "C5.0",
+    parsnip = "winnow",
+    original = "winnow",
+    func = list(pkg = "dials", fun = "predictor_winnowing"),
+    has_submodel = FALSE
+  )
+  parsnip::set_model_arg(
+    model = "C5_rules",
+    eng = "C5.0",
+    parsnip = "fuzzyThreshold",
+    original = "fuzzyThreshold",
+    func = list(pkg = "dials", fun = "fuzzy_thresholding"),
+    has_submodel = FALSE
+  )
+  parsnip::set_model_arg(
+    model = "C5_rules",
+    eng = "C5.0",
+    parsnip = "bands",
+    original = "bands",
+    func = list(pkg = "dials", fun = "rule_bands"),
     has_submodel = FALSE
   )
 

@@ -15,7 +15,7 @@ test_that("formula method", {
       y = ad_data$ad_mod$Class,
       trials = 10,
       rules = TRUE,
-      control = C50::C5.0Control(seed = 2)
+      control = C50::C5.0Control(seed = 2, earlyStopping = FALSE)
     )
   c5_pred_exp <- predict(c5_fit_exp, ad_data$ad_pred)
   c5_prob_exp <- predict(c5_fit_exp, ad_data$ad_pred, type = "prob")
@@ -56,7 +56,7 @@ test_that("formula method - case weights", {
       trials = 10,
       rules = TRUE,
       weights = as.double(wts),
-      control = C50::C5.0Control(seed = 2)
+      control = C50::C5.0Control(seed = 2, earlyStopping = FALSE)
     )
   c5_pred_exp <- predict(c5_fit_exp, ad_data$ad_pred)
   c5_prob_exp <- predict(c5_fit_exp, ad_data$ad_pred, type = "prob")
@@ -135,7 +135,7 @@ test_that("non-formula method", {
       y = ad_data$ad_mod$Class,
       trials = 10,
       rules = TRUE,
-      control = C50::C5.0Control(seed = 2)
+      control = C50::C5.0Control(seed = 2, earlyStopping = FALSE)
     )
   c5_pred_exp <- predict(c5_fit_exp, ad_data$ad_pred)
 
@@ -179,7 +179,7 @@ test_that("non-formula method - case weights", {
       trials = 10,
       rules = TRUE,
       weights = as.double(wts),
-      control = C50::C5.0Control(seed = 2)
+      control = C50::C5.0Control(seed = 2, earlyStopping = FALSE)
     )
   c5_pred_exp <- predict(c5_fit_exp, ad_data$ad_pred)
 
@@ -247,6 +247,87 @@ test_that("non-formula method - control", {
   expect_equal(names(c5_pred), ".pred_class")
   expect_true(tibble::is_tibble(c5_pred))
   expect_equal(c5_pred$.pred_class, c5_pred_exp)
+})
+
+test_that("C5.0Control() engine arguments are passed to the control object", {
+  skip_if_not_installed("C50")
+
+  c5_fit <-
+    C5_rules() |>
+    set_engine("C5.0", CF = 0.05, winnow = TRUE) |>
+    fit(Species ~ ., data = iris)
+
+  expect_equal(c5_fit$fit$control$CF, 0.05)
+  expect_true(c5_fit$fit$control$winnow)
+  expect_false(c5_fit$fit$control$earlyStopping)
+})
+
+test_that("engine arguments overwrite default values in control", {
+  skip_if_not_installed("C50")
+
+  expect_no_warning(
+    c5_fit <-
+      C5_rules() |>
+      set_engine("C5.0", control = C50::C5.0Control(), CF = 0.05) |>
+      fit(Species ~ ., data = iris)
+  )
+  expect_equal(c5_fit$fit$control$CF, 0.05)
+})
+
+test_that("engine arguments overwrite non-default values in control with a warning", {
+  skip_if_not_installed("C50")
+
+  expect_snapshot_warning(
+    c5_fit <-
+      C5_rules() |>
+      set_engine("C5.0", control = C50::C5.0Control(CF = 0.1), CF = 0.05) |>
+      fit(Species ~ ., data = iris)
+  )
+  expect_equal(c5_fit$fit$control$CF, 0.05)
+})
+
+test_that("cost is used for two-class outcomes", {
+  skip_if_not_installed("C50")
+
+  two_class <- droplevels(iris[iris$Species != "setosa", ])
+  expect_no_warning(
+    c5_fit <-
+      C5_rules() |>
+      set_engine("C5.0", cost = 2) |>
+      fit(Species ~ ., data = two_class)
+  )
+  expect_equal(
+    unname(c5_fit$fit$costMatrix),
+    matrix(c(0, 1, 2, 0), nrow = 2, byrow = TRUE)
+  )
+})
+
+test_that("cost fails for more than two classes", {
+  skip_if_not_installed("C50")
+
+  expect_snapshot(
+    error = TRUE,
+    C5_rules() |>
+      set_engine("C5.0", cost = 2) |>
+      fit(Species ~ ., data = iris)
+  )
+})
+
+test_that("other control settings are kept when engine arguments are merged", {
+  skip_if_not_installed("C50")
+
+  c5_fit <-
+    C5_rules() |>
+    set_engine(
+      "C5.0",
+      control = C50::C5.0Control(seed = 2, winnow = TRUE),
+      CF = 0.05
+    ) |>
+    fit(Species ~ ., data = iris)
+
+  expect_equal(c5_fit$fit$control$CF, 0.05)
+  expect_true(c5_fit$fit$control$winnow)
+  expect_equal(c5_fit$fit$control$seed, 2)
 })
 
 # ------------------------------------------------------------------------------
@@ -347,6 +428,30 @@ test_that("tunable", {
       C5_rules_engine_args$name == "fuzzyThreshold"
     ][[1]]$fun,
     "fuzzy_thresholding"
+  )
+
+  C5_rules_all <-
+    C5_rules() |>
+    set_engine("C5.0") |>
+    tunable()
+
+  eng_args <- c("CF", "noGlobalPruning", "winnow", "fuzzyThreshold", "bands")
+  expect_identical(C5_rules_all$name, c("trees", "min_n", eng_args))
+  expect_identical(
+    C5_rules_all$component_id[C5_rules_all$name %in% eng_args],
+    rep("engine", length(eng_args))
+  )
+  expect_identical(
+    purrr::map_chr(C5_rules_all$call_info, \(x) x$fun),
+    c(
+      "trees",
+      "min_n",
+      "confidence_factor",
+      "no_global_pruning",
+      "predictor_winnowing",
+      "fuzzy_thresholding",
+      "rule_bands"
+    )
   )
 })
 
