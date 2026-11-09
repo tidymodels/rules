@@ -262,15 +262,72 @@ test_that("C5.0Control() engine arguments are passed to the control object", {
   expect_false(c5_fit$fit$control$earlyStopping)
 })
 
-test_that("control and C5.0Control() engine arguments cannot both be used", {
+test_that("engine arguments overwrite default values in control", {
+  skip_if_not_installed("C50")
+
+  expect_no_warning(
+    c5_fit <-
+      C5_rules() |>
+      set_engine("C5.0", control = C50::C5.0Control(), CF = 0.05) |>
+      fit(Species ~ ., data = iris)
+  )
+  expect_equal(c5_fit$fit$control$CF, 0.05)
+})
+
+test_that("engine arguments overwrite non-default values in control with a warning", {
+  skip_if_not_installed("C50")
+
+  expect_snapshot_warning(
+    c5_fit <-
+      C5_rules() |>
+      set_engine("C5.0", control = C50::C5.0Control(CF = 0.1), CF = 0.05) |>
+      fit(Species ~ ., data = iris)
+  )
+  expect_equal(c5_fit$fit$control$CF, 0.05)
+})
+
+test_that("cost is used for two-class outcomes", {
+  skip_if_not_installed("C50")
+
+  two_class <- droplevels(iris[iris$Species != "setosa", ])
+  expect_no_warning(
+    c5_fit <-
+      C5_rules() |>
+      set_engine("C5.0", cost = 2) |>
+      fit(Species ~ ., data = two_class)
+  )
+  expect_equal(
+    unname(c5_fit$fit$costMatrix),
+    matrix(c(0, 1, 2, 0), nrow = 2, byrow = TRUE)
+  )
+})
+
+test_that("cost fails for more than two classes", {
   skip_if_not_installed("C50")
 
   expect_snapshot(
     error = TRUE,
     C5_rules() |>
-      set_engine("C5.0", control = C50::C5.0Control(), CF = 0.05) |>
+      set_engine("C5.0", cost = 2) |>
       fit(Species ~ ., data = iris)
   )
+})
+
+test_that("other control settings are kept when engine arguments are merged", {
+  skip_if_not_installed("C50")
+
+  c5_fit <-
+    C5_rules() |>
+    set_engine(
+      "C5.0",
+      control = C50::C5.0Control(seed = 2, winnow = TRUE),
+      CF = 0.05
+    ) |>
+    fit(Species ~ ., data = iris)
+
+  expect_equal(c5_fit$fit$control$CF, 0.05)
+  expect_true(c5_fit$fit$control$winnow)
+  expect_equal(c5_fit$fit$control$seed, 2)
 })
 
 # ------------------------------------------------------------------------------
