@@ -9,15 +9,9 @@ c5_fit(x, y, trials = 1, minCases = 2, cost = NULL, ...)
 
 c5_pred(object, new_data, trials = object$fit$trials["Actual"], ...)
 
-# S3 method for class 'C5_rules'
-tunable(x, ...)
-
 cubist_fit(x, y, committees = 1, neighbors = 0, max_rules = NA, ...)
 
 get_neighbors(x)
-
-# S3 method for class 'cubist_rules'
-tunable(x, ...)
 
 xrf_fit(
   formula,

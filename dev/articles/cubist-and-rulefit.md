@@ -34,6 +34,7 @@ distinct rules. Each rule is a collection of `if/then` statements that
 define the path to the terminal nodes. In this example:
 
 ``` r
+
 rule_1 <- (A <  a) & (B <  b)
 rule_2 <- (A <  a) & (B >= b)
 rule_3 <- (A >= a)
@@ -45,12 +46,14 @@ redundancies. Cubist takes the approach of simplifying rules whenever
 possible (Quinlan (1987)). For example,
 
 ``` r
+
 rule_x <- (A <  10)  & (A <  7) & (B >= 1)
 ```
 
 becomes
 
 ``` r
+
 rule_y <- (A < 7) & (B >= 1)
 ```
 
@@ -87,6 +90,7 @@ predictor. The data for each are filtered either with `A < a` or
 `A >= a`. The entire set of models are:
 
 ``` r
+
 split_1_low  <- filter(data, A <  a)
 model_1_low  <- lm(y ~ A, data = split_1_low)
 
@@ -132,6 +136,7 @@ Cubist also does a nearest-neighbor correction to the predicted values
 Let’s look at an example model on the Palmer penguin data:
 
 ``` r
+
 library(rules)
 #> Loading required package: parsnip
 data(penguins, package = "modeldata")
@@ -158,13 +163,14 @@ The [`summary()`](https://rdrr.io/r/base/summary.html) function shows
 the details of the rules.
 
 ``` r
+
 summary(cubist_fit$fit)
 #> 
 #> Call:
 #> cubist.default(x = x, y = y, committees = 2)
 #> 
 #> 
-#> Cubist [Release 2.07 GPL Edition]  Mon Jan 26 23:19:02 2026
+#> Cubist [Release 2.07 GPL Edition]
 #> ---------------------------------
 #> 
 #>     Target attribute `outcome'
@@ -238,9 +244,6 @@ summary(cubist_fit$fit)
 #>     42%   100%    flipper_length_mm
 #>     11%    47%    bill_depth_mm
 #>            47%    bill_length_mm
-#> 
-#> 
-#> Time: 0.0 secs
 ```
 
 Note that the only rule in the second committee has no conditions; all
@@ -252,6 +255,7 @@ The [`tidy()`](https://generics.r-lib.org/reference/tidy.html) function
 can extract the rule and model data:
 
 ``` r
+
 cb_res <- tidy(cubist_fit)
 cb_res
 #> # A tibble: 6 × 5
@@ -270,6 +274,7 @@ estimates and rule statistics, respectively. They can be easily expanded
 using [`unnest()`](https://tidyr.tidyverse.org/reference/unnest.html):
 
 ``` r
+
 library(tidyr)
 cb_res |> 
   dplyr::select(committee, rule_num, statistic) |> 
@@ -291,6 +296,7 @@ converting the character string for the rule to an R expression, then
 evaluate the expression on the data set:
 
 ``` r
+
 library(dplyr)
 library(purrr)
 library(rlang)
@@ -362,6 +368,7 @@ to be complete (i.e, non-missing). In the original data set, the body
 mass is encoded as integer and `xrf` requires a double, so:
 
 ``` r
+
 penguins <- 
   penguins |> 
   mutate(body_mass_g = body_mass_g + 0.0) |> 
@@ -371,6 +378,7 @@ penguins <-
 Fitting the model:
 
 ``` r
+
 rule_fit_spec <- 
   rule_fit(trees = 10, tree_depth = 5, penalty = 0.01) |> 
   set_engine("xrf") |>
@@ -382,6 +390,7 @@ rule_fit_fit <-
 ```
 
 ``` r
+
 rule_fit_fit
 #> parsnip model object
 #> 
@@ -397,6 +406,7 @@ To get the rules and their associated coefficients, the
 used again:
 
 ``` r
+
 rf_res <- tidy(rule_fit_fit, penalty = 0.01)
 rf_res
 #> # A tibble: 210 × 3
@@ -441,6 +451,7 @@ function can extract the same information but use the original
 predictors as the unit:
 
 ``` r
+
 rf_variable_res <- tidy(rule_fit_fit, unit = "columns", penalty = 0.01)
 rf_variable_res
 #> # A tibble: 986 × 3
@@ -464,6 +475,7 @@ the data. These results can also be used to compute a rough estimate or
 variable importance using the absolute value of the coefficients:
 
 ``` r
+
 num_rules <- sum(grepl("^r[0-9]*_", unique(rf_res$rule_id))) + 1
 
 rf_variable_res |> 

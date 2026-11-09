@@ -18,12 +18,14 @@ You can install the released version of rules from
 [CRAN](https://CRAN.R-project.org) with:
 
 ``` r
+
 install.packages("rules")
 ```
 
 Install the development version from GitHub with:
 
 ``` r
+
 # install.packages("pak")
 pak::pak("tidymodels/rules")
 ```
